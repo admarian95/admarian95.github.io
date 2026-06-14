@@ -1,950 +1,892 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Field Designer</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-:root {
-  /* Orange accent (Brand Analytics style) */
-  --accent: #e87722;
-  --accent-light: #fff7f0;
-  --accent-mid: #f59340;
-  --accent-dark: #c45e0a;
-  /* Keep original teal vars mapped to orange so modals/internals work unchanged */
-  --teal: #e87722;
-  --teal-light: #fff7f0;
-  --teal-mid: #f59340;
-  --teal-dark: #c45e0a;
-  /* Layout */
-  --bg: #f5f4f1;
-  --surface: #ffffff;
-  --border: #e6e2db;
-  --text: #1a1a1a;
-  --text-muted: #7a7570;
-  --text-light: #bcb8b2;
-  --pending: #f59e0b;
-  --pending-bg: #fffbeb;
-  --completed: #059669;
-  --completed-bg: #ecfdf5;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
-  --radius: 10px;
-  --radius-sm: 6px;
-  --sidebar-w: 260px;
-  /* Teams tab chrome takes ~48px — use calc so nothing gets clipped */
-  --teams-offset: 0px;
+:root{
+  --accent:#e87722; --accent-light:#fff7f0; --accent-mid:#f59340; --accent-dark:#c45e0a;
+  --bg:#f5f4f1; --surface:#fff; --border:#e6e2db;
+  --text:#1a1a1a; --text-muted:#7a7570; --text-light:#bcb8b2;
+  --pending:#f59e0b; --pending-bg:#fffbeb;
+  --completed:#059669; --completed-bg:#ecfdf5;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07);
+  --shadow-md:0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.14);
+  --radius:10px; --radius-sm:6px;
+  --sb-w:240px; --teams-offset:0px;
 }
 
-body {
-  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  height: calc(100vh - var(--teams-offset));
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+body{
+  font-family:'Inter','Segoe UI',-apple-system,sans-serif;
+  background:var(--bg); color:var(--text);
+  height:calc(100vh - var(--teams-offset));
+  max-height:100vh; display:flex; flex-direction:column; overflow:hidden;
 }
 
-/* ══════════════════════════════════
-   TOP BAR
-══════════════════════════════════ */
-.topbar {
-  height: 48px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  flex-shrink: 0;
-  z-index: 100;
-  box-shadow: var(--shadow-sm);
+/* ═══════════ TOP BAR ═══════════ */
+.topbar{
+  height:48px; background:var(--surface); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 20px; flex-shrink:0; z-index:100;
+  box-shadow:var(--shadow-sm);
 }
-.topbar-logo {
-  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-  color: var(--accent); margin-right: 20px;
-  background: var(--accent-light); padding: 4px 10px;
-  border-radius: var(--radius-sm); border: 1px solid #f5d5b5;
+.tb-logo{
+  font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--accent);
+  background:var(--accent-light); padding:4px 10px; border-radius:var(--radius-sm);
+  border:1px solid #f5d5b5; margin-right:16px;
 }
-.topbar-bc {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 13px; color: var(--accent);
+.tb-bc{ display:flex; align-items:center; gap:5px; font-size:13px; color:var(--accent); }
+.tb-bc .seg{ cursor:pointer; transition:opacity .15s; }
+.tb-bc .seg:hover{ opacity:.7; }
+.tb-bc .seg.dim{ color:var(--text-muted); cursor:default; }
+.tb-bc .sep{ color:var(--text-light); font-size:11px; }
+.tb-right{ margin-left:auto; display:flex; align-items:center; gap:10px; }
+.tb-toggle{
+  width:28px; height:28px; border-radius:var(--radius-sm);
+  border:1px solid var(--border); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text-muted); font-size:14px; transition:all .15s;
 }
-.topbar-bc .bc-seg { cursor: pointer; transition: opacity .15s; }
-.topbar-bc .bc-seg:hover { opacity: .7; }
-.topbar-bc .bc-seg.dim { color: var(--text-muted); cursor: default; }
-.topbar-bc .bc-sep { color: var(--text-light); font-size: 11px; }
-.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.feedback-btn {
-  padding: 5px 14px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--accent); background: transparent;
-  color: var(--accent); font-size: 12px; font-weight: 500; cursor: pointer;
-  transition: background .15s;
+.tb-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+.feedback-btn{
+  padding:5px 14px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--accent); background:transparent;
+  color:var(--accent); font-size:12px; font-weight:500; cursor:pointer; transition:background .15s;
 }
-.feedback-btn:hover { background: var(--accent-light); }
-.avatar {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--accent); color: #fff;
-  font-size: 11px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
+.feedback-btn:hover{ background:var(--accent-light); }
+.avatar{
+  width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
+  font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;
 }
 
-/* ══════════════════════════════════
-   BODY SHELL
-══════════════════════════════════ */
-.app-body { display: flex; flex: 1; overflow: hidden; }
+/* ═══════════ PAGE SYSTEM ═══════════ */
+.page{ display:none; flex:1; overflow:hidden; flex-direction:column; }
+.page.active{ display:flex; }
 
-/* ── SIDEBAR COLLAPSE (Teams narrow viewport / mobile) ── */
-.sidebar {
-  width: var(--sidebar-w);
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  flex-shrink: 0; overflow: hidden;
-  transition: width .22s ease;
+/* ═══════════════════════════════════════════
+   PAGE 1 — WORKSPACES
+═══════════════════════════════════════════ */
+#page-workspaces{
+  flex-direction:column; overflow-y:auto; padding:32px 36px;
+  gap:28px;
 }
-.sidebar.collapsed { width: 0; border-right: none; }
+#page-workspaces::-webkit-scrollbar{ width:4px; }
+#page-workspaces::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
 
-.sidebar-toggle {
-  width: 28px; height: 28px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--text-muted); font-size: 14px;
-  transition: all .15s; flex-shrink: 0;
+.ws-page-header{
+  display:flex; align-items:flex-end; justify-content:space-between; flex-shrink:0;
 }
-.sidebar-toggle:hover { border-color: var(--accent); color: var(--accent); }
-.sidebar-header {
-  padding: 16px 14px 10px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.sidebar-title {
-  font-size: 14px; font-weight: 700; margin-bottom: 10px;
-  display: flex; align-items: center; justify-content: space-between;
-  color: var(--text);
-}
-.sb-add-btn {
-  width: 24px; height: 24px; border-radius: 50%;
-  background: var(--accent); color: #fff; border: none;
-  font-size: 17px; cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-  transition: background .15s; line-height: 1;
-}
-.sb-add-btn:hover { background: var(--accent-dark); }
-.search-wrap { position: relative; }
-.sb-search {
-  width: 100%; padding: 7px 10px 7px 28px;
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 12px; color: var(--text); background: var(--bg);
-  outline: none; transition: border .15s;
-}
-.sb-search:focus { border-color: var(--accent); }
-.sb-search-icon {
-  position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
-  font-size: 12px; color: var(--text-muted); pointer-events: none;
-}
-.sb-sort {
-  display: flex; align-items: center; gap: 5px; margin-top: 8px;
-  font-size: 11px; color: var(--text-muted); cursor: pointer;
-  user-select: none;
-}
-.sb-sort:hover { color: var(--accent); }
+.ws-page-title{ font-size:22px; font-weight:700; }
+.ws-page-sub{ font-size:13px; color:var(--text-muted); margin-top:3px; }
+.ws-page-actions{ display:flex; gap:10px; }
 
-.sidebar-scroll { flex: 1; overflow-y: auto; padding: 8px 0; }
-.sidebar-scroll::-webkit-scrollbar { width: 3px; }
-.sidebar-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* search + sort row */
+.ws-toolbar{
+  display:flex; align-items:center; gap:12px; flex-shrink:0;
+}
+.ws-search-wrap{ position:relative; flex:1; max-width:340px; }
+.ws-search{
+  width:100%; padding:8px 12px 8px 32px; border:1px solid var(--border);
+  border-radius:var(--radius-sm); font-size:13px; background:var(--surface);
+  outline:none; transition:border .15s;
+}
+.ws-search:focus{ border-color:var(--accent); }
+.ws-search-icon{
+  position:absolute; left:10px; top:50%; transform:translateY(-50%);
+  font-size:13px; color:var(--text-muted); pointer-events:none;
+}
+.ws-sort{
+  display:flex; align-items:center; gap:5px; font-size:12px;
+  color:var(--text-muted); cursor:pointer; user-select:none;
+}
+.ws-sort:hover{ color:var(--accent); }
 
-/* workspace list items */
-.ws-item {
-  margin: 2px 8px;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
-  cursor: pointer; transition: all .15s;
+/* workspace grid */
+.ws-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px;
 }
-.ws-item-row {
-  display: flex; align-items: center;
-  padding: 9px 10px; gap: 8px;
+.ws-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:20px; cursor:pointer; transition:all .18s; position:relative;
+  display:flex; flex-direction:column; gap:10px;
 }
-.ws-item-row:hover { background: var(--accent-light); border-radius: var(--radius); }
-.ws-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--text-light); flex-shrink: 0; transition: background .15s;
+.ws-card:hover{
+  box-shadow:var(--shadow-md); border-color:var(--accent-mid); transform:translateY(-2px);
 }
-.ws-item.active .ws-dot { background: var(--accent); }
-.ws-item-info { flex: 1; min-width: 0; }
-.ws-item-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ws-item-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ws-item-time { font-size: 10px; color: var(--text-light); margin-top: 1px; }
-.ws-more {
-  width: 20px; height: 20px; display: flex; align-items: center;
-  justify-content: center; border-radius: 4px; opacity: 0;
-  font-size: 13px; color: var(--text-muted); transition: opacity .15s;
+.ws-card-top{ display:flex; align-items:flex-start; justify-content:space-between; }
+.ws-card-icon{
+  width:38px; height:38px; border-radius:var(--radius-sm);
+  background:var(--accent-light); border:1px solid #f5d5b5;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
 }
-.ws-item:hover .ws-more { opacity: 1; }
-.ws-item.active {
-  background: #eef2fb;
-  border-color: #d0d9f0;
-  border-left: 3px solid var(--accent);
+.ws-card-more{
+  width:24px; height:24px; border-radius:4px; display:flex; align-items:center;
+  justify-content:center; color:var(--text-muted); font-size:14px; opacity:0; transition:opacity .15s;
 }
-.ws-item.active .ws-item-name { color: var(--accent); font-weight: 600; }
+.ws-card:hover .ws-card-more{ opacity:1; }
+.ws-card-name{ font-size:15px; font-weight:700; }
+.ws-card-desc{ font-size:12px; color:var(--text-muted); }
+.ws-card-meta{ display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+.ws-card-time{ font-size:11px; color:var(--text-light); }
+.ws-card-count{
+  font-size:11px; font-weight:600; color:var(--accent);
+  background:var(--accent-light); padding:2px 8px; border-radius:10px;
+}
+.ws-card-add{
+  border:1.5px dashed var(--border); background:transparent;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; min-height:140px; color:var(--text-muted); transition:all .18s;
+}
+.ws-card-add:hover{ border-color:var(--accent); color:var(--accent); box-shadow:none; transform:none; }
+.ws-card-add-icon{ font-size:24px; opacity:.5; }
+.ws-card-add-label{ font-size:13px; font-weight:500; }
 
-.sidebar-footer {
-  padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0;
-}
-.sb-new-btn {
-  width: 100%; padding: 8px; border-radius: var(--radius-sm);
-  border: 1.5px dashed var(--border); background: transparent;
-  color: var(--text-muted); font-size: 12px; cursor: pointer;
-  transition: all .15s; display: flex; align-items: center;
-  justify-content: center; gap: 5px;
-}
-.sb-new-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* ═══════════════════════════════════════════
+   PAGE 2 — PROJECTS + TEAMS
+   Layout: left sidebar (projects drill-down) | right main (teams/brands)
+═══════════════════════════════════════════ */
+#page-detail{ flex-direction:row; }
 
-/* ══════════════════════════════════
-   MAIN CONTENT AREA
-══════════════════════════════════ */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+/* ── LEFT SIDEBAR ── */
+.p2-sidebar{
+  width:var(--sb-w); background:var(--surface); border-right:1px solid var(--border);
+  display:flex; flex-direction:column; flex-shrink:0;
+  transition:width .22s ease; overflow:hidden;
+}
+.p2-sidebar.collapsed{ width:0; border-right:none; }
 
-/* inner top strip with breadcrumb + actions */
-.main-topstrip {
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 10px 24px; display: flex; align-items: center;
-  gap: 10px; flex-shrink: 0; min-height: 48px;
+.p2-sb-header{
+  padding:14px 14px 10px; border-bottom:1px solid var(--border); flex-shrink:0;
 }
-.main-topstrip-right { margin-left: auto; display: flex; gap: 8px; }
+.p2-sb-title{
+  font-size:13px; font-weight:700; margin-bottom:10px;
+  display:flex; align-items:center; justify-content:space-between; color:var(--text);
+}
+.p2-sb-add{
+  width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff;
+  border:none; font-size:16px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; transition:background .15s; line-height:1;
+}
+.p2-sb-add:hover{ background:var(--accent-dark); }
+.p2-sb-search-wrap{ position:relative; }
+.p2-sb-search{
+  width:100%; padding:7px 10px 7px 26px; border:1px solid var(--border);
+  border-radius:var(--radius-sm); font-size:12px; background:var(--bg);
+  outline:none; transition:border .15s;
+}
+.p2-sb-search:focus{ border-color:var(--accent); }
+.p2-sb-search-icon{
+  position:absolute; left:8px; top:50%; transform:translateY(-50%);
+  font-size:11px; color:var(--text-muted); pointer-events:none;
+}
+.p2-sb-ws-label{
+  margin-top:8px; font-size:11px; color:var(--text-muted);
+  display:flex; align-items:center; gap:5px; cursor:pointer; transition:color .15s;
+}
+.p2-sb-ws-label:hover{ color:var(--accent); }
 
-/* scrollable content */
-.main-scroll { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 22px; }
-.main-scroll::-webkit-scrollbar { width: 4px; }
-.main-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.p2-sb-body{ flex:1; overflow-y:auto; padding:6px 0; }
+.p2-sb-body::-webkit-scrollbar{ width:3px; }
+.p2-sb-body::-webkit-scrollbar-thumb{ background:var(--border); border-radius:3px; }
 
-/* ══════════════════════════════════
-   EMPTY STATE
-══════════════════════════════════ */
-.empty-state {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  color: var(--text-muted); text-align: center; padding: 60px 40px;
+/* project items in sidebar */
+.proj-item{
+  margin:2px 8px; border-radius:var(--radius); border:1px solid transparent;
+  cursor:pointer; transition:all .15s; overflow:hidden;
 }
-.empty-icon { font-size: 48px; margin-bottom: 16px; opacity: .3; }
-.empty-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-.empty-sub { font-size: 13px; color: var(--text-muted); max-width: 280px; line-height: 1.6; }
+.proj-item-row{
+  display:flex; align-items:center; gap:8px; padding:9px 10px;
+}
+.proj-item:hover .proj-item-row{ background:var(--accent-light); border-radius:var(--radius); }
+.proj-dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--text-light); flex-shrink:0; transition:background .15s;
+}
+.proj-item.active .proj-dot{ background:var(--accent); }
+.proj-item-info{ flex:1; min-width:0; }
+.proj-item-name{
+  font-size:12px; font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.proj-item-time{ font-size:10px; color:var(--text-light); margin-top:1px; }
+.proj-item-more{
+  width:18px; height:18px; display:flex; align-items:center;
+  justify-content:center; border-radius:3px; opacity:0;
+  font-size:12px; color:var(--text-muted); transition:opacity .15s;
+}
+.proj-item:hover .proj-item-more{ opacity:1; }
+.proj-item.active{
+  background:#eef2fb; border-color:#d0d9f0;
+  border-left:3px solid var(--accent);
+}
+.proj-item.active .proj-item-name{ color:var(--accent); font-weight:600; }
 
-/* ══════════════════════════════════
-   PAGE PIECES (kept from original)
-══════════════════════════════════ */
-.page-header { display: flex; align-items: flex-start; justify-content: space-between; }
-.page-title { font-size: 20px; font-weight: 700; color: var(--text); }
-.page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-.header-actions { display: flex; gap: 10px; align-items: center; }
+.p2-sb-footer{
+  padding:10px 12px; border-top:1px solid var(--border); flex-shrink:0;
+}
+.p2-sb-new{
+  width:100%; padding:7px; border-radius:var(--radius-sm);
+  border:1.5px dashed var(--border); background:transparent;
+  color:var(--text-muted); font-size:12px; cursor:pointer;
+  transition:all .15s; display:flex; align-items:center; justify-content:center; gap:5px;
+}
+.p2-sb-new:hover{ border-color:var(--accent); color:var(--accent); }
 
-.toolbar { display: flex; align-items: center; gap: 10px; }
-.toolbar-right { margin-left: auto; display: flex; gap: 8px; }
-.icon-btn {
-  width: 32px; height: 32px; border-radius: var(--radius-sm);
-  border: 1px solid var(--border); background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--text-muted); transition: all .15s; font-size: 13px;
+/* ── RIGHT MAIN ── */
+.p2-main{
+  flex:1; display:flex; flex-direction:column; overflow:hidden;
 }
-.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.p2-topstrip{
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding:10px 20px; display:flex; align-items:center; gap:10px;
+  flex-shrink:0; min-height:48px;
+}
+.p2-topstrip-right{ margin-left:auto; display:flex; gap:8px; }
+.p2-empty{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  color:var(--text-muted); text-align:center; padding:40px;
+}
+.p2-empty-icon{ font-size:44px; margin-bottom:14px; opacity:.25; }
+.p2-empty-title{ font-size:16px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.p2-empty-sub{ font-size:13px; max-width:260px; line-height:1.6; }
 
-/* ── BUTTONS ── */
-.btn {
-  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px;
-  font-weight: 500; cursor: pointer; border: none; transition: all .15s;
-  display: inline-flex; align-items: center; gap: 6px;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-dark); }
-.btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
-.btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-.btn-ghost:hover { background: var(--accent-light); }
-.btn-sm { padding: 5px 11px; font-size: 12px; }
+/* detail content area */
+.p2-content{ flex:1; overflow-y:auto; padding:22px; display:flex; flex-direction:column; gap:18px; }
+.p2-content::-webkit-scrollbar{ width:4px; }
+.p2-content::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
 
-/* FAB replaced with inline add buttons for Teams compatibility */
-.fab {
-  display: none; /* hidden — replaced by toolbar + New buttons */
+/* ═══════════ SHARED COMPONENTS ═══════════ */
+.page-title{ font-size:20px; font-weight:700; }
+.icon-btn{
+  width:30px; height:30px; border-radius:var(--radius-sm);
+  border:1px solid var(--border); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--text-muted); font-size:12px; transition:all .15s;
 }
-.fab-inline {
-  padding: 7px 14px; border-radius: var(--radius-sm);
-  background: var(--accent); color: #fff; border: none;
-  font-size: 13px; font-weight: 600; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 5px;
-  transition: background .15s;
+.icon-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.btn{
+  padding:7px 15px; border-radius:var(--radius-sm); font-size:13px;
+  font-weight:500; cursor:pointer; border:none; transition:all .15s;
+  display:inline-flex; align-items:center; gap:6px;
 }
-.fab-inline:hover { background: var(--accent-dark); }
+.btn-primary{ background:var(--accent); color:#fff; }
+.btn-primary:hover{ background:var(--accent-dark); }
+.btn-ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
+.btn-ghost:hover{ background:var(--accent-light); }
+.btn-sm{ padding:5px 11px; font-size:12px; }
+.fab-inline{
+  padding:6px 13px; border-radius:var(--radius-sm);
+  background:var(--accent); color:#fff; border:none;
+  font-size:12px; font-weight:600; cursor:pointer;
+  display:inline-flex; align-items:center; gap:5px; transition:background .15s;
+}
+.fab-inline:hover{ background:var(--accent-dark); }
 
-/* ── AGENTIC BAR ── */
-.suggestion-bar {
-  background: linear-gradient(135deg, var(--accent-dark), var(--accent-mid));
-  border-radius: var(--radius); padding: 14px 18px;
-  display: flex; align-items: center; gap: 14px; color: #fff;
+/* tabs */
+.tabs{ display:flex; gap:0; border-bottom:2px solid var(--border); }
+.tab{
+  padding:9px 18px; font-size:13px; font-weight:500; color:var(--text-muted);
+  cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .15s;
+  display:flex; align-items:center; gap:6px;
 }
-.suggestion-icon { font-size: 20px; flex-shrink: 0; }
-.suggestion-text { font-size: 13px; flex: 1; }
-.suggestion-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
-.suggestion-actions { display: flex; gap: 8px; }
-.sug-btn {
-  padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px;
-  font-weight: 600; cursor: pointer; border: none; transition: all .15s;
-}
-.sug-btn-primary { background: #fff; color: var(--accent-dark); }
-.sug-btn-primary:hover { background: var(--accent-light); }
-.sug-btn-ghost { background: rgba(255,255,255,.18); color: #fff; border: 1px solid rgba(255,255,255,.4); }
-.sug-btn-ghost:hover { background: rgba(255,255,255,.28); }
+.tab:hover{ color:var(--accent); }
+.tab.active{ color:var(--accent); border-bottom-color:var(--accent); }
 
-/* ── PROJECT GRID ── */
-.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.project-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px;
-  transition: all .18s; cursor: pointer;
+/* subtabs */
+.subtabs{ display:flex; gap:8px; }
+.subtab{
+  padding:5px 13px; border-radius:20px; font-size:12px; font-weight:500;
+  cursor:pointer; transition:all .15s; border:1px solid var(--border);
+  color:var(--text-muted); background:var(--surface);
 }
-.project-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent-mid); transform: translateY(-2px); }
-.project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.project-name { font-size: 14px; font-weight: 600; }
-.project-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.meta-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
-.meta-val { font-size: 13px; font-weight: 500; }
-.project-fav { font-size: 12px; color: var(--text-muted); }
-.project-fav-val { font-size: 12px; font-style: italic; color: var(--text-light); margin-top: 2px; }
-.config-btn {
-  font-size: 11px; padding: 4px 9px; border-radius: var(--radius-sm);
-  background: var(--accent-light); color: var(--accent);
-  border: 1px solid var(--accent); cursor: pointer; font-weight: 500;
-  display: inline-flex; align-items: center; gap: 4px; transition: all .15s; white-space: nowrap;
-}
-.config-btn:hover { background: var(--accent); color: #fff; }
-.more-btn {
-  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-  border-radius: var(--radius-sm); cursor: pointer; color: var(--text-muted); transition: all .15s;
-}
-.more-btn:hover { background: var(--bg); color: var(--text); }
+.subtab:hover{ border-color:var(--accent); color:var(--accent); }
+.subtab.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
 
-/* ── TABS ── */
-.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); }
-.tab {
-  padding: 10px 20px; font-size: 13px; font-weight: 500;
-  color: var(--text-muted); cursor: pointer;
-  border-bottom: 2px solid transparent; margin-bottom: -2px;
-  transition: all .15s; display: flex; align-items: center; gap: 6px;
-}
-.tab:hover { color: var(--accent); }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* badges */
+.badge{ font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:inline-flex; align-items:center; gap:4px; }
+.badge-pending{ background:var(--pending-bg); color:var(--pending); }
+.badge-completed{ background:var(--completed-bg); color:var(--completed); }
 
-/* ── SUBTABS ── */
-.subtabs { display: flex; gap: 8px; }
-.subtab {
-  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
-  cursor: pointer; transition: all .15s; border: 1px solid var(--border);
-  color: var(--text-muted); background: var(--surface);
+/* project grid (inside detail — not used on page 2 directly) */
+.meta-label{ font-size:11px; color:var(--text-muted); margin-bottom:2px; }
+.meta-val{ font-size:13px; font-weight:500; }
+.more-btn{
+  width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+  border-radius:var(--radius-sm); cursor:pointer; color:var(--text-muted); transition:all .15s;
 }
-.subtab:hover { border-color: var(--accent); color: var(--accent); }
-.subtab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.more-btn:hover{ background:var(--bg); color:var(--text); }
 
-/* ── BADGES ── */
-.badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; }
-.badge-pending { background: var(--pending-bg); color: var(--pending); }
-.badge-completed { background: var(--completed-bg); color: var(--completed); }
+/* brand grid */
+.brand-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.brand-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:16px; transition:all .15s;
+}
+.brand-card:hover{ box-shadow:var(--shadow-sm); border-color:var(--accent-mid); }
+.brand-card-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.brand-name{ font-size:13px; font-weight:600; }
+.brand-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.customer-link{ color:var(--accent); font-size:12px; font-weight:500; cursor:pointer; }
+.customer-link:hover{ text-decoration:underline; }
 
-/* ── BRAND CARDS ── */
-.brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.brand-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px; transition: all .15s;
+/* structure card */
+.structure-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px;
 }
-.brand-card:hover { box-shadow: var(--shadow-sm); border-color: var(--accent-mid); }
-.brand-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.brand-name { font-size: 14px; font-weight: 600; }
-.brand-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.customer-link { color: var(--accent); font-size: 13px; font-weight: 500; cursor: pointer; }
-.customer-link:hover { text-decoration: underline; }
+.structure-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.structure-name{ font-size:14px; font-weight:600; }
+.team-count{ font-size:12px; color:var(--text-muted); margin-bottom:10px; }
+.team-sub-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.team-sub-card{ border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; background:var(--bg); }
+.team-sub-name{ font-size:13px; font-weight:600; margin-bottom:8px; }
+.team-field{ margin-bottom:6px; }
+.team-field-label{ font-size:11px; color:var(--text-muted); }
+.team-field-val{ font-size:12px; font-weight:500; }
+.brand-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.brand-tag{ font-size:11px; padding:2px 7px; border-radius:4px; background:var(--accent-light); color:var(--accent); font-weight:500; }
+.scenario-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+.scenario-tag{ font-size:11px; padding:3px 8px; border-radius:4px; border:1px solid var(--accent); color:var(--accent); font-weight:500; }
+.used-label{ font-size:11px; color:var(--text-muted); margin-bottom:6px; }
+.scenario-btn{
+  font-size:12px; color:var(--accent); cursor:pointer; font-weight:500;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.scenario-btn:hover{ text-decoration:underline; }
 
-/* ── STRUCTURES ── */
-.structure-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px; max-width: 520px;
+/* agentic suggestion bar */
+.suggestion-bar{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));
+  border-radius:var(--radius); padding:13px 16px;
+  display:flex; align-items:center; gap:14px; color:#fff; flex-shrink:0;
 }
-.structure-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.structure-name { font-size: 14px; font-weight: 600; }
-.team-count { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
-.team-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-.team-sub-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--bg); }
-.team-sub-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-.team-field { margin-bottom: 6px; }
-.team-field-label { font-size: 11px; color: var(--text-muted); }
-.team-field-val { font-size: 12px; font-weight: 500; }
-.brand-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.brand-tag { font-size: 11px; padding: 2px 7px; border-radius: 4px; background: var(--accent-light); color: var(--accent); font-weight: 500; }
-.scenario-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.scenario-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--accent); color: var(--accent); font-weight: 500; }
-.used-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
-.scenario-btn {
-  position: absolute; top: 0; right: 0;
-  font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 500;
-  display: flex; align-items: center; gap: 4px;
+.sug-icon{ font-size:18px; flex-shrink:0; }
+.sug-text{ font-size:13px; flex:1; }
+.sug-text strong{ display:block; font-size:14px; margin-bottom:2px; }
+.sug-actions{ display:flex; gap:8px; }
+.sug-btn{
+  padding:5px 12px; border-radius:var(--radius-sm); font-size:12px;
+  font-weight:600; cursor:pointer; border:none; transition:all .15s;
 }
-.scenario-btn:hover { text-decoration: underline; }
+.sug-btn-white{ background:#fff; color:var(--accent-dark); }
+.sug-btn-white:hover{ background:var(--accent-light); }
+.sug-btn-ghost{ background:rgba(255,255,255,.18); color:#fff; border:1px solid rgba(255,255,255,.4); }
+.sug-btn-ghost:hover{ background:rgba(255,255,255,.28); }
 
-/* ══════════════════════════════════
-   MODALS (unchanged logic, orange theme)
-══════════════════════════════════ */
-.overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.50);
-  z-index: 200; display: none; align-items: center; justify-content: center;
-  /* backdrop-filter removed — can be slow on corporate/VDI machines in Teams */
+/* ═══════════ MODALS ═══════════ */
+.overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.50);
+  z-index:200; display:none; align-items:center; justify-content:center;
 }
-.overlay.open { display: flex; }
-.modal {
-  background: var(--surface); border-radius: 14px;
-  width: 760px; max-width: 95vw; max-height: 90vh;
-  overflow: hidden; display: flex; flex-direction: column;
-  box-shadow: var(--shadow-lg); animation: modalIn .2s ease;
+.overlay.open{ display:flex; }
+.modal{
+  background:var(--surface); border-radius:14px;
+  width:760px; max-width:95vw; max-height:90vh;
+  overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:var(--shadow-lg); animation:modalIn .2s ease;
 }
-@keyframes modalIn {
-  from { opacity:0; transform: translateY(14px) scale(.97); }
-  to   { opacity:1; transform: translateY(0) scale(1); }
+@keyframes modalIn{
+  from{opacity:0;transform:translateY(14px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
-.modal-header {
-  background: var(--accent-dark); padding: 18px 24px;
-  display: flex; align-items: center; justify-content: space-between;
+.modal-header{
+  background:var(--accent-dark); padding:16px 22px;
+  display:flex; align-items:center; justify-content:space-between;
 }
-.modal-title { font-size: 16px; font-weight: 700; color: #fff; }
-.modal-close {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(255,255,255,.15); color: #fff; font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; border: none; transition: background .15s;
+.modal-title{ font-size:15px; font-weight:700; color:#fff; }
+.modal-close{
+  width:26px; height:26px; border-radius:50%;
+  background:rgba(255,255,255,.15); color:#fff; font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; border:none; transition:background .15s;
 }
-.modal-close:hover { background: rgba(255,255,255,.28); }
-
-/* step bar */
-.step-bar {
-  display: flex; align-items: center; padding: 14px 24px;
-  border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto;
+.modal-close:hover{ background:rgba(255,255,255,.28); }
+.step-bar{
+  display:flex; align-items:center; padding:13px 22px;
+  border-bottom:1px solid var(--border); background:var(--surface); overflow-x:auto;
 }
-.step-item { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.step-dot {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 2px solid var(--border); background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all .2s;
+.step-item{ display:flex; align-items:center; gap:7px; flex-shrink:0; }
+.step-dot{
+  width:26px; height:26px; border-radius:50%;
+  border:2px solid var(--border); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:600; color:var(--text-muted); transition:all .2s;
 }
-.step-item.active .step-dot { border-color: var(--accent); background: var(--accent); color: #fff; }
-.step-item.done .step-dot { border-color: var(--completed); background: var(--completed); color: #fff; }
-.step-label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
-.step-item.active .step-label { color: var(--accent); }
-.step-item.done .step-label { color: var(--completed); }
-.step-connector { width: 36px; height: 2px; background: var(--border); margin: 0 4px; }
-.step-item.done + .step-connector { background: var(--completed); }
-
-/* modal body / step panels */
-.modal-body { flex: 1; overflow-y: auto; }
-.step-panel { display: none; padding: 24px; flex-direction: column; gap: 18px; }
-.step-panel.active { display: flex; }
-.step-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.step-layout.single { grid-template-columns: 1fr; }
-.step-layout.three { grid-template-columns: 1fr 1fr 1fr; }
-
-.field-group { display: flex; flex-direction: column; gap: 5px; }
-.field-label { font-size: 12px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
-.field-label .req { color: #e55; }
-.field-info { color: var(--text-light); font-size: 11px; cursor: help; }
-.field-input {
-  padding: 9px 12px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border); font-size: 13px;
-  font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--text);
-  transition: border .15s; background: var(--surface); width: 100%;
+.step-item.active .step-dot{ border-color:var(--accent); background:var(--accent); color:#fff; }
+.step-item.done .step-dot{ border-color:var(--completed); background:var(--completed); color:#fff; }
+.step-label{ font-size:11px; font-weight:500; color:var(--text-muted); }
+.step-item.active .step-label{ color:var(--accent); }
+.step-item.done .step-label{ color:var(--completed); }
+.step-connector{ width:32px; height:2px; background:var(--border); margin:0 4px; }
+.step-item.done + .step-connector{ background:var(--completed); }
+.modal-body{ flex:1; overflow-y:auto; }
+.step-panel{ display:none; padding:22px; flex-direction:column; gap:16px; }
+.step-panel.active{ display:flex; }
+.step-layout{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.step-layout.single{ grid-template-columns:1fr; }
+.step-layout.three{ grid-template-columns:1fr 1fr 1fr; }
+.field-group{ display:flex; flex-direction:column; gap:5px; }
+.field-label{ font-size:12px; font-weight:600; color:var(--text-muted); display:flex; align-items:center; gap:4px; }
+.field-label .req{ color:#e55; }
+.field-info{ color:var(--text-light); font-size:11px; cursor:help; }
+.field-input{
+  padding:8px 12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--border); font-size:13px;
+  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
+  transition:border .15s; background:var(--surface); width:100%;
 }
-.field-input:focus { outline: none; border-color: var(--accent); }
-.field-select {
-  padding: 9px 12px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border); font-size: 13px;
-  font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--text);
-  background: var(--surface); cursor: pointer; width: 100%; transition: border .15s;
+.field-input:focus{ outline:none; border-color:var(--accent); }
+.field-select{
+  padding:8px 12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--border); font-size:13px;
+  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
+  background:var(--surface); cursor:pointer; width:100%; transition:border .15s;
 }
-.field-select:focus { outline: none; border-color: var(--accent); }
-.field-textarea {
-  padding: 9px 12px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border); font-size: 13px;
-  font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--text);
-  transition: border .15s; background: var(--surface); width: 100%;
-  resize: vertical; min-height: 70px;
+.field-select:focus{ outline:none; border-color:var(--accent); }
+.field-textarea{
+  padding:8px 12px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--border); font-size:13px;
+  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
+  transition:border .15s; background:var(--surface); width:100%;
+  resize:vertical; min-height:68px;
 }
-.field-textarea:focus { outline: none; border-color: var(--accent); }
-.radio-group { display: flex; gap: 20px; align-items: center; margin-top: 4px; }
-.radio-opt { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
-.radio-opt input { accent-color: var(--accent); }
-.date-range { display: flex; align-items: center; gap: 8px; }
-.date-range .field-input { flex: 1; }
-.date-sep { font-size: 12px; color: var(--text-muted); }
-.collabs-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--accent); cursor: pointer; font-weight: 500; }
-.collabs-toggle svg { transition: transform .2s; }
-.collabs-toggle.open svg { transform: rotate(90deg); }
-
-/* financial table */
-.fin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.fin-table th { background: var(--accent-dark); color: #fff; padding: 8px 12px; text-align: center; font-weight: 500; }
-.fin-table th:first-child { text-align: left; }
-.fin-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
-.fin-table td:not(:first-child) { text-align: center; }
-.fin-table td input { width: 80px; text-align: center; border: 1px solid var(--border); border-radius: 4px; padding: 4px 6px; font-size: 12px; }
-.fin-table td input:focus { outline: none; border-color: var(--accent); }
-
-/* upload */
-.upload-zone {
-  border: 2px dashed var(--border); border-radius: var(--radius);
-  padding: 24px; text-align: center; cursor: pointer; transition: all .15s; background: var(--bg);
+.field-textarea:focus{ outline:none; border-color:var(--accent); }
+.radio-group{ display:flex; gap:18px; align-items:center; margin-top:4px; }
+.radio-opt{ display:flex; align-items:center; gap:6px; cursor:pointer; font-size:13px; }
+.radio-opt input{ accent-color:var(--accent); }
+.date-range{ display:flex; align-items:center; gap:8px; }
+.date-range .field-input{ flex:1; }
+.date-sep{ font-size:12px; color:var(--text-muted); }
+.collabs-toggle{ display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); cursor:pointer; font-weight:500; }
+.collabs-toggle svg{ transition:transform .2s; }
+.collabs-toggle.open svg{ transform:rotate(90deg); }
+.fin-table{ width:100%; border-collapse:collapse; font-size:13px; }
+.fin-table th{ background:var(--accent-dark); color:#fff; padding:7px 12px; text-align:center; font-weight:500; }
+.fin-table th:first-child{ text-align:left; }
+.fin-table td{ padding:7px 12px; border-bottom:1px solid var(--border); }
+.fin-table td:not(:first-child){ text-align:center; }
+.fin-table td input{ width:76px; text-align:center; border:1px solid var(--border); border-radius:4px; padding:4px 6px; font-size:12px; }
+.fin-table td input:focus{ outline:none; border-color:var(--accent); }
+.upload-zone{
+  border:2px dashed var(--border); border-radius:var(--radius);
+  padding:22px; text-align:center; cursor:pointer; transition:all .15s; background:var(--bg);
 }
-.upload-zone:hover { border-color: var(--accent); background: var(--accent-light); }
-.upload-zone-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.5; }
-.upload-zone-text { font-size: 13px; color: var(--text-muted); }
-.upload-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 12px; color: var(--accent); font-weight: 500; }
-.upload-badge-x { cursor: pointer; opacity: 0.6; }
-.upload-badge-x:hover { opacity: 1; }
-
-/* col mapping */
-.col-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.col-table th { background: var(--bg); color: var(--text-muted); padding: 7px 10px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border); }
-.col-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
-.col-table td select { font-size: 12px; border: 1px solid var(--border); border-radius: 4px; padding: 3px 6px; }
-
-/* modal footer */
-.modal-footer {
-  padding: 16px 24px; border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center; background: var(--surface);
+.upload-zone:hover{ border-color:var(--accent); background:var(--accent-light); }
+.upload-zone-icon{ font-size:26px; margin-bottom:8px; opacity:.5; }
+.upload-zone-text{ font-size:13px; color:var(--text-muted); }
+.upload-badge{ display:inline-flex; align-items:center; gap:6px; background:var(--accent-light); border:1px solid var(--accent); border-radius:var(--radius-sm); padding:5px 10px; font-size:12px; color:var(--accent); font-weight:500; }
+.upload-badge-x{ cursor:pointer; opacity:.6; }
+.upload-badge-x:hover{ opacity:1; }
+.col-table{ width:100%; border-collapse:collapse; font-size:12px; }
+.col-table th{ background:var(--bg); color:var(--text-muted); padding:6px 10px; text-align:left; font-weight:600; border-bottom:1px solid var(--border); }
+.col-table td{ padding:6px 10px; border-bottom:1px solid var(--border); }
+.col-table td select{ font-size:12px; border:1px solid var(--border); border-radius:4px; padding:3px 6px; }
+.modal-footer{
+  padding:14px 22px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; background:var(--surface);
 }
-.modal-footer-right { display: flex; gap: 10px; }
+.modal-footer-right{ display:flex; gap:10px; }
 
 /* toast */
-.toast {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
-  background: var(--completed); color: #fff; padding: 10px 20px;
-  border-radius: 30px; font-size: 13px; font-weight: 500;
-  display: flex; align-items: center; gap: 8px;
-  box-shadow: var(--shadow-md); z-index: 999;
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+.toast{
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(60px);
+  background:var(--completed); color:#fff; padding:9px 18px;
+  border-radius:30px; font-size:13px; font-weight:500;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:var(--shadow-md); z-index:999;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
 }
-.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.show{ transform:translateX(-50%) translateY(0); }
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar{ width:4px; height:4px; }
+::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
 
-@media (max-width: 900px) {
-  .project-grid { grid-template-columns: 1fr 1fr; }
-  .brand-grid { grid-template-columns: 1fr 1fr; }
+@media(max-width:900px){
+  .brand-grid{ grid-template-columns:1fr 1fr; }
+  .ws-grid{ grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); }
 }
 </style>
 </head>
 <body>
 
-<!-- ══ TOP BAR ══ -->
+<!-- ════ TOP BAR ════ -->
 <div class="topbar">
-  <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
-  <div class="topbar-logo" style="margin-left:10px">FIELD DESIGNER</div>
-  <div class="topbar-bc" id="topbar-bc">
-    <span class="bc-seg dim">Home</span>
+  <button class="tb-toggle" id="sb-toggle-btn" onclick="toggleSidebar()" title="Toggle sidebar" style="display:none">☰</button>
+  <div class="tb-logo" style="cursor:pointer" onclick="goHome()">FIELD DESIGNER</div>
+  <div class="tb-bc" id="tb-bc">
+    <span class="seg dim">Home</span>
   </div>
-  <div class="topbar-right">
+  <div class="tb-right">
     <button class="feedback-btn">Feedback</button>
     <div class="avatar">P</div>
   </div>
 </div>
 
-<!-- ══ BODY ══ -->
-<div class="app-body">
+<!-- ════════════════════════════════════════
+     PAGE 1 — WORKSPACES
+════════════════════════════════════════ -->
+<div class="page active" id="page-workspaces">
 
-  <!-- ══ LEFT SIDEBAR ══ -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-title">
-        Workspaces
-        <button class="sb-add-btn" onclick="openModal('ws')" title="New workspace">+</button>
-      </div>
-      <div class="search-wrap">
-        <span class="sb-search-icon">⌕</span>
-        <input class="sb-search" id="sb-search" placeholder="Search workspaces..." oninput="filterWS()" />
-      </div>
-      <div class="sb-sort">☰ Newest first</div>
+  <div class="ws-page-header">
+    <div>
+      <div class="ws-page-title">Welcome, <span style="color:var(--accent)">Palak</span></div>
+      <div class="ws-page-sub">Select a workspace to get started</div>
     </div>
-
-    <div class="sidebar-scroll" id="sidebar-scroll">
-      <div class="ws-item" id="sbws-Bayer" onclick="openWorkspace('Bayer')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">Bayer</div>
-            <div class="ws-item-time">just now</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-      <div class="ws-item" id="sbws-Sizing Analysis 2" onclick="openWorkspace('Sizing Analysis 2')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">Sizing Analysis 2</div>
-            <div class="ws-item-time">2 days ago</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-      <div class="ws-item" id="sbws-Workspace_12Nov" onclick="openWorkspace('Workspace_12Nov')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">Workspace_12Nov</div>
-            <div class="ws-item-desc">This is temp</div>
-            <div class="ws-item-time">3 days ago</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-      <div class="ws-item" id="sbws-Sizing Analysis 1" onclick="openWorkspace('Sizing Analysis 1')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">Sizing Analysis 1</div>
-            <div class="ws-item-time">1 week ago</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-      <div class="ws-item" id="sbws-Test_Workspace_1" onclick="openWorkspace('Test_Workspace_1')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">Test_Workspace_1</div>
-            <div class="ws-item-desc">Test workspace 1</div>
-            <div class="ws-item-time">2 weeks ago</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-      <div class="ws-item" id="sbws-New Workspace1" onclick="openWorkspace('New Workspace1')">
-        <div class="ws-item-row">
-          <span class="ws-dot"></span>
-          <div class="ws-item-info">
-            <div class="ws-item-name">New Workspace1</div>
-            <div class="ws-item-desc">Workspace created by API</div>
-            <div class="ws-item-time">1 month ago</div>
-          </div>
-          <span class="ws-more">⋮</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-footer">
-      <button class="sb-new-btn" onclick="openModal('ws')">+ New Workspace</button>
+    <div class="ws-page-actions">
+      <button class="btn btn-primary" onclick="openModal('ws')">+ New Workspace</button>
     </div>
   </div>
 
-  <!-- ══ MAIN AREA ══ -->
-  <div class="main" id="main-area">
+  <div class="ws-toolbar">
+    <div class="ws-search-wrap">
+      <span class="ws-search-icon">⌕</span>
+      <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)" />
+    </div>
+    <div class="ws-sort">☰ Newest first</div>
+  </div>
 
-    <!-- EMPTY STATE -->
-    <div class="empty-state" id="view-empty">
-      <div class="empty-icon">🗂️</div>
-      <div class="empty-title">Select a workspace</div>
-      <div class="empty-sub">Click any workspace on the left to explore its projects and teams.</div>
+  <div class="ws-grid" id="ws-grid">
+    <div class="ws-card" onclick="openWorkspace('Bayer','ws-bayer')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">🏢</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">Bayer</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">just now</div>
+        <div class="ws-card-count">6 projects</div>
+      </div>
+    </div>
+    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 2','ws-sz2')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">📐</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">Sizing Analysis 2</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">2 days ago</div>
+        <div class="ws-card-count">2 projects</div>
+      </div>
+    </div>
+    <div class="ws-card" onclick="openWorkspace('Workspace_12Nov','ws-12nov')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">📁</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">Workspace_12Nov</div>
+      <div class="ws-card-desc">This is temp</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">3 days ago</div>
+        <div class="ws-card-count">3 projects</div>
+      </div>
+    </div>
+    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 1','ws-sz1')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">📐</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">Sizing Analysis 1</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">1 week ago</div>
+        <div class="ws-card-count">4 projects</div>
+      </div>
+    </div>
+    <div class="ws-card" onclick="openWorkspace('Test_Workspace_1','ws-test1')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">🧪</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">Test_Workspace_1</div>
+      <div class="ws-card-desc">Test workspace 1</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">2 weeks ago</div>
+        <div class="ws-card-count">1 project</div>
+      </div>
+    </div>
+    <div class="ws-card" onclick="openWorkspace('New Workspace1','ws-new1')">
+      <div class="ws-card-top">
+        <div class="ws-card-icon">🌐</div>
+        <span class="ws-card-more">⋮</span>
+      </div>
+      <div class="ws-card-name">New Workspace1</div>
+      <div class="ws-card-desc">Workspace created by API</div>
+      <div class="ws-card-meta">
+        <div class="ws-card-time">1 month ago</div>
+        <div class="ws-card-count">0 projects</div>
+      </div>
+    </div>
+    <!-- Add card -->
+    <div class="ws-card ws-card-add" onclick="openModal('ws')">
+      <div class="ws-card-add-icon">＋</div>
+      <div class="ws-card-add-label">New Workspace</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 2 — LEFT: PROJECTS DRILL-DOWN | RIGHT: BRANDS / TEAMS
+════════════════════════════════════════ -->
+<div class="page" id="page-detail">
+
+  <!-- ── LEFT SIDEBAR: projects list ── -->
+  <div class="p2-sidebar" id="p2-sidebar">
+    <div class="p2-sb-header">
+      <div class="p2-sb-title">
+        Projects
+        <button class="p2-sb-add" onclick="openModal('project')" title="New project">+</button>
+      </div>
+      <div class="p2-sb-search-wrap">
+        <span class="p2-sb-search-icon">⌕</span>
+        <input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)" />
+      </div>
+      <div class="p2-sb-ws-label" onclick="goHome()">
+        ← <span id="p2-ws-name">Workspace</span>
+      </div>
     </div>
 
-    <!-- ══ PROJECTS VIEW ══ -->
-    <div id="view-projects" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-      <div class="main-topstrip">
-        <span style="font-size:13px;color:var(--text-muted)" id="proj-ws-label"></span>
-        <div class="main-topstrip-right">
-          <div class="icon-btn" title="Sort">↕</div>
-          <div class="icon-btn" title="Filter">☰</div>
-          <div class="icon-btn" title="Search">⌕</div>
-          <button class="fab-inline" onclick="openModal('project')">+ New Project</button>
+    <div class="p2-sb-body" id="p2-sb-body">
+      <div class="proj-item active" id="psi-NNI Test" onclick="selectProject('NNI Test')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">NNI Test</div>
+            <div class="proj-item-time">just now · 2 scenarios</div>
+          </div>
+          <span class="proj-item-more">⋮</span>
         </div>
       </div>
-      <div class="main-scroll">
-        <div class="page-header">
-          <div>
-            <div class="page-title">All Projects</div>
+      <div class="proj-item" id="psi-NNI FF Sizing" onclick="selectProject('NNI FF Sizing')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">NNI FF Sizing</div>
+            <div class="proj-item-time">2 days ago · 2 scenarios</div>
           </div>
-        </div>
-
-        <div class="suggestion-bar" id="suggestion-bar">
-          <div class="suggestion-icon">✦</div>
-          <div class="suggestion-text">
-            <strong>Continue where you left off</strong>
-            <span id="suggestion-text">This workspace has incomplete projects.</span>
-          </div>
-          <div class="suggestion-actions">
-            <button class="sug-btn sug-btn-primary" onclick="dismissSuggestion()">Got it</button>
-            <button class="sug-btn sug-btn-ghost" onclick="dismissSuggestion()">Dismiss</button>
-          </div>
-        </div>
-
-        <div class="project-grid">
-          <div class="project-card" onclick="gotoDetail('NNI Test')">
-            <div class="project-card-header">
-              <div class="project-name">NNI Test ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027 – 2029</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">2</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
-          <div class="project-card" onclick="gotoDetail('NNI FF Sizing')">
-            <div class="project-card-header">
-              <div class="project-name">NNI FF Sizing ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027 – 2029</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">2</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
-          <div class="project-card" onclick="gotoDetail('Avinash Test')">
-            <div class="project-card-header">
-              <div class="project-name">Avinash Test ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">4</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
-          <div class="project-card" onclick="gotoDetail('Bayer Demo')">
-            <div class="project-card-header">
-              <div class="project-name">Bayer Demo ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">8</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
-          <div class="project-card" onclick="gotoDetail('Demo 1')">
-            <div class="project-card-header">
-              <div class="project-name">Demo 1 ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">2</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
-          <div class="project-card" onclick="gotoDetail('Project 1')">
-            <div class="project-card-header">
-              <div class="project-name">Project 1 ⓘ</div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <button class="config-btn" onclick="event.stopPropagation();openModal('project')">⚙ Configure</button>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="project-meta">
-              <div><div class="meta-label">Planning Scope</div><div class="meta-val">2025</div></div>
-              <div><div class="meta-label"># of Scenarios</div><div class="meta-val">17</div></div>
-            </div>
-            <div class="project-fav">Favorite Scenarios (0):</div>
-            <div class="project-fav-val">No favorite scenarios</div>
-          </div>
+          <span class="proj-item-more">⋮</span>
         </div>
       </div>
-      <button class="fab" id="fab-projects" onclick="openModal('project')">+</button>
+      <div class="proj-item" id="psi-Avinash Test" onclick="selectProject('Avinash Test')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">Avinash Test</div>
+            <div class="proj-item-time">3 days ago · 4 scenarios</div>
+          </div>
+          <span class="proj-item-more">⋮</span>
+        </div>
+      </div>
+      <div class="proj-item" id="psi-Bayer Demo" onclick="selectProject('Bayer Demo')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">Bayer Demo</div>
+            <div class="proj-item-time">4 days ago · 8 scenarios</div>
+          </div>
+          <span class="proj-item-more">⋮</span>
+        </div>
+      </div>
+      <div class="proj-item" id="psi-Demo 1" onclick="selectProject('Demo 1')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">Demo 1</div>
+            <div class="proj-item-time">5 days ago · 2 scenarios</div>
+          </div>
+          <span class="proj-item-more">⋮</span>
+        </div>
+      </div>
+      <div class="proj-item" id="psi-Project 1" onclick="selectProject('Project 1')">
+        <div class="proj-item-row">
+          <span class="proj-dot"></span>
+          <div class="proj-item-info">
+            <div class="proj-item-name">Project 1</div>
+            <div class="proj-item-time">1 week ago · 17 scenarios</div>
+          </div>
+          <span class="proj-item-more">⋮</span>
+        </div>
+      </div>
     </div>
 
-    <!-- ══ PROJECT DETAIL VIEW ══ -->
-    <div id="view-detail" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-      <div class="main-topstrip">
-        <div style="font-size:13px;color:var(--text-muted)">
-          <span style="cursor:pointer;color:var(--accent)" onclick="backToProjects()">← Projects</span>
-          <span style="margin:0 6px;color:var(--text-light)">›</span>
-          <span id="detail-title-strip" style="font-weight:500;color:var(--text)"></span>
+    <div class="p2-sb-footer">
+      <button class="p2-sb-new" onclick="openModal('project')">+ New Project</button>
+    </div>
+  </div>
+
+  <!-- ── RIGHT MAIN ── -->
+  <div class="p2-main">
+
+    <!-- topstrip -->
+    <div class="p2-topstrip">
+      <div style="font-size:13px;color:var(--text-muted)">
+        <span id="p2-proj-name-strip" style="font-weight:600;color:var(--text)">NNI Test</span>
+      </div>
+      <div class="p2-topstrip-right">
+        <div class="icon-btn" title="Sort">↕</div>
+        <div class="icon-btn" title="Filter">☰</div>
+        <div class="icon-btn" title="Search">⌕</div>
+        <button class="fab-inline" id="p2-add-btn" onclick="p2Add()">+ Add Brand</button>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="p2-content">
+
+      <!-- agentic bar -->
+      <div class="suggestion-bar" id="p2-sug-bar">
+        <div class="sug-icon">✦</div>
+        <div class="sug-text">
+          <strong>Agentic suggestion</strong>
+          Test_Brand has no customers configured yet — add customers to complete setup.
         </div>
-        <div class="main-topstrip-right">
-          <div class="icon-btn" title="Sort">↕</div>
-          <div class="icon-btn" title="Filter">☰</div>
-          <div class="icon-btn" title="Search">⌕</div>
-          <button class="fab-inline" id="detail-add-btn" onclick="detailAdd()">+ Add</button>
+        <div class="sug-actions">
+          <button class="sug-btn sug-btn-white" onclick="dismissSug()">Fix it</button>
+          <button class="sug-btn sug-btn-ghost" onclick="dismissSug()">Dismiss</button>
         </div>
       </div>
-      <div class="main-scroll">
-        <div class="page-header">
-          <div class="page-title" id="detail-title"></div>
-        </div>
-        <div class="tabs">
-          <div class="tab active" id="tab-brands" onclick="switchTab('brands')">📊 Brands</div>
-          <div class="tab" id="tab-teams" onclick="switchTab('teams')">👥 Teams</div>
-        </div>
 
-        <!-- Brands pane -->
-        <div id="brands-pane">
-          <div class="subtabs">
-            <div class="subtab active">Brands</div>
-            <div class="subtab">Reporting Groups</div>
-          </div>
-          <div class="brand-grid" style="margin-top:16px">
-            <div class="brand-card">
-              <div class="brand-card-header">
-                <div class="brand-name">Test_Brand ⓘ</div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <span class="badge badge-pending">⚠ Pending</span>
-                  <div class="more-btn">⋮</div>
-                </div>
-              </div>
-              <div class="brand-meta">
-                <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-                <div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div>
-              </div>
-            </div>
-            <div class="brand-card">
-              <div class="brand-card-header">
-                <div class="brand-name">Brand_3 ⓘ</div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <span class="badge badge-completed">✓ Completed</span>
-                  <div class="more-btn">⋮</div>
-                </div>
-              </div>
-              <div class="brand-meta">
-                <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-                <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
+      <!-- tabs -->
+      <div class="tabs">
+        <div class="tab active" id="tab-brands" onclick="switchTab('brands')">📊 Brands</div>
+        <div class="tab" id="tab-teams" onclick="switchTab('teams')">👥 Teams</div>
+      </div>
+
+      <!-- BRANDS PANE -->
+      <div id="brands-pane">
+        <div class="subtabs">
+          <div class="subtab active">Brands</div>
+          <div class="subtab">Reporting Groups</div>
+        </div>
+        <div class="brand-grid" style="margin-top:14px">
+          <div class="brand-card">
+            <div class="brand-card-header">
+              <div class="brand-name">Test_Brand ⓘ</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="badge badge-pending">⚠ Pending</span>
+                <div class="more-btn">⋮</div>
               </div>
             </div>
-            <div class="brand-card">
-              <div class="brand-card-header">
-                <div class="brand-name">Brand_2 ⓘ</div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <span class="badge badge-completed">✓ Completed</span>
-                  <div class="more-btn">⋮</div>
-                </div>
-              </div>
-              <div class="brand-meta">
-                <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-                <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
-              </div>
-            </div>
-            <div class="brand-card">
-              <div class="brand-card-header">
-                <div class="brand-name">Brand_1 ⓘ</div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <span class="badge badge-completed">✓ Completed</span>
-                  <div class="more-btn">⋮</div>
-                </div>
-              </div>
-              <div class="brand-meta">
-                <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-                <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
-              </div>
+            <div class="brand-meta">
+              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
+              <div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div>
             </div>
           </div>
-          <button class="fab" id="fab-brands" onclick="openModal('brand')">+</button>
-        </div>
-
-        <!-- Teams pane -->
-        <div id="teams-pane" style="display:none;position:relative">
-          <span class="scenario-btn" onclick="openModal('scenario')">+ Scenario</span>
-          <div class="structure-card" style="margin-top:8px">
-            <div class="structure-header">
-              <div class="structure-name">Team ⓘ</div>
+          <div class="brand-card">
+            <div class="brand-card-header">
+              <div class="brand-name">Brand_3 ⓘ</div>
               <div style="display:flex;gap:8px;align-items:center">
                 <span class="badge badge-completed">✓ Completed</span>
                 <div class="more-btn">⋮</div>
               </div>
             </div>
-            <div class="team-count">All Teams (4):</div>
-            <div class="team-sub-grid">
-              <div class="team-sub-card">
-                <div class="team-sub-name">Team_1</div>
-                <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
-                <div class="team-field">
-                  <div class="team-field-label">Customer Type & Brands</div>
-                  <div class="brand-tags">
-                    <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
-                    <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
-                  </div>
-                </div>
-              </div>
-              <div class="team-sub-card">
-                <div class="team-sub-name">Team_2</div>
-                <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
-                <div class="team-field">
-                  <div class="team-field-label">Customer Type & Brands</div>
-                  <div class="brand-tags">
-                    <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
-                    <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="used-label">Used in scenarios (2):</div>
-            <div class="scenario-tags">
-              <span class="scenario-tag">↑ Test</span>
-              <span class="scenario-tag">↑ Test2</span>
+            <div class="brand-meta">
+              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
+              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
             </div>
           </div>
-          <button class="fab" id="fab-teams" onclick="openModal('team')">+</button>
+          <div class="brand-card">
+            <div class="brand-card-header">
+              <div class="brand-name">Brand_2 ⓘ</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="badge badge-completed">✓ Completed</span>
+                <div class="more-btn">⋮</div>
+              </div>
+            </div>
+            <div class="brand-meta">
+              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
+              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
+            </div>
+          </div>
+          <div class="brand-card">
+            <div class="brand-card-header">
+              <div class="brand-name">Brand_1 ⓘ</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="badge badge-completed">✓ Completed</span>
+                <div class="more-btn">⋮</div>
+              </div>
+            </div>
+            <div class="brand-meta">
+              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
+              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div><!-- /main -->
-</div><!-- /app-body -->
+      <!-- TEAMS PANE -->
+      <div id="teams-pane" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <span style="font-size:13px;color:var(--text-muted)">All Structures</span>
+          <span class="scenario-btn" onclick="openModal('scenario')">+ Scenario</span>
+        </div>
+        <div class="structure-card">
+          <div class="structure-header">
+            <div class="structure-name">Team ⓘ</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="badge badge-completed">✓ Completed</span>
+              <div class="more-btn">⋮</div>
+            </div>
+          </div>
+          <div class="team-count">All Teams (4):</div>
+          <div class="team-sub-grid">
+            <div class="team-sub-card">
+              <div class="team-sub-name">Team_1</div>
+              <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
+              <div class="team-field">
+                <div class="team-field-label">Customer Type & Brands</div>
+                <div class="brand-tags">
+                  <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
+                  <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
+                </div>
+              </div>
+            </div>
+            <div class="team-sub-card">
+              <div class="team-sub-name">Team_2</div>
+              <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
+              <div class="team-field">
+                <div class="team-field-label">Customer Type & Brands</div>
+                <div class="brand-tags">
+                  <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
+                  <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="used-label">Used in scenarios (2):</div>
+          <div class="scenario-tags">
+            <span class="scenario-tag">↑ Test</span>
+            <span class="scenario-tag">↑ Test2</span>
+          </div>
+        </div>
+      </div>
 
-<!-- ══════════════ MODALS (100% from original) ══════════════ -->
+    </div><!-- /p2-content -->
+  </div><!-- /p2-main -->
+</div><!-- /page-detail -->
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
 
 <!-- WORKSPACE MODAL -->
 <div class="overlay" id="modal-ws">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">New Workspace</div>
-      <button class="modal-close" onclick="closeModal('ws')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">New Workspace</div><button class="modal-close" onclick="closeModal('ws')">✕</button></div>
     <div class="modal-body">
-      <div class="step-panel active" style="padding:28px">
+      <div class="step-panel active" style="padding:26px">
         <div class="step-layout">
-          <div class="field-group">
-            <label class="field-label">Workspace Name <span class="req">*</span></label>
-            <input class="field-input" placeholder="e.g. Q1 2027 Planning" />
-          </div>
-          <div class="field-group">
-            <label class="field-label">Description</label>
-            <input class="field-input" placeholder="Optional description" />
-          </div>
+          <div class="field-group"><label class="field-label">Workspace Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Q1 2027 Planning"/></div>
+          <div class="field-group"><label class="field-label">Description</label><input class="field-input" placeholder="Optional description"/></div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('ws')">Cancel</button>
-      <div class="modal-footer-right">
-        <button class="btn btn-primary" onclick="addWorkspace()">Create Workspace</button>
-      </div>
+      <div class="modal-footer-right"><button class="btn btn-primary" onclick="addWorkspace()">Create Workspace</button></div>
     </div>
   </div>
 </div>
@@ -952,10 +894,7 @@ body {
 <!-- PROJECT MODAL — 3 steps -->
 <div class="overlay" id="modal-project">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Add Project</div>
-      <button class="modal-close" onclick="closeModal('project')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Add Project</div><button class="modal-close" onclick="closeModal('project')">✕</button></div>
     <div class="step-bar">
       <div class="step-item active" id="pstep-1"><div class="step-dot">1</div><div class="step-label">Project Info</div></div>
       <div class="step-connector"></div>
@@ -966,100 +905,32 @@ body {
     <div class="modal-body">
       <div class="step-panel active" id="pp-1">
         <div class="step-layout">
-          <div class="field-group">
-            <label class="field-label">Project Name <span class="req">*</span></label>
-            <input class="field-input" id="proj-name" placeholder="e.g. NNI Test" />
-          </div>
-          <div class="field-group">
-            <label class="field-label">Customer Data Available</label>
-            <div class="radio-group">
-              <label class="radio-opt"><input type="radio" name="cda" value="yes" checked /> Yes</label>
-              <label class="radio-opt"><input type="radio" name="cda" value="no" /> No</label>
-            </div>
-          </div>
+          <div class="field-group"><label class="field-label">Project Name <span class="req">*</span></label><input class="field-input" id="proj-name" placeholder="e.g. NNI Test"/></div>
+          <div class="field-group"><label class="field-label">Customer Data Available</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="cda" value="yes" checked/> Yes</label><label class="radio-opt"><input type="radio" name="cda" value="no"/> No</label></div></div>
         </div>
         <div class="step-layout">
-          <div class="field-group">
-            <label class="field-label">Planning Scope <span class="req">*</span> <span class="field-info">ⓘ</span></label>
-            <div class="date-range">
-              <input type="number" class="field-input" placeholder="Start year" min="2020" max="2040" />
-              <span class="date-sep">→</span>
-              <input type="number" class="field-input" placeholder="End year" min="2020" max="2040" />
-            </div>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Discount Rate (%) <span class="req">*</span> <span class="field-info">ⓘ</span></label>
-            <input type="number" class="field-input" placeholder="0 – 100" min="0" max="100" />
-          </div>
+          <div class="field-group"><label class="field-label">Planning Scope <span class="req">*</span> <span class="field-info">ⓘ</span></label><div class="date-range"><input type="number" class="field-input" placeholder="Start year"/><span class="date-sep">→</span><input type="number" class="field-input" placeholder="End year"/></div></div>
+          <div class="field-group"><label class="field-label">Discount Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"/></div>
         </div>
         <div class="step-layout">
-          <div class="field-group">
-            <label class="field-label">Inflation Rate (%) <span class="req">*</span></label>
-            <input type="number" class="field-input" placeholder="0 – 100" />
-          </div>
-          <div class="field-group">
-            <label class="field-label">Currency <span class="req">*</span></label>
-            <select class="field-select">
-              <option value="">Select Currency</option>
-              <option>USD ($)</option><option>EUR (€)</option><option>GBP (£)</option><option>INR (₹)</option>
-            </select>
-          </div>
+          <div class="field-group"><label class="field-label">Inflation Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"/></div>
+          <div class="field-group"><label class="field-label">Currency <span class="req">*</span></label><select class="field-select"><option value="">Select Currency</option><option>USD ($)</option><option>EUR (€)</option><option>GBP (£)</option><option>INR (₹)</option></select></div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Project Description</label>
-          <textarea class="field-textarea" placeholder="Enter project description"></textarea>
-        </div>
-        <div>
-          <div class="collabs-toggle" onclick="toggleCollabs()" id="collabs-toggle">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Add Collaborators
-          </div>
-          <div id="collabs-panel" style="display:none;margin-top:12px">
-            <input class="field-input" placeholder="Search collaborators by name or email" />
-          </div>
-        </div>
+        <div class="field-group"><label class="field-label">Project Description</label><textarea class="field-textarea" placeholder="Enter project description"></textarea></div>
+        <div><div class="collabs-toggle" onclick="toggleCollabs()" id="collabs-toggle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add Collaborators</div><div id="collabs-panel" style="display:none;margin-top:10px"><input class="field-input" placeholder="Search collaborators by name or email"/></div></div>
       </div>
       <div class="step-panel" id="pp-2">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px">Configure financial assumptions for this project.</div>
-        <div class="step-layout single">
-          <div class="field-group">
-            <label class="field-label">Forecast Name</label>
-            <input class="field-input" placeholder="e.g. forecast1" value="forecast1" />
-          </div>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="fin-table">
-            <thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead>
-            <tbody>
-              <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1" value="forecast1"/></div></div>
+        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody><tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr></tbody></table></div>
       </div>
       <div class="step-panel" id="pp-3">
-        <div style="background:var(--accent-light);border-radius:var(--radius);padding:18px;border:1px solid var(--accent)">
-          <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">✓ Ready to create project</div>
-          <div style="font-size:13px;color:var(--text-muted)">Review your inputs and click <strong>Add Project</strong> to confirm.</div>
-        </div>
-        <div class="step-layout">
-          <div><div class="meta-label">Project Name</div><div class="meta-val" id="review-name">—</div></div>
-          <div><div class="meta-label">Currency</div><div class="meta-val">USD</div></div>
-          <div><div class="meta-label">Planning Scope</div><div class="meta-val">2027 – 2029</div></div>
-          <div><div class="meta-label">Discount Rate</div><div class="meta-val">—</div></div>
-        </div>
+        <div style="background:var(--accent-light);border-radius:var(--radius);padding:16px;border:1px solid var(--accent)"><div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">✓ Ready to create</div><div style="font-size:13px;color:var(--text-muted)">Review and click <strong>Add Project</strong> to confirm.</div></div>
+        <div class="step-layout"><div><div class="meta-label">Project Name</div><div class="meta-val" id="review-name">—</div></div><div><div class="meta-label">Currency</div><div class="meta-val">USD</div></div><div><div class="meta-label">Planning Scope</div><div class="meta-val">2027 – 2029</div></div><div><div class="meta-label">Discount Rate</div><div class="meta-val">—</div></div></div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" id="proj-back-btn" style="visibility:hidden" onclick="projStep(-1)">← Back</button>
-      <div class="modal-footer-right">
-        <button class="btn btn-ghost" onclick="closeModal('project')">Cancel</button>
-        <button class="btn btn-primary" id="proj-next-btn" onclick="projStep(1)">Save & Add Financials →</button>
-      </div>
+      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('project')">Cancel</button><button class="btn btn-primary" id="proj-next-btn" onclick="projStep(1)">Save & Add Financials →</button></div>
     </div>
   </div>
 </div>
@@ -1067,10 +938,7 @@ body {
 <!-- BRAND MODAL — 3 steps -->
 <div class="overlay" id="modal-brand">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Add Brand</div>
-      <button class="modal-close" onclick="closeModal('brand')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Add Brand</div><button class="modal-close" onclick="closeModal('brand')">✕</button></div>
     <div class="step-bar">
       <div class="step-item active" id="bstep-1"><div class="step-dot">1</div><div class="step-label">Brand Info</div></div>
       <div class="step-connector"></div>
@@ -1080,71 +948,23 @@ body {
     </div>
     <div class="modal-body">
       <div class="step-panel active" id="bp-1">
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Brand Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Brand_X" /></div>
-          <div class="field-group"><label class="field-label">Therapeutic Area <span class="field-info">ⓘ</span></label><input class="field-input" placeholder="Enter therapeutic area" /></div>
-        </div>
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Years in Market <span class="field-info">ⓘ</span></label><input type="number" class="field-input" placeholder="Enter years" /></div>
-          <div class="field-group"><label class="field-label">Competition Type <span class="field-info">ⓘ</span></label>
-            <select class="field-select"><option value="">Select competition type</option><option>Branded</option><option>Generic</option><option>Biosimilar</option></select>
-          </div>
-        </div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Brand Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Brand_X"/></div><div class="field-group"><label class="field-label">Therapeutic Area</label><input class="field-input" placeholder="Enter therapeutic area"/></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Years in Market</label><input type="number" class="field-input" placeholder="Enter years"/></div><div class="field-group"><label class="field-label">Competition Type</label><select class="field-select"><option value="">Select competition type</option><option>Branded</option><option>Generic</option><option>Biosimilar</option></select></div></div>
         <div class="field-group"><label class="field-label">Brand Description</label><textarea class="field-textarea" placeholder="Enter brand description"></textarea></div>
       </div>
       <div class="step-panel" id="bp-2">
-        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1" /></div></div>
-        <div style="overflow-x:auto">
-          <table class="fin-table">
-            <thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead>
-            <tbody>
-              <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-              <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1"/></div></div>
+        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody><tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr></tbody></table></div>
       </div>
       <div class="step-panel" id="bp-3">
-        <div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Upload Customer File</label></div>
-          <div class="upload-zone" onclick="simulateUpload()" id="upload-zone">
-            <div class="upload-zone-icon">📂</div>
-            <div class="upload-zone-text">Click to upload CSV file or drag & drop here</div>
-          </div>
-          <div id="upload-result" style="display:none;margin-top:10px">
-            <div class="upload-badge"><span>📄</span><span id="upload-fname">customer_data.csv</span><span class="upload-badge-x" onclick="clearUpload()">✕</span></div>
-          </div>
-        </div>
-        <div class="field-group" style="margin-top:4px">
-          <label class="field-label">Customer Type <span class="field-info">ⓘ</span></label>
-          <select class="field-select"><option value="">Select Customer Type</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option><option>Payer</option></select>
-        </div>
-        <div id="col-mapping" style="display:none">
-          <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">Map Columns</div>
-          <div style="overflow-x:auto">
-            <table class="col-table">
-              <thead><tr><th>Column</th><th>Alias Name</th><th>Column Type</th></tr></thead>
-              <tbody>
-                <tr><td>CustID</td><td>CustID</td><td><select><option>—</option><option>ID</option></select></td></tr>
-                <tr><td>TimePeriod</td><td>TimePeriod</td><td><select><option>—</option><option>Date</option></select></td></tr>
-                <tr><td>Sales_NRx</td><td>NRx</td><td><select><option>Sales</option><option>Activity</option><option>Segment</option></select></td></tr>
-                <tr><td>Activity_SF</td><td>SF</td><td><select><option>Activity</option><option>Sales</option></select></td></tr>
-                <tr><td>Segment_HMLZ</td><td>HMLZ</td><td><select><option>Segment</option><option>Activity</option></select></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Upload Customer File</label></div><div class="upload-zone" onclick="simulateUpload()" id="upload-zone"><div class="upload-zone-icon">📂</div><div class="upload-zone-text">Click to upload CSV or drag & drop</div></div><div id="upload-result" style="display:none;margin-top:10px"><div class="upload-badge"><span>📄</span><span>customer_data.csv</span><span class="upload-badge-x" onclick="clearUpload()">✕</span></div></div></div>
+        <div class="field-group"><label class="field-label">Customer Type</label><select class="field-select"><option value="">Select Customer Type</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option><option>Payer</option></select></div>
+        <div id="col-mapping" style="display:none"><div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">Map Columns</div><div style="overflow-x:auto"><table class="col-table"><thead><tr><th>Column</th><th>Alias Name</th><th>Column Type</th></tr></thead><tbody><tr><td>CustID</td><td>CustID</td><td><select><option>—</option><option>ID</option></select></td></tr><tr><td>TimePeriod</td><td>TimePeriod</td><td><select><option>—</option><option>Date</option></select></td></tr><tr><td>Sales_NRx</td><td>NRx</td><td><select><option>Sales</option><option>Activity</option></select></td></tr><tr><td>Activity_SF</td><td>SF</td><td><select><option>Activity</option><option>Sales</option></select></td></tr><tr><td>Segment_HMLZ</td><td>HMLZ</td><td><select><option>Segment</option><option>Activity</option></select></td></tr></tbody></table></div></div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" id="brand-back-btn" style="visibility:hidden" onclick="brandStep(-1)">← Back</button>
-      <div class="modal-footer-right">
-        <button class="btn btn-ghost" onclick="closeModal('brand')">Cancel</button>
-        <button class="btn btn-primary" id="brand-next-btn" onclick="brandStep(1)">Save & Add Financials →</button>
-      </div>
+      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('brand')">Cancel</button><button class="btn btn-primary" id="brand-next-btn" onclick="brandStep(1)">Save & Add Financials →</button></div>
     </div>
   </div>
 </div>
@@ -1152,10 +972,7 @@ body {
 <!-- TEAM MODAL — 4 steps -->
 <div class="overlay" id="modal-team">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Add Structure</div>
-      <button class="modal-close" onclick="closeModal('team')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">Add Structure</div><button class="modal-close" onclick="closeModal('team')">✕</button></div>
     <div class="step-bar">
       <div class="step-item active" id="tstep-1"><div class="step-dot">1</div><div class="step-label">Structure Info</div></div>
       <div class="step-connector"></div>
@@ -1167,84 +984,46 @@ body {
     </div>
     <div class="modal-body">
       <div class="step-panel active" id="tp-1">
-        <div class="step-layout three">
-          <div class="field-group"><label class="field-label">Team Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. test" /></div>
-          <div class="field-group"><label class="field-label">Role <span class="req">*</span></label><input class="field-input" placeholder="e.g. rep" /></div>
-          <div class="field-group"><label class="field-label">Annual Rep Cost ($) <span class="req">*</span></label><input type="number" class="field-input" placeholder="e.g. 280000" /></div>
-        </div>
-        <div class="step-layout single">
-          <div class="field-group"><label class="field-label">Customer Type <span class="req">*</span></label>
-            <select class="field-select"><option value="">Select</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option></select>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:4px">
-          <label style="font-size:13px;font-weight:500"><input type="radio" name="team-type" value="team-info" checked style="accent-color:var(--accent)" /> Team Info</label>
-          <label style="font-size:13px;font-weight:500"><input type="radio" name="team-type" value="position-eff" style="accent-color:var(--accent)" /> Position Effectiveness</label>
-        </div>
+        <div class="step-layout three"><div class="field-group"><label class="field-label">Team Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. test"/></div><div class="field-group"><label class="field-label">Role <span class="req">*</span></label><input class="field-input" placeholder="e.g. rep"/></div><div class="field-group"><label class="field-label">Annual Rep Cost ($) <span class="req">*</span></label><input type="number" class="field-input" placeholder="e.g. 280000"/></div></div>
+        <div class="step-layout single"><div class="field-group"><label class="field-label">Customer Type <span class="req">*</span></label><select class="field-select"><option value="">Select</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option></select></div></div>
+        <div style="display:flex;gap:12px"><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="ti" checked style="accent-color:var(--accent)"/> Team Info</label><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="pe" style="accent-color:var(--accent)"/> Position Effectiveness</label></div>
       </div>
       <div class="step-panel" id="tp-2">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Add sub-teams and assign brand coverage.</div>
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Sub-team Name</label><input class="field-input" placeholder="e.g. Team_1" /></div>
-          <div class="field-group"><label class="field-label">Assign Brands</label>
-            <select class="field-select" multiple style="height:80px"><option>Brand_1</option><option>Brand_2</option><option>Brand_3</option></select>
-          </div>
-        </div>
-        <button class="btn btn-ghost btn-sm" style="width:fit-content">+ Add another sub-team</button>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Add sub-teams and assign brand coverage.</div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Sub-team Name</label><input class="field-input" placeholder="e.g. Team_1"/></div><div class="field-group"><label class="field-label">Assign Brands</label><select class="field-select" multiple style="height:76px"><option>Brand_1</option><option>Brand_2</option><option>Brand_3</option></select></div></div>
+        <button class="btn btn-ghost btn-sm" style="width:fit-content">+ Add sub-team</button>
       </div>
       <div class="step-panel" id="tp-3">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Define territory coverage for this structure.</div>
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Coverage Model</label>
-            <select class="field-select"><option>National</option><option>Regional</option><option>Territory</option></select>
-          </div>
-          <div class="field-group"><label class="field-label">Number of Territories</label><input type="number" class="field-input" placeholder="e.g. 50" /></div>
-        </div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Define territory coverage.</div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Coverage Model</label><select class="field-select"><option>National</option><option>Regional</option><option>Territory</option></select></div><div class="field-group"><label class="field-label">Number of Territories</label><input type="number" class="field-input" placeholder="e.g. 50"/></div></div>
       </div>
       <div class="step-panel" id="tp-4">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Set the response curve parameters for field effectiveness modeling.</div>
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Curve Type</label>
-            <select class="field-select"><option>S-Curve</option><option>Linear</option><option>Diminishing Returns</option></select>
-          </div>
-          <div class="field-group"><label class="field-label">Saturation Point (%)</label><input type="number" class="field-input" placeholder="e.g. 85" /></div>
-        </div>
-        <div style="background:var(--accent-light);border-radius:var(--radius);padding:14px;border:1px solid var(--accent);font-size:13px;color:var(--accent)">
-          ✦ All steps complete. Click <strong>Create Team</strong> to save.
-        </div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Set response curve parameters.</div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Curve Type</label><select class="field-select"><option>S-Curve</option><option>Linear</option><option>Diminishing Returns</option></select></div><div class="field-group"><label class="field-label">Saturation Point (%)</label><input type="number" class="field-input" placeholder="e.g. 85"/></div></div>
+        <div style="background:var(--accent-light);border-radius:var(--radius);padding:13px;border:1px solid var(--accent);font-size:13px;color:var(--accent)">✦ All steps complete. Click <strong>Create Team</strong> to save.</div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" id="team-back-btn" style="visibility:hidden" onclick="teamStep(-1)">← Back</button>
-      <div class="modal-footer-right">
-        <button class="btn btn-ghost" onclick="closeModal('team')">Cancel</button>
-        <button class="btn btn-primary" id="team-next-btn" onclick="teamStep(1)">Next →</button>
-      </div>
+      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('team')">Cancel</button><button class="btn btn-primary" id="team-next-btn" onclick="teamStep(1)">Next →</button></div>
     </div>
   </div>
 </div>
 
 <!-- SCENARIO MODAL -->
 <div class="overlay" id="modal-scenario">
-  <div class="modal" style="max-width:480px">
-    <div class="modal-header">
-      <div class="modal-title">Add Scenario</div>
-      <button class="modal-close" onclick="closeModal('scenario')">✕</button>
-    </div>
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header"><div class="modal-title">Add Scenario</div><button class="modal-close" onclick="closeModal('scenario')">✕</button></div>
     <div class="modal-body">
       <div class="step-panel active">
-        <div class="field-group"><label class="field-label">Scenario Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Test3" /></div>
-        <div class="field-group"><label class="field-label">Based on Structure</label>
-          <select class="field-select"><option>Team (existing)</option></select>
-        </div>
-        <div class="field-group"><label class="field-label">Description</label><textarea class="field-textarea" placeholder="Optional scenario description"></textarea></div>
+        <div class="field-group"><label class="field-label">Scenario Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Test3"/></div>
+        <div class="field-group"><label class="field-label">Based on Structure</label><select class="field-select"><option>Team (existing)</option></select></div>
+        <div class="field-group"><label class="field-label">Description</label><textarea class="field-textarea" placeholder="Optional description"></textarea></div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('scenario')">Cancel</button>
-      <div class="modal-footer-right">
-        <button class="btn btn-primary" onclick="addScenario()">Create Scenario</button>
-      </div>
+      <div class="modal-footer-right"><button class="btn btn-primary" onclick="addScenario()">Create Scenario</button></div>
     </div>
   </div>
 </div>
@@ -1253,219 +1032,207 @@ body {
 <div class="toast" id="toast">✓ <span id="toast-msg"></span></div>
 
 <script>
-/* ══ TEAMS SDK DETECTION ══
-   If running inside Teams, the SDK adjusts height offset and can read
-   the logged-in user's name. Safe to load — no-ops outside Teams. */
-(function() {
-  try {
-    // Detect Teams iframe context
-    const inTeams = window.self !== window.top ||
-      navigator.userAgent.includes('Teams') ||
-      window.location.search.includes('inTeams=true');
-    if (inTeams) {
-      // Account for Teams tab chrome (~48px top bar)
-      document.documentElement.style.setProperty('--teams-offset', '48px');
-      document.body.classList.add('in-teams');
-    }
-  } catch(e) { /* cross-origin check — safe to ignore */ }
+/* ══ TEAMS DETECTION ══ */
+(function(){
+  try{
+    const inTeams = window.self!==window.top||navigator.userAgent.includes('Teams');
+    if(inTeams) document.documentElement.style.setProperty('--teams-offset','48px');
+  }catch(e){}
 })();
-
-/* ══ SIDEBAR TOGGLE ══ */
-let sidebarOpen = true;
-function toggleSidebar() {
-  sidebarOpen = !sidebarOpen;
-  document.querySelector('.sidebar').classList.toggle('collapsed', !sidebarOpen);
-}
 
 /* ══ STATE ══ */
 let currentWS = null;
-let currentProject = null;
+let currentProj = 'NNI Test';
 let currentTab = 'brands';
-let projCurrentStep = 1;
-let brandCurrentStep = 1;
-let teamCurrentStep = 1;
+let sidebarOpen = true;
+let projCurrentStep=1, brandCurrentStep=1, teamCurrentStep=1;
 
-/* ══ SIDEBAR ══ */
-function openWorkspace(name) {
-  // deselect previous
-  if (currentWS) document.getElementById('sbws-' + currentWS)?.classList.remove('active');
-  currentWS = name;
-  document.getElementById('sbws-' + name)?.classList.add('active');
-  // update breadcrumb
-  setBreadcrumb([{label:'Home', action:null},{label: name, action:null}]);
-  // show projects view
-  showView('projects');
-  document.getElementById('proj-ws-label').textContent = 'Workspace: ' + name;
+/* ══ PAGE NAVIGATION ══ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // show sidebar toggle only on page 2
+  document.getElementById('sb-toggle-btn').style.display = id==='page-detail' ? '' : 'none';
 }
 
-function filterWS() {
-  const q = document.getElementById('sb-search').value.toLowerCase();
-  document.querySelectorAll('.ws-item').forEach(el => {
-    const name = el.querySelector('.ws-item-name').textContent.toLowerCase();
-    el.style.display = name.includes(q) ? '' : 'none';
+function goHome(){
+  showPage('page-workspaces');
+  setBreadcrumb([{label:'Home',action:null}]);
+}
+
+/* ══ PAGE 1 — WORKSPACE CARDS ══ */
+function openWorkspace(name){
+  currentWS = name;
+  document.getElementById('p2-ws-name').textContent = name;
+  showPage('page-detail');
+  setBreadcrumb([
+    {label:'Home', action:'goHome()'},
+    {label:name, action:null}
+  ]);
+  // reset to first project
+  selectProject('NNI Test');
+}
+
+function filterWSCards(q){
+  const ql = q.toLowerCase();
+  document.querySelectorAll('#ws-grid .ws-card:not(.ws-card-add)').forEach(c=>{
+    const name = c.querySelector('.ws-card-name').textContent.toLowerCase();
+    c.style.display = name.includes(ql) ? '' : 'none';
   });
 }
 
-/* ══ VIEWS ══ */
-function showView(v) {
-  document.getElementById('view-empty').style.display = 'none';
-  document.getElementById('view-projects').style.display = 'none';
-  document.getElementById('view-detail').style.display = 'none';
-  if (v === 'empty') document.getElementById('view-empty').style.display = '';
-  else if (v === 'projects') document.getElementById('view-projects').style.display = 'flex';
-  else if (v === 'detail') document.getElementById('view-detail').style.display = 'flex';
-}
-
-function gotoDetail(name) {
-  currentProject = name;
-  document.getElementById('detail-title').textContent = name;
-  document.getElementById('detail-title-strip').textContent = name;
-  switchTab('brands');
-  showView('detail');
-  const btn = document.getElementById('detail-add-btn');
-  if (btn) btn.textContent = '+ Add Brand';
+/* ══ PAGE 2 — PROJECT SIDEBAR ══ */
+function selectProject(name){
+  currentProj = name;
+  // update sidebar active state
+  document.querySelectorAll('.proj-item').forEach(el=>el.classList.remove('active'));
+  const el = document.getElementById('psi-'+name);
+  if(el) el.classList.add('active');
+  // update strip
+  document.getElementById('p2-proj-name-strip').textContent = name;
+  // update breadcrumb
   setBreadcrumb([
-    {label:'Home', action:null},
-    {label: currentWS, action:`backToProjects()`},
-    {label: name, action:null}
+    {label:'Home', action:'goHome()'},
+    {label:currentWS, action:`openWorkspace('${currentWS}')`},
+    {label:name, action:null}
   ]);
+  // reset tab
+  switchTab('brands');
 }
 
-function backToProjects() {
-  showView('projects');
-  setBreadcrumb([{label:'Home',action:null},{label:currentWS,action:null}]);
+function filterProjects(q){
+  const ql = q.toLowerCase();
+  document.querySelectorAll('.proj-item').forEach(el=>{
+    const name = el.querySelector('.proj-item-name').textContent.toLowerCase();
+    el.style.display = name.includes(ql) ? '' : 'none';
+  });
 }
 
-function dismissSuggestion() {
-  document.getElementById('suggestion-bar').style.display = 'none';
+function toggleSidebar(){
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('p2-sidebar').classList.toggle('collapsed',!sidebarOpen);
 }
 
 /* ══ TABS ══ */
-function switchTab(t) {
+function switchTab(t){
   currentTab = t;
-  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
-  document.getElementById('brands-pane').style.display = t === 'brands' ? '' : 'none';
-  document.getElementById('teams-pane').style.display  = t === 'teams'  ? '' : 'none';
-  // update inline add button label
-  const btn = document.getElementById('detail-add-btn');
-  if (btn) btn.textContent = t === 'brands' ? '+ Add Brand' : '+ Add Structure';
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('brands-pane').style.display = t==='brands' ? '' : 'none';
+  document.getElementById('teams-pane').style.display  = t==='teams'  ? '' : 'none';
+  const btn = document.getElementById('p2-add-btn');
+  if(btn) btn.textContent = t==='brands' ? '+ Add Brand' : '+ Add Structure';
 }
 
-/* detail add button — opens right modal based on active tab */
-function detailAdd() {
-  openModal(currentTab === 'brands' ? 'brand' : 'team');
-}
+function p2Add(){ openModal(currentTab==='brands'?'brand':'team'); }
+function dismissSug(){ document.getElementById('p2-sug-bar').style.display='none'; }
 
 /* ══ BREADCRUMB ══ */
-function setBreadcrumb(parts) {
-  const bc = document.getElementById('topbar-bc');
-  bc.innerHTML = parts.map((p, i) => {
-    const sep = i > 0 ? '<span class="bc-sep"> › </span>' : '';
-    const isLast = i === parts.length - 1;
-    if (!p.action || isLast) return `${sep}<span class="bc-seg${isLast ? ' dim' : ''}">${p.label}</span>`;
-    return `${sep}<span class="bc-seg" onclick="${p.action}">${p.label}</span>`;
+function setBreadcrumb(parts){
+  const bc = document.getElementById('tb-bc');
+  bc.innerHTML = parts.map((p,i)=>{
+    const sep = i>0 ? '<span class="sep"> › </span>' : '';
+    const isLast = i===parts.length-1;
+    if(!p.action||isLast) return `${sep}<span class="seg${isLast?' dim':''}">${p.label}</span>`;
+    return `${sep}<span class="seg" onclick="${p.action}">${p.label}</span>`;
   }).join('');
 }
 
 /* ══ MODALS ══ */
-function openModal(id) {
-  if (id === 'project') { projCurrentStep = 1; renderProjSteps(); }
-  if (id === 'brand')   { brandCurrentStep = 1; renderBrandSteps(); }
-  if (id === 'team')    { teamCurrentStep = 1; renderTeamSteps(); }
-  document.getElementById('modal-' + id).classList.add('open');
+function openModal(id){
+  if(id==='project'){projCurrentStep=1;renderProjSteps();}
+  if(id==='brand'){brandCurrentStep=1;renderBrandSteps();}
+  if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
+  document.getElementById('modal-'+id).classList.add('open');
 }
-function closeModal(id) { document.getElementById('modal-' + id).classList.remove('open'); }
-document.querySelectorAll('.overlay').forEach(o => {
-  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+function closeModal(id){ document.getElementById('modal-'+id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
 });
 
 /* ══ PROJECT STEPS ══ */
-const projLabels = ['Save & Add Financials →', 'Save & Continue →', 'Add Project'];
-function renderProjSteps() {
-  [1,2,3].forEach(i => {
-    const el = document.getElementById('pstep-' + i);
-    el.className = 'step-item' + (i < projCurrentStep ? ' done' : i === projCurrentStep ? ' active' : '');
-    el.querySelector('.step-dot').textContent = i < projCurrentStep ? '✓' : i;
-    document.getElementById('pp-' + i).className = 'step-panel' + (i === projCurrentStep ? ' active' : '');
+const projLabels=['Save & Add Financials →','Save & Continue →','Add Project'];
+function renderProjSteps(){
+  [1,2,3].forEach(i=>{
+    const el=document.getElementById('pstep-'+i);
+    el.className='step-item'+(i<projCurrentStep?' done':i===projCurrentStep?' active':'');
+    el.querySelector('.step-dot').textContent=i<projCurrentStep?'✓':i;
+    document.getElementById('pp-'+i).className='step-panel'+(i===projCurrentStep?' active':'');
   });
-  document.getElementById('proj-back-btn').style.visibility = projCurrentStep > 1 ? 'visible' : 'hidden';
-  document.getElementById('proj-next-btn').textContent = projLabels[projCurrentStep - 1];
-  if (projCurrentStep === 3) {
-    const n = document.getElementById('proj-name')?.value;
-    if (n) document.getElementById('review-name').textContent = n;
-  }
+  document.getElementById('proj-back-btn').style.visibility=projCurrentStep>1?'visible':'hidden';
+  document.getElementById('proj-next-btn').textContent=projLabels[projCurrentStep-1];
+  if(projCurrentStep===3){const n=document.getElementById('proj-name')?.value;if(n)document.getElementById('review-name').textContent=n;}
 }
-function projStep(dir) {
-  if (dir === 1 && projCurrentStep === 3) { addProject(); return; }
-  projCurrentStep = Math.min(3, Math.max(1, projCurrentStep + dir));
+function projStep(dir){
+  if(dir===1&&projCurrentStep===3){addProject();return;}
+  projCurrentStep=Math.min(3,Math.max(1,projCurrentStep+dir));
   renderProjSteps();
 }
-function addProject() { closeModal('project'); showToast('Project created successfully.'); }
+function addProject(){ closeModal('project'); showToast('Project created successfully.'); }
 
 /* ══ BRAND STEPS ══ */
-const brandLabels = ['Save & Add Financials →', 'Save & Add Customer →', 'Save Brand'];
-function renderBrandSteps() {
-  [1,2,3].forEach(i => {
-    const el = document.getElementById('bstep-' + i);
-    el.className = 'step-item' + (i < brandCurrentStep ? ' done' : i === brandCurrentStep ? ' active' : '');
-    el.querySelector('.step-dot').textContent = i < brandCurrentStep ? '✓' : i;
-    document.getElementById('bp-' + i).className = 'step-panel' + (i === brandCurrentStep ? ' active' : '');
+const brandLabels=['Save & Add Financials →','Save & Add Customer →','Save Brand'];
+function renderBrandSteps(){
+  [1,2,3].forEach(i=>{
+    const el=document.getElementById('bstep-'+i);
+    el.className='step-item'+(i<brandCurrentStep?' done':i===brandCurrentStep?' active':'');
+    el.querySelector('.step-dot').textContent=i<brandCurrentStep?'✓':i;
+    document.getElementById('bp-'+i).className='step-panel'+(i===brandCurrentStep?' active':'');
   });
-  document.getElementById('brand-back-btn').style.visibility = brandCurrentStep > 1 ? 'visible' : 'hidden';
-  document.getElementById('brand-next-btn').textContent = brandLabels[brandCurrentStep - 1];
+  document.getElementById('brand-back-btn').style.visibility=brandCurrentStep>1?'visible':'hidden';
+  document.getElementById('brand-next-btn').textContent=brandLabels[brandCurrentStep-1];
 }
-function brandStep(dir) {
-  if (dir === 1 && brandCurrentStep === 3) { saveBrand(); return; }
-  brandCurrentStep = Math.min(3, Math.max(1, brandCurrentStep + dir));
+function brandStep(dir){
+  if(dir===1&&brandCurrentStep===3){saveBrand();return;}
+  brandCurrentStep=Math.min(3,Math.max(1,brandCurrentStep+dir));
   renderBrandSteps();
 }
-function saveBrand() { closeModal('brand'); showToast('Brand created successfully.'); }
+function saveBrand(){ closeModal('brand'); showToast('Brand created successfully.'); }
 
 /* ══ TEAM STEPS ══ */
-const teamLabels = ['Next →', 'Next →', 'Next →', 'Create Team & Define Effectiveness'];
-function renderTeamSteps() {
-  [1,2,3,4].forEach(i => {
-    const el = document.getElementById('tstep-' + i);
-    el.className = 'step-item' + (i < teamCurrentStep ? ' done' : i === teamCurrentStep ? ' active' : '');
-    el.querySelector('.step-dot').textContent = i < teamCurrentStep ? '✓' : i;
-    document.getElementById('tp-' + i).className = 'step-panel' + (i === teamCurrentStep ? ' active' : '');
+const teamLabels=['Next →','Next →','Next →','Create Team & Define Effectiveness'];
+function renderTeamSteps(){
+  [1,2,3,4].forEach(i=>{
+    const el=document.getElementById('tstep-'+i);
+    el.className='step-item'+(i<teamCurrentStep?' done':i===teamCurrentStep?' active':'');
+    el.querySelector('.step-dot').textContent=i<teamCurrentStep?'✓':i;
+    document.getElementById('tp-'+i).className='step-panel'+(i===teamCurrentStep?' active':'');
   });
-  document.getElementById('team-back-btn').style.visibility = teamCurrentStep > 1 ? 'visible' : 'hidden';
-  document.getElementById('team-next-btn').textContent = teamLabels[teamCurrentStep - 1];
+  document.getElementById('team-back-btn').style.visibility=teamCurrentStep>1?'visible':'hidden';
+  document.getElementById('team-next-btn').textContent=teamLabels[teamCurrentStep-1];
 }
-function teamStep(dir) {
-  if (dir === 1 && teamCurrentStep === 4) { saveTeam(); return; }
-  teamCurrentStep = Math.min(4, Math.max(1, teamCurrentStep + dir));
+function teamStep(dir){
+  if(dir===1&&teamCurrentStep===4){saveTeam();return;}
+  teamCurrentStep=Math.min(4,Math.max(1,teamCurrentStep+dir));
   renderTeamSteps();
 }
-function saveTeam() { closeModal('team'); showToast('Structure created successfully.'); }
+function saveTeam(){ closeModal('team'); showToast('Structure created successfully.'); }
 
 /* ══ MISC ══ */
-function addWorkspace() { closeModal('ws'); showToast('Workspace created successfully.'); }
-function addScenario() { closeModal('scenario'); showToast('Scenario created successfully.'); }
-function simulateUpload() {
-  document.getElementById('upload-zone').style.display = 'none';
-  document.getElementById('upload-result').style.display = '';
-  document.getElementById('col-mapping').style.display = '';
+function addWorkspace(){ closeModal('ws'); showToast('Workspace created successfully.'); }
+function addScenario(){ closeModal('scenario'); showToast('Scenario created successfully.'); }
+function simulateUpload(){
+  document.getElementById('upload-zone').style.display='none';
+  document.getElementById('upload-result').style.display='';
+  document.getElementById('col-mapping').style.display='';
 }
-function clearUpload() {
-  document.getElementById('upload-zone').style.display = '';
-  document.getElementById('upload-result').style.display = 'none';
-  document.getElementById('col-mapping').style.display = 'none';
+function clearUpload(){
+  document.getElementById('upload-zone').style.display='';
+  document.getElementById('upload-result').style.display='none';
+  document.getElementById('col-mapping').style.display='none';
 }
-function toggleCollabs() {
-  const p = document.getElementById('collabs-panel');
-  const t = document.getElementById('collabs-toggle');
-  const open = p.style.display === '';
-  p.style.display = open ? 'none' : '';
-  t.classList.toggle('open', !open);
+function toggleCollabs(){
+  const p=document.getElementById('collabs-panel');
+  const t=document.getElementById('collabs-toggle');
+  const open=p.style.display==='';
+  p.style.display=open?'none':'';
+  t.classList.toggle('open',!open);
 }
-function showToast(msg) {
-  document.getElementById('toast-msg').textContent = msg;
-  const t = document.getElementById('toast');
+function showToast(msg){
+  document.getElementById('toast-msg').textContent=msg;
+  const t=document.getElementById('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+  setTimeout(()=>t.classList.remove('show'),2800);
 }
 </script>
 </body>

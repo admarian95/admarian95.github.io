@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Field Designer – Configure</title>
+<script src="https://res.cdn.office.net/teams-js/2.22.0/js/MicrosoftTeams.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f5f4f1; color: #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+  }
+  .card {
+    background: #fff; border-radius: 12px; padding: 32px;
+    width: 100%; max-width: 480px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+  }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #e87722;
+    background: #fff7f0; padding: 4px 10px; border-radius: 6px;
+    border: 1px solid #f5d5b5; display: inline-block; margin-bottom: 16px; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .sub { font-size: 13px; color: #7a7570; margin-bottom: 24px; }
+  .field { margin-bottom: 16px; }
+  label { font-size: 12px; font-weight: 600; color: #7a7570; display: block; margin-bottom: 5px; }
+  select, input {
+    width: 100%; padding: 9px 12px; border-radius: 6px;
+    border: 1.5px solid #e6e2db; font-size: 13px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    outline: none; transition: border .15s; background: #fff;
+  }
+  select:focus, input:focus { border-color: #e87722; }
+  .save-btn {
+    width: 100%; padding: 10px; border-radius: 6px;
+    background: #e87722; color: #fff; border: none;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background .15s; margin-top: 8px;
+  }
+  .save-btn:hover { background: #c45e0a; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">FIELD DESIGNER</div>
+  <h2>Configure Tab</h2>
+  <p class="sub">Choose which workspace to display in this Teams channel tab.</p>
+
+  <div class="field">
+    <label>Tab Name</label>
+    <input type="text" id="tab-name" value="Field Designer" placeholder="e.g. Q1 Planning" />
+  </div>
+  <div class="field">
+    <label>Default View</label>
+    <select id="default-view">
+      <option value="workspaces">All Workspaces</option>
+      <option value="projects">Projects</option>
+    </select>
+  </div>
+
+  <button class="save-btn" onclick="saveConfig()">Save & Add to Channel</button>
+</div>
+
+<script>
+  microsoftTeams.app.initialize().then(() => {
+    microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+      const tabName  = document.getElementById('tab-name').value  || 'Field Designer';
+      const defView  = document.getElementById('default-view').value;
+      microsoftTeams.pages.config.setConfig({
+        suggestedDisplayName: tabName,
+        entityId: 'fieldDesignerTab',
+        contentUrl: `https://your-alb-domain.com/index.html?view=${defView}`,
+        websiteUrl: 'https://your-alb-domain.com/index.html'
+      });
+      saveEvent.notifySuccess();
+    });
+    microsoftTeams.pages.config.setValidityState(true);
+  });
+
+  function saveConfig() {
+    microsoftTeams.pages.config.setValidityState(true);
+  }
+</script>
+</body>
+</html>

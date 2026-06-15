@@ -69,6 +69,141 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .er-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .er-time{font-size:10px;color:var(--light);margin-top:1px}
 
+/* ════════ SCENARIO BOT STEP ════════ */
+.sc-bot-card{background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);overflow:hidden;margin-top:8px;box-shadow:var(--shadow-md);width:100%}
+.sc-bot-card-body{overflow-y:auto;max-height:calc(100vh - 320px)}
+.sc-bot-card-body::-webkit-scrollbar{width:4px}
+.sc-bot-card-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sc-bot-section{padding:14px 18px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--border)}
+.sc-bot-section:last-child{border-bottom:none}
+.sc-bot-section-title{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+.sc-field-row{display:grid;gap:10px}
+.sc-field-row.two{grid-template-columns:1fr 1fr}
+.sc-field-row.three{grid-template-columns:1fr 1fr 1fr}
+.sc-tag-input{display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:5px 8px;background:var(--surface);min-height:36px;cursor:text;transition:border .15s}
+.sc-tag-input:focus-within{border-color:var(--accent)}
+.sc-tag{display:inline-flex;align-items:center;gap:4px;background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600}
+.sc-tag-x{cursor:pointer;opacity:.6;font-size:10px}.sc-tag-x:hover{opacity:1}
+.sc-tag-ghost{border:none;outline:none;background:transparent;font-size:12px;color:var(--text);font-family:inherit;flex:1;min-width:50px}
+.sc-radio-group{display:flex;gap:14px;flex-wrap:wrap}
+.sc-radio-group label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}
+.sc-radio-group input[type=radio]{accent-color:var(--accent)}
+.sc-bot-footer{display:flex;justify-content:flex-end;padding:12px 18px;background:var(--bg);border-top:1px solid var(--border)}
+.sc-submit-btn{padding:8px 22px;border-radius:var(--r-sm);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.sc-submit-btn:hover{background:var(--accent-dark)}
+
+/* ════════ ALL SCENARIOS PAGE ════════ */
+#page-scenarios{flex-direction:column;overflow:hidden}
+.sc-page-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.sc-page-title{font-size:16px;font-weight:700;color:var(--text)}
+.sc-page-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.sc-page-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+.sc-page-body::-webkit-scrollbar{width:4px}
+.sc-page-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sc-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;cursor:pointer;transition:all .2s;position:relative}
+.sc-card:hover{box-shadow:var(--shadow-md);border-color:var(--accent-mid);transform:translateY(-1px)}
+.sc-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sc-card-checkbox{width:16px;height:16px;border:2px solid var(--border);border-radius:3px;cursor:pointer;accent-color:var(--accent)}
+.sc-card-name{font-size:14px;font-weight:700;color:var(--text);margin-left:8px;flex:1}
+.sc-card-star{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;color:var(--light);cursor:pointer;transition:color .15s;font-size:14px}
+.sc-card-star:hover,.sc-card-star.active{color:#f59e0b}
+.sc-card-more{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;color:var(--muted);cursor:pointer;font-size:16px}
+.sc-card-more:hover{background:var(--bg)}
+.sc-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.sc-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;color:var(--muted);background:var(--bg)}
+.sc-year-label{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.3px}
+.sc-metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:12px}
+.sc-metric{padding:6px 0}
+.sc-metric-label{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);margin-bottom:3px}
+.sc-metric-val{font-size:14px;font-weight:700;color:var(--text)}
+.sc-metric-icon{font-size:11px}
+.sc-bars-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sc-bars-col{}
+.sc-bars-col-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.sc-bar-item{margin-bottom:8px}
+.sc-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:3px}
+.sc-bar-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.sc-bar-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px;transition:width .4s ease}
+.sc-bar-val{font-size:10px;font-weight:600;color:var(--muted)}
+.sc-forecast-bar{margin-bottom:7px}
+.sc-forecast-label{font-size:11px;color:var(--muted);margin-bottom:3px;font-weight:500}
+.sc-forecast-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:2px}
+.sc-forecast-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px}
+.sc-forecast-pct{font-size:10px;font-weight:700;color:#7c3aed}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px}
+
+/* ════════ SCENARIO DETAIL PAGE ════════ */
+#page-scenario-detail{flex-direction:column;overflow:hidden}
+.scd-topbar{height:40px;background:var(--accent-dark);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0}
+.scd-topbar-bc{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7)}
+.scd-topbar-bc .scd-bc-seg{color:#fff;font-weight:600;cursor:pointer}.scd-topbar-bc .scd-bc-seg:hover{opacity:.8}
+.scd-topbar-bc .scd-bc-sep{opacity:.4}
+.scd-topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.scd-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);color:#fff;background:rgba(255,255,255,.12)}
+.scd-subbar{height:36px;background:#1a1a2e;display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+.scd-mroi-label{font-size:11px;color:rgba(255,255,255,.6)}
+.scd-mroi-buckets{display:flex;gap:10px}
+.scd-bucket{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.8)}
+.scd-bucket-dot{width:8px;height:8px;border-radius:50%}
+.scd-constraint-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.scd-constraint-input{flex:1;border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:inherit;color:var(--muted);outline:none;transition:border .15s;background:var(--bg)}
+.scd-constraint-input:focus{border-color:var(--accent);color:var(--text)}
+.scd-constraint-btn{width:30px;height:30px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.scd-year-sel{padding:5px 10px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:12px;cursor:pointer;font-family:inherit;outline:none}
+.scd-download{width:28px;height:28px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.scd-body{flex:1;display:flex;overflow:hidden}
+.scd-summary{width:200px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.scd-summary::-webkit-scrollbar{width:3px}
+.scd-summary::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.scd-sum-header{padding:12px 14px 8px;border-bottom:1px solid var(--border)}
+.scd-sum-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.scd-sum-metrics{padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.scd-sum-metric{display:flex;flex-direction:column;gap:1px}
+.scd-sum-label{font-size:10px;color:var(--muted)}
+.scd-sum-val{font-size:14px;font-weight:700;color:var(--text)}
+.scd-sum-view-more{padding:6px 14px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px}
+.scd-kpi-section{padding:10px 14px;border-top:1px solid var(--border)}
+.scd-kpi-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:5px;cursor:pointer}
+.scd-kpi-item{font-size:11px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:color .15s}
+.scd-kpi-item:hover{color:var(--accent)}
+.scd-kpi-item:last-child{border-bottom:none}
+.scd-main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.scd-team-header{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);flex-shrink:0}
+.scd-team-title-area{}
+.scd-team-super{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.scd-team-name{font-size:15px;font-weight:700;color:var(--text)}
+.scd-view-tabs{display:flex;gap:4px;background:var(--bg);border-radius:var(--r-sm);padding:3px}
+.scd-view-tab{padding:4px 12px;border-radius:5px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:all .15s}
+.scd-view-tab.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow-sm)}
+.scd-table-wrap{flex:1;overflow:auto}
+.scd-table-wrap::-webkit-scrollbar{width:4px;height:4px}
+.scd-table-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.scd-kpi-col{width:220px;background:var(--surface);border-right:1px solid var(--border);flex-shrink:0;position:sticky;left:0;z-index:2}
+.scd-kpi-col-header{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;position:sticky;top:0;z-index:3}
+.scd-section-header{padding:6px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+.scd-section-icon{font-size:11px}
+.scd-kpi-row{padding:7px 14px;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.scd-team-col{min-width:200px;border-right:1px solid var(--border);flex-shrink:0;vertical-align:top}
+.scd-team-col-header{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:2;white-space:nowrap}
+.scd-team-fte{font-size:13px;font-weight:700;color:var(--text)}
+.scd-team-cell{padding:7px 14px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text)}
+.scd-bar-cell{padding:5px 14px;border-bottom:1px solid var(--border)}
+.scd-bar-h{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;position:relative}
+.scd-bar-f{height:100%;border-radius:3px}
+.scd-bar-f.teal{background:linear-gradient(90deg,#0d9488,#2dd4bf)}
+.scd-bar-f.green{background:linear-gradient(90deg,#059669,#34d399)}
+.scd-bar-f.purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+.scd-mini-chart{display:flex;align-items:flex-end;gap:2px;height:24px;padding:2px 14px 4px}
+.scd-mini-bar{border-radius:2px 2px 0 0}
+.scd-donut-cell{padding:5px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.scd-donut{width:44px;height:44px;flex-shrink:0}
+.scd-range-cell{padding:5px 14px;border-bottom:1px solid var(--border)}
+.scd-range-track{height:6px;background:var(--bg);border-radius:3px;position:relative;margin-bottom:3px}
+.scd-range-fill{height:100%;background:var(--accent);border-radius:3px;position:absolute}
+.scd-range-thumb{width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid #fff;position:absolute;top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.scd-range-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--light)}
+.scd-grid-table{display:flex;min-width:100%}
+
 /* ── THINKING MODE TILE ── */
 .entry-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
 .entry-card-thinking{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:22px 20px;cursor:default;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:border .2s;grid-column:1/-1}
@@ -106,10 +241,12 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .edit-field label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
 .edit-input{padding:7px 10px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:12px;font-family:inherit;color:var(--text);background:var(--surface);transition:border .15s;width:100%}
 .edit-input:focus{outline:none;border-color:var(--accent)}
-#page-bot{flex-direction:row}
+#page-bot{flex-direction:row;overflow:hidden;height:100%}
 
 /* progress sidebar */
-.bot-progress{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:20px 0}
+.bot-progress{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:20px 0;overflow-y:auto;overflow-x:hidden}
+.bot-progress::-webkit-scrollbar{width:3px}
+.bot-progress::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 .bp-header{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
 .bp-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
 .bp-sub{font-size:11px;color:var(--muted)}
@@ -155,10 +292,14 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-reset:hover{border-color:var(--accent);color:var(--accent)}
 
 /* chat area */
-.bot-chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.chat-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
-.chat-messages::-webkit-scrollbar{width:4px}
+.bot-chat{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.chat-messages{flex:1;min-height:0;overflow-y:auto;padding:20px 24px 40px}
+.chat-messages::-webkit-scrollbar{width:6px}
 .chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+/* children of chat-messages stack vertically */
+.chat-messages > *{display:block;margin-bottom:14px}
+.chat-messages > .msg-bot{display:flex}
+.chat-messages > .msg-user{display:flex;justify-content:flex-end}
 
 /* message bubbles */
 .msg-bot{display:flex;align-items:flex-start;gap:10px;max-width:80%}
@@ -191,7 +332,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sc-item .sc-label{font-size:11px;color:var(--light)}
 .sc-item .sc-val{font-size:13px;font-weight:500;color:var(--text)}
-.sc-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;margin:2px 2px 0 0}
+.sc-sum-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;margin:2px 2px 0 0}
 
 /* typing indicator */
 .typing-indicator{display:flex;align-items:flex-start;gap:10px}
@@ -650,6 +791,14 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         <div class="bp-item-sub" id="bps-4">Confirm all details</div>
       </div>
     </div>
+    <div class="bp-connector" id="bpc-4"></div>
+    <div class="bp-item" id="bp-5" style="display:none" onclick="" title="Scenario step">
+      <div class="bp-dot" id="bpd-5">6</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Scenario</div>
+        <div class="bp-item-sub" id="bps-5">Optional sizing scenario</div>
+      </div>
+    </div>
 
     <div class="bp-footer">
       <button class="bp-reset" onclick="goEntry()">← Back to home</button>
@@ -769,6 +918,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="tabs">
         <div class="tab active" id="tab-brands" onclick="switchTab('brands')">📊 Brands</div>
         <div class="tab" id="tab-teams" onclick="switchTab('teams')">👥 Teams</div>
+        <div class="tab" id="tab-scenarios" onclick="goToAllScenarios()">🎯 Scenarios</div>
       </div>
       <div id="brands-pane">
         <div class="subtabs"><div class="subtab active">Brands</div><div class="subtab">Reporting Groups</div></div>
@@ -780,7 +930,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         </div>
       </div>
       <div id="teams-pane" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;color:var(--muted)">All Structures</span><span class="scenario-btn" onclick="openModal('scenario')">+ Scenario</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;color:var(--muted)">All Structures</span><span class="scenario-btn" onclick="openScenarioModal('detail')">+ Scenario</span></div>
         <div class="structure-card">
           <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
           <div class="team-count">All Teams (4):</div>
@@ -790,6 +940,481 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
           </div>
           <div class="used-label">Used in scenarios (2):</div>
           <div class="scenario-tags"><span class="scenario-tag">↑ Test</span><span class="scenario-tag">↑ Test2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     PAGE 4 — ALL SCENARIOS
+════════════════════════════ -->
+<div class="page" id="page-scenarios">
+  <div class="sc-page-header">
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div class="sc-page-title">All Scenarios</div>
+    </div>
+    <div class="sc-page-actions">
+      <div style="display:flex;gap:6px">
+        <button class="icon-btn" title="Sort" onclick="">↕</button>
+        <button class="icon-btn" title="Filter" onclick="">⊟</button>
+        <button class="icon-btn" title="Search" onclick="">⌕</button>
+      </div>
+    </div>
+  </div>
+  <div class="sc-page-body">
+    <div class="sc-grid" id="sc-grid">
+      <!-- Card 1: Test2 -->
+      <div class="sc-card" onclick="openScenarioDetail('Test2')">
+        <div class="sc-card-header">
+          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
+          <div class="sc-card-name" style="margin-left:8px">Test2</div>
+          <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
+          <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
+        </div>
+        <div class="sc-pills">
+          <span class="sc-pill">📅 2027</span>
+          <span class="sc-pill">⊞ Same Size</span>
+          <span class="sc-pill">👥 Team</span>
+        </div>
+        <div class="sc-year-label">2027</div>
+        <div class="sc-metrics-row">
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">⊞</span> FTEs</div>
+            <div class="sc-metric-val">2984</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">$</span> Impactable Revenue</div>
+            <div class="sc-metric-val">$6.08B</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">⊙</span> Spend</div>
+            <div class="sc-metric-val">$1.19B</div>
+          </div>
+        </div>
+        <div class="sc-metrics-row" style="margin-bottom:14px">
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> ROI</div>
+            <div class="sc-metric-val">410.75%</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> mROI</div>
+            <div class="sc-metric-val">0%</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span style="width:8px;height:8px;background:#3b82f6;border-radius:50%;display:inline-block"></span> Target MROI</div>
+            <div class="sc-metric-val" style="color:#3b82f6">0</div>
+          </div>
+        </div>
+        <div class="sc-bars-row">
+          <div class="sc-bars-col">
+            <div class="sc-bars-col-title">Team Size:</div>
+            <div class="sc-bar-item">
+              <div class="sc-bar-label"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;font-size:10px">Team Unconstraine...</span><span class="sc-bar-val">1,491</span></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
+            </div>
+            <div class="sc-bar-item">
+              <div class="sc-bar-label"><span style="font-size:10px">Team Unconstrained</span><span class="sc-bar-val">1,491</span></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
+            </div>
+          </div>
+          <div class="sc-bars-col">
+            <div class="sc-bars-col-title">Forecast Attainment:</div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_1</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:54%"></div></div>
+              <div class="sc-forecast-pct">538280.19%</div>
+            </div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_2</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:82%"></div></div>
+              <div class="sc-forecast-pct">3216808.44%</div>
+            </div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_3</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:100%"></div></div>
+              <div class="sc-forecast-pct">4325165.7%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Test -->
+      <div class="sc-card" onclick="openScenarioDetail('Test')">
+        <div class="sc-card-header">
+          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
+          <div class="sc-card-name" style="margin-left:8px">Test</div>
+          <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
+          <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
+        </div>
+        <div class="sc-pills">
+          <span class="sc-pill">📅 2027</span>
+          <span class="sc-pill">⊞ Same Size</span>
+          <span class="sc-pill">👥 Team</span>
+        </div>
+        <div class="sc-year-label">2027</div>
+        <div class="sc-metrics-row">
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">⊞</span> FTEs</div>
+            <div class="sc-metric-val">2984</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">$</span> Impactable Revenue</div>
+            <div class="sc-metric-val">$6.08B</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">⊙</span> Spend</div>
+            <div class="sc-metric-val">$1.19B</div>
+          </div>
+        </div>
+        <div class="sc-metrics-row" style="margin-bottom:14px">
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> ROI</div>
+            <div class="sc-metric-val">410.72%</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> mROI</div>
+            <div class="sc-metric-val">0%</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label"><span style="width:8px;height:8px;background:#3b82f6;border-radius:50%;display:inline-block"></span> Target MROI</div>
+            <div class="sc-metric-val" style="color:#3b82f6">0</div>
+          </div>
+        </div>
+        <div class="sc-bars-row">
+          <div class="sc-bars-col">
+            <div class="sc-bars-col-title">Team Size:</div>
+            <div class="sc-bar-item">
+              <div class="sc-bar-label"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;font-size:10px">Team Unconstraine...</span><span class="sc-bar-val">1,491</span></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
+            </div>
+            <div class="sc-bar-item">
+              <div class="sc-bar-label"><span style="font-size:10px">Team Unconstrained</span><span class="sc-bar-val">1,491</span></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
+            </div>
+          </div>
+          <div class="sc-bars-col">
+            <div class="sc-bars-col-title">Forecast Attainment:</div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_1</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:54%"></div></div>
+              <div class="sc-forecast-pct">538280.19%</div>
+            </div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_2</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:82%"></div></div>
+              <div class="sc-forecast-pct">3216808.44%</div>
+            </div>
+            <div class="sc-forecast-bar">
+              <div class="sc-forecast-label" style="font-size:10px">Brand_3</div>
+              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:100%"></div></div>
+              <div class="sc-forecast-pct">4325165.7%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 5 — SCENARIO DETAIL
+════════════════════════════ -->
+<div class="page" id="page-scenario-detail">
+  <!-- Dark top bar matching screenshot -->
+  <div class="scd-topbar">
+    <div class="scd-topbar-bc">
+      <span class="scd-bc-seg" onclick="goWorkspaces()">All Projects</span>
+      <span class="scd-bc-sep">›</span>
+      <span class="scd-bc-seg" onclick="openWorkspace(currentWS||'NNI Test')">NNI Test</span>
+      <span class="scd-bc-sep">›</span>
+      <span style="color:rgba(255,255,255,.5)">All Scenarios</span>
+      <span class="scd-bc-sep">:</span>
+      <span class="scd-bc-seg" id="scd-scenario-name">Test2</span>
+      <span style="font-size:11px;color:rgba(255,255,255,.4);margin-left:4px">✎</span>
+    </div>
+    <div class="scd-topbar-right">
+      <span class="scd-tag">⊞ Sizing: Same Size</span>
+      <span class="scd-tag">👥 Structure: Team</span>
+      <span class="scd-tag">🏷 Brands: Brand_1, Brand_2, Brand_3</span>
+      <span class="scd-tag" style="background:rgba(59,130,246,.3);border-color:rgba(59,130,246,.5)">🎯 Objectives: 2027: Maximum Profitability</span>
+    </div>
+  </div>
+  <!-- Sub bar: mROI buckets -->
+  <div class="scd-subbar">
+    <div class="scd-mroi-label">mROI Buckets:</div>
+    <div class="scd-mroi-buckets">
+      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#22c55e"></div>&gt;20%</div>
+      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#f59e0b"></div>0–20%</div>
+      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#ef4444"></div>&lt;0%</div>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+      <select class="scd-year-sel">
+        <option>2027 ▾</option><option>2028</option><option>2029</option>
+      </select>
+      <button class="scd-download" title="Download">⬇</button>
+    </div>
+  </div>
+  <!-- Constraint / NLQ bar -->
+  <div class="scd-constraint-bar">
+    <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center">🏠</button>
+    <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent-light);color:var(--accent);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700">＋</button>
+    <div style="position:relative;flex:1">
+      <input class="scd-constraint-input" placeholder="✦  Try: Adding constraints"/>
+    </div>
+    <button class="scd-constraint-btn">➤</button>
+  </div>
+
+  <!-- Main body: summary sidebar + data table -->
+  <div class="scd-body">
+    <!-- Left Summary Panel -->
+    <div class="scd-summary">
+      <div class="scd-sum-header">
+        <div class="scd-sum-title">Teams: All Teams</div>
+      </div>
+      <div style="padding:8px 14px 4px;font-size:12px;font-weight:700;color:var(--text)">Summary</div>
+      <div class="scd-sum-metrics">
+        <div class="scd-sum-metric"><div class="scd-sum-label">FTEs</div><div class="scd-sum-val">2,984</div></div>
+        <div class="scd-sum-metric"><div class="scd-sum-label">Spend ($)</div><div class="scd-sum-val">$1.19B</div></div>
+        <div class="scd-sum-metric"><div class="scd-sum-label">Impactable Revenue ($)</div><div class="scd-sum-val">$6.08B</div></div>
+        <div class="scd-sum-metric"><div class="scd-sum-label">ROI</div><div class="scd-sum-val">410.74%</div></div>
+        <div class="scd-sum-metric"><div class="scd-sum-label">mROI</div><div class="scd-sum-val">0.00%</div></div>
+      </div>
+      <div class="scd-sum-view-more">▾ View More</div>
+
+      <!-- KPI Selection -->
+      <div class="scd-kpi-section">
+        <div class="scd-kpi-title">▾ Select KPIs</div>
+        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#7c3aed">⊞ Headcount</div>
+        <div class="scd-kpi-item" style="color:var(--text);font-weight:500">FTEs</div>
+        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#059669">$ Financials</div>
+        <div class="scd-kpi-item">Spend ($)</div>
+        <div class="scd-kpi-item">Impactable Revenue ($)</div>
+        <div class="scd-kpi-item">ROI</div>
+        <div class="scd-kpi-item">mROI</div>
+        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#0891b2">⊙ Coverage</div>
+        <div class="scd-kpi-item">Reached / Target Customer</div>
+        <div class="scd-kpi-item">Avg Customer / FTE</div>
+        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:var(--accent)">★ Effort</div>
+        <div class="scd-kpi-item">Calls</div>
+        <div class="scd-kpi-item">Call Frequency</div>
+        <div class="scd-kpi-item">PDE Frequency</div>
+        <div class="scd-kpi-item">Distribution By Brands</div>
+      </div>
+    </div>
+
+    <!-- Main Data Table -->
+    <div class="scd-main">
+      <div class="scd-team-header">
+        <div class="scd-team-title-area">
+          <div class="scd-team-super">Teams:</div>
+          <div class="scd-team-name">All Teams</div>
+        </div>
+        <div class="scd-view-tabs">
+          <button class="scd-view-tab active" onclick="setScdView('teams',this)">Teams</button>
+          <button class="scd-view-tab" onclick="setScdView('brands',this)">Brands</button>
+          <button class="scd-view-tab" onclick="setScdView('customers',this)">Customers</button>
+          <button class="scd-view-tab" style="padding:4px 8px;font-size:14px" onclick="">⊞</button>
+          <button class="scd-view-tab" style="padding:4px 8px;font-size:14px" onclick="">≡</button>
+        </div>
+      </div>
+
+      <div class="scd-table-wrap" id="scd-table-wrap">
+        <div class="scd-grid-table">
+          <!-- Sticky left KPI column -->
+          <div class="scd-kpi-col">
+            <div class="scd-kpi-col-header">▾ Select KPIs</div>
+            <!-- Headcount section -->
+            <div class="scd-section-header"><span class="scd-section-icon">⊞</span> Headcount</div>
+            <div class="scd-kpi-row">FTEs</div>
+            <!-- Financials section -->
+            <div class="scd-section-header"><span class="scd-section-icon">$</span> Financials</div>
+            <div class="scd-kpi-row" style="height:36px">Spend ($)</div>
+            <div class="scd-kpi-row" style="height:36px">Impactable Revenue ($)</div>
+            <div class="scd-kpi-row">ROI</div>
+            <div class="scd-kpi-row">mROI</div>
+            <!-- Coverage section -->
+            <div class="scd-section-header"><span class="scd-section-icon">⊙</span> Coverage</div>
+            <div class="scd-kpi-row" style="height:62px">Reached / Target Customer</div>
+            <div class="scd-kpi-row">Avg Customer / FTE</div>
+            <!-- Effort section -->
+            <div class="scd-section-header"><span class="scd-section-icon">★</span> Effort</div>
+            <div class="scd-kpi-row">Calls</div>
+            <div class="scd-kpi-row" style="height:44px">Call Frequency</div>
+            <div class="scd-kpi-row" style="height:44px">PDE Frequency</div>
+            <div class="scd-kpi-row" style="height:44px">Distribution By Brands</div>
+          </div>
+
+          <!-- Team Unconstrained col -->
+          <div class="scd-team-col">
+            <div class="scd-team-col-header">
+              <span>👤</span>
+              <div>
+                <div style="font-size:10px;color:var(--muted);font-weight:400">Team Unconstrained</div>
+                <div class="scd-team-fte">1,492</div>
+              </div>
+            </div>
+            <!-- FTEs -->
+            <div class="scd-team-cell">1,492</div>
+            <!-- Spend -->
+            <div class="scd-bar-cell" style="height:36px">
+              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$595.34M</div>
+              <div class="scd-bar-h"><div class="scd-bar-f teal" style="width:72%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$597M</span><span>$30M</span></div>
+            </div>
+            <!-- Impactable Revenue -->
+            <div class="scd-bar-cell" style="height:36px">
+              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$3.04B</div>
+              <div class="scd-bar-h"><div class="scd-bar-f green" style="width:60%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$3B</span><span>$1M</span></div>
+            </div>
+            <!-- ROI -->
+            <div class="scd-team-cell">410.73%</div>
+            <!-- mROI -->
+            <div class="scd-team-cell">0.00%</div>
+            <!-- Reached/Target -->
+            <div class="scd-donut-cell" style="height:62px">
+              <svg class="scd-donut" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
+                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
+                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
+              </svg>
+              <div style="font-size:10px;color:var(--muted)">289,463/402,884</div>
+            </div>
+            <!-- Avg Customer / FTE -->
+            <div class="scd-team-cell">194</div>
+            <!-- Calls -->
+            <div class="scd-team-cell">📞 2,089,046</div>
+            <!-- Call Frequency -->
+            <div class="scd-range-cell" style="height:44px">
+              <div class="scd-range-track"><div class="scd-range-fill" style="width:30%;left:20%"></div><div class="scd-range-thumb" style="left:50%"></div></div>
+              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">7</span><span>24</span></div>
+            </div>
+            <!-- PDE Frequency -->
+            <div class="scd-range-cell" style="height:44px">
+              <div class="scd-range-track"><div class="scd-range-fill" style="width:25%;left:20%"></div><div class="scd-range-thumb" style="left:45%"></div></div>
+              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">11</span><span>38</span></div>
+            </div>
+            <!-- Distribution By Brands -->
+            <div class="scd-bar-cell" style="height:44px;display:flex;align-items:flex-end;gap:2px;padding-bottom:8px">
+              <div style="flex:1;background:#3b82f6;height:30px;border-radius:2px 2px 0 0"></div>
+              <div style="flex:1;background:#10b981;height:20px;border-radius:2px 2px 0 0"></div>
+              <div style="flex:1;background:#f59e0b;height:25px;border-radius:2px 2px 0 0"></div>
+              <div style="display:flex;flex-direction:column;justify-content:flex-end;font-size:8px;color:var(--muted);gap:3px;margin-left:4px">
+                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#3b82f6;border-radius:1px;display:inline-block"></span>Brand_2</span>
+                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#10b981;border-radius:1px;display:inline-block"></span>Brand_3</span>
+                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#f59e0b;border-radius:1px;display:inline-block"></span>Brand_1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Unconstrained 2 -->
+          <div class="scd-team-col">
+            <div class="scd-team-col-header">
+              <span>👤</span>
+              <div>
+                <div style="font-size:10px;color:var(--muted);font-weight:400">Team Unconstrained 2</div>
+                <div class="scd-team-fte">1,492</div>
+              </div>
+            </div>
+            <div class="scd-team-cell">1,492</div>
+            <div class="scd-bar-cell" style="height:36px">
+              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$595.34M</div>
+              <div class="scd-bar-h"><div class="scd-bar-f teal" style="width:72%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$597M</span><span>$30M</span></div>
+            </div>
+            <div class="scd-bar-cell" style="height:36px">
+              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$3.04B</div>
+              <div class="scd-bar-h"><div class="scd-bar-f green" style="width:60%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$3B</span><span>$1M</span></div>
+            </div>
+            <div class="scd-team-cell">410.75%</div>
+            <div class="scd-team-cell">0.00%</div>
+            <div class="scd-donut-cell" style="height:62px">
+              <svg class="scd-donut" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
+                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
+                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
+              </svg>
+              <div style="font-size:10px;color:var(--muted)">289,460/402,884</div>
+            </div>
+            <div class="scd-team-cell">194</div>
+            <div class="scd-team-cell">📞 2,089,048</div>
+            <div class="scd-range-cell" style="height:44px">
+              <div class="scd-range-track"><div class="scd-range-fill" style="width:30%;left:20%"></div><div class="scd-range-thumb" style="left:50%"></div></div>
+              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">7</span><span>24</span></div>
+            </div>
+            <div class="scd-range-cell" style="height:44px">
+              <div class="scd-range-track"><div class="scd-range-fill" style="width:25%;left:20%"></div><div class="scd-range-thumb" style="left:45%"></div></div>
+              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">11</span><span>38</span></div>
+            </div>
+            <div class="scd-bar-cell" style="height:44px;display:flex;align-items:flex-end;gap:2px;padding-bottom:8px">
+              <div style="flex:1;background:#3b82f6;height:30px;border-radius:2px 2px 0 0"></div>
+              <div style="flex:1;background:#10b981;height:20px;border-radius:2px 2px 0 0"></div>
+              <div style="flex:1;background:#f59e0b;height:25px;border-radius:2px 2px 0 0"></div>
+            </div>
+          </div>
+
+          <!-- Team_1 -->
+          <div class="scd-team-col">
+            <div class="scd-team-col-header">
+              <span>👤</span>
+              <div>
+                <div style="font-size:10px;color:var(--muted);font-weight:400">Team_1</div>
+                <div class="scd-team-fte" style="color:var(--muted)">0</div>
+              </div>
+            </div>
+            <div class="scd-team-cell" style="color:var(--muted)">0</div>
+            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
+            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
+            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
+            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
+            <div class="scd-donut-cell" style="height:62px">
+              <svg class="scd-donut" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
+                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
+              </svg>
+              <div style="font-size:10px;color:var(--muted)">0/0</div>
+            </div>
+            <div class="scd-team-cell" style="color:var(--muted)">0</div>
+            <div class="scd-team-cell" style="color:var(--muted)">📞 0</div>
+            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+            <div class="scd-bar-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+          </div>
+
+          <!-- Team_2 -->
+          <div class="scd-team-col" style="border-right:none">
+            <div class="scd-team-col-header">
+              <span>👤</span>
+              <div>
+                <div style="font-size:10px;color:var(--muted);font-weight:400">Team_2</div>
+                <div class="scd-team-fte" style="color:var(--muted)">0</div>
+              </div>
+            </div>
+            <div class="scd-team-cell" style="color:var(--muted)">0</div>
+            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
+            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
+            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
+            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
+            <div class="scd-donut-cell" style="height:62px">
+              <svg class="scd-donut" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
+                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
+              </svg>
+              <div style="font-size:10px;color:var(--muted)">0/0</div>
+            </div>
+            <div class="scd-team-cell" style="color:var(--muted)">0</div>
+            <div class="scd-team-cell" style="color:var(--muted)">📞 0</div>
+            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+            <div class="scd-bar-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -946,20 +1571,123 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   </div>
 </div>
 
-<!-- SCENARIO MODAL -->
+<!-- SCENARIO MODAL — full featured -->
 <div class="overlay" id="modal-scenario">
-  <div class="modal" style="max-width:460px">
-    <div class="modal-header"><div class="modal-title">Add Scenario</div><button class="modal-close" onclick="closeModal('scenario')">✕</button></div>
-    <div class="modal-body">
-      <div class="step-panel active">
-        <div class="field-group"><label class="field-label">Scenario Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Test3"/></div>
-        <div class="field-group"><label class="field-label">Based on Structure</label><select class="field-select"><option>Team (existing)</option></select></div>
-        <div class="field-group"><label class="field-label">Description</label><textarea class="field-textarea" placeholder="Optional description"></textarea></div>
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">Add Scenario</div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:var(--muted)">Data auto-saved just now</span>
+        <button class="modal-close" onclick="closeScenarioModal()">✕</button>
       </div>
     </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:14px">
+
+      <!-- Row 1: Scenario Name + Customer Type -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field-group">
+          <label class="field-label">Scenario Name <span class="req">*</span></label>
+          <input class="field-input" id="sc-name" placeholder="Enter Scenario Name"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Customer Type <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px">
+            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">HCP <span style="cursor:pointer;margin-left:3px" onclick="this.parentElement.remove()">×</span></span>
+            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:60px;background:transparent" placeholder="Add type…"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Description -->
+      <div class="field-group">
+        <label class="field-label">Scenario Description</label>
+        <input class="field-input" id="sc-desc" placeholder="Enter Scenario Description"/>
+      </div>
+
+      <!-- Row 3: Sizing Horizon + Sizing Strategy -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Horizon <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" class="field-input" id="sc-start-year" placeholder="Start year" style="width:100px"/>
+            <span style="color:var(--muted);font-size:12px">–</span>
+            <input type="number" class="field-input" id="sc-end-year" placeholder="End year" style="width:100px"/>
+            <span style="font-size:14px;color:var(--muted);cursor:pointer" title="Pick date">📅</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Strategy Every Year <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="same" checked style="accent-color:var(--accent)"/> Same Size</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="diff" style="accent-color:var(--accent)"/> Different Size</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4: Brands + Structure -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Brands <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px;cursor:pointer" onclick="this.querySelector('input').focus()">
+            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_1 <span style="cursor:pointer;margin-left:3px">×</span></span>
+            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_2 <span style="cursor:pointer;margin-left:3px">×</span></span>
+            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:50px;background:transparent" placeholder=""/>
+            <span style="color:var(--muted);margin-left:auto">▾</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Structure <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <select class="field-select" id="sc-structure">
+            <option>Team</option>
+            <option>Team_1</option>
+            <option>Team_2</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Financial Assumption link -->
+      <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Financial Assumption options</div>
+
+      <!-- Row 5: Vary objective by year -->
+      <div class="field-group">
+        <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Do you want objective to vary by year? <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="yes" style="accent-color:var(--accent)"/> Yes</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="no" checked style="accent-color:var(--accent)"/> No</label>
+        </div>
+      </div>
+
+      <!-- Row 6: Objective + Target Value -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field-group" style="position:relative">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Objective <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <div style="position:relative">
+            <select class="field-select" id="sc-objective" style="appearance:none;-webkit-appearance:none;padding-right:32px">
+              <option value="">Select Objective</option>
+              <option value="Target MROI">Target MROI</option>
+              <option value="Target Revenue">Target Revenue</option>
+              <option value="Target Spend">Target Spend</option>
+              <option value="Fixed Headcount">Fixed Headcount</option>
+              <option value="Target Calls">Target Calls</option>
+            </select>
+            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted)">▾</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Target Value <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+          <input type="number" class="field-input" id="sc-target-val" value="0"/>
+        </div>
+      </div>
+
+      <!-- Coverage options link -->
+      <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Coverage options</div>
+
+    </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('scenario')">Cancel</button>
-      <div class="modal-footer-right"><button class="btn btn-primary" onclick="closeModal('scenario');showToast('Scenario created.')">Create Scenario</button></div>
+      <button class="btn btn-ghost" onclick="closeScenarioModal()">Cancel</button>
+      <div class="modal-footer-right">
+        <button class="btn btn-primary" id="sc-submit-btn" onclick="submitScenarioModal()">Add Scenario</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1140,7 +1868,7 @@ function appendProjectCard(prefill=false){
       </div>
     </div>
 
-    <!-- Row 2: Planning Scope + Discount Rate -->
+    <!-- Row 2: Planning Scope + Currency -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
@@ -1155,6 +1883,20 @@ function appendProjectCard(prefill=false){
       </div>
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
+          Currency <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
+        </label>
+        <select class="bic-select" id="bf-currency" onchange="autofillFromCurrency(this.value)">
+          <option value="">Select Currency</option>
+          ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 3: Discount Rate + Inflation Rate -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
           <span>Discount Rate (%) <span style="color:#e55">*</span>
             <span id="discount-auto-tag" style="display:none" class="auto-tag">
               <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1165,10 +1907,6 @@ function appendProjectCard(prefill=false){
         </label>
         <input class="bic-input" id="bf-discount_rate" type="number" placeholder="Enter Discount Rate (0 – 100)" min="0" max="100" value="${v('discount_rate')}" oninput="clearAutoTag('discount-auto-tag','bf-discount_rate')"/>
       </div>
-    </div>
-
-    <!-- Row 3: Inflation Rate + Currency -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
           <span>Inflation Rate (%) <span style="color:#e55">*</span>
@@ -1181,20 +1919,7 @@ function appendProjectCard(prefill=false){
         </label>
         <input class="bic-input" id="bf-inflation_rate" type="number" placeholder="Enter Inflation Rate (0 – 100)" min="0" max="100" value="${v('inflation_rate')}" oninput="clearAutoTag('inflation-auto-tag','bf-inflation_rate')"/>
       </div>
-      <div class="bic-field">
-        <label style="display:flex;align-items:center;justify-content:space-between">
-          Currency <span style="color:#e55">*</span>
-          <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
-        </label>
-        <select class="bic-select" id="bf-currency" onchange="autofillFromCurrency(this.value)">
-          <option value="">Select Currency</option>
-          ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
-        </select>
-      </div>
     </div>
-
-    <!-- Row 2b: Discount Rate auto-tag (inline with its label) -->
-    <!-- (Discount rate is in Row 2 above — we'll update that label too) -->
 
     <!-- Row 4: Project Description (full width) -->
     <div class="bic-field">
@@ -1579,13 +2304,13 @@ function appendTeamCard(prefill=false){
         <!-- sub-view: initial create team form (screenshots 2,3) -->
         <div id="team-create-view">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer">← Create Team</div>
-            <div style="display:flex;align-items:center;gap:14px;font-size:12px">
-              <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
-                <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block"></span> Team Info
+            <div style="font-size:13px;font-weight:600;color:var(--text)">Teams</div>
+            <div style="display:flex;align-items:center;gap:14px;font-size:12px" id="team-view-indicator">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer" onclick="togglePosEff(false)">
+                <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block" id="dot-team-info"></span> Team Info
               </label>
-              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)">
-                <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block"></span> Position Effectiveness
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)" onclick="togglePosEff(true)">
+                <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block" id="dot-pos-eff"></span> Position Effectiveness
               </label>
             </div>
           </div>
@@ -1662,7 +2387,13 @@ function appendTeamCard(prefill=false){
           </div>
           <!-- Position Effectiveness section (screenshots 4,5) — shown after create team -->
           <div id="team-pos-eff" style="display:none">
-            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:10px">← Position Effectiveness:</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+              
+              <div style="font-size:13px;font-weight:700;color:var(--text)">Position Effectiveness</div>
+              <div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--accent-light);border:1px solid #f5d5b5;border-radius:20px;padding:3px 10px">
+                <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block"></span> Active
+              </div>
+            </div>
             <div style="display:flex;gap:18px;margin-bottom:8px;font-size:13px">
               <span style="font-weight:500">Do you want to vary effectiveness by Years?</span>
               <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-yr" style="accent-color:var(--accent)"/> Yes</label>
@@ -1714,12 +2445,14 @@ function appendTeamCard(prefill=false){
                 </tbody>
               </table>
             </div>
+            <!-- Define Effectiveness footer inside pos-eff -->
+            <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:10px">
+              <button class="bic-submit" onclick="showTeamSummary()">Define Effectiveness →</button>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
-            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="toggleTeamHCPDetail()">
-              <span id="hcp-toggle-label">Show HCP Detail</span>
-            </button>
-            <button class="bic-submit" onclick="showTeamSummary()">Create Team & Define Effectiveness →</button>
+          <!-- Footer: only shown in Team Info view (pos-eff hidden) -->
+          <div id="team-create-footer" style="display:flex;align-items:center;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
+            <button class="bic-submit" onclick="togglePosEff(true)">Create Team →</button>
           </div>
         </div>
 
@@ -2179,17 +2912,35 @@ function toggleBrandEffTable(show){
   document.getElementById('show-positions-row').style.display=show?'flex':'none';
 }
 
-function toggleTeamHCPDetail(){
-  const d=document.getElementById('team-hcp-detail');
-  const open=d.style.display==='';
-  d.style.display=open?'none':'';
-  const btn=document.getElementById('hcp-toggle-label');
-  if(btn) btn.textContent=open?'Show HCP Detail':'Hide HCP Detail';
-  if(!open){
-    // show position effectiveness after a moment
-    setTimeout(()=>{
-      document.getElementById('team-pos-eff').style.display='';
-    }, 300);
+function togglePosEff(show){
+  const posEff = document.getElementById('team-pos-eff');
+  const footer = document.getElementById('team-create-footer');
+  const hcpDetail = document.getElementById('team-hcp-detail');
+  const dotTeam = document.getElementById('dot-team-info');
+  const dotPE = document.getElementById('dot-pos-eff');
+  const lblTeam = dotTeam?.parentElement;
+  const lblPE = dotPE?.parentElement;
+
+  if(show){
+    // Switch to Position Effectiveness view
+    if(posEff) posEff.style.display = '';
+    if(footer) footer.style.display = 'none';
+    if(hcpDetail && hcpDetail.style.display === 'none') hcpDetail.style.display = '';
+    // Update dot indicators
+    if(dotTeam){ dotTeam.style.background='transparent'; dotTeam.style.border='1.5px solid var(--muted)'; }
+    if(dotPE){ dotPE.style.background='var(--accent)'; dotPE.style.border='none'; }
+    if(lblTeam) lblTeam.style.color='var(--muted)';
+    if(lblPE) lblPE.style.color='var(--accent)';
+    requestAnimationFrame(()=>{ posEff?.scrollIntoView({behavior:'smooth', block:'nearest'}); });
+  } else {
+    // Back to Team Info
+    if(posEff) posEff.style.display = 'none';
+    if(footer) footer.style.display = 'flex';
+    // Update dot indicators
+    if(dotTeam){ dotTeam.style.background='var(--accent)'; dotTeam.style.border='none'; }
+    if(dotPE){ dotPE.style.background='transparent'; dotPE.style.border='1.5px solid var(--muted)'; }
+    if(lblTeam) lblTeam.style.color='var(--text)';
+    if(lblPE) lblPE.style.color='var(--muted)';
   }
 }
 
@@ -2433,7 +3184,7 @@ function finalCreate(){
   statusCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
     <div style="flex:1">
       <div class="msg-bot-bubble" style="margin-bottom:8px">Creating your workflow — this will take a moment…</div>
-      <div class="creation-status">${statusHtml}</div>
+
     </div>`;
   wrap.appendChild(statusCard);
   wrap.scrollTop=wrap.scrollHeight;
@@ -2454,7 +3205,7 @@ function finalCreate(){
     }, s.delay+600);
   });
 
-  // final success message
+  // final success message + scenario prompt
   setTimeout(()=>{
     [0,1,2,3,4].forEach(i=>{
       document.getElementById('bp-'+i).className='bp-item done';
@@ -2464,15 +3215,30 @@ function finalCreate(){
     msg.className='msg-bot';
     msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
       <strong>Workflow created successfully! ✓</strong><br>
-      Workspace <strong>${collected.ws_name||'New Workspace'}</strong> is ready with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong> and team <strong>${collected.team_name||'Team'}</strong>.<br><br>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="qr-chip" onclick="openCreatedWorkspace()">Open workspace →</button>
-        <button class="qr-chip" onclick="startCreateWorkflow()">Create another</button>
-      </div>
+      Workspace <strong>${collected.ws_name||'New Workspace'}</strong> is ready with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong> and team <strong>${collected.team_name||'Team'}</strong>.
     </div>`;
     wrap.appendChild(msg);
     wrap.scrollTop=wrap.scrollHeight;
     showToast('Workflow created successfully.');
+
+    // Ask about scenario after short delay
+    setTimeout(()=>{
+      const scMsg=document.createElement('div');
+      scMsg.className='msg-bot';
+      scMsg.id='scenario-prompt-msg';
+      scMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+        <div style="flex:1">
+          <div class="msg-bot-bubble" style="margin-bottom:10px">
+            Would you like to <strong>create a scenario</strong> for this workflow? Scenarios let you model different sizing strategies, objectives and targets.
+          </div>
+          <div class="quick-replies">
+            <button class="qr-chip" style="background:var(--accent);color:#fff;border-color:var(--accent)" onclick="startPostWorkflowScenario()">✦ Yes, create a scenario</button>
+            <button class="qr-chip" onclick="skipScenarioGoTeams()">No, go to workspace →</button>
+          </div>
+        </div>`;
+      wrap.appendChild(scMsg);
+      wrap.scrollTop=wrap.scrollHeight;
+    }, 700);
   }, 4400);
 }
 
@@ -2817,6 +3583,291 @@ function openModal(id){
   if(id==='brand'){brandCurrentStep=1;renderBrandSteps();}
   if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
   document.getElementById('modal-'+id)?.classList.add('open');
+}
+
+/* ══ POST-WORKFLOW SCENARIO FLOW (in-chat bot card) ══ */
+
+function startPostWorkflowScenario(){
+  document.getElementById('scenario-prompt-msg')?.remove();
+
+  // Show scenario step in sidebar
+  const bp5 = document.getElementById('bp-5');
+  const bpc4 = document.getElementById('bpc-4');
+  if(bp5) { bp5.style.display='flex'; bp5.className='bp-item active'; }
+  if(bpc4) bpc4.style.display='block';
+
+  const wrap = document.getElementById('chat-messages');
+
+  // Bot message
+  const botMsg = document.createElement('div');
+  botMsg.className = 'msg-bot';
+  botMsg.innerHTML = `<div class="msg-bot-avatar">✦</div>
+    <div class="msg-bot-bubble">Great! Let's set up your scenario. Fill in the details below — this defines the sizing strategy, brands, and objectives for this workflow run.</div>`;
+  wrap.appendChild(botMsg);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  setTimeout(()=>{
+    appendScenarioBotCard();
+  }, 500);
+}
+
+function appendScenarioBotCard(){
+  const wrap = document.getElementById('chat-messages');
+  document.getElementById('sc-bot-card')?.remove();
+
+  const card = document.createElement('div');
+  card.className = 'sc-bot-card';
+  card.id = 'sc-bot-card';
+  card.innerHTML = `
+    <!-- Header -->
+    <div style="background:var(--accent);padding:10px 18px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.6px">Add Scenario</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7)">Data auto-saved</div>
+    </div>
+
+    <!-- Compact body: 2-column grid of all fields (scrollable) -->
+    <div class="sc-bot-card-body">
+    <div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+      <!-- Col 1, Row 1: Scenario Name -->
+      <div class="bic-field">
+        <label>Scenario Name <span style="color:var(--accent)">*</span></label>
+        <input class="bic-input" id="sc-bot-name" placeholder="e.g. Test2"/>
+      </div>
+
+      <!-- Col 2, Row 1: Customer Type -->
+      <div class="bic-field">
+        <label>Customer Type <span style="color:var(--accent)">*</span></label>
+        <div class="sc-tag-input" onclick="this.querySelector('input').focus()" style="min-height:34px;padding:4px 8px">
+          <span class="sc-tag">HCP <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
+          <input class="sc-tag-ghost" placeholder="Add…" onkeydown="if(event.key==='Enter'&&this.value.trim()){const t=document.createElement('span');t.className='sc-tag';t.innerHTML=this.value.trim()+' <span class=sc-tag-x onclick=this.parentElement.remove()>×</span>';this.parentElement.insertBefore(t,this);this.value='';event.preventDefault();}"/>
+        </div>
+      </div>
+
+      <!-- Col 1+2, Row 2: Description (full width) -->
+      <div class="bic-field" style="grid-column:1/-1">
+        <label>Scenario Description</label>
+        <input class="bic-input" id="sc-bot-desc" placeholder="Enter Scenario Description"/>
+      </div>
+
+      <!-- Col 1, Row 3: Sizing Horizon -->
+      <div class="bic-field">
+        <label>Sizing Horizon <span style="color:var(--accent)">*</span>
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Planning year range">ⓘ</span>
+        </label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input class="bic-input" id="sc-bot-start" type="number" placeholder="Start year" style="flex:1"/>
+          <span style="color:var(--muted);font-size:12px">–</span>
+          <input class="bic-input" id="sc-bot-end" type="number" placeholder="End year" style="flex:1"/>
+        </div>
+      </div>
+
+      <!-- Col 2, Row 3: Sizing Strategy -->
+      <div class="bic-field">
+        <label>Sizing Strategy Every Year <span style="color:var(--accent)">*</span>
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Same or different size each year">ⓘ</span>
+        </label>
+        <div class="sc-radio-group" style="margin-top:8px">
+          <label><input type="radio" name="sc-bot-strategy" value="same" checked/> Same Size</label>
+          <label><input type="radio" name="sc-bot-strategy" value="diff"/> Different Size</label>
+        </div>
+      </div>
+
+      <!-- Col 1, Row 4: Brands -->
+      <div class="bic-field">
+        <label>Brands <span style="color:var(--accent)">*</span>
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Select brands">ⓘ</span>
+        </label>
+        <div class="sc-tag-input" onclick="this.querySelector('input').focus()" style="min-height:34px;padding:4px 8px">
+          <span class="sc-tag">Brand_1 <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
+          <span class="sc-tag">Brand_2 <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
+          <input class="sc-tag-ghost" placeholder="Add…" onkeydown="if(event.key==='Enter'&&this.value.trim()){const t=document.createElement('span');t.className='sc-tag';t.innerHTML=this.value.trim()+' <span class=sc-tag-x onclick=this.parentElement.remove()>×</span>';this.parentElement.insertBefore(t,this);this.value='';event.preventDefault();}"/>
+        </div>
+      </div>
+
+      <!-- Col 2, Row 4: Structure -->
+      <div class="bic-field">
+        <label>Structure <span style="color:var(--accent)">*</span>
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Team structure">ⓘ</span>
+        </label>
+        <select class="bic-select" id="sc-bot-structure">
+          <option value="Team">Team</option>
+          <option value="Team_1">Team_1</option>
+          <option value="Team_2">Team_2</option>
+        </select>
+      </div>
+
+      <!-- Financial assumption link (full width) -->
+      <div style="grid-column:1/-1;font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:-4px">
+        ✎ <span>Financial Assumption options</span>
+      </div>
+
+      <!-- Col 1+2: Vary objective (full width) -->
+      <div class="bic-field" style="grid-column:1/-1">
+        <label>Do you want objective to vary by year?
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Vary objective per year">ⓘ</span>
+        </label>
+        <div class="sc-radio-group" style="margin-top:6px">
+          <label><input type="radio" name="sc-bot-vary" value="yes"/> Yes</label>
+          <label><input type="radio" name="sc-bot-vary" value="no" checked/> No</label>
+        </div>
+      </div>
+
+      <!-- Col 1, Row 6: Objective -->
+      <div class="bic-field">
+        <label>Objective <span style="color:var(--accent)">*</span>
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Sizing objective">ⓘ</span>
+        </label>
+        <select class="bic-select" id="sc-bot-obj">
+          <option value="">Select Objective</option>
+          <option value="Target MROI">Target MROI</option>
+          <option value="Target Revenue">Target Revenue</option>
+          <option value="Target Spend">Target Spend</option>
+          <option value="Fixed Headcount">Fixed Headcount</option>
+          <option value="Target Calls">Target Calls</option>
+        </select>
+      </div>
+
+      <!-- Col 2, Row 6: Target Value -->
+      <div class="bic-field">
+        <label>Target Value
+          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Target value">ⓘ</span>
+        </label>
+        <input class="bic-input" id="sc-bot-target" type="number" value="0"/>
+      </div>
+
+      <!-- Coverage link (full width) -->
+      <div style="grid-column:1/-1;font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:-4px">
+        ✎ <span>Coverage options</span>
+      </div>
+
+    </div><!-- /grid -->
+    </div><!-- /sc-bot-card-body -->
+
+    <!-- Footer — always visible, pinned to bottom -->
+    <div class="sc-bot-footer">
+      <button class="btn btn-ghost btn-sm" onclick="skipScenarioGoTeams()" style="margin-right:8px">Skip →</button>
+      <button class="sc-submit-btn" onclick="submitScenarioBotCard()">Add Scenario →</button>
+    </div>
+  `;
+  wrap.appendChild(card);
+  // Scroll card into view — header pinned, footer pinned, middle scrolls
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      card.scrollIntoView({behavior:'smooth', block:'nearest'});
+      setTimeout(()=>document.getElementById('sc-bot-name')?.focus(), 300);
+    });
+  });
+}
+
+function submitScenarioBotCard(){
+  const name = document.getElementById('sc-bot-name')?.value?.trim();
+  if(!name){ document.getElementById('sc-bot-name').focus(); showToast('Please enter a scenario name.'); return; }
+  const obj = document.getElementById('sc-bot-obj')?.value;
+  if(!obj){ document.getElementById('sc-bot-obj').focus(); showToast('Please select an objective.'); return; }
+
+  const start = document.getElementById('sc-bot-start')?.value || '2027';
+  const end   = document.getElementById('sc-bot-end')?.value   || '2029';
+  const struct = document.getElementById('sc-bot-structure')?.value || 'Team';
+  const target = document.getElementById('sc-bot-target')?.value || '0';
+
+  document.getElementById('sc-bot-card')?.remove();
+
+  const wrap = document.getElementById('chat-messages');
+
+  // User summary bubble
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg-user';
+  userMsg.innerHTML = `<div class="msg-user-bubble">
+    Scenario: <strong>${name}</strong> · ${start}–${end} · ${struct} · <em>${obj}</em> (Target: ${target})
+  </div>`;
+  wrap.appendChild(userMsg);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  // Mark scenario step done in sidebar
+  const bp5 = document.getElementById('bp-5');
+  if(bp5){ bp5.className='bp-item done'; bp5.querySelector('.bp-dot').textContent='✓'; }
+
+  // Bot confirmation + navigation
+  setTimeout(()=>{
+    const confirmMsg = document.createElement('div');
+    confirmMsg.className = 'msg-bot';
+    confirmMsg.innerHTML = `<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">
+        <strong>Scenario "${name}" created! ✓</strong><br>
+        Sizing <em>${start}–${end}</em>, structure <em>${struct}</em>, objective <em>${obj}</em>.<br><br>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qr-chip" onclick="goToAllScenarios()">View All Scenarios →</button>
+          <button class="qr-chip" onclick="openScenarioDetail('${name}')">Open Scenario →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(confirmMsg);
+    wrap.scrollTop = wrap.scrollHeight;
+    showToast(`Scenario "${name}" created successfully.`);
+  }, 500);
+}
+
+/* ══ SCENARIO PAGE NAVIGATION ══ */
+function navigateToTeamsTab(){
+  const wsName = collected.ws_name || 'New Workspace';
+  openWorkspace(wsName);
+  setTimeout(()=>{
+    switchTab('teams');
+    const teamsTab = document.getElementById('tab-teams');
+    if(teamsTab){
+      teamsTab.style.transition='background .15s';
+      teamsTab.style.background='var(--accent-light)';
+      setTimeout(()=>{teamsTab.style.background='';},1200);
+    }
+    showToast('Navigated to Teams tab — your workspace is ready!');
+  }, 150);
+}
+
+function goToAllScenarios(){
+  showPage('page-scenarios');
+  setBc([{label:'Home',action:'goEntry()'},{label:currentWS||'NNI Test',action:'goWorkspaces()'},{label:'All Scenarios',action:null}]);
+}
+
+function openScenarioDetail(name){
+  showPage('page-scenario-detail');
+  const nameEl = document.getElementById('scd-scenario-name');
+  if(nameEl) nameEl.textContent = name || 'Test2';
+  setBc([{label:'Home',action:'goEntry()'},{label:currentWS||'NNI Test',action:'goWorkspaces()'},{label:'All Scenarios',action:'goToAllScenarios()'},{label:name||'Test2',action:null}]);
+}
+
+function setScdView(view, btn){
+  document.querySelectorAll('.scd-view-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function skipScenarioGoTeams(){
+  document.getElementById('scenario-prompt-msg')?.remove();
+  document.getElementById('sc-bot-card')?.remove();
+  navigateToTeamsTab();
+}
+
+/* ══ SCENARIO MODAL (from teams pane) ══ */
+let _scenarioSource = 'detail';
+function openScenarioModal(source){
+  _scenarioSource = source||'detail';
+  const sc = document.getElementById('modal-scenario');
+  if(!sc) return;
+  sc.querySelector('#sc-name').value='';
+  sc.querySelector('#sc-desc').value='';
+  sc.querySelector('#sc-start-year').value='';
+  sc.querySelector('#sc-end-year').value='';
+  sc.querySelector('#sc-objective').value='';
+  sc.querySelector('#sc-target-val').value='0';
+  document.querySelector('input[name="sc-strategy"][value="same"]').checked=true;
+  document.querySelector('input[name="sc-vary"][value="no"]').checked=true;
+  sc.classList.add('open');
+}
+function closeScenarioModal(){ document.getElementById('modal-scenario')?.classList.remove('open'); }
+function submitScenarioModal(){
+  const name=document.getElementById('sc-name')?.value?.trim();
+  if(!name){document.getElementById('sc-name').focus();return;}
+  document.getElementById('modal-scenario')?.classList.remove('open');
+  showToast(`Scenario "${name}" created successfully.`);
 }
 
 /* ══ UPLOAD ══ */

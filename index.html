@@ -7,724 +7,558 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --accent:#e87722; --accent-light:#fff7f0; --accent-mid:#f59340; --accent-dark:#c45e0a;
-  --bg:#f5f4f1; --surface:#fff; --border:#e6e2db;
-  --text:#1a1a1a; --text-muted:#7a7570; --text-light:#bcb8b2;
-  --pending:#f59e0b; --pending-bg:#fffbeb;
-  --completed:#059669; --completed-bg:#ecfdf5;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.07);
-  --shadow-md:0 4px 16px rgba(0,0,0,.10);
-  --shadow-lg:0 8px 32px rgba(0,0,0,.14);
-  --radius:10px; --radius-sm:6px;
-  --sb-w:240px; --teams-offset:0px;
+  --accent:#e87722;--accent-light:#fff7f0;--accent-mid:#f59340;--accent-dark:#c45e0a;
+  --bg:#f5f4f1;--surface:#fff;--border:#e6e2db;
+  --text:#1a1a1a;--muted:#7a7570;--light:#bcb8b2;
+  --pending:#f59e0b;--pending-bg:#fffbeb;
+  --completed:#059669;--completed-bg:#ecfdf5;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow-md:0 4px 16px rgba(0,0,0,.10);--shadow-lg:0 8px 32px rgba(0,0,0,.15);
+  --r:10px;--r-sm:6px;--sb-w:240px;--teams-offset:0px;
+  --bot-bg:#f0f4ff;--bot-border:#c7d4f5;--bot-text:#1e3a8a;
 }
+body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg);color:var(--text);height:calc(100vh - var(--teams-offset));max-height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-body{
-  font-family:'Inter','Segoe UI',-apple-system,sans-serif;
-  background:var(--bg); color:var(--text);
-  height:calc(100vh - var(--teams-offset));
-  max-height:100vh; display:flex; flex-direction:column; overflow:hidden;
-}
+/* ── TOP BAR ── */
+.topbar{height:48px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;flex-shrink:0;z-index:100;box-shadow:var(--shadow-sm)}
+.tb-logo{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--accent);background:var(--accent-light);padding:4px 10px;border-radius:var(--r-sm);border:1px solid #f5d5b5;margin-right:16px;cursor:pointer}
+.tb-bc{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--accent)}
+.tb-bc .seg{cursor:pointer;transition:opacity .15s}.tb-bc .seg:hover{opacity:.7}
+.tb-bc .seg.dim{color:var(--muted);cursor:default}
+.tb-bc .sep{color:var(--light);font-size:11px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.tb-toggle{width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;transition:all .15s}
+.tb-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.feedback-btn{padding:5px 14px;border-radius:var(--r-sm);border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.feedback-btn:hover{background:var(--accent-light)}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
 
-/* ═══════════ TOP BAR ═══════════ */
-.topbar{
-  height:48px; background:var(--surface); border-bottom:1px solid var(--border);
-  display:flex; align-items:center; padding:0 20px; flex-shrink:0; z-index:100;
-  box-shadow:var(--shadow-sm);
-}
-.tb-logo{
-  font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--accent);
-  background:var(--accent-light); padding:4px 10px; border-radius:var(--radius-sm);
-  border:1px solid #f5d5b5; margin-right:16px;
-}
-.tb-bc{ display:flex; align-items:center; gap:5px; font-size:13px; color:var(--accent); }
-.tb-bc .seg{ cursor:pointer; transition:opacity .15s; }
-.tb-bc .seg:hover{ opacity:.7; }
-.tb-bc .seg.dim{ color:var(--text-muted); cursor:default; }
-.tb-bc .sep{ color:var(--text-light); font-size:11px; }
-.tb-right{ margin-left:auto; display:flex; align-items:center; gap:10px; }
-.tb-toggle{
-  width:28px; height:28px; border-radius:var(--radius-sm);
-  border:1px solid var(--border); background:var(--surface);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; color:var(--text-muted); font-size:14px; transition:all .15s;
-}
-.tb-toggle:hover{ border-color:var(--accent); color:var(--accent); }
-.feedback-btn{
-  padding:5px 14px; border-radius:var(--radius-sm);
-  border:1.5px solid var(--accent); background:transparent;
-  color:var(--accent); font-size:12px; font-weight:500; cursor:pointer; transition:background .15s;
-}
-.feedback-btn:hover{ background:var(--accent-light); }
-.avatar{
-  width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff;
-  font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;
-}
+/* ── PAGE SYSTEM ── */
+.page{display:none;flex:1;overflow:hidden;flex-direction:column}
+.page.active{display:flex}
 
-/* ═══════════ PAGE SYSTEM ═══════════ */
-.page{ display:none; flex:1; overflow:hidden; flex-direction:column; }
-.page.active{ display:flex; }
+/* ════════════════════════════════════════
+   PAGE 0 — ENTRY
+════════════════════════════════════════ */
+#page-entry{align-items:center;justify-content:center;flex-direction:column;gap:0;background:var(--bg)}
+.entry-wrap{width:100%;max-width:720px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:36px}
+.entry-hero{text-align:center}
+.entry-title{font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px}
+.entry-title span{color:var(--accent)}
+.entry-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:460px;margin:0 auto}
+.entry-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%}
+.entry-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:28px 24px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.entry-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.entry-card.primary{border-color:var(--accent);background:var(--accent-light)}
+.ec-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.ec-icon-a{background:var(--accent);color:#fff}
+.ec-icon-b{background:#eef2fb;color:#3b5bdb}
+.ec-title{font-size:16px;font-weight:700;color:var(--text)}
+.ec-desc{font-size:13px;color:var(--muted);line-height:1.5}
+.ec-action{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:4px;margin-top:4px}
+.ec-badge{position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:var(--accent);color:#fff;letter-spacing:.5px}
+.entry-recent{width:100%}
+.er-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px}
+.er-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.er-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px}
+.er-item:hover{border-color:var(--accent);background:var(--accent-light)}
+.er-dot{width:8px;height:8px;border-radius:50%;background:var(--light);flex-shrink:0}
+.er-item:hover .er-dot{background:var(--accent)}
+.er-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.er-time{font-size:10px;color:var(--light);margin-top:1px}
 
-/* ═══════════════════════════════════════════
-   PAGE 1 — WORKSPACES
-═══════════════════════════════════════════ */
-#page-workspaces{
-  flex-direction:column; overflow-y:auto; padding:32px 36px;
-  gap:28px;
-}
-#page-workspaces::-webkit-scrollbar{ width:4px; }
-#page-workspaces::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
+/* ════════════════════════════════════════
+   PAGE 1 — BOT CREATE WORKFLOW
+════════════════════════════════════════ */
+#page-bot{flex-direction:row}
 
-.ws-page-header{
-  display:flex; align-items:flex-end; justify-content:space-between; flex-shrink:0;
-}
-.ws-page-title{ font-size:22px; font-weight:700; }
-.ws-page-sub{ font-size:13px; color:var(--text-muted); margin-top:3px; }
-.ws-page-actions{ display:flex; gap:10px; }
+/* progress sidebar */
+.bot-progress{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:20px 0}
+.bp-header{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.bp-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.bp-sub{font-size:11px;color:var(--muted)}
+.bp-item{display:flex;align-items:flex-start;gap:10px;padding:8px 18px;border-radius:0;transition:background .15s;cursor:default}
+.bp-item.active{background:var(--accent-light)}
+.bp-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--muted);flex-shrink:0;margin-top:1px;transition:all .2s}
+.bp-item.done .bp-dot{border-color:var(--completed);background:var(--completed);color:#fff}
+.bp-item.active .bp-dot{border-color:var(--accent);background:var(--accent);color:#fff}
+.bp-item-body{}
+.bp-item-label{font-size:12px;font-weight:500;color:var(--muted)}
+.bp-item.active .bp-item-label{color:var(--accent);font-weight:600}
+.bp-item.done .bp-item-label{color:var(--completed)}
+.bp-item-sub{font-size:10px;color:var(--light);margin-top:1px}
+.bp-item.done .bp-item-sub{color:var(--completed);opacity:.7}
+.bp-connector{width:2px;height:14px;background:var(--border);margin:0 0 0 27px}
+.bp-connector.done{background:var(--completed)}
+.bp-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border)}
+.bp-reset{width:100%;padding:7px;border-radius:var(--r-sm);border:1px dashed var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s}
+.bp-reset:hover{border-color:var(--accent);color:var(--accent)}
 
-/* search + sort row */
-.ws-toolbar{
-  display:flex; align-items:center; gap:12px; flex-shrink:0;
-}
-.ws-search-wrap{ position:relative; flex:1; max-width:340px; }
-.ws-search{
-  width:100%; padding:8px 12px 8px 32px; border:1px solid var(--border);
-  border-radius:var(--radius-sm); font-size:13px; background:var(--surface);
-  outline:none; transition:border .15s;
-}
-.ws-search:focus{ border-color:var(--accent); }
-.ws-search-icon{
-  position:absolute; left:10px; top:50%; transform:translateY(-50%);
-  font-size:13px; color:var(--text-muted); pointer-events:none;
-}
-.ws-sort{
-  display:flex; align-items:center; gap:5px; font-size:12px;
-  color:var(--text-muted); cursor:pointer; user-select:none;
-}
-.ws-sort:hover{ color:var(--accent); }
+/* chat area */
+.bot-chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.chat-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-/* workspace grid */
-.ws-grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px;
-}
-.ws-card{
-  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
-  padding:20px; cursor:pointer; transition:all .18s; position:relative;
-  display:flex; flex-direction:column; gap:10px;
-}
-.ws-card:hover{
-  box-shadow:var(--shadow-md); border-color:var(--accent-mid); transform:translateY(-2px);
-}
-.ws-card-top{ display:flex; align-items:flex-start; justify-content:space-between; }
-.ws-card-icon{
-  width:38px; height:38px; border-radius:var(--radius-sm);
-  background:var(--accent-light); border:1px solid #f5d5b5;
-  display:flex; align-items:center; justify-content:center; font-size:18px;
-}
-.ws-card-more{
-  width:24px; height:24px; border-radius:4px; display:flex; align-items:center;
-  justify-content:center; color:var(--text-muted); font-size:14px; opacity:0; transition:opacity .15s;
-}
-.ws-card:hover .ws-card-more{ opacity:1; }
-.ws-card-name{ font-size:15px; font-weight:700; }
-.ws-card-desc{ font-size:12px; color:var(--text-muted); }
-.ws-card-meta{ display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
-.ws-card-time{ font-size:11px; color:var(--text-light); }
-.ws-card-count{
-  font-size:11px; font-weight:600; color:var(--accent);
-  background:var(--accent-light); padding:2px 8px; border-radius:10px;
-}
-.ws-card-add{
-  border:1.5px dashed var(--border); background:transparent;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:8px; min-height:140px; color:var(--text-muted); transition:all .18s;
-}
-.ws-card-add:hover{ border-color:var(--accent); color:var(--accent); box-shadow:none; transform:none; }
-.ws-card-add-icon{ font-size:24px; opacity:.5; }
-.ws-card-add-label{ font-size:13px; font-weight:500; }
+/* message bubbles */
+.msg-bot{display:flex;align-items:flex-start;gap:10px;max-width:80%}
+.msg-bot-avatar{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.msg-bot-bubble{background:var(--surface);border:1px solid var(--border);border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text);box-shadow:var(--shadow-sm)}
+.msg-user{align-self:flex-end;max-width:70%}
+.msg-user-bubble{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:10px 14px;font-size:13px;line-height:1.6}
 
-/* ═══════════════════════════════════════════
-   PAGE 2 — PROJECTS + TEAMS
-   Layout: left sidebar (projects drill-down) | right main (teams/brands)
-═══════════════════════════════════════════ */
-#page-detail{ flex-direction:row; }
+/* quick reply chips */
+.quick-replies{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;margin-left:38px}
+.qr-chip{padding:6px 13px;border-radius:20px;border:1.5px solid var(--accent);background:var(--accent-light);color:var(--accent);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.qr-chip:hover{background:var(--accent);color:#fff}
 
-/* ── LEFT SIDEBAR ── */
-.p2-sidebar{
-  width:var(--sb-w); background:var(--surface); border-right:1px solid var(--border);
-  display:flex; flex-direction:column; flex-shrink:0;
-  transition:width .22s ease; overflow:hidden;
-}
-.p2-sidebar.collapsed{ width:0; border-right:none; }
+/* inline input card inside chat */
+.bot-input-card{background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r);padding:14px 16px;margin-left:38px;margin-top:4px;display:flex;flex-direction:column;gap:10px}
+.bic-label{font-size:11px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px}
+.bic-field{display:flex;flex-direction:column;gap:4px}
+.bic-field label{font-size:12px;font-weight:500;color:var(--muted)}
+.bic-input{padding:8px 11px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border .15s;background:var(--surface)}
+.bic-input:focus{border-color:var(--accent)}
+.bic-select{padding:8px 11px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);cursor:pointer;outline:none;transition:border .15s}
+.bic-select:focus{border-color:var(--accent)}
+.bic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bic-submit{align-self:flex-end;padding:8px 20px;border-radius:var(--r-sm);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.bic-submit:hover{background:var(--accent-dark)}
 
-.p2-sb-header{
-  padding:14px 14px 10px; border-bottom:1px solid var(--border); flex-shrink:0;
-}
-.p2-sb-title{
-  font-size:13px; font-weight:700; margin-bottom:10px;
-  display:flex; align-items:center; justify-content:space-between; color:var(--text);
-}
-.p2-sb-add{
-  width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff;
-  border:none; font-size:16px; cursor:pointer; display:flex; align-items:center;
-  justify-content:center; transition:background .15s; line-height:1;
-}
-.p2-sb-add:hover{ background:var(--accent-dark); }
-.p2-sb-search-wrap{ position:relative; }
-.p2-sb-search{
-  width:100%; padding:7px 10px 7px 26px; border:1px solid var(--border);
-  border-radius:var(--radius-sm); font-size:12px; background:var(--bg);
-  outline:none; transition:border .15s;
-}
-.p2-sb-search:focus{ border-color:var(--accent); }
-.p2-sb-search-icon{
-  position:absolute; left:8px; top:50%; transform:translateY(-50%);
-  font-size:11px; color:var(--text-muted); pointer-events:none;
-}
-.p2-sb-ws-label{
-  margin-top:8px; font-size:11px; color:var(--text-muted);
-  display:flex; align-items:center; gap:5px; cursor:pointer; transition:color .15s;
-}
-.p2-sb-ws-label:hover{ color:var(--accent); }
+/* summary card */
+.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-left:38px;margin-top:4px}
+.sc-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc-item .sc-label{font-size:11px;color:var(--light)}
+.sc-item .sc-val{font-size:13px;font-weight:500;color:var(--text)}
+.sc-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;margin:2px 2px 0 0}
 
-.p2-sb-body{ flex:1; overflow-y:auto; padding:6px 0; }
-.p2-sb-body::-webkit-scrollbar{ width:3px; }
-.p2-sb-body::-webkit-scrollbar-thumb{ background:var(--border); border-radius:3px; }
+/* typing indicator */
+.typing-indicator{display:flex;align-items:flex-start;gap:10px}
+.typing-dots{background:var(--surface);border:1px solid var(--border);border-radius:4px 14px 14px 14px;padding:10px 14px;display:flex;gap:4px;align-items:center}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--light);animation:td .8s ease-in-out infinite}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
 
-/* project items in sidebar */
-.proj-item{
-  margin:2px 8px; border-radius:var(--radius); border:1px solid transparent;
-  cursor:pointer; transition:all .15s; overflow:hidden;
-}
-.proj-item-row{
-  display:flex; align-items:center; gap:8px; padding:9px 10px;
-}
-.proj-item:hover .proj-item-row{ background:var(--accent-light); border-radius:var(--radius); }
-.proj-dot{
-  width:7px; height:7px; border-radius:50%;
-  background:var(--text-light); flex-shrink:0; transition:background .15s;
-}
-.proj-item.active .proj-dot{ background:var(--accent); }
-.proj-item-info{ flex:1; min-width:0; }
-.proj-item-name{
-  font-size:12px; font-weight:500;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.proj-item-time{ font-size:10px; color:var(--text-light); margin-top:1px; }
-.proj-item-more{
-  width:18px; height:18px; display:flex; align-items:center;
-  justify-content:center; border-radius:3px; opacity:0;
-  font-size:12px; color:var(--text-muted); transition:opacity .15s;
-}
-.proj-item:hover .proj-item-more{ opacity:1; }
-.proj-item.active{
-  background:#eef2fb; border-color:#d0d9f0;
-  border-left:3px solid var(--accent);
-}
-.proj-item.active .proj-item-name{ color:var(--accent); font-weight:600; }
+/* chat input bar */
+.chat-input-wrap{background:var(--surface);border-top:1px solid var(--border);padding:12px 20px;flex-shrink:0}
+.chat-input-row{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:24px;padding:8px 8px 8px 16px;transition:border .15s}
+.chat-input-row:focus-within{border-color:var(--accent)}
+.chat-input{flex:1;border:none;background:transparent;font-size:13px;font-family:inherit;color:var(--text);outline:none}
+.chat-input::placeholder{color:var(--light)}
+.chat-send{width:34px;height:34px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+.chat-send:hover{background:var(--accent-dark)}
+.chat-send:disabled{background:var(--border);cursor:not-allowed}
+.chat-disclaimer{font-size:11px;color:var(--light);margin-top:5px;text-align:center}
 
-.p2-sb-footer{
-  padding:10px 12px; border-top:1px solid var(--border); flex-shrink:0;
-}
-.p2-sb-new{
-  width:100%; padding:7px; border-radius:var(--radius-sm);
-  border:1.5px dashed var(--border); background:transparent;
-  color:var(--text-muted); font-size:12px; cursor:pointer;
-  transition:all .15s; display:flex; align-items:center; justify-content:center; gap:5px;
-}
-.p2-sb-new:hover{ border-color:var(--accent); color:var(--accent); }
+/* ════════════════════════════════════════
+   PAGE 2 — WORKSPACES (existing)
+════════════════════════════════════════ */
+#page-workspaces{flex-direction:column;overflow-y:auto;padding:28px 32px;gap:22px}
+#page-workspaces::-webkit-scrollbar{width:4px}
+#page-workspaces::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.ws-page-header{display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0}
+.ws-page-title{font-size:20px;font-weight:700}
+.ws-page-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.ws-page-actions{display:flex;gap:10px}
+.ws-toolbar{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.ws-search-wrap{position:relative;flex:1;max-width:320px}
+.ws-search{width:100%;padding:7px 10px 7px 28px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:12px;background:var(--surface);outline:none;transition:border .15s}
+.ws-search:focus{border-color:var(--accent)}
+.ws-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);pointer-events:none}
+.ws-sort{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none}
+.ws-sort:hover{color:var(--accent)}
+.ws-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.ws-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .18s;position:relative;display:flex;flex-direction:column;gap:8px}
+.ws-card:hover{box-shadow:var(--shadow-md);border-color:var(--accent-mid);transform:translateY(-2px)}
+.ws-card-top{display:flex;align-items:flex-start;justify-content:space-between}
+.ws-card-icon{width:36px;height:36px;border-radius:var(--r-sm);background:var(--accent-light);border:1px solid #f5d5b5;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ws-card-more{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;opacity:0;transition:opacity .15s}
+.ws-card:hover .ws-card-more{opacity:1}
+.ws-card-name{font-size:14px;font-weight:700}
+.ws-card-desc{font-size:11px;color:var(--muted)}
+.ws-card-meta{display:flex;align-items:center;justify-content:space-between;margin-top:2px}
+.ws-card-time{font-size:10px;color:var(--light)}
+.ws-card-count{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:2px 7px;border-radius:10px}
+.ws-card-add{border:1.5px dashed var(--border);background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:130px;color:var(--muted);transition:all .18s}
+.ws-card-add:hover{border-color:var(--accent);color:var(--accent);box-shadow:none;transform:none}
+.ws-card-add-icon{font-size:22px;opacity:.5}
+.ws-card-add-label{font-size:12px;font-weight:500}
 
-/* ── RIGHT MAIN ── */
-.p2-main{
-  flex:1; display:flex; flex-direction:column; overflow:hidden;
-}
-.p2-topstrip{
-  background:var(--surface); border-bottom:1px solid var(--border);
-  padding:10px 20px; display:flex; align-items:center; gap:10px;
-  flex-shrink:0; min-height:48px;
-}
-.p2-topstrip-right{ margin-left:auto; display:flex; gap:8px; }
-.p2-empty{
-  flex:1; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  color:var(--text-muted); text-align:center; padding:40px;
-}
-.p2-empty-icon{ font-size:44px; margin-bottom:14px; opacity:.25; }
-.p2-empty-title{ font-size:16px; font-weight:700; color:var(--text); margin-bottom:6px; }
-.p2-empty-sub{ font-size:13px; max-width:260px; line-height:1.6; }
+/* ════════════════════════════════════════
+   PAGE 3 — PROJECT DETAIL (existing)
+════════════════════════════════════════ */
+#page-detail{flex-direction:row}
+.p2-sidebar{width:var(--sb-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:width .22s ease;overflow:hidden}
+.p2-sidebar.collapsed{width:0;border-right:none}
+.p2-sb-header{padding:14px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.p2-sb-title{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;color:var(--text)}
+.p2-sb-add{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;line-height:1}
+.p2-sb-add:hover{background:var(--accent-dark)}
+.p2-sb-search-wrap{position:relative}
+.p2-sb-search{width:100%;padding:7px 10px 7px 26px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:12px;background:var(--bg);outline:none;transition:border .15s}
+.p2-sb-search:focus{border-color:var(--accent)}
+.p2-sb-search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
+.p2-sb-ws-label{margin-top:8px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;transition:color .15s}
+.p2-sb-ws-label:hover{color:var(--accent)}
+.p2-sb-body{flex:1;overflow-y:auto;padding:6px 0}
+.p2-sb-body::-webkit-scrollbar{width:3px}
+.p2-sb-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.proj-item{margin:2px 8px;border-radius:var(--r);border:1px solid transparent;cursor:pointer;transition:all .15s;overflow:hidden}
+.proj-item-row{display:flex;align-items:center;gap:8px;padding:9px 10px}
+.proj-item:hover .proj-item-row{background:var(--accent-light);border-radius:var(--r)}
+.proj-dot{width:7px;height:7px;border-radius:50%;background:var(--light);flex-shrink:0;transition:background .15s}
+.proj-item.active .proj-dot{background:var(--accent)}
+.proj-item-info{flex:1;min-width:0}
+.proj-item-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proj-item-time{font-size:10px;color:var(--light);margin-top:1px}
+.proj-item-more{width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:3px;opacity:0;font-size:12px;color:var(--muted);transition:opacity .15s}
+.proj-item:hover .proj-item-more{opacity:1}
+.proj-item.active{background:#eef2fb;border-color:#d0d9f0;border-left:3px solid var(--accent)}
+.proj-item.active .proj-item-name{color:var(--accent);font-weight:600}
+.p2-sb-footer{padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0}
+.p2-sb-new{width:100%;padding:7px;border-radius:var(--r-sm);border:1.5px dashed var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
+.p2-sb-new:hover{border-color:var(--accent);color:var(--accent)}
+.p2-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.p2-topstrip{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;min-height:48px}
+.p2-topstrip-right{margin-left:auto;display:flex;gap:8px}
+.p2-content{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:18px}
+.p2-content::-webkit-scrollbar{width:4px}
+.p2-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-/* detail content area */
-.p2-content{ flex:1; overflow-y:auto; padding:22px; display:flex; flex-direction:column; gap:18px; }
-.p2-content::-webkit-scrollbar{ width:4px; }
-.p2-content::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
+/* shared components */
+.icon-btn{width:30px;height:30px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:12px;transition:all .15s}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn{padding:7px 15px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-ghost:hover{background:var(--accent-light)}
+.btn-sm{padding:5px 11px;font-size:12px}
+.fab-inline{padding:6px 13px;border-radius:var(--r-sm);background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background .15s;font-family:inherit}
+.fab-inline:hover{background:var(--accent-dark)}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tab{padding:9px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--accent)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.subtabs{display:flex;gap:8px}
+.subtab{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--border);color:var(--muted);background:var(--surface);font-family:inherit}
+.subtab:hover{border-color:var(--accent);color:var(--accent)}
+.subtab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px}
+.badge-pending{background:var(--pending-bg);color:var(--pending)}
+.badge-completed{background:var(--completed-bg);color:var(--completed)}
+.meta-label{font-size:11px;color:var(--muted);margin-bottom:2px}
+.meta-val{font-size:13px;font-weight:500}
+.more-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);cursor:pointer;color:var(--muted);transition:all .15s}
+.more-btn:hover{background:var(--bg);color:var(--text)}
+.brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.brand-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:all .15s}
+.brand-card:hover{box-shadow:var(--shadow-sm);border-color:var(--accent-mid)}
+.brand-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.brand-name{font-size:13px;font-weight:600}
+.brand-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.customer-link{color:var(--accent);font-size:12px;font-weight:500;cursor:pointer}
+.customer-link:hover{text-decoration:underline}
+.structure-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.structure-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.structure-name{font-size:14px;font-weight:600}
+.team-count{font-size:12px;color:var(--muted);margin-bottom:10px}
+.team-sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.team-sub-card{border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;background:var(--bg)}
+.team-sub-name{font-size:13px;font-weight:600;margin-bottom:8px}
+.team-field{margin-bottom:6px}
+.team-field-label{font-size:11px;color:var(--muted)}
+.team-field-val{font-size:12px;font-weight:500}
+.brand-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.brand-tag{font-size:11px;padding:2px 7px;border-radius:4px;background:var(--accent-light);color:var(--accent);font-weight:500}
+.scenario-tags{display:flex;flex-wrap:wrap;gap:6px}
+.scenario-tag{font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--accent);color:var(--accent);font-weight:500}
+.used-label{font-size:11px;color:var(--muted);margin-bottom:6px}
+.scenario-btn{font-size:12px;color:var(--accent);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.scenario-btn:hover{text-decoration:underline}
+.suggestion-bar{background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));border-radius:var(--r);padding:13px 16px;display:flex;align-items:center;gap:14px;color:#fff;flex-shrink:0}
+.sug-icon{font-size:18px;flex-shrink:0}
+.sug-text{font-size:13px;flex:1}
+.sug-text strong{display:block;font-size:14px;margin-bottom:2px}
+.sug-actions{display:flex;gap:8px}
+.sug-btn{padding:5px 12px;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:inherit}
+.sug-btn-white{background:#fff;color:var(--accent-dark)}
+.sug-btn-white:hover{background:var(--accent-light)}
+.sug-btn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4)}
+.sug-btn-ghost:hover{background:rgba(255,255,255,.28)}
 
-/* ═══════════ SHARED COMPONENTS ═══════════ */
-.page-title{ font-size:20px; font-weight:700; }
-.icon-btn{
-  width:30px; height:30px; border-radius:var(--radius-sm);
-  border:1px solid var(--border); background:var(--surface);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; color:var(--text-muted); font-size:12px; transition:all .15s;
-}
-.icon-btn:hover{ border-color:var(--accent); color:var(--accent); }
-.btn{
-  padding:7px 15px; border-radius:var(--radius-sm); font-size:13px;
-  font-weight:500; cursor:pointer; border:none; transition:all .15s;
-  display:inline-flex; align-items:center; gap:6px;
-}
-.btn-primary{ background:var(--accent); color:#fff; }
-.btn-primary:hover{ background:var(--accent-dark); }
-.btn-ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
-.btn-ghost:hover{ background:var(--accent-light); }
-.btn-sm{ padding:5px 11px; font-size:12px; }
-.fab-inline{
-  padding:6px 13px; border-radius:var(--radius-sm);
-  background:var(--accent); color:#fff; border:none;
-  font-size:12px; font-weight:600; cursor:pointer;
-  display:inline-flex; align-items:center; gap:5px; transition:background .15s;
-}
-.fab-inline:hover{ background:var(--accent-dark); }
-
-/* tabs */
-.tabs{ display:flex; gap:0; border-bottom:2px solid var(--border); }
-.tab{
-  padding:9px 18px; font-size:13px; font-weight:500; color:var(--text-muted);
-  cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .15s;
-  display:flex; align-items:center; gap:6px;
-}
-.tab:hover{ color:var(--accent); }
-.tab.active{ color:var(--accent); border-bottom-color:var(--accent); }
-
-/* subtabs */
-.subtabs{ display:flex; gap:8px; }
-.subtab{
-  padding:5px 13px; border-radius:20px; font-size:12px; font-weight:500;
-  cursor:pointer; transition:all .15s; border:1px solid var(--border);
-  color:var(--text-muted); background:var(--surface);
-}
-.subtab:hover{ border-color:var(--accent); color:var(--accent); }
-.subtab.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
-
-/* badges */
-.badge{ font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:inline-flex; align-items:center; gap:4px; }
-.badge-pending{ background:var(--pending-bg); color:var(--pending); }
-.badge-completed{ background:var(--completed-bg); color:var(--completed); }
-
-/* project grid (inside detail — not used on page 2 directly) */
-.meta-label{ font-size:11px; color:var(--text-muted); margin-bottom:2px; }
-.meta-val{ font-size:13px; font-weight:500; }
-.more-btn{
-  width:24px; height:24px; display:flex; align-items:center; justify-content:center;
-  border-radius:var(--radius-sm); cursor:pointer; color:var(--text-muted); transition:all .15s;
-}
-.more-btn:hover{ background:var(--bg); color:var(--text); }
-
-/* brand grid */
-.brand-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-.brand-card{
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--radius); padding:16px; transition:all .15s;
-}
-.brand-card:hover{ box-shadow:var(--shadow-sm); border-color:var(--accent-mid); }
-.brand-card-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
-.brand-name{ font-size:13px; font-weight:600; }
-.brand-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.customer-link{ color:var(--accent); font-size:12px; font-weight:500; cursor:pointer; }
-.customer-link:hover{ text-decoration:underline; }
-
-/* structure card */
-.structure-card{
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--radius); padding:18px;
-}
-.structure-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-.structure-name{ font-size:14px; font-weight:600; }
-.team-count{ font-size:12px; color:var(--text-muted); margin-bottom:10px; }
-.team-sub-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
-.team-sub-card{ border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; background:var(--bg); }
-.team-sub-name{ font-size:13px; font-weight:600; margin-bottom:8px; }
-.team-field{ margin-bottom:6px; }
-.team-field-label{ font-size:11px; color:var(--text-muted); }
-.team-field-val{ font-size:12px; font-weight:500; }
-.brand-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
-.brand-tag{ font-size:11px; padding:2px 7px; border-radius:4px; background:var(--accent-light); color:var(--accent); font-weight:500; }
-.scenario-tags{ display:flex; flex-wrap:wrap; gap:6px; }
-.scenario-tag{ font-size:11px; padding:3px 8px; border-radius:4px; border:1px solid var(--accent); color:var(--accent); font-weight:500; }
-.used-label{ font-size:11px; color:var(--text-muted); margin-bottom:6px; }
-.scenario-btn{
-  font-size:12px; color:var(--accent); cursor:pointer; font-weight:500;
-  display:inline-flex; align-items:center; gap:4px;
-}
-.scenario-btn:hover{ text-decoration:underline; }
-
-/* agentic suggestion bar */
-.suggestion-bar{
-  background:linear-gradient(135deg,var(--accent-dark),var(--accent-mid));
-  border-radius:var(--radius); padding:13px 16px;
-  display:flex; align-items:center; gap:14px; color:#fff; flex-shrink:0;
-}
-.sug-icon{ font-size:18px; flex-shrink:0; }
-.sug-text{ font-size:13px; flex:1; }
-.sug-text strong{ display:block; font-size:14px; margin-bottom:2px; }
-.sug-actions{ display:flex; gap:8px; }
-.sug-btn{
-  padding:5px 12px; border-radius:var(--radius-sm); font-size:12px;
-  font-weight:600; cursor:pointer; border:none; transition:all .15s;
-}
-.sug-btn-white{ background:#fff; color:var(--accent-dark); }
-.sug-btn-white:hover{ background:var(--accent-light); }
-.sug-btn-ghost{ background:rgba(255,255,255,.18); color:#fff; border:1px solid rgba(255,255,255,.4); }
-.sug-btn-ghost:hover{ background:rgba(255,255,255,.28); }
-
-/* ═══════════ MODALS ═══════════ */
-.overlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.50);
-  z-index:200; display:none; align-items:center; justify-content:center;
-}
-.overlay.open{ display:flex; }
-.modal{
-  background:var(--surface); border-radius:14px;
-  width:760px; max-width:95vw; max-height:90vh;
-  overflow:hidden; display:flex; flex-direction:column;
-  box-shadow:var(--shadow-lg); animation:modalIn .2s ease;
-}
-@keyframes modalIn{
-  from{opacity:0;transform:translateY(14px) scale(.97)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-.modal-header{
-  background:var(--accent-dark); padding:16px 22px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.modal-title{ font-size:15px; font-weight:700; color:#fff; }
-.modal-close{
-  width:26px; height:26px; border-radius:50%;
-  background:rgba(255,255,255,.15); color:#fff; font-size:15px;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; border:none; transition:background .15s;
-}
-.modal-close:hover{ background:rgba(255,255,255,.28); }
-.step-bar{
-  display:flex; align-items:center; padding:13px 22px;
-  border-bottom:1px solid var(--border); background:var(--surface); overflow-x:auto;
-}
-.step-item{ display:flex; align-items:center; gap:7px; flex-shrink:0; }
-.step-dot{
-  width:26px; height:26px; border-radius:50%;
-  border:2px solid var(--border); background:var(--surface);
-  display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:600; color:var(--text-muted); transition:all .2s;
-}
-.step-item.active .step-dot{ border-color:var(--accent); background:var(--accent); color:#fff; }
-.step-item.done .step-dot{ border-color:var(--completed); background:var(--completed); color:#fff; }
-.step-label{ font-size:11px; font-weight:500; color:var(--text-muted); }
-.step-item.active .step-label{ color:var(--accent); }
-.step-item.done .step-label{ color:var(--completed); }
-.step-connector{ width:32px; height:2px; background:var(--border); margin:0 4px; }
-.step-item.done + .step-connector{ background:var(--completed); }
-.modal-body{ flex:1; overflow-y:auto; }
-.step-panel{ display:none; padding:22px; flex-direction:column; gap:16px; }
-.step-panel.active{ display:flex; }
-.step-layout{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.step-layout.single{ grid-template-columns:1fr; }
-.step-layout.three{ grid-template-columns:1fr 1fr 1fr; }
-.field-group{ display:flex; flex-direction:column; gap:5px; }
-.field-label{ font-size:12px; font-weight:600; color:var(--text-muted); display:flex; align-items:center; gap:4px; }
-.field-label .req{ color:#e55; }
-.field-info{ color:var(--text-light); font-size:11px; cursor:help; }
-.field-input{
-  padding:8px 12px; border-radius:var(--radius-sm);
-  border:1.5px solid var(--border); font-size:13px;
-  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
-  transition:border .15s; background:var(--surface); width:100%;
-}
-.field-input:focus{ outline:none; border-color:var(--accent); }
-.field-select{
-  padding:8px 12px; border-radius:var(--radius-sm);
-  border:1.5px solid var(--border); font-size:13px;
-  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
-  background:var(--surface); cursor:pointer; width:100%; transition:border .15s;
-}
-.field-select:focus{ outline:none; border-color:var(--accent); }
-.field-textarea{
-  padding:8px 12px; border-radius:var(--radius-sm);
-  border:1.5px solid var(--border); font-size:13px;
-  font-family:'Inter','Segoe UI',sans-serif; color:var(--text);
-  transition:border .15s; background:var(--surface); width:100%;
-  resize:vertical; min-height:68px;
-}
-.field-textarea:focus{ outline:none; border-color:var(--accent); }
-.radio-group{ display:flex; gap:18px; align-items:center; margin-top:4px; }
-.radio-opt{ display:flex; align-items:center; gap:6px; cursor:pointer; font-size:13px; }
-.radio-opt input{ accent-color:var(--accent); }
-.date-range{ display:flex; align-items:center; gap:8px; }
-.date-range .field-input{ flex:1; }
-.date-sep{ font-size:12px; color:var(--text-muted); }
-.collabs-toggle{ display:flex; align-items:center; gap:6px; font-size:13px; color:var(--accent); cursor:pointer; font-weight:500; }
-.collabs-toggle svg{ transition:transform .2s; }
-.collabs-toggle.open svg{ transform:rotate(90deg); }
-.fin-table{ width:100%; border-collapse:collapse; font-size:13px; }
-.fin-table th{ background:var(--accent-dark); color:#fff; padding:7px 12px; text-align:center; font-weight:500; }
-.fin-table th:first-child{ text-align:left; }
-.fin-table td{ padding:7px 12px; border-bottom:1px solid var(--border); }
-.fin-table td:not(:first-child){ text-align:center; }
-.fin-table td input{ width:76px; text-align:center; border:1px solid var(--border); border-radius:4px; padding:4px 6px; font-size:12px; }
-.fin-table td input:focus{ outline:none; border-color:var(--accent); }
-.upload-zone{
-  border:2px dashed var(--border); border-radius:var(--radius);
-  padding:22px; text-align:center; cursor:pointer; transition:all .15s; background:var(--bg);
-}
-.upload-zone:hover{ border-color:var(--accent); background:var(--accent-light); }
-.upload-zone-icon{ font-size:26px; margin-bottom:8px; opacity:.5; }
-.upload-zone-text{ font-size:13px; color:var(--text-muted); }
-.upload-badge{ display:inline-flex; align-items:center; gap:6px; background:var(--accent-light); border:1px solid var(--accent); border-radius:var(--radius-sm); padding:5px 10px; font-size:12px; color:var(--accent); font-weight:500; }
-.upload-badge-x{ cursor:pointer; opacity:.6; }
-.upload-badge-x:hover{ opacity:1; }
-.col-table{ width:100%; border-collapse:collapse; font-size:12px; }
-.col-table th{ background:var(--bg); color:var(--text-muted); padding:6px 10px; text-align:left; font-weight:600; border-bottom:1px solid var(--border); }
-.col-table td{ padding:6px 10px; border-bottom:1px solid var(--border); }
-.col-table td select{ font-size:12px; border:1px solid var(--border); border-radius:4px; padding:3px 6px; }
-.modal-footer{
-  padding:14px 22px; border-top:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:center; background:var(--surface);
-}
-.modal-footer-right{ display:flex; gap:10px; }
+/* modals */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.50);z-index:200;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:14px;width:760px;max-width:95vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);animation:mIn .2s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.modal-header{background:var(--accent-dark);padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:700;color:#fff}
+.modal-close{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:background .15s}
+.modal-close:hover{background:rgba(255,255,255,.28)}
+.step-bar{display:flex;align-items:center;padding:13px 22px;border-bottom:1px solid var(--border);background:var(--surface);overflow-x:auto}
+.step-item{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.step-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--muted);transition:all .2s}
+.step-item.active .step-dot{border-color:var(--accent);background:var(--accent);color:#fff}
+.step-item.done .step-dot{border-color:var(--completed);background:var(--completed);color:#fff}
+.step-label{font-size:11px;font-weight:500;color:var(--muted)}
+.step-item.active .step-label{color:var(--accent)}
+.step-item.done .step-label{color:var(--completed)}
+.step-connector{width:32px;height:2px;background:var(--border);margin:0 4px}
+.step-item.done+.step-connector{background:var(--completed)}
+.modal-body{flex:1;overflow-y:auto}
+.step-panel{display:none;padding:22px;flex-direction:column;gap:16px}
+.step-panel.active{display:flex}
+.step-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.step-layout.single{grid-template-columns:1fr}
+.step-layout.three{grid-template-columns:1fr 1fr 1fr}
+.field-group{display:flex;flex-direction:column;gap:5px}
+.field-label{font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:4px}
+.field-label .req{color:#e55}
+.field-input{padding:8px 12px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:13px;font-family:inherit;color:var(--text);transition:border .15s;background:var(--surface);width:100%}
+.field-input:focus{outline:none;border-color:var(--accent)}
+.field-select{padding:8px 12px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);cursor:pointer;width:100%;transition:border .15s}
+.field-select:focus{outline:none;border-color:var(--accent)}
+.field-textarea{padding:8px 12px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:13px;font-family:inherit;color:var(--text);transition:border .15s;background:var(--surface);width:100%;resize:vertical;min-height:68px}
+.field-textarea:focus{outline:none;border-color:var(--accent)}
+.radio-group{display:flex;gap:18px;align-items:center;margin-top:4px}
+.radio-opt{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px}
+.radio-opt input{accent-color:var(--accent)}
+.date-range{display:flex;align-items:center;gap:8px}
+.date-range .field-input{flex:1}
+.date-sep{font-size:12px;color:var(--muted)}
+.fin-table{width:100%;border-collapse:collapse;font-size:13px}
+.fin-table th{background:var(--accent-dark);color:#fff;padding:7px 12px;text-align:center;font-weight:500}
+.fin-table th:first-child{text-align:left}
+.fin-table td{padding:7px 12px;border-bottom:1px solid var(--border)}
+.fin-table td:not(:first-child){text-align:center}
+.fin-table td input{width:76px;text-align:center;border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:12px}
+.fin-table td input:focus{outline:none;border-color:var(--accent)}
+.upload-zone{border:2px dashed var(--border);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg)}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
+.upload-zone-icon{font-size:26px;margin-bottom:8px;opacity:.5}
+.upload-zone-text{font-size:13px;color:var(--muted)}
+.upload-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--r-sm);padding:5px 10px;font-size:12px;color:var(--accent);font-weight:500}
+.upload-badge-x{cursor:pointer;opacity:.6}
+.col-table{width:100%;border-collapse:collapse;font-size:12px}
+.col-table th{background:var(--bg);color:var(--muted);padding:6px 10px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)}
+.col-table td{padding:6px 10px;border-bottom:1px solid var(--border)}
+.col-table td select{font-size:12px;border:1px solid var(--border);border-radius:4px;padding:3px 6px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--surface)}
+.modal-footer-right{display:flex;gap:10px}
+.collabs-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);cursor:pointer;font-weight:500}
+.collabs-toggle svg{transition:transform .2s}
+.collabs-toggle.open svg{transform:rotate(90deg)}
 
 /* toast */
-.toast{
-  position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(60px);
-  background:var(--completed); color:#fff; padding:9px 18px;
-  border-radius:30px; font-size:13px; font-weight:500;
-  display:flex; align-items:center; gap:8px;
-  box-shadow:var(--shadow-md); z-index:999;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
-}
-.toast.show{ transform:translateX(-50%) translateY(0); }
-
-::-webkit-scrollbar{ width:4px; height:4px; }
-::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
-
-@media(max-width:900px){
-  .brand-grid{ grid-template-columns:1fr 1fr; }
-  .ws-grid{ grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); }
-}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--completed);color:#fff;padding:9px 18px;border-radius:30px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 </style>
 </head>
 <body>
 
-<!-- ════ TOP BAR ════ -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <button class="tb-toggle" id="sb-toggle-btn" onclick="toggleSidebar()" title="Toggle sidebar" style="display:none">☰</button>
-  <div class="tb-logo" style="cursor:pointer" onclick="goHome()">FIELD DESIGNER</div>
-  <div class="tb-bc" id="tb-bc">
-    <span class="seg dim">Home</span>
-  </div>
+  <button class="tb-toggle" id="sb-toggle-btn" onclick="toggleSidebar()" style="display:none">☰</button>
+  <div class="tb-logo" onclick="goEntry()">FIELD DESIGNER</div>
+  <div class="tb-bc" id="tb-bc"><span class="seg dim">Home</span></div>
   <div class="tb-right">
     <button class="feedback-btn">Feedback</button>
     <div class="avatar">P</div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PAGE 1 — WORKSPACES
-════════════════════════════════════════ -->
-<div class="page active" id="page-workspaces">
+<!-- ════════════════════════════
+     PAGE 0 — ENTRY
+════════════════════════════ -->
+<div class="page active" id="page-entry">
+  <div class="entry-wrap">
 
-  <div class="ws-page-header">
-    <div>
-      <div class="ws-page-title">Welcome, <span style="color:var(--accent)">Palak</span></div>
-      <div class="ws-page-sub">Select a workspace to get started</div>
+    <div class="entry-hero">
+      <div class="entry-title">Welcome back, <span>Palak</span></div>
+      <div class="entry-sub">What would you like to do today? Start a new workflow or continue working on an existing one.</div>
     </div>
-    <div class="ws-page-actions">
-      <button class="btn btn-primary" onclick="openModal('ws')">+ New Workspace</button>
+
+    <div class="entry-cards">
+      <!-- Create -->
+      <div class="entry-card primary" onclick="startCreateWorkflow()">
+        <span class="ec-badge">AI</span>
+        <div class="ec-icon ec-icon-a">✦</div>
+        <div>
+          <div class="ec-title">Create workflow</div>
+          <div class="ec-desc">Set up a new workspace, projects, brands and team structures through a guided AI conversation.</div>
+        </div>
+        <div class="ec-action">Start guided setup →</div>
+      </div>
+      <!-- Open existing -->
+      <div class="entry-card" onclick="openExisting()">
+        <div class="ec-icon ec-icon-b">📂</div>
+        <div>
+          <div class="ec-title">Open existing workflow</div>
+          <div class="ec-desc">Browse your workspaces and continue working on projects, brands or team structures.</div>
+        </div>
+        <div class="ec-action">Browse workspaces →</div>
+      </div>
+    </div>
+
+    <!-- Recent workspaces -->
+    <div class="entry-recent">
+      <div class="er-label">Recent workspaces</div>
+      <div class="er-grid">
+        <div class="er-item" onclick="openWorkspace('Bayer')">
+          <span class="er-dot"></span>
+          <div><div class="er-name">Bayer</div><div class="er-time">just now · 6 projects</div></div>
+        </div>
+        <div class="er-item" onclick="openWorkspace('Workspace_12Nov')">
+          <span class="er-dot"></span>
+          <div><div class="er-name">Workspace_12Nov</div><div class="er-time">3 days ago · 3 projects</div></div>
+        </div>
+        <div class="er-item" onclick="openWorkspace('Sizing Analysis 2')">
+          <span class="er-dot"></span>
+          <div><div class="er-name">Sizing Analysis 2</div><div class="er-time">1 week ago · 2 projects</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     PAGE 1 — BOT CREATE
+════════════════════════════ -->
+<div class="page" id="page-bot">
+
+  <!-- Progress sidebar -->
+  <div class="bot-progress">
+    <div class="bp-header">
+      <div class="bp-title">Setup progress</div>
+      <div class="bp-sub">Answer each question to build your workflow</div>
+    </div>
+
+    <div class="bp-item active" id="bp-0">
+      <div class="bp-dot" id="bpd-0">1</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Workspace</div>
+        <div class="bp-item-sub" id="bps-0">Name & description</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-0"></div>
+    <div class="bp-item" id="bp-1">
+      <div class="bp-dot" id="bpd-1">2</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Project</div>
+        <div class="bp-item-sub" id="bps-1">Scope, rates, currency</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-1"></div>
+    <div class="bp-item" id="bp-2">
+      <div class="bp-dot" id="bpd-2">3</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Financials</div>
+        <div class="bp-item-sub" id="bps-2">Forecast & assumptions</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-2"></div>
+    <div class="bp-item" id="bp-3">
+      <div class="bp-dot" id="bpd-3">4</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Brand</div>
+        <div class="bp-item-sub" id="bps-3">Name, area, competition</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-3"></div>
+    <div class="bp-item" id="bp-4">
+      <div class="bp-dot" id="bpd-4">5</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Team structure</div>
+        <div class="bp-item-sub" id="bps-4">Role, cost, coverage</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-4"></div>
+    <div class="bp-item" id="bp-5">
+      <div class="bp-dot" id="bpd-5">6</div>
+      <div class="bp-item-body">
+        <div class="bp-item-label">Review & create</div>
+        <div class="bp-item-sub" id="bps-5">Confirm all details</div>
+      </div>
+    </div>
+
+    <div class="bp-footer">
+      <button class="bp-reset" onclick="goEntry()">← Back to home</button>
     </div>
   </div>
 
-  <div class="ws-toolbar">
-    <div class="ws-search-wrap">
-      <span class="ws-search-icon">⌕</span>
-      <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)" />
-    </div>
-    <div class="ws-sort">☰ Newest first</div>
-  </div>
-
-  <div class="ws-grid" id="ws-grid">
-    <div class="ws-card" onclick="openWorkspace('Bayer','ws-bayer')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">🏢</div>
-        <span class="ws-card-more">⋮</span>
+  <!-- Chat area -->
+  <div class="bot-chat">
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-wrap">
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Type your answer or use the options above…" onkeydown="if(event.key==='Enter')sendUserMsg()"/>
+        <button class="chat-send" id="chat-send-btn" onclick="sendUserMsg()">➤</button>
       </div>
-      <div class="ws-card-name">Bayer</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">just now</div>
-        <div class="ws-card-count">6 projects</div>
-      </div>
-    </div>
-    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 2','ws-sz2')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">📐</div>
-        <span class="ws-card-more">⋮</span>
-      </div>
-      <div class="ws-card-name">Sizing Analysis 2</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">2 days ago</div>
-        <div class="ws-card-count">2 projects</div>
-      </div>
-    </div>
-    <div class="ws-card" onclick="openWorkspace('Workspace_12Nov','ws-12nov')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">📁</div>
-        <span class="ws-card-more">⋮</span>
-      </div>
-      <div class="ws-card-name">Workspace_12Nov</div>
-      <div class="ws-card-desc">This is temp</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">3 days ago</div>
-        <div class="ws-card-count">3 projects</div>
-      </div>
-    </div>
-    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 1','ws-sz1')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">📐</div>
-        <span class="ws-card-more">⋮</span>
-      </div>
-      <div class="ws-card-name">Sizing Analysis 1</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">1 week ago</div>
-        <div class="ws-card-count">4 projects</div>
-      </div>
-    </div>
-    <div class="ws-card" onclick="openWorkspace('Test_Workspace_1','ws-test1')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">🧪</div>
-        <span class="ws-card-more">⋮</span>
-      </div>
-      <div class="ws-card-name">Test_Workspace_1</div>
-      <div class="ws-card-desc">Test workspace 1</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">2 weeks ago</div>
-        <div class="ws-card-count">1 project</div>
-      </div>
-    </div>
-    <div class="ws-card" onclick="openWorkspace('New Workspace1','ws-new1')">
-      <div class="ws-card-top">
-        <div class="ws-card-icon">🌐</div>
-        <span class="ws-card-more">⋮</span>
-      </div>
-      <div class="ws-card-name">New Workspace1</div>
-      <div class="ws-card-desc">Workspace created by API</div>
-      <div class="ws-card-meta">
-        <div class="ws-card-time">1 month ago</div>
-        <div class="ws-card-count">0 projects</div>
-      </div>
-    </div>
-    <!-- Add card -->
-    <div class="ws-card ws-card-add" onclick="openModal('ws')">
-      <div class="ws-card-add-icon">＋</div>
-      <div class="ws-card-add-label">New Workspace</div>
+      <div class="chat-disclaimer">✦ Agentic setup — your inputs build the workflow automatically</div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PAGE 2 — LEFT: PROJECTS DRILL-DOWN | RIGHT: BRANDS / TEAMS
-════════════════════════════════════════ -->
-<div class="page" id="page-detail">
-
-  <!-- ── LEFT SIDEBAR: projects list ── -->
-  <div class="p2-sidebar" id="p2-sidebar">
-    <div class="p2-sb-header">
-      <div class="p2-sb-title">
-        Projects
-        <button class="p2-sb-add" onclick="openModal('project')" title="New project">+</button>
-      </div>
-      <div class="p2-sb-search-wrap">
-        <span class="p2-sb-search-icon">⌕</span>
-        <input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)" />
-      </div>
-      <div class="p2-sb-ws-label" onclick="goHome()">
-        ← <span id="p2-ws-name">Workspace</span>
-      </div>
+<!-- ════════════════════════════
+     PAGE 2 — WORKSPACES
+════════════════════════════ -->
+<div class="page" id="page-workspaces">
+  <div class="ws-page-header">
+    <div>
+      <div class="ws-page-title">All Workspaces</div>
+      <div class="ws-page-sub">Welcome back, Palak</div>
     </div>
-
-    <div class="p2-sb-body" id="p2-sb-body">
-      <div class="proj-item active" id="psi-NNI Test" onclick="selectProject('NNI Test')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">NNI Test</div>
-            <div class="proj-item-time">just now · 2 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-      <div class="proj-item" id="psi-NNI FF Sizing" onclick="selectProject('NNI FF Sizing')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">NNI FF Sizing</div>
-            <div class="proj-item-time">2 days ago · 2 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-      <div class="proj-item" id="psi-Avinash Test" onclick="selectProject('Avinash Test')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">Avinash Test</div>
-            <div class="proj-item-time">3 days ago · 4 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-      <div class="proj-item" id="psi-Bayer Demo" onclick="selectProject('Bayer Demo')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">Bayer Demo</div>
-            <div class="proj-item-time">4 days ago · 8 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-      <div class="proj-item" id="psi-Demo 1" onclick="selectProject('Demo 1')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">Demo 1</div>
-            <div class="proj-item-time">5 days ago · 2 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-      <div class="proj-item" id="psi-Project 1" onclick="selectProject('Project 1')">
-        <div class="proj-item-row">
-          <span class="proj-dot"></span>
-          <div class="proj-item-info">
-            <div class="proj-item-name">Project 1</div>
-            <div class="proj-item-time">1 week ago · 17 scenarios</div>
-          </div>
-          <span class="proj-item-more">⋮</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="p2-sb-footer">
-      <button class="p2-sb-new" onclick="openModal('project')">+ New Project</button>
+    <div class="ws-page-actions">
+      <button class="btn btn-primary" onclick="startCreateWorkflow()">✦ Create workflow</button>
     </div>
   </div>
+  <div class="ws-toolbar">
+    <div class="ws-search-wrap">
+      <span class="ws-search-icon">⌕</span>
+      <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)"/>
+    </div>
+    <div class="ws-sort">☰ Newest first</div>
+  </div>
+  <div class="ws-grid" id="ws-grid">
+    <div class="ws-card" onclick="openWorkspace('Bayer')"><div class="ws-card-top"><div class="ws-card-icon">🏢</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Bayer</div><div class="ws-card-meta"><div class="ws-card-time">just now</div><div class="ws-card-count">6 projects</div></div></div>
+    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 2')"><div class="ws-card-top"><div class="ws-card-icon">📐</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Sizing Analysis 2</div><div class="ws-card-meta"><div class="ws-card-time">2 days ago</div><div class="ws-card-count">2 projects</div></div></div>
+    <div class="ws-card" onclick="openWorkspace('Workspace_12Nov')"><div class="ws-card-top"><div class="ws-card-icon">📁</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Workspace_12Nov</div><div class="ws-card-desc">This is temp</div><div class="ws-card-meta"><div class="ws-card-time">3 days ago</div><div class="ws-card-count">3 projects</div></div></div>
+    <div class="ws-card" onclick="openWorkspace('Sizing Analysis 1')"><div class="ws-card-top"><div class="ws-card-icon">📐</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Sizing Analysis 1</div><div class="ws-card-meta"><div class="ws-card-time">1 week ago</div><div class="ws-card-count">4 projects</div></div></div>
+    <div class="ws-card" onclick="openWorkspace('Test_Workspace_1')"><div class="ws-card-top"><div class="ws-card-icon">🧪</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Test_Workspace_1</div><div class="ws-card-desc">Test workspace 1</div><div class="ws-card-meta"><div class="ws-card-time">2 weeks ago</div><div class="ws-card-count">1 project</div></div></div>
+    <div class="ws-card" onclick="openWorkspace('New Workspace1')"><div class="ws-card-top"><div class="ws-card-icon">🌐</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">New Workspace1</div><div class="ws-card-desc">Workspace created by API</div><div class="ws-card-meta"><div class="ws-card-time">1 month ago</div><div class="ws-card-count">0 projects</div></div></div>
+    <div class="ws-card ws-card-add" onclick="startCreateWorkflow()"><div class="ws-card-add-icon">＋</div><div class="ws-card-add-label">New Workspace</div></div>
+  </div>
+</div>
 
-  <!-- ── RIGHT MAIN ── -->
+<!-- ════════════════════════════
+     PAGE 3 — PROJECT DETAIL
+════════════════════════════ -->
+<div class="page" id="page-detail">
+  <div class="p2-sidebar" id="p2-sidebar">
+    <div class="p2-sb-header">
+      <div class="p2-sb-title">Projects<button class="p2-sb-add" onclick="openModal('project')">+</button></div>
+      <div class="p2-sb-search-wrap"><span class="p2-sb-search-icon">⌕</span><input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)"/></div>
+      <div class="p2-sb-ws-label" onclick="goWorkspaces()">← <span id="p2-ws-name">Workspace</span></div>
+    </div>
+    <div class="p2-sb-body" id="p2-sb-body">
+      <div class="proj-item active" id="psi-NNI Test" onclick="selectProject('NNI Test')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">NNI Test</div><div class="proj-item-time">just now · 2 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+      <div class="proj-item" id="psi-NNI FF Sizing" onclick="selectProject('NNI FF Sizing')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">NNI FF Sizing</div><div class="proj-item-time">2 days ago · 2 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+      <div class="proj-item" id="psi-Avinash Test" onclick="selectProject('Avinash Test')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Avinash Test</div><div class="proj-item-time">3 days ago · 4 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+      <div class="proj-item" id="psi-Bayer Demo" onclick="selectProject('Bayer Demo')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Bayer Demo</div><div class="proj-item-time">4 days ago · 8 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+      <div class="proj-item" id="psi-Demo 1" onclick="selectProject('Demo 1')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Demo 1</div><div class="proj-item-time">5 days ago · 2 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+      <div class="proj-item" id="psi-Project 1" onclick="selectProject('Project 1')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Project 1</div><div class="proj-item-time">1 week ago · 17 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
+    </div>
+    <div class="p2-sb-footer"><button class="p2-sb-new" onclick="openModal('project')">+ New Project</button></div>
+  </div>
   <div class="p2-main">
-
-    <!-- topstrip -->
     <div class="p2-topstrip">
-      <div style="font-size:13px;color:var(--text-muted)">
-        <span id="p2-proj-name-strip" style="font-weight:600;color:var(--text)">NNI Test</span>
-      </div>
+      <div style="font-size:13px;color:var(--muted)"><span id="p2-proj-name-strip" style="font-weight:600;color:var(--text)">NNI Test</span></div>
       <div class="p2-topstrip-right">
         <div class="icon-btn" title="Sort">↕</div>
         <div class="icon-btn" title="Filter">☰</div>
@@ -732,164 +566,46 @@ body{
         <button class="fab-inline" id="p2-add-btn" onclick="p2Add()">+ Add Brand</button>
       </div>
     </div>
-
-    <!-- content -->
     <div class="p2-content">
-
-      <!-- agentic bar -->
       <div class="suggestion-bar" id="p2-sug-bar">
         <div class="sug-icon">✦</div>
-        <div class="sug-text">
-          <strong>Agentic suggestion</strong>
-          Test_Brand has no customers configured yet — add customers to complete setup.
-        </div>
-        <div class="sug-actions">
-          <button class="sug-btn sug-btn-white" onclick="dismissSug()">Fix it</button>
-          <button class="sug-btn sug-btn-ghost" onclick="dismissSug()">Dismiss</button>
-        </div>
+        <div class="sug-text"><strong>Agentic suggestion</strong>Test_Brand has no customers configured yet — add customers to complete setup.</div>
+        <div class="sug-actions"><button class="sug-btn sug-btn-white" onclick="dismissSug()">Fix it</button><button class="sug-btn sug-btn-ghost" onclick="dismissSug()">Dismiss</button></div>
       </div>
-
-      <!-- tabs -->
       <div class="tabs">
         <div class="tab active" id="tab-brands" onclick="switchTab('brands')">📊 Brands</div>
         <div class="tab" id="tab-teams" onclick="switchTab('teams')">👥 Teams</div>
       </div>
-
-      <!-- BRANDS PANE -->
       <div id="brands-pane">
-        <div class="subtabs">
-          <div class="subtab active">Brands</div>
-          <div class="subtab">Reporting Groups</div>
-        </div>
+        <div class="subtabs"><div class="subtab active">Brands</div><div class="subtab">Reporting Groups</div></div>
         <div class="brand-grid" style="margin-top:14px">
-          <div class="brand-card">
-            <div class="brand-card-header">
-              <div class="brand-name">Test_Brand ⓘ</div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <span class="badge badge-pending">⚠ Pending</span>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="brand-meta">
-              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-              <div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div>
-            </div>
-          </div>
-          <div class="brand-card">
-            <div class="brand-card-header">
-              <div class="brand-name">Brand_3 ⓘ</div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <span class="badge badge-completed">✓ Completed</span>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="brand-meta">
-              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
-            </div>
-          </div>
-          <div class="brand-card">
-            <div class="brand-card-header">
-              <div class="brand-name">Brand_2 ⓘ</div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <span class="badge badge-completed">✓ Completed</span>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="brand-meta">
-              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
-            </div>
-          </div>
-          <div class="brand-card">
-            <div class="brand-card-header">
-              <div class="brand-name">Brand_1 ⓘ</div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <span class="badge badge-completed">✓ Completed</span>
-                <div class="more-btn">⋮</div>
-              </div>
-            </div>
-            <div class="brand-meta">
-              <div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div>
-              <div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div>
-            </div>
-          </div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Test_Brand ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-pending">⚠ Pending</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_3 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_2 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_1 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
         </div>
       </div>
-
-      <!-- TEAMS PANE -->
       <div id="teams-pane" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <span style="font-size:13px;color:var(--text-muted)">All Structures</span>
-          <span class="scenario-btn" onclick="openModal('scenario')">+ Scenario</span>
-        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;color:var(--muted)">All Structures</span><span class="scenario-btn" onclick="openModal('scenario')">+ Scenario</span></div>
         <div class="structure-card">
-          <div class="structure-header">
-            <div class="structure-name">Team ⓘ</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <span class="badge badge-completed">✓ Completed</span>
-              <div class="more-btn">⋮</div>
-            </div>
-          </div>
+          <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
           <div class="team-count">All Teams (4):</div>
           <div class="team-sub-grid">
-            <div class="team-sub-card">
-              <div class="team-sub-name">Team_1</div>
-              <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
-              <div class="team-field">
-                <div class="team-field-label">Customer Type & Brands</div>
-                <div class="brand-tags">
-                  <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
-                  <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
-                </div>
-              </div>
-            </div>
-            <div class="team-sub-card">
-              <div class="team-sub-name">Team_2</div>
-              <div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div>
-              <div class="team-field">
-                <div class="team-field-label">Customer Type & Brands</div>
-                <div class="brand-tags">
-                  <span style="font-size:11px;font-weight:600;color:var(--text-muted)">HCP:</span>
-                  <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span>
-                </div>
-              </div>
-            </div>
+            <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
+            <div class="team-sub-card"><div class="team-sub-name">Team_2</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
           </div>
           <div class="used-label">Used in scenarios (2):</div>
-          <div class="scenario-tags">
-            <span class="scenario-tag">↑ Test</span>
-            <span class="scenario-tag">↑ Test2</span>
-          </div>
+          <div class="scenario-tags"><span class="scenario-tag">↑ Test</span><span class="scenario-tag">↑ Test2</span></div>
         </div>
       </div>
-
-    </div><!-- /p2-content -->
-  </div><!-- /p2-main -->
-</div><!-- /page-detail -->
-
-<!-- ════════════════════════════════════════
-     MODALS
-════════════════════════════════════════ -->
-
-<!-- WORKSPACE MODAL -->
-<div class="overlay" id="modal-ws">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title">New Workspace</div><button class="modal-close" onclick="closeModal('ws')">✕</button></div>
-    <div class="modal-body">
-      <div class="step-panel active" style="padding:26px">
-        <div class="step-layout">
-          <div class="field-group"><label class="field-label">Workspace Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Q1 2027 Planning"/></div>
-          <div class="field-group"><label class="field-label">Description</label><input class="field-input" placeholder="Optional description"/></div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('ws')">Cancel</button>
-      <div class="modal-footer-right"><button class="btn btn-primary" onclick="addWorkspace()">Create Workspace</button></div>
     </div>
   </div>
 </div>
+
+<!-- ════════════════════════════════════════
+     MODALS — existing workflow only
+     Bot conversation handles new workflow
+════════════════════════════════════════ -->
 
 <!-- PROJECT MODAL — 3 steps -->
 <div class="overlay" id="modal-project">
@@ -909,7 +625,7 @@ body{
           <div class="field-group"><label class="field-label">Customer Data Available</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="cda" value="yes" checked/> Yes</label><label class="radio-opt"><input type="radio" name="cda" value="no"/> No</label></div></div>
         </div>
         <div class="step-layout">
-          <div class="field-group"><label class="field-label">Planning Scope <span class="req">*</span> <span class="field-info">ⓘ</span></label><div class="date-range"><input type="number" class="field-input" placeholder="Start year"/><span class="date-sep">→</span><input type="number" class="field-input" placeholder="End year"/></div></div>
+          <div class="field-group"><label class="field-label">Planning Scope <span class="req">*</span></label><div class="date-range"><input type="number" class="field-input" placeholder="Start year"/><span class="date-sep">→</span><input type="number" class="field-input" placeholder="End year"/></div></div>
           <div class="field-group"><label class="field-label">Discount Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"/></div>
         </div>
         <div class="step-layout">
@@ -921,10 +637,17 @@ body{
       </div>
       <div class="step-panel" id="pp-2">
         <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1" value="forecast1"/></div></div>
-        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody><tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr></tbody></table></div>
+        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody>
+          <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+        </tbody></table></div>
       </div>
       <div class="step-panel" id="pp-3">
-        <div style="background:var(--accent-light);border-radius:var(--radius);padding:16px;border:1px solid var(--accent)"><div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">✓ Ready to create</div><div style="font-size:13px;color:var(--text-muted)">Review and click <strong>Add Project</strong> to confirm.</div></div>
+        <div style="background:var(--accent-light);border-radius:var(--r);padding:16px;border:1px solid var(--accent)"><div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">✓ Ready to create</div><div style="font-size:13px;color:var(--muted)">Review and click <strong>Add Project</strong> to confirm.</div></div>
         <div class="step-layout"><div><div class="meta-label">Project Name</div><div class="meta-val" id="review-name">—</div></div><div><div class="meta-label">Currency</div><div class="meta-val">USD</div></div><div><div class="meta-label">Planning Scope</div><div class="meta-val">2027 – 2029</div></div><div><div class="meta-label">Discount Rate</div><div class="meta-val">—</div></div></div>
       </div>
     </div>
@@ -954,12 +677,31 @@ body{
       </div>
       <div class="step-panel" id="bp-2">
         <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1"/></div></div>
-        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody><tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr><tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr></tbody></table></div>
+        <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody>
+          <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+        </tbody></table></div>
       </div>
       <div class="step-panel" id="bp-3">
-        <div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Upload Customer File</label></div><div class="upload-zone" onclick="simulateUpload()" id="upload-zone"><div class="upload-zone-icon">📂</div><div class="upload-zone-text">Click to upload CSV or drag & drop</div></div><div id="upload-result" style="display:none;margin-top:10px"><div class="upload-badge"><span>📄</span><span>customer_data.csv</span><span class="upload-badge-x" onclick="clearUpload()">✕</span></div></div></div>
+        <div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Upload Customer File</label></div>
+          <div class="upload-zone" onclick="simulateUpload()" id="upload-zone"><div class="upload-zone-icon">📂</div><div class="upload-zone-text">Click to upload CSV or drag & drop</div></div>
+          <div id="upload-result" style="display:none;margin-top:10px"><div class="upload-badge"><span>📄</span><span>customer_data.csv</span><span class="upload-badge-x" onclick="clearUpload()">✕</span></div></div>
+        </div>
         <div class="field-group"><label class="field-label">Customer Type</label><select class="field-select"><option value="">Select Customer Type</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option><option>Payer</option></select></div>
-        <div id="col-mapping" style="display:none"><div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">Map Columns</div><div style="overflow-x:auto"><table class="col-table"><thead><tr><th>Column</th><th>Alias Name</th><th>Column Type</th></tr></thead><tbody><tr><td>CustID</td><td>CustID</td><td><select><option>—</option><option>ID</option></select></td></tr><tr><td>TimePeriod</td><td>TimePeriod</td><td><select><option>—</option><option>Date</option></select></td></tr><tr><td>Sales_NRx</td><td>NRx</td><td><select><option>Sales</option><option>Activity</option></select></td></tr><tr><td>Activity_SF</td><td>SF</td><td><select><option>Activity</option><option>Sales</option></select></td></tr><tr><td>Segment_HMLZ</td><td>HMLZ</td><td><select><option>Segment</option><option>Activity</option></select></td></tr></tbody></table></div></div>
+        <div id="col-mapping" style="display:none">
+          <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px">Map Columns</div>
+          <div style="overflow-x:auto"><table class="col-table"><thead><tr><th>Column</th><th>Alias Name</th><th>Column Type</th></tr></thead><tbody>
+            <tr><td>CustID</td><td>CustID</td><td><select><option>—</option><option>ID</option></select></td></tr>
+            <tr><td>TimePeriod</td><td>TimePeriod</td><td><select><option>—</option><option>Date</option></select></td></tr>
+            <tr><td>Sales_NRx</td><td>NRx</td><td><select><option>Sales</option><option>Activity</option></select></td></tr>
+            <tr><td>Activity_SF</td><td>SF</td><td><select><option>Activity</option><option>Sales</option></select></td></tr>
+            <tr><td>Segment_HMLZ</td><td>HMLZ</td><td><select><option>Segment</option><option>Activity</option></select></td></tr>
+          </tbody></table></div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -989,18 +731,18 @@ body{
         <div style="display:flex;gap:12px"><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="ti" checked style="accent-color:var(--accent)"/> Team Info</label><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="pe" style="accent-color:var(--accent)"/> Position Effectiveness</label></div>
       </div>
       <div class="step-panel" id="tp-2">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Add sub-teams and assign brand coverage.</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Add sub-teams and assign brand coverage.</div>
         <div class="step-layout"><div class="field-group"><label class="field-label">Sub-team Name</label><input class="field-input" placeholder="e.g. Team_1"/></div><div class="field-group"><label class="field-label">Assign Brands</label><select class="field-select" multiple style="height:76px"><option>Brand_1</option><option>Brand_2</option><option>Brand_3</option></select></div></div>
         <button class="btn btn-ghost btn-sm" style="width:fit-content">+ Add sub-team</button>
       </div>
       <div class="step-panel" id="tp-3">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Define territory coverage.</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Define territory coverage.</div>
         <div class="step-layout"><div class="field-group"><label class="field-label">Coverage Model</label><select class="field-select"><option>National</option><option>Regional</option><option>Territory</option></select></div><div class="field-group"><label class="field-label">Number of Territories</label><input type="number" class="field-input" placeholder="e.g. 50"/></div></div>
       </div>
       <div class="step-panel" id="tp-4">
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Set response curve parameters.</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Set response curve parameters.</div>
         <div class="step-layout"><div class="field-group"><label class="field-label">Curve Type</label><select class="field-select"><option>S-Curve</option><option>Linear</option><option>Diminishing Returns</option></select></div><div class="field-group"><label class="field-label">Saturation Point (%)</label><input type="number" class="field-input" placeholder="e.g. 85"/></div></div>
-        <div style="background:var(--accent-light);border-radius:var(--radius);padding:13px;border:1px solid var(--accent);font-size:13px;color:var(--accent)">✦ All steps complete. Click <strong>Create Team</strong> to save.</div>
+        <div style="background:var(--accent-light);border-radius:var(--r);padding:13px;border:1px solid var(--accent);font-size:13px;color:var(--accent)">✦ All steps complete. Click <strong>Create Team</strong> to save.</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -1023,7 +765,7 @@ body{
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('scenario')">Cancel</button>
-      <div class="modal-footer-right"><button class="btn btn-primary" onclick="addScenario()">Create Scenario</button></div>
+      <div class="modal-footer-right"><button class="btn btn-primary" onclick="closeModal('scenario');showToast('Scenario created.')">Create Scenario</button></div>
     </div>
   </div>
 </div>
@@ -1033,124 +775,315 @@ body{
 
 <script>
 /* ══ TEAMS DETECTION ══ */
-(function(){
-  try{
-    const inTeams = window.self!==window.top||navigator.userAgent.includes('Teams');
-    if(inTeams) document.documentElement.style.setProperty('--teams-offset','48px');
-  }catch(e){}
-})();
+(function(){try{const inT=window.self!==window.top||navigator.userAgent.includes('Teams');if(inT)document.documentElement.style.setProperty('--teams-offset','48px')}catch(e){}})();
 
 /* ══ STATE ══ */
-let currentWS = null;
-let currentProj = 'NNI Test';
-let currentTab = 'brands';
-let sidebarOpen = true;
-let projCurrentStep=1, brandCurrentStep=1, teamCurrentStep=1;
+let currentWS=null, currentProj=null, currentTab='brands', sidebarOpen=true;
+
+/* ══ BOT CONVERSATION STATE ══ */
+let botStep=0;
+const collected={};
+const steps=[
+  {
+    id:'workspace',
+    ask:'👋 Let\'s set up your workflow. First, what would you like to name your **workspace**?',
+    type:'input',
+    fields:[
+      {id:'ws_name',label:'Workspace name',placeholder:'e.g. Q1 2027 Planning'},
+      {id:'ws_desc',label:'Description (optional)',placeholder:'Brief description'}
+    ],
+    submit:'Create workspace →'
+  },
+  {
+    id:'project',
+    ask:'Great! Now let\'s create your first **project**. What\'s the project name and planning scope?',
+    type:'input',
+    fields:[
+      {id:'proj_name',label:'Project name',placeholder:'e.g. NNI Test'},
+      {id:'proj_scope_start',label:'Planning start year',placeholder:'2027',type:'number'},
+      {id:'proj_scope_end',label:'Planning end year',placeholder:'2029',type:'number'}
+    ],
+    submit:'Save project info →'
+  },
+  {
+    id:'financials',
+    ask:'Got it. Now a few **financial assumptions** for this project:',
+    type:'input',
+    fields:[
+      {id:'currency',label:'Currency',type:'select',options:['USD ($)','EUR (€)','GBP (£)','INR (₹)']},
+      {id:'discount_rate',label:'Discount rate (%)',placeholder:'e.g. 5',type:'number'},
+      {id:'inflation_rate',label:'Inflation rate (%)',placeholder:'e.g. 2',type:'number'},
+      {id:'cda',label:'Customer data available?',type:'select',options:['Yes','No']}
+    ],
+    submit:'Save financials →'
+  },
+  {
+    id:'brand',
+    ask:'Now let\'s add your first **brand**. What brand are you planning for?',
+    type:'input',
+    fields:[
+      {id:'brand_name',label:'Brand name',placeholder:'e.g. Lexorin'},
+      {id:'therapeutic_area',label:'Therapeutic area',placeholder:'e.g. Oncology'},
+      {id:'competition_type',label:'Competition type',type:'select',options:['Branded','Generic','Biosimilar']},
+      {id:'years_market',label:'Years in market',placeholder:'e.g. 3',type:'number'}
+    ],
+    submit:'Save brand →'
+  },
+  {
+    id:'team',
+    ask:'Almost done! Let\'s define your **team structure**. Tell me about the field team:',
+    type:'input',
+    fields:[
+      {id:'team_name',label:'Team name',placeholder:'e.g. Single Team'},
+      {id:'team_role',label:'Role',placeholder:'e.g. Rep'},
+      {id:'annual_rep_cost',label:'Annual rep cost ($)',placeholder:'e.g. 280000',type:'number'},
+      {id:'customer_type',label:'Customer type',type:'select',options:['HCP','Hospital','Pharmacy','Payer']}
+    ],
+    submit:'Save team →'
+  },
+  {
+    id:'review',
+    ask:'Everything looks great! Here\'s a summary of what we\'ll create:',
+    type:'review',
+    submit:'Create workflow ✓'
+  }
+];
 
 /* ══ PAGE NAVIGATION ══ */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // show sidebar toggle only on page 2
-  document.getElementById('sb-toggle-btn').style.display = id==='page-detail' ? '' : 'none';
+  document.getElementById('sb-toggle-btn').style.display=id==='page-detail'?'':'none';
 }
+function goEntry(){showPage('page-entry');setBc([{label:'Home',action:null}]);}
+function openExisting(){showPage('page-workspaces');setBc([{label:'Home',action:'goEntry()'},{ label:'Workspaces',action:null}]);}
+function goWorkspaces(){showPage('page-workspaces');setBc([{label:'Home',action:'goEntry()'},{ label:'Workspaces',action:null}]);}
 
-function goHome(){
-  showPage('page-workspaces');
-  setBreadcrumb([{label:'Home',action:null}]);
-}
-
-/* ══ PAGE 1 — WORKSPACE CARDS ══ */
 function openWorkspace(name){
-  currentWS = name;
-  document.getElementById('p2-ws-name').textContent = name;
+  currentWS=name;
+  document.getElementById('p2-ws-name').textContent=name;
   showPage('page-detail');
-  setBreadcrumb([
-    {label:'Home', action:'goHome()'},
-    {label:name, action:null}
-  ]);
-  // reset to first project
+  document.getElementById('sb-toggle-btn').style.display='';
   selectProject('NNI Test');
+  setBc([{label:'Home',action:'goEntry()'},{label:name,action:null}]);
 }
 
-function filterWSCards(q){
-  const ql = q.toLowerCase();
-  document.querySelectorAll('#ws-grid .ws-card:not(.ws-card-add)').forEach(c=>{
-    const name = c.querySelector('.ws-card-name').textContent.toLowerCase();
-    c.style.display = name.includes(ql) ? '' : 'none';
+/* ══ ENTRY PAGE ══ */
+function startCreateWorkflow(){
+  botStep=0;
+  Object.keys(collected).forEach(k=>delete collected[k]);
+  showPage('page-bot');
+  setBc([{label:'Home',action:'goEntry()'},{label:'Create workflow',action:null}]);
+  // reset progress
+  [0,1,2,3,4,5].forEach(i=>{
+    document.getElementById('bp-'+i).className='bp-item'+(i===0?' active':'');
+    document.getElementById('bpd-'+i).textContent=i+1;
+    document.getElementById('bpc-'+i) && (document.getElementById('bpc-'+i).className='bp-connector');
   });
+  document.getElementById('chat-messages').innerHTML='';
+  setTimeout(()=>botAsk(0), 200);
 }
 
-/* ══ PAGE 2 — PROJECT SIDEBAR ══ */
+/* ══ BOT ENGINE ══ */
+function botAsk(stepIdx){
+  const step=steps[stepIdx];
+  appendBotMsg(step.ask.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'));
+  // update progress bar
+  [0,1,2,3,4,5].forEach(i=>{
+    const el=document.getElementById('bp-'+i);
+    const dot=document.getElementById('bpd-'+i);
+    const conn=document.getElementById('bpc-'+i);
+    if(i<stepIdx){el.className='bp-item done';dot.textContent='✓';if(conn)conn.className='bp-connector done';}
+    else if(i===stepIdx){el.className='bp-item active';dot.textContent=i+1;}
+    else{el.className='bp-item';dot.textContent=i+1;}
+  });
+
+  if(step.type==='input') setTimeout(()=>appendInputCard(step), 400);
+  if(step.type==='review') setTimeout(()=>appendReviewCard(), 400);
+}
+
+function appendBotMsg(html){
+  const wrap=document.getElementById('chat-messages');
+  // typing indicator
+  const typing=document.createElement('div');
+  typing.className='typing-indicator';
+  typing.id='typing-ind';
+  typing.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  wrap.appendChild(typing);
+  wrap.scrollTop=wrap.scrollHeight;
+  setTimeout(()=>{
+    typing.remove();
+    const msg=document.createElement('div');
+    msg.className='msg-bot';
+    msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">${html}</div>`;
+    wrap.appendChild(msg);
+    wrap.scrollTop=wrap.scrollHeight;
+  },700);
+}
+
+function appendInputCard(step){
+  const wrap=document.getElementById('chat-messages');
+  const card=document.createElement('div');
+  card.className='bot-input-card';
+  card.id='bot-input-card';
+  let fieldsHtml='';
+  const isGrid=step.fields.length>=3;
+  if(isGrid) fieldsHtml+='<div class="bic-grid">';
+  step.fields.forEach(f=>{
+    let input='';
+    if(f.type==='select'){
+      input=`<select class="bic-select" id="bf-${f.id}"><option value="">Select...</option>${f.options.map(o=>`<option>${o}</option>`).join('')}</select>`;
+    } else {
+      input=`<input class="bic-input" id="bf-${f.id}" type="${f.type||'text'}" placeholder="${f.placeholder||''}"/>`;
+    }
+    fieldsHtml+=`<div class="bic-field"><label>${f.label}</label>${input}</div>`;
+  });
+  if(isGrid) fieldsHtml+='</div>';
+  card.innerHTML=`<div class="bic-label">Your input</div>${fieldsHtml}<button class="bic-submit" onclick="submitBotStep()">${step.submit}</button>`;
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+  // focus first input
+  setTimeout(()=>card.querySelector('.bic-input,.bic-select')?.focus(),100);
+}
+
+function submitBotStep(){
+  const step=steps[botStep];
+  // collect values
+  let summary='';
+  step.fields.forEach(f=>{
+    const el=document.getElementById('bf-'+f.id);
+    if(el){collected[f.id]=el.value||'—';summary+=`<strong>${f.label}:</strong> ${el.value||'—'}&nbsp;&nbsp;`;}
+  });
+  // remove input card
+  document.getElementById('bot-input-card')?.remove();
+  // show user bubble with summary
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+  // advance
+  botStep++;
+  if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+}
+
+function appendReviewCard(){
+  const wrap=document.getElementById('chat-messages');
+  const card=document.createElement('div');
+  card.className='summary-card';
+  const fields={
+    'Workspace':collected.ws_name||'—',
+    'Description':collected.ws_desc||'—',
+    'Project':collected.proj_name||'—',
+    'Planning scope':`${collected.proj_scope_start||'—'} – ${collected.proj_scope_end||'—'}`,
+    'Currency':collected.currency||'—',
+    'Discount rate':collected.discount_rate?collected.discount_rate+'%':'—',
+    'Brand':collected.brand_name||'—',
+    'Therapeutic area':collected.therapeutic_area||'—',
+    'Team name':collected.team_name||'—',
+    'Customer type':collected.customer_type||'—'
+  };
+  let rows='';
+  Object.entries(fields).forEach(([k,v])=>{
+    rows+=`<div class="sc-item"><div class="sc-label">${k}</div><div class="sc-val">${v}</div></div>`;
+  });
+  card.innerHTML=`<div class="sc-title">Workflow summary</div><div class="sc-grid">${rows}</div>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost btn-sm" onclick="editStep()">✎ Edit</button>
+      <button class="btn btn-primary btn-sm" onclick="finalCreate()">✓ Create workflow</button>
+    </div>`;
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+  // mark last step active
+  [0,1,2,3,4].forEach(i=>{document.getElementById('bp-'+i).className='bp-item done';document.getElementById('bpd-'+i).textContent='✓';document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');});
+  document.getElementById('bp-5').className='bp-item active';
+}
+
+function editStep(){
+  botStep=0;
+  document.getElementById('chat-messages').innerHTML='';
+  setTimeout(()=>botAsk(0),200);
+}
+
+function finalCreate(){
+  document.querySelector('.summary-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-bot';
+  msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
+    <strong>Workflow created successfully! ✓</strong><br>
+    Workspace <strong>${collected.ws_name||'New Workspace'}</strong> has been set up with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong>, and team <strong>${collected.team_name||'Team'}</strong>.<br><br>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="qr-chip" onclick="openCreatedWorkspace()">Open workspace →</button>
+      <button class="qr-chip" onclick="startCreateWorkflow()">Create another</button>
+    </div>
+  </div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+  [0,1,2,3,4,5].forEach(i=>{document.getElementById('bp-'+i).className='bp-item done';document.getElementById('bpd-'+i).textContent='✓';});
+  showToast('Workflow created successfully.');
+}
+
+function openCreatedWorkspace(){
+  const name=collected.ws_name||'New Workspace';
+  openWorkspace(name);
+}
+
+function sendUserMsg(){
+  const input=document.getElementById('chat-input');
+  const val=input.value.trim();
+  if(!val) return;
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${val}</div>`;
+  wrap.appendChild(msg);
+  input.value='';
+  wrap.scrollTop=wrap.scrollHeight;
+  setTimeout(()=>{
+    const rep=document.createElement('div');
+    rep.className='msg-bot';
+    rep.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">Got it! Please fill in the form above to continue the workflow setup.</div>`;
+    wrap.appendChild(rep);
+    wrap.scrollTop=wrap.scrollHeight;
+  },600);
+}
+
+/* ══ PAGE 3 LOGIC ══ */
 function selectProject(name){
-  currentProj = name;
-  // update sidebar active state
+  currentProj=name;
   document.querySelectorAll('.proj-item').forEach(el=>el.classList.remove('active'));
-  const el = document.getElementById('psi-'+name);
-  if(el) el.classList.add('active');
-  // update strip
-  document.getElementById('p2-proj-name-strip').textContent = name;
-  // update breadcrumb
-  setBreadcrumb([
-    {label:'Home', action:'goHome()'},
-    {label:currentWS, action:`openWorkspace('${currentWS}')`},
-    {label:name, action:null}
-  ]);
-  // reset tab
+  document.getElementById('psi-'+name)?.classList.add('active');
+  document.getElementById('p2-proj-name-strip').textContent=name;
+  setBc([{label:'Home',action:'goEntry()'},{label:currentWS,action:'goWorkspaces()'},{label:name,action:null}]);
   switchTab('brands');
 }
-
-function filterProjects(q){
-  const ql = q.toLowerCase();
-  document.querySelectorAll('.proj-item').forEach(el=>{
-    const name = el.querySelector('.proj-item-name').textContent.toLowerCase();
-    el.style.display = name.includes(ql) ? '' : 'none';
-  });
-}
-
-function toggleSidebar(){
-  sidebarOpen = !sidebarOpen;
-  document.getElementById('p2-sidebar').classList.toggle('collapsed',!sidebarOpen);
-}
-
-/* ══ TABS ══ */
-function switchTab(t){
-  currentTab = t;
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-  document.getElementById('brands-pane').style.display = t==='brands' ? '' : 'none';
-  document.getElementById('teams-pane').style.display  = t==='teams'  ? '' : 'none';
-  const btn = document.getElementById('p2-add-btn');
-  if(btn) btn.textContent = t==='brands' ? '+ Add Brand' : '+ Add Structure';
-}
-
-function p2Add(){ openModal(currentTab==='brands'?'brand':'team'); }
-function dismissSug(){ document.getElementById('p2-sug-bar').style.display='none'; }
+function filterProjects(q){const ql=q.toLowerCase();document.querySelectorAll('.proj-item').forEach(el=>{el.style.display=el.querySelector('.proj-item-name').textContent.toLowerCase().includes(ql)?'':'none'});}
+function filterWSCards(q){const ql=q.toLowerCase();document.querySelectorAll('#ws-grid .ws-card:not(.ws-card-add)').forEach(c=>{c.style.display=c.querySelector('.ws-card-name').textContent.toLowerCase().includes(ql)?'':'none'});}
+function toggleSidebar(){sidebarOpen=!sidebarOpen;document.getElementById('p2-sidebar').classList.toggle('collapsed',!sidebarOpen);}
+function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.getElementById('brands-pane').style.display=t==='brands'?'':'none';document.getElementById('teams-pane').style.display=t==='teams'?'':'none';const btn=document.getElementById('p2-add-btn');if(btn)btn.textContent=t==='brands'?'+ Add Brand':'+ Add Structure';}
+function p2Add(){openModal(currentTab==='brands'?'brand':'team');}
+function dismissSug(){document.getElementById('p2-sug-bar').style.display='none';}
 
 /* ══ BREADCRUMB ══ */
-function setBreadcrumb(parts){
-  const bc = document.getElementById('tb-bc');
-  bc.innerHTML = parts.map((p,i)=>{
-    const sep = i>0 ? '<span class="sep"> › </span>' : '';
-    const isLast = i===parts.length-1;
-    if(!p.action||isLast) return `${sep}<span class="seg${isLast?' dim':''}">${p.label}</span>`;
-    return `${sep}<span class="seg" onclick="${p.action}">${p.label}</span>`;
+function setBc(parts){
+  const bc=document.getElementById('tb-bc');
+  bc.innerHTML=parts.map((p,i)=>{
+    const sep=i>0?'<span class="sep"> › </span>':'';
+    const isLast=i===parts.length-1;
+    if(!p.action||isLast)return`${sep}<span class="seg${isLast?' dim':''}">${p.label}</span>`;
+    return`${sep}<span class="seg" onclick="${p.action}">${p.label}</span>`;
   }).join('');
 }
 
 /* ══ MODALS ══ */
-function openModal(id){
-  if(id==='project'){projCurrentStep=1;renderProjSteps();}
-  if(id==='brand'){brandCurrentStep=1;renderBrandSteps();}
-  if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
-  document.getElementById('modal-'+id).classList.add('open');
-}
-function closeModal(id){ document.getElementById('modal-'+id).classList.remove('open'); }
-document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
-});
+function openModal(id){document.getElementById('modal-'+id)?.classList.add('open');}
+function closeModal(id){document.getElementById('modal-'+id)?.classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});});
 
 /* ══ PROJECT STEPS ══ */
+let projCurrentStep=1;
 const projLabels=['Save & Add Financials →','Save & Continue →','Add Project'];
 function renderProjSteps(){
   [1,2,3].forEach(i=>{
@@ -1164,13 +1097,13 @@ function renderProjSteps(){
   if(projCurrentStep===3){const n=document.getElementById('proj-name')?.value;if(n)document.getElementById('review-name').textContent=n;}
 }
 function projStep(dir){
-  if(dir===1&&projCurrentStep===3){addProject();return;}
+  if(dir===1&&projCurrentStep===3){closeModal('project');showToast('Project created successfully.');return;}
   projCurrentStep=Math.min(3,Math.max(1,projCurrentStep+dir));
   renderProjSteps();
 }
-function addProject(){ closeModal('project'); showToast('Project created successfully.'); }
 
 /* ══ BRAND STEPS ══ */
+let brandCurrentStep=1;
 const brandLabels=['Save & Add Financials →','Save & Add Customer →','Save Brand'];
 function renderBrandSteps(){
   [1,2,3].forEach(i=>{
@@ -1183,13 +1116,13 @@ function renderBrandSteps(){
   document.getElementById('brand-next-btn').textContent=brandLabels[brandCurrentStep-1];
 }
 function brandStep(dir){
-  if(dir===1&&brandCurrentStep===3){saveBrand();return;}
+  if(dir===1&&brandCurrentStep===3){closeModal('brand');showToast('Brand created successfully.');return;}
   brandCurrentStep=Math.min(3,Math.max(1,brandCurrentStep+dir));
   renderBrandSteps();
 }
-function saveBrand(){ closeModal('brand'); showToast('Brand created successfully.'); }
 
 /* ══ TEAM STEPS ══ */
+let teamCurrentStep=1;
 const teamLabels=['Next →','Next →','Next →','Create Team & Define Effectiveness'];
 function renderTeamSteps(){
   [1,2,3,4].forEach(i=>{
@@ -1202,38 +1135,28 @@ function renderTeamSteps(){
   document.getElementById('team-next-btn').textContent=teamLabels[teamCurrentStep-1];
 }
 function teamStep(dir){
-  if(dir===1&&teamCurrentStep===4){saveTeam();return;}
+  if(dir===1&&teamCurrentStep===4){closeModal('team');showToast('Structure created successfully.');return;}
   teamCurrentStep=Math.min(4,Math.max(1,teamCurrentStep+dir));
   renderTeamSteps();
 }
-function saveTeam(){ closeModal('team'); showToast('Structure created successfully.'); }
 
-/* ══ MISC ══ */
-function addWorkspace(){ closeModal('ws'); showToast('Workspace created successfully.'); }
-function addScenario(){ closeModal('scenario'); showToast('Scenario created successfully.'); }
-function simulateUpload(){
-  document.getElementById('upload-zone').style.display='none';
-  document.getElementById('upload-result').style.display='';
-  document.getElementById('col-mapping').style.display='';
+/* open modal and reset steps */
+function openModal(id){
+  if(id==='project'){projCurrentStep=1;renderProjSteps();}
+  if(id==='brand'){brandCurrentStep=1;renderBrandSteps();}
+  if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
+  document.getElementById('modal-'+id)?.classList.add('open');
 }
-function clearUpload(){
-  document.getElementById('upload-zone').style.display='';
-  document.getElementById('upload-result').style.display='none';
-  document.getElementById('col-mapping').style.display='none';
-}
-function toggleCollabs(){
-  const p=document.getElementById('collabs-panel');
-  const t=document.getElementById('collabs-toggle');
-  const open=p.style.display==='';
-  p.style.display=open?'none':'';
-  t.classList.toggle('open',!open);
-}
-function showToast(msg){
-  document.getElementById('toast-msg').textContent=msg;
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
+
+/* ══ UPLOAD ══ */
+function simulateUpload(){document.getElementById('upload-zone').style.display='none';document.getElementById('upload-result').style.display='';document.getElementById('col-mapping').style.display='';}
+function clearUpload(){document.getElementById('upload-zone').style.display='';document.getElementById('upload-result').style.display='none';document.getElementById('col-mapping').style.display='none';}
+
+/* ══ COLLABS ══ */
+function toggleCollabs(){const p=document.getElementById('collabs-panel');const t=document.getElementById('collabs-toggle');const open=p.style.display==='';p.style.display=open?'none':'';t.classList.toggle('open',!open);}
+
+/* ══ TOAST ══ */
+function showToast(msg){document.getElementById('toast-msg').textContent=msg;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 </script>
 </body>
 </html>

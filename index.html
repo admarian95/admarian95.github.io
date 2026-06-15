@@ -40,8 +40,10 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 /* ════════════════════════════════════════
    PAGE 0 — ENTRY
 ════════════════════════════════════════ */
-#page-entry{align-items:center;justify-content:center;flex-direction:column;gap:0;background:var(--bg)}
-.entry-wrap{width:100%;max-width:720px;padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:36px}
+#page-entry{align-items:center;justify-content:flex-start;flex-direction:column;gap:0;background:var(--bg);overflow-y:auto}
+#page-entry::-webkit-scrollbar{width:4px}
+#page-entry::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.entry-wrap{width:100%;max-width:760px;padding:36px 24px 40px;display:flex;flex-direction:column;align-items:center;gap:28px;margin:0 auto}
 .entry-hero{text-align:center}
 .entry-title{font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px}
 .entry-title span{color:var(--accent)}
@@ -67,9 +69,43 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .er-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .er-time{font-size:10px;color:var(--light);margin-top:1px}
 
-/* ════════════════════════════════════════
-   PAGE 1 — BOT CREATE WORKFLOW
-════════════════════════════════════════ */
+/* ── THINKING MODE TILE ── */
+.entry-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
+.entry-card-thinking{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:22px 20px;cursor:default;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:border .2s;grid-column:1/-1}
+.entry-card-thinking:hover{border-color:var(--accent)}
+.ect-top{display:flex;align-items:flex-start;gap:14px}
+.ec-icon-c{width:48px;height:48px;border-radius:12px;background:#fdf4e7;color:#92400e;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.thinking-nlq-wrap{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:24px;padding:9px 9px 9px 16px;transition:border .15s}
+.thinking-nlq-wrap:focus-within{border-color:var(--accent)}
+.thinking-nlq-input{flex:1;border:none;background:transparent;font-size:13px;font-family:inherit;color:var(--text);outline:none}
+.thinking-nlq-input::placeholder{color:var(--light)}
+.thinking-nlq-send{width:32px;height:32px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+.thinking-nlq-send:hover{background:var(--accent-dark)}
+.thinking-chips{display:flex;flex-wrap:wrap;gap:6px}
+.thinking-chip{padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--surface);font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s}
+.thinking-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
+.thinking-disclaimer{font-size:11px;color:var(--light)}
+
+/* ── CREATION STATUS ── */
+.creation-status{display:flex;flex-direction:column;gap:7px;margin-left:38px;margin-top:4px}
+.cs-step{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--border);font-size:12px;color:var(--muted);transition:all .3s}
+.cs-step.running{background:var(--accent-light);border-color:var(--accent);color:var(--accent-dark)}
+.cs-step.done{background:var(--completed-bg);border-color:#a7f3d0;color:#065f46}
+.cs-step.waiting{opacity:.4}
+.cs-icon{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;font-weight:700}
+.cs-step.running .cs-icon::after{content:'';display:block;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--accent);border-top-color:transparent;animation:spin 0.7s linear infinite}
+.cs-step.running .cs-icon{border:none}
+.cs-step.done .cs-icon{border-color:#059669;background:#059669;color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cs-label{font-size:12px;font-weight:500;flex:1}
+.cs-sub{font-size:10px;opacity:.65}
+
+/* ── EDITABLE REVIEW ── */
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.edit-field{display:flex;flex-direction:column;gap:3px}
+.edit-field label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.edit-input{padding:7px 10px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:12px;font-family:inherit;color:var(--text);background:var(--surface);transition:border .15s;width:100%}
+.edit-input:focus{outline:none;border-color:var(--accent)}
 #page-bot{flex-direction:row}
 
 /* progress sidebar */
@@ -77,7 +113,9 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-header{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
 .bp-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
 .bp-sub{font-size:11px;color:var(--muted)}
-.bp-item{display:flex;align-items:flex-start;gap:10px;padding:8px 18px;border-radius:0;transition:background .15s;cursor:default}
+.bp-item{display:flex;align-items:flex-start;gap:10px;padding:8px 18px;border-radius:0;transition:background .15s;cursor:pointer}
+.bp-item:hover{background:var(--accent-light)}
+.bp-item.done:hover{background:#e8f5ed}
 .bp-item.active{background:var(--accent-light)}
 .bp-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--muted);flex-shrink:0;margin-top:1px;transition:all .2s}
 .bp-item.done .bp-dot{border-color:var(--completed);background:var(--completed);color:#fff}
@@ -88,6 +126,8 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-item.done .bp-item-label{color:var(--completed)}
 .bp-item-sub{font-size:10px;color:var(--light);margin-top:1px}
 .bp-item.done .bp-item-sub{color:var(--completed);opacity:.7}
+.bp-item.done .bp-item-label::after{content:' ✎';font-size:9px;opacity:.5;font-weight:400}
+.bp-item.done:hover .bp-item-label::after{opacity:1;color:var(--accent)}
 .bp-connector{width:2px;height:14px;background:var(--border);margin:0 0 0 27px}
 .bp-connector.done{background:var(--completed)}
 .bp-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border)}
@@ -405,6 +445,21 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
 
+    <!-- Thinking mode tile — full width, click to open -->
+    <div class="entry-card-thinking" onclick="startThinkingMode()" style="cursor:pointer">
+      <div class="ect-top">
+        <div class="ec-icon-c">🧠</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <div class="ec-title">Thinking mode</div>
+            <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--accent);color:#fff;letter-spacing:.5px">NLQ</span>
+          </div>
+          <div class="ec-desc">Describe a scenario, constraint or question in plain language — the AI will parse it, run comparisons and surface insights.</div>
+        </div>
+      </div>
+      <div class="ec-action" style="margin-left:62px">Launch scenario analysis →</div>
+    </div>
+
     <!-- Recent workspaces -->
     <div class="entry-recent">
       <div class="er-label">Recent workspaces</div>
@@ -439,7 +494,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="bp-sub">Answer each question to build your workflow</div>
     </div>
 
-    <div class="bp-item active" id="bp-0">
+    <div class="bp-item active" id="bp-0" onclick="jumpToStep(0)" title="Click to edit">
       <div class="bp-dot" id="bpd-0">1</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Workspace</div>
@@ -447,7 +502,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
     <div class="bp-connector" id="bpc-0"></div>
-    <div class="bp-item" id="bp-1">
+    <div class="bp-item" id="bp-1" onclick="jumpToStep(1)" title="Click to edit">
       <div class="bp-dot" id="bpd-1">2</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Project</div>
@@ -455,7 +510,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
     <div class="bp-connector" id="bpc-1"></div>
-    <div class="bp-item" id="bp-2">
+    <div class="bp-item" id="bp-2" onclick="jumpToStep(2)" title="Click to edit">
       <div class="bp-dot" id="bpd-2">3</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Financials</div>
@@ -463,7 +518,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
     <div class="bp-connector" id="bpc-2"></div>
-    <div class="bp-item" id="bp-3">
+    <div class="bp-item" id="bp-3" onclick="jumpToStep(3)" title="Click to edit">
       <div class="bp-dot" id="bpd-3">4</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Brand</div>
@@ -471,7 +526,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
     <div class="bp-connector" id="bpc-3"></div>
-    <div class="bp-item" id="bp-4">
+    <div class="bp-item" id="bp-4" onclick="jumpToStep(4)" title="Click to edit">
       <div class="bp-dot" id="bpd-4">5</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Team structure</div>
@@ -479,7 +534,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
     </div>
     <div class="bp-connector" id="bpc-4"></div>
-    <div class="bp-item" id="bp-5">
+    <div class="bp-item" id="bp-5" onclick="jumpToStep(5)" title="Click to edit">
       <div class="bp-dot" id="bpd-5">6</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Review & create</div>
@@ -496,18 +551,47 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   <div class="bot-chat">
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-wrap">
-      <div class="chat-input-row">
-        <input class="chat-input" id="chat-input" placeholder="Type your answer or use the options above…" onkeydown="if(event.key==='Enter')sendUserMsg()"/>
-        <button class="chat-send" id="chat-send-btn" onclick="sendUserMsg()">➤</button>
-      </div>
       <div class="chat-disclaimer">✦ Agentic setup — your inputs build the workflow automatically</div>
     </div>
   </div>
 </div>
 
 <!-- ════════════════════════════
-     PAGE 2 — WORKSPACES
+     PAGE 1b — THINKING MODE
 ════════════════════════════ -->
+<div class="page" id="page-thinking">
+  <div class="bot-chat" style="max-width:820px;margin:0 auto;width:100%">
+
+    <!-- scrollable messages area — empty at start, fills as user chats -->
+    <div class="chat-messages" id="thinking-messages">
+      <!-- empty state shown before first query -->
+      <div id="thinking-empty" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;color:var(--muted)">
+        <div style="font-size:40px;margin-bottom:16px;opacity:.25">🧠</div>
+        <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px">Thinking mode</div>
+        <div style="font-size:13px;max-width:320px;line-height:1.6">Describe a scenario or constraint below — the AI will parse it, run comparisons and surface insights.</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM input bar — always visible, like a chat input -->
+    <div class="chat-input-wrap" style="border-top:1px solid var(--border);background:var(--surface)">
+      <div class="thinking-chips" id="thinking-chips-bar" style="padding:10px 16px 0;gap:6px">
+        <div class="thinking-chip" onclick="fillThinking('Reduce Single Team to max 15 FTEs')">Reduce team to 15 FTEs</div>
+        <div class="thinking-chip" onclick="fillThinking('Increase Brand_3 budget by 20%')">Increase Brand_3 budget 20%</div>
+        <div class="thinking-chip" onclick="fillThinking('Add a second HCP sales team')">Add second HCP team</div>
+        <div class="thinking-chip" onclick="fillThinking('Optimize field force for mROI above 20%')">Optimize for mROI &gt;20%</div>
+        <div class="thinking-chip" onclick="fillThinking('What if I remove Lexorin from Single Team coverage?')">Remove Lexorin coverage</div>
+      </div>
+      <div style="padding:10px 16px 8px">
+        <div class="thinking-nlq-wrap">
+          <input class="thinking-nlq-input" id="thinking-input" placeholder="e.g. What happens if I reduce Single Team to 15 FTEs?" onkeydown="if(event.key==='Enter')launchThinking()"/>
+          <button class="thinking-nlq-send" onclick="launchThinking()">➤</button>
+        </div>
+        <div class="thinking-disclaimer" style="margin-top:6px;text-align:center">⚠ AI-generated scenarios should be validated before applying to production</div>
+      </div>
+    </div>
+
+  </div>
+</div>
 <div class="page" id="page-workspaces">
   <div class="ws-page-header">
     <div>
@@ -921,7 +1005,7 @@ function appendBotMsg(html){
   },700);
 }
 
-function appendInputCard(step){
+function appendInputCard(step, prefill=false){
   const wrap=document.getElementById('chat-messages');
   const card=document.createElement('div');
   card.className='bot-input-card';
@@ -930,73 +1014,114 @@ function appendInputCard(step){
   const isGrid=step.fields.length>=3;
   if(isGrid) fieldsHtml+='<div class="bic-grid">';
   step.fields.forEach(f=>{
+    const existingVal = prefill && collected[f.id] && collected[f.id]!=='—' ? collected[f.id] : '';
     let input='';
     if(f.type==='select'){
-      input=`<select class="bic-select" id="bf-${f.id}"><option value="">Select...</option>${f.options.map(o=>`<option>${o}</option>`).join('')}</select>`;
+      const opts=f.options.map(o=>`<option${o===existingVal?' selected':''}>${o}</option>`).join('');
+      input=`<select class="bic-select" id="bf-${f.id}"><option value="">Select...</option>${opts}</select>`;
     } else {
-      input=`<input class="bic-input" id="bf-${f.id}" type="${f.type||'text'}" placeholder="${f.placeholder||''}"/>`;
+      input=`<input class="bic-input" id="bf-${f.id}" type="${f.type||'text'}" placeholder="${f.placeholder||''}" value="${existingVal}"/>`;
     }
     fieldsHtml+=`<div class="bic-field"><label>${f.label}</label>${input}</div>`;
   });
   if(isGrid) fieldsHtml+='</div>';
-  card.innerHTML=`<div class="bic-label">Your input</div>${fieldsHtml}<button class="bic-submit" onclick="submitBotStep()">${step.submit}</button>`;
+  card.innerHTML=`<div class="bic-label">${prefill?'Update your input':'Your input'}</div>${fieldsHtml}<button class="bic-submit" onclick="submitBotStep(${prefill})">${step.submit}</button>`;
   wrap.appendChild(card);
   wrap.scrollTop=wrap.scrollHeight;
-  // focus first input
   setTimeout(()=>card.querySelector('.bic-input,.bic-select')?.focus(),100);
 }
 
-function submitBotStep(){
+function submitBotStep(isEdit=false){
   const step=steps[botStep];
-  // collect values
   let summary='';
   step.fields.forEach(f=>{
     const el=document.getElementById('bf-'+f.id);
     if(el){collected[f.id]=el.value||'—';summary+=`<strong>${f.label}:</strong> ${el.value||'—'}&nbsp;&nbsp;`;}
   });
-  // remove input card
   document.getElementById('bot-input-card')?.remove();
-  // show user bubble with summary
+
   const wrap=document.getElementById('chat-messages');
   const msg=document.createElement('div');
   msg.className='msg-user';
   msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
   wrap.appendChild(msg);
   wrap.scrollTop=wrap.scrollHeight;
-  // advance
-  botStep++;
-  if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+
+  if(isEdit){
+    // editing mode: save only this step, then show a confirmation and re-show review
+    botStep=5; // back to review
+    const confirmMsg=document.createElement('div');
+    confirmMsg.className='msg-bot';
+    confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">Updated ✓ — all other steps unchanged. Ready to review the full workflow again?
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(confirmMsg);
+    wrap.scrollTop=wrap.scrollHeight;
+    // update sidebar to show this step as done again
+    document.getElementById('bp-'+steps.indexOf(step))?.classList.remove('active');
+    document.getElementById('bp-'+steps.indexOf(step))?.classList.add('done');
+    document.getElementById('bp-5').className='bp-item active';
+    document.getElementById('bpd-5').textContent='6';
+  } else {
+    // normal flow: advance to next step
+    botStep++;
+    if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+  }
 }
 
 function appendReviewCard(){
   const wrap=document.getElementById('chat-messages');
   const card=document.createElement('div');
   card.className='summary-card';
-  const fields={
-    'Workspace':collected.ws_name||'—',
-    'Description':collected.ws_desc||'—',
-    'Project':collected.proj_name||'—',
-    'Planning scope':`${collected.proj_scope_start||'—'} – ${collected.proj_scope_end||'—'}`,
-    'Currency':collected.currency||'—',
-    'Discount rate':collected.discount_rate?collected.discount_rate+'%':'—',
-    'Brand':collected.brand_name||'—',
-    'Therapeutic area':collected.therapeutic_area||'—',
-    'Team name':collected.team_name||'—',
-    'Customer type':collected.customer_type||'—'
-  };
-  let rows='';
-  Object.entries(fields).forEach(([k,v])=>{
-    rows+=`<div class="sc-item"><div class="sc-label">${k}</div><div class="sc-val">${v}</div></div>`;
+  card.id='review-card';
+
+  // editable fields map: key → [label, collectedKey]
+  const editFields=[
+    ['Workspace name','ws_name'],
+    ['Description','ws_desc'],
+    ['Project name','proj_name'],
+    ['Start year','proj_scope_start'],
+    ['End year','proj_scope_end'],
+    ['Currency','currency'],
+    ['Discount rate (%)','discount_rate'],
+    ['Inflation rate (%)','inflation_rate'],
+    ['Brand name','brand_name'],
+    ['Therapeutic area','therapeutic_area'],
+    ['Team name','team_name'],
+    ['Customer type','customer_type'],
+  ];
+
+  let fieldsHtml='<div class="edit-grid">';
+  editFields.forEach(([label,key])=>{
+    fieldsHtml+=`<div class="edit-field">
+      <label>${label}</label>
+      <input class="edit-input" id="er-${key}" value="${collected[key]||''}" placeholder="—"/>
+    </div>`;
   });
-  card.innerHTML=`<div class="sc-title">Workflow summary</div><div class="sc-grid">${rows}</div>
-    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn btn-ghost btn-sm" onclick="editStep()">✎ Edit</button>
+  fieldsHtml+='</div>';
+
+  card.innerHTML=`
+    <div class="sc-title" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Review & edit workflow</span>
+      <span style="font-size:11px;color:var(--muted);font-weight:400">All fields editable</span>
+    </div>
+    ${fieldsHtml}
+    <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-ghost btn-sm" onclick="editStep()">↩ Start over</button>
       <button class="btn btn-primary btn-sm" onclick="finalCreate()">✓ Create workflow</button>
     </div>`;
+
   wrap.appendChild(card);
   wrap.scrollTop=wrap.scrollHeight;
-  // mark last step active
-  [0,1,2,3,4].forEach(i=>{document.getElementById('bp-'+i).className='bp-item done';document.getElementById('bpd-'+i).textContent='✓';document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');});
+
+  [0,1,2,3,4].forEach(i=>{
+    document.getElementById('bp-'+i).className='bp-item done';
+    document.getElementById('bpd-'+i).textContent='✓';
+    document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
+  });
   document.getElementById('bp-5').className='bp-item active';
 }
 
@@ -1007,22 +1132,296 @@ function editStep(){
 }
 
 function finalCreate(){
-  document.querySelector('.summary-card')?.remove();
+  // collect any edits from the review card
+  const editFields=[
+    ['ws_name'],['ws_desc'],['proj_name'],['proj_scope_start'],['proj_scope_end'],
+    ['currency'],['discount_rate'],['inflation_rate'],['brand_name'],
+    ['therapeutic_area'],['team_name'],['customer_type']
+  ];
+  editFields.forEach(([key])=>{
+    const el=document.getElementById('er-'+key);
+    if(el) collected[key]=el.value||collected[key]||'—';
+  });
+
+  document.getElementById('review-card')?.remove();
   const wrap=document.getElementById('chat-messages');
-  const msg=document.createElement('div');
-  msg.className='msg-bot';
-  msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
-    <strong>Workflow created successfully! ✓</strong><br>
-    Workspace <strong>${collected.ws_name||'New Workspace'}</strong> has been set up with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong>, and team <strong>${collected.team_name||'Team'}</strong>.<br><br>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="qr-chip" onclick="openCreatedWorkspace()">Open workspace →</button>
-      <button class="qr-chip" onclick="startCreateWorkflow()">Create another</button>
+
+  // status steps to animate
+  const statusSteps=[
+    {label:'Creating workspace',sub:collected.ws_name||'New Workspace',delay:0},
+    {label:'Setting up project',sub:collected.proj_name||'New Project',delay:700},
+    {label:'Configuring financials',sub:`${collected.currency||'USD'} · ${collected.discount_rate||'0'}% discount`,delay:1400},
+    {label:'Adding brand',sub:collected.brand_name||'Brand',delay:2100},
+    {label:'Building team structure',sub:collected.team_name||'Team',delay:2800},
+    {label:'Finalising workflow',sub:'Saving all records…',delay:3500},
+  ];
+
+  // render status card
+  const statusCard=document.createElement('div');
+  statusCard.className='msg-bot';
+  const statusHtml=statusSteps.map((s,i)=>`
+    <div class="cs-step waiting" id="cs-${i}">
+      <div class="cs-icon"></div>
+      <div class="cs-label">${s.label}</div>
+      <div class="cs-sub">${s.sub}</div>
+    </div>`).join('');
+  statusCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
+    <div style="flex:1">
+      <div class="msg-bot-bubble" style="margin-bottom:8px">Creating your workflow — this will take a moment…</div>
+      <div class="creation-status">${statusHtml}</div>
+    </div>`;
+  wrap.appendChild(statusCard);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  // animate each step
+  statusSteps.forEach((s,i)=>{
+    // running
+    setTimeout(()=>{
+      document.getElementById('cs-'+i)?.classList.remove('waiting');
+      document.getElementById('cs-'+i)?.classList.add('running');
+      wrap.scrollTop=wrap.scrollHeight;
+    }, s.delay);
+    // done
+    setTimeout(()=>{
+      const el=document.getElementById('cs-'+i);
+      if(el){el.classList.remove('running');el.classList.add('done');el.querySelector('.cs-icon').textContent='✓';}
+      wrap.scrollTop=wrap.scrollHeight;
+    }, s.delay+600);
+  });
+
+  // final success message
+  setTimeout(()=>{
+    [0,1,2,3,4,5].forEach(i=>{
+      document.getElementById('bp-'+i).className='bp-item done';
+      document.getElementById('bpd-'+i).textContent='✓';
+    });
+    const msg=document.createElement('div');
+    msg.className='msg-bot';
+    msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
+      <strong>Workflow created successfully! ✓</strong><br>
+      Workspace <strong>${collected.ws_name||'New Workspace'}</strong> is ready with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong> and team <strong>${collected.team_name||'Team'}</strong>.<br><br>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="qr-chip" onclick="openCreatedWorkspace()">Open workspace →</button>
+        <button class="qr-chip" onclick="startCreateWorkflow()">Create another</button>
+      </div>
+    </div>`;
+    wrap.appendChild(msg);
+    wrap.scrollTop=wrap.scrollHeight;
+    showToast('Workflow created successfully.');
+  }, 4400);
+}
+
+/* ══ THINKING MODE ══ */
+function startThinkingMode(){
+  showPage('page-thinking');
+  setBc([{label:'Home',action:'goEntry()'},{label:'Thinking mode',action:null}]);
+  document.getElementById('thinking-messages').innerHTML='';
+  // restore empty placeholder
+  const wrap=document.getElementById('thinking-messages');
+  if(!document.getElementById('thinking-empty')){
+    const empty=document.createElement('div');
+    empty.id='thinking-empty';
+    empty.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;color:var(--muted)';
+    empty.innerHTML=`<div style="font-size:40px;margin-bottom:16px;opacity:.25">🧠</div>
+      <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px">Thinking mode</div>
+      <div style="font-size:13px;max-width:320px;line-height:1.6">Describe a scenario or constraint below — the AI will parse it, run comparisons and surface insights.</div>`;
+    wrap.appendChild(empty);
+  }
+  document.getElementById('thinking-chips-bar').style.display='';
+  document.getElementById('thinking-input').value='';
+  setTimeout(()=>document.getElementById('thinking-input').focus(),100);
+}
+
+function fillThinking(text){
+  document.getElementById('thinking-input').value=text;
+  document.getElementById('thinking-input').focus();
+}
+
+function launchThinking(){
+  const val=document.getElementById('thinking-input').value.trim();
+  if(!val) return;
+  // hide empty state and chips after first submit
+  document.getElementById('thinking-empty')?.remove();
+  document.getElementById('thinking-chips-bar').style.display='none';
+  const wrap=document.getElementById('thinking-messages');
+
+  // user bubble
+  const userMsg=document.createElement('div');
+  userMsg.className='msg-user';
+  userMsg.innerHTML=`<div class="msg-user-bubble">${val}</div>`;
+  wrap.appendChild(userMsg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  // disable send
+  document.querySelector('.thinking-nlq-send').disabled=true;
+
+  const thinkSteps=['Parsing your query…','Identifying constraints…','Running field force simulation…','Generating scenario comparison…'];
+  let ti=0;
+
+  setTimeout(()=>{
+    const tbar=document.createElement('div');
+    tbar.className='msg-bot';
+    tbar.id='thinking-bar-msg';
+    tbar.innerHTML=`<div class="msg-bot-avatar">🧠</div>
+      <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:4px 14px 14px 14px;padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--accent-dark)">
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+        <div id="thinking-step-text">${thinkSteps[0]}</div>
+      </div>`;
+    wrap.appendChild(tbar);
+    wrap.scrollTop=wrap.scrollHeight;
+
+    const iv=setInterval(()=>{
+      ti++;
+      if(ti<thinkSteps.length){
+        const el=document.getElementById('thinking-step-text');
+        if(el) el.textContent=thinkSteps[ti];
+      } else {
+        clearInterval(iv);
+        document.getElementById('thinking-bar-msg')?.remove();
+        document.querySelector('.thinking-nlq-send').disabled=false;
+
+        // constraint result
+        const constraintText=buildConstraintText(val);
+        const ccard=document.createElement('div');
+        ccard.className='msg-bot';
+        ccard.innerHTML=`<div class="msg-bot-avatar">🧠</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+            <div class="msg-bot-bubble">I found a constraint from your query:</div>
+            <div style="background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);padding:13px 16px;display:flex;align-items:center;gap:12px">
+              <div style="width:30px;height:30px;border-radius:var(--r-sm);background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">⚙</div>
+              <div style="flex:1">
+                <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Constraint detected</div>
+                <div style="font-size:14px;font-weight:600;color:var(--text)">${constraintText}</div>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent);padding:6px 12px" onclick="resetThinking()">✕ Remove</button>
+                <button class="bic-submit" style="padding:6px 12px" onclick="launchComparison(this)">Run Comparison →</button>
+              </div>
+            </div>
+          </div>`;
+        wrap.appendChild(ccard);
+        wrap.scrollTop=wrap.scrollHeight;
+      }
+    }, 720);
+  }, 400);
+}
+
+function resetThinking(){
+  const wrap=document.getElementById('thinking-messages');
+  wrap.innerHTML='';
+  // restore empty state
+  const empty=document.createElement('div');
+  empty.id='thinking-empty';
+  empty.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;color:var(--muted)';
+  empty.innerHTML=`<div style="font-size:40px;margin-bottom:16px;opacity:.25">🧠</div>
+    <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px">Thinking mode</div>
+    <div style="font-size:13px;max-width:320px;line-height:1.6">Describe a scenario or constraint below — the AI will parse it, run comparisons and surface insights.</div>`;
+  wrap.appendChild(empty);
+  document.getElementById('thinking-chips-bar').style.display='';
+  document.getElementById('thinking-input').value='';
+  document.querySelector('.thinking-nlq-send').disabled=false;
+}
+
+/* ══ JUMP TO STEP (clickable sidebar — edits only that step) ══ */
+function jumpToStep(stepIdx){
+  // only allow jumping to already-completed steps
+  if(stepIdx > botStep) return;
+
+  const stepNames=['Workspace','Project','Financials','Brand','Team structure','Review'];
+  const wrap=document.getElementById('chat-messages');
+
+  // remove any existing input card so we don't stack two
+  document.getElementById('bot-input-card')?.remove();
+  document.getElementById('review-card')?.remove();
+
+  // mark that step as active in sidebar, keep others as-is
+  [0,1,2,3,4,5].forEach(i=>{
+    const el=document.getElementById('bp-'+i);
+    const dot=document.getElementById('bpd-'+i);
+    if(i < stepIdx){
+      el.className='bp-item done';
+      dot.textContent='✓';
+      document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
+    } else if(i === stepIdx){
+      el.className='bp-item active';
+      dot.textContent=i+1;
+    } else {
+      el.className='bp-item'+(i <= botStep ? ' done' : '');
+      dot.textContent=i <= botStep ? '✓' : i+1;
+    }
+  });
+
+  // set botStep to this step so submitBotStep saves to the right key
+  botStep=stepIdx;
+
+  // append a separator in chat to show the edit context
+  const sep=document.createElement('div');
+  sep.style.cssText='display:flex;align-items:center;gap:10px;margin:8px 0;padding:0 4px';
+  sep.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div>
+    <div style="font-size:11px;color:var(--muted);white-space:nowrap;background:var(--bg);padding:2px 8px;border-radius:10px;border:1px solid var(--border)">Editing: ${stepNames[stepIdx]}</div>
+    <div style="flex:1;height:1px;background:var(--border)"></div>`;
+  wrap.appendChild(sep);
+
+  // show just this step's question + input card (no clearing other messages)
+  const step=steps[stepIdx];
+  const botMsg=document.createElement('div');
+  botMsg.className='msg-bot';
+  botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+    <div class="msg-bot-bubble">${step.ask.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')} <span style="font-size:11px;color:var(--muted)">(editing)</span></div>`;
+  wrap.appendChild(botMsg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  // pre-fill the input card with existing values for this step
+  setTimeout(()=>{
+    appendInputCard(step, true /* prefill */);
+    wrap.scrollTop=wrap.scrollHeight;
+  }, 300);
+
+  showToast(`Editing: ${stepNames[stepIdx]} — other steps unchanged`);
+}
+
+function buildConstraintText(query){
+  const q=query.toLowerCase();
+  if(q.includes('15 fte')||q.includes('15 ftes')) return 'Apply max 15 FTE for Team Single Team';
+  if(q.includes('20%')&&q.includes('brand')) return 'Apply +20% budget increase to Brand_3';
+  if(q.includes('second')&&q.includes('hcp')) return 'Add new HCP Sales Team structure';
+  if(q.includes('lexorin')) return 'Remove Lexorin from Single Team coverage';
+  if(q.includes('mroi')) return 'Optimise FTE allocation for mROI > 20%';
+  return `Analyse: "${query}"`;
+}
+
+function launchComparison(btn){
+  btn.closest('[class*="msg-bot"]')?.querySelector('[style*="border-color:var(--accent)"]')?.remove();
+  // find which page we're on
+  const isThinking=document.getElementById('page-thinking').classList.contains('active');
+  const wrap=document.getElementById(isThinking?'thinking-messages':'chat-messages');
+  // show mini comparison result inline
+  const comp=document.createElement('div');
+  comp.className='msg-bot';
+  comp.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble" style="width:100%;max-width:100%">
+    <strong>Scenario comparison ready</strong>
+    <div style="display:grid;grid-template-columns:140px 1fr 1fr 80px;gap:0;margin-top:10px;font-size:12px;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden">
+      <div style="background:var(--bg);padding:8px;font-weight:600;color:var(--muted);font-size:11px">Metric</div>
+      <div style="background:var(--bg);padding:8px;font-weight:600;color:var(--muted);font-size:11px">Before</div>
+      <div style="background:var(--bg);padding:8px;font-weight:600;color:var(--accent-dark);font-size:11px">After</div>
+      <div style="background:var(--bg);padding:8px;font-weight:600;color:var(--muted);font-size:11px">Delta</div>
+      ${[['FTEs','20','15','-25%','down'],['Spend','€5.53M','€4.20M','-24%','up'],['ROI','174.75%','217.30%','+24%','up'],['mROI','1.21%','79.22%','-98%','down'],['Calls','15,800','12,000','-24%','down']].map(([m,b,a,d,dir])=>`
+      <div style="padding:8px;border-top:1px solid var(--border);color:var(--muted)">${m}</div>
+      <div style="padding:8px;border-top:1px solid var(--border)">${b}</div>
+      <div style="padding:8px;border-top:1px solid var(--border)">${a}</div>
+      <div style="padding:8px;border-top:1px solid var(--border);font-weight:600;color:${dir==='up'?'var(--completed)':'#dc2626'}">${d}</div>`).join('')}
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--accent-dark);background:var(--accent-light);padding:10px 12px;border-radius:var(--r-sm)">
+      ✦ ROI improves 24% but mROI drops significantly. Customer reach stays at 100%.
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="qr-chip" style="background:var(--completed-bg);color:#065f46;border-color:#a7f3d0" onclick="showToast('Scenario approved and saved.')">✓ Approve</button>
+      <button class="qr-chip" onclick="showToast('Scenario rejected.')">✕ Reject</button>
+      <button class="qr-chip" onclick="goEntry()">↩ Back to home</button>
     </div>
   </div>`;
-  wrap.appendChild(msg);
+  wrap.appendChild(comp);
   wrap.scrollTop=wrap.scrollHeight;
-  [0,1,2,3,4,5].forEach(i=>{document.getElementById('bp-'+i).className='bp-item done';document.getElementById('bpd-'+i).textContent='✓';});
-  showToast('Workflow created successfully.');
 }
 
 function openCreatedWorkspace(){

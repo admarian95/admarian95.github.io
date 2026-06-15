@@ -125,7 +125,11 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-item.active .bp-item-label{color:var(--accent);font-weight:600}
 .bp-item.done .bp-item-label{color:var(--completed)}
 .bp-item-sub{font-size:10px;color:var(--light);margin-top:1px}
-/* brand sub-items in sidebar */
+/* auto-populated field indicator */
+.auto-tag{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--accent);background:var(--accent-light);border:1px solid #f5d5b5;border-radius:8px;padding:1px 7px;margin-left:6px;animation:fadeIn .3s ease;vertical-align:middle}
+.auto-tag svg{flex-shrink:0}
+.bic-input.auto-filled{border-color:var(--accent)!important;background:#fff9f5!important;transition:border .3s,background .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}
 .bp-sub-item{
   display:flex;align-items:center;gap:8px;
   padding:6px 18px 6px 34px;
@@ -1066,7 +1070,41 @@ function botAsk(stepIdx){
   if(step.type==='review') setTimeout(()=>appendReviewCard(), 400);
 }
 
-/* ══ PROJECT CARD — matches the Add Project modal exactly ══ */
+/* ══ AUTO-POPULATE FROM CURRENCY ══ */
+const CURRENCY_DEFAULTS={
+  'USD ($)': {inflation:3.5, discount:8.0},
+  'EUR (€)': {inflation:2.8, discount:7.0},
+  'GBP (£)': {inflation:4.2, discount:8.5},
+  'INR (₹)': {inflation:6.1, discount:10.0},
+};
+
+function autofillFromCurrency(currency){
+  const defaults=CURRENCY_DEFAULTS[currency];
+  if(!defaults) return;
+
+  const inflEl=document.getElementById('bf-inflation_rate');
+  const discEl=document.getElementById('bf-discount_rate');
+  const inflTag=document.getElementById('inflation-auto-tag');
+  const discTag=document.getElementById('discount-auto-tag');
+
+  if(inflEl){
+    inflEl.value=defaults.inflation;
+    inflEl.classList.add('auto-filled');
+  }
+  if(discEl){
+    discEl.value=defaults.discount;
+    discEl.classList.add('auto-filled');
+  }
+  if(inflTag) inflTag.style.display='inline-flex';
+  if(discTag) discTag.style.display='inline-flex';
+}
+
+function clearAutoTag(tagId, inputId){
+  const tag=document.getElementById(tagId);
+  const input=document.getElementById(inputId);
+  if(tag) tag.style.display='none';
+  if(input) input.classList.remove('auto-filled');
+}
 function appendProjectCard(prefill=false){
   const wrap=document.getElementById('chat-messages');
   const c=collected;
@@ -1117,10 +1155,15 @@ function appendProjectCard(prefill=false){
       </div>
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
-          Discount Rate (%) <span style="color:#e55">*</span>
+          <span>Discount Rate (%) <span style="color:#e55">*</span>
+            <span id="discount-auto-tag" style="display:none" class="auto-tag">
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Auto-populated
+            </span>
+          </span>
           <span style="font-size:10px;color:var(--muted);cursor:help" title="Enter 0–100">ⓘ</span>
         </label>
-        <input class="bic-input" id="bf-discount_rate" type="number" placeholder="Enter Discount Rate (0 – 100)" min="0" max="100" value="${v('discount_rate')}"/>
+        <input class="bic-input" id="bf-discount_rate" type="number" placeholder="Enter Discount Rate (0 – 100)" min="0" max="100" value="${v('discount_rate')}" oninput="clearAutoTag('discount-auto-tag','bf-discount_rate')"/>
       </div>
     </div>
 
@@ -1128,22 +1171,30 @@ function appendProjectCard(prefill=false){
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
-          Inflation Rate (%) <span style="color:#e55">*</span>
+          <span>Inflation Rate (%) <span style="color:#e55">*</span>
+            <span id="inflation-auto-tag" style="display:none" class="auto-tag">
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Auto-populated
+            </span>
+          </span>
           <span style="font-size:10px;color:var(--muted);cursor:help" title="Enter 0–100">ⓘ</span>
         </label>
-        <input class="bic-input" id="bf-inflation_rate" type="number" placeholder="Enter Inflation Rate (0 – 100)" min="0" max="100" value="${v('inflation_rate')}"/>
+        <input class="bic-input" id="bf-inflation_rate" type="number" placeholder="Enter Inflation Rate (0 – 100)" min="0" max="100" value="${v('inflation_rate')}" oninput="clearAutoTag('inflation-auto-tag','bf-inflation_rate')"/>
       </div>
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
           Currency <span style="color:#e55">*</span>
           <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
         </label>
-        <select class="bic-select" id="bf-currency">
+        <select class="bic-select" id="bf-currency" onchange="autofillFromCurrency(this.value)">
           <option value="">Select Currency</option>
           ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
         </select>
       </div>
     </div>
+
+    <!-- Row 2b: Discount Rate auto-tag (inline with its label) -->
+    <!-- (Discount rate is in Row 2 above — we'll update that label too) -->
 
     <!-- Row 4: Project Description (full width) -->
     <div class="bic-field">

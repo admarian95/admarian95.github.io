@@ -125,6 +125,22 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-item.active .bp-item-label{color:var(--accent);font-weight:600}
 .bp-item.done .bp-item-label{color:var(--completed)}
 .bp-item-sub{font-size:10px;color:var(--light);margin-top:1px}
+/* brand sub-items in sidebar */
+.bp-sub-item{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 18px 6px 34px;
+  cursor:pointer;transition:all .15s;
+  border-left:3px solid transparent;
+}
+.bp-sub-item:hover{background:var(--accent-light);color:var(--accent)}
+.bp-sub-item.active{background:var(--accent-light);border-left-color:var(--accent)}
+.bp-sub-item.done{opacity:.7}
+.bp-sub-dot{font-size:8px;color:var(--light);flex-shrink:0;transition:color .15s;width:12px;text-align:center}
+.bp-sub-item.active .bp-sub-dot{color:var(--accent);font-size:10px}
+.bp-sub-item.done .bp-sub-dot{color:var(--completed)}
+.bp-sub-label{font-size:11px;font-weight:500;color:var(--muted);transition:color .15s}
+.bp-sub-item.active .bp-sub-label{color:var(--accent);font-weight:600}
+.bp-sub-item.done .bp-sub-label{color:var(--completed)}
 .bp-item.done .bp-item-sub{color:var(--completed);opacity:.7}
 .bp-item.done .bp-item-label::after{content:' ✎';font-size:9px;opacity:.5;font-weight:400}
 .bp-item.done:hover .bp-item-label::after{opacity:1;color:var(--accent)}
@@ -191,6 +207,69 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .chat-send:hover{background:var(--accent-dark)}
 .chat-send:disabled{background:var(--border);cursor:not-allowed}
 .chat-disclaimer{font-size:11px;color:var(--light);margin-top:5px;text-align:center}
+
+/* ── BRAND CARD WITH VERTICAL TABS ── */
+.brand-bot-card{background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);overflow:visible;margin-left:38px;margin-top:4px;display:flex;box-shadow:var(--shadow-md)}
+.brand-vtabs{width:36px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding-top:8px}
+.brand-vtab{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);padding:14px 8px;font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;border-left:3px solid transparent;white-space:nowrap;letter-spacing:.3px}
+.brand-vtab:hover{color:var(--accent);background:var(--accent-light)}
+.brand-vtab.active{color:var(--accent-dark);font-weight:700;background:var(--accent-light);border-left:3px solid var(--accent)}
+.brand-vpanels{flex:1;overflow:visible;display:flex;flex-direction:column;min-width:0}
+.brand-vpanel{display:none;flex:1;padding:18px 20px;flex-direction:column;gap:14px;overflow-y:visible}
+.brand-vpanel.active{display:flex}
+.brand-vpanel::-webkit-scrollbar{width:3px}
+.brand-vpanel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.brand-vpanel-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px}
+.bfin-table{width:100%;border-collapse:collapse;font-size:12px}
+.bfin-table th{background:var(--accent-dark);color:#fff;padding:7px 10px;text-align:center;font-weight:500;font-size:11px}
+.bfin-table th:first-child{text-align:left}
+.bfin-table td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px}
+.bfin-table td:not(:first-child){text-align:center}
+.bfin-table td input{width:64px;text-align:center;border:1px solid var(--border);border-radius:4px;padding:3px 5px;font-size:11px;font-family:inherit}
+.bfin-table td input:focus{outline:none;border-color:var(--accent)}
+.bfin-table tr:last-child td{border-bottom:none}
+.brand-upload-grid{display:grid;grid-template-columns:1fr 32px 1fr;gap:12px;align-items:center}
+.brand-upload-box{border:1.5px dashed var(--accent);border-radius:var(--r);padding:22px 14px;text-align:center;cursor:pointer;transition:all .15s;background:var(--accent-light)}
+.brand-upload-box:hover{background:#fde8d0}
+.brand-upload-box-icon{font-size:22px;margin-bottom:6px;opacity:.6}
+.brand-upload-box-label{font-size:12px;font-weight:500;color:var(--accent);text-decoration:underline}
+.brand-upload-or{font-size:12px;color:var(--muted);text-align:center}
+.brand-upload-box.plain{background:var(--bg);border-color:var(--border)}
+.brand-upload-box.plain:hover{border-color:var(--accent);background:var(--accent-light)}
+.brand-upload-notes{list-style:disc inside;display:flex;flex-direction:column;gap:3px}
+.brand-upload-notes li{font-size:11px;color:var(--accent);line-height:1.5}
+.brand-col-table{width:100%;border-collapse:collapse;font-size:12px}
+.brand-col-table th{background:var(--bg);padding:7px 10px;text-align:left;font-weight:600;font-size:11px;color:var(--muted);border-bottom:1px solid var(--border)}
+.brand-col-table td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.brand-col-table tr:last-child td{border-bottom:none}
+.brand-col-table td select{font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;width:100%;font-family:inherit}
+.brand-file-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--r-sm);padding:5px 10px;font-size:12px;color:var(--accent);font-weight:500;margin-bottom:8px}
+.brand-file-x{cursor:pointer;opacity:.6}.brand-file-x:hover{opacity:1}
+.rc-status-badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px;display:inline-flex;align-items:center;gap:4px}
+.rc-status-badge.pending{background:var(--pending-bg);color:var(--pending)}
+.rc-status-badge.done{background:var(--completed-bg);color:var(--completed)}
+.rc-chevron{font-size:11px;color:var(--muted);transition:transform .25s ease;display:inline-block}
+.rc-brand-body{transition:all .2s}
+/* new accordion styles */
+.rc-accordion{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.rc-acc-header{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;cursor:pointer;transition:background .15s;border-radius:var(--r) var(--r) 0 0}
+.rc-acc-header:hover{background:var(--bg)}
+.rc-acc-body{border-top:1px solid var(--border)}
+.rc-hcp-pill{display:inline-block;background:var(--accent-light);border:1.5px solid var(--accent);border-radius:var(--r-sm);padding:5px 16px;font-size:12px;font-weight:700;color:var(--accent-dark);letter-spacing:.3px}
+.rc-inline-select{border:none;border-bottom:1px solid var(--border);background:transparent;font-size:12px;color:var(--accent);font-weight:500;font-family:inherit;cursor:pointer;padding:2px 4px;outline:none}
+.rc-inline-select:focus{border-bottom-color:var(--accent)}
+.rc-icon-btn{width:26px;height:26px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .15s}
+.rc-icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+.rc-view-active{border-color:var(--accent)!important;background:var(--accent-light)!important;color:var(--accent)!important}
+.rc-btn-dark{padding:7px 14px;border-radius:var(--r-sm);background:var(--accent-dark);color:#fff;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:background .15s}
+.rc-btn-dark:hover{background:var(--accent)}
+.rc-btn-outline{padding:7px 14px;border-radius:var(--r-sm);background:transparent;color:var(--accent);border:1.5px solid var(--accent);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.rc-btn-outline:hover{background:var(--accent-light)}
+.rc-toggle{width:30px;height:16px;border-radius:8px;background:var(--border);position:relative;cursor:pointer;flex-shrink:0}
+.rc-toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .2s}
+.rc-chart-container{background:#f9f8f6;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.rc-legend{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px}
+.rc-legend-item{display:flex;align-items:center;gap:5px;font-size:9.5px;color:var(--muted)}
 
 /* ════════════════════════════════════════
    PAGE 2 — WORKSPACES (existing)
@@ -506,39 +585,65 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="bp-dot" id="bpd-1">2</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Project</div>
-        <div class="bp-item-sub" id="bps-1">Scope, rates, currency</div>
+        <div class="bp-item-sub" id="bps-1">Name, scope, financials</div>
       </div>
     </div>
     <div class="bp-connector" id="bpc-1"></div>
     <div class="bp-item" id="bp-2" onclick="jumpToStep(2)" title="Click to edit">
       <div class="bp-dot" id="bpd-2">3</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Financials</div>
-        <div class="bp-item-sub" id="bps-2">Forecast & assumptions</div>
+        <div class="bp-item-label">Brand</div>
+        <div class="bp-item-sub" id="bps-2">Name, area, competition</div>
+      </div>
+    </div>
+    <!-- Brand sub-items — shown when brand step is active or done -->
+    <div id="brand-subitems" style="display:none">
+      <div class="bp-sub-item active" id="bsi-info" onclick="switchBrandTab('info')">
+        <div class="bp-sub-dot" id="bsid-info">●</div>
+        <div class="bp-sub-label">Brand Info</div>
+      </div>
+      <div class="bp-sub-item" id="bsi-fin" onclick="switchBrandTab('fin')">
+        <div class="bp-sub-dot" id="bsid-fin">○</div>
+        <div class="bp-sub-label">Financial Assumptions</div>
+      </div>
+      <div class="bp-sub-item" id="bsi-cust" onclick="switchBrandTab('cust')">
+        <div class="bp-sub-dot" id="bsid-cust">○</div>
+        <div class="bp-sub-label">Customers</div>
       </div>
     </div>
     <div class="bp-connector" id="bpc-2"></div>
     <div class="bp-item" id="bp-3" onclick="jumpToStep(3)" title="Click to edit">
       <div class="bp-dot" id="bpd-3">4</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Brand</div>
-        <div class="bp-item-sub" id="bps-3">Name, area, competition</div>
+        <div class="bp-item-label">Team structure</div>
+        <div class="bp-item-sub" id="bps-3">Role, cost, coverage</div>
+      </div>
+    </div>
+    <!-- Team sub-items — shown when team step is active or done -->
+    <div id="team-subitems" style="display:none">
+      <div class="bp-sub-item active" id="tsi-structure" onclick="switchTeamTab('structure')">
+        <div class="bp-sub-dot" id="tsid-structure">●</div>
+        <div class="bp-sub-label">Structure Info</div>
+      </div>
+      <div class="bp-sub-item" id="tsi-teams" onclick="switchTeamTab('teams')">
+        <div class="bp-sub-dot" id="tsid-teams">○</div>
+        <div class="bp-sub-label">Teams</div>
+      </div>
+      <div class="bp-sub-item" id="tsi-coverage" onclick="switchTeamTab('coverage')">
+        <div class="bp-sub-dot" id="tsid-coverage">○</div>
+        <div class="bp-sub-label">Coverage</div>
+      </div>
+      <div class="bp-sub-item" id="tsi-response" onclick="switchTeamTab('response')">
+        <div class="bp-sub-dot" id="tsid-response">○</div>
+        <div class="bp-sub-label">Response Curve</div>
       </div>
     </div>
     <div class="bp-connector" id="bpc-3"></div>
     <div class="bp-item" id="bp-4" onclick="jumpToStep(4)" title="Click to edit">
       <div class="bp-dot" id="bpd-4">5</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Team structure</div>
-        <div class="bp-item-sub" id="bps-4">Role, cost, coverage</div>
-      </div>
-    </div>
-    <div class="bp-connector" id="bpc-4"></div>
-    <div class="bp-item" id="bp-5" onclick="jumpToStep(5)" title="Click to edit">
-      <div class="bp-dot" id="bpd-5">6</div>
-      <div class="bp-item-body">
         <div class="bp-item-label">Review & create</div>
-        <div class="bp-item-sub" id="bps-5">Confirm all details</div>
+        <div class="bp-item-sub" id="bps-4">Confirm all details</div>
       </div>
     </div>
 
@@ -551,6 +656,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   <div class="bot-chat">
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-wrap">
+
       <div class="chat-disclaimer">✦ Agentic setup — your inputs build the workflow automatically</div>
     </div>
   </div>
@@ -880,50 +986,24 @@ const steps=[
   },
   {
     id:'project',
-    ask:'Great! Now let\'s create your first **project**. What\'s the project name and planning scope?',
-    type:'input',
-    fields:[
-      {id:'proj_name',label:'Project name',placeholder:'e.g. NNI Test'},
-      {id:'proj_scope_start',label:'Planning start year',placeholder:'2027',type:'number'},
-      {id:'proj_scope_end',label:'Planning end year',placeholder:'2029',type:'number'}
-    ],
-    submit:'Save project info →'
-  },
-  {
-    id:'financials',
-    ask:'Got it. Now a few **financial assumptions** for this project:',
-    type:'input',
-    fields:[
-      {id:'currency',label:'Currency',type:'select',options:['USD ($)','EUR (€)','GBP (£)','INR (₹)']},
-      {id:'discount_rate',label:'Discount rate (%)',placeholder:'e.g. 5',type:'number'},
-      {id:'inflation_rate',label:'Inflation rate (%)',placeholder:'e.g. 2',type:'number'},
-      {id:'cda',label:'Customer data available?',type:'select',options:['Yes','No']}
-    ],
-    submit:'Save financials →'
+    ask:'Great! Now let\'s create your first **project**. Fill in the details below:',
+    type:'custom',
+    customId:'project-card',
+    submit:'Save & Continue →'
   },
   {
     id:'brand',
-    ask:'Now let\'s add your first **brand**. What brand are you planning for?',
-    type:'input',
-    fields:[
-      {id:'brand_name',label:'Brand name',placeholder:'e.g. Lexorin'},
-      {id:'therapeutic_area',label:'Therapeutic area',placeholder:'e.g. Oncology'},
-      {id:'competition_type',label:'Competition type',type:'select',options:['Branded','Generic','Biosimilar']},
-      {id:'years_market',label:'Years in market',placeholder:'e.g. 3',type:'number'}
-    ],
-    submit:'Save brand →'
+    ask:'Now let\'s add your first **brand**. Fill in the brand details, financial assumptions and customer data:',
+    type:'custom',
+    customId:'brand-card',
+    submit:'Save Brand →'
   },
   {
     id:'team',
-    ask:'Almost done! Let\'s define your **team structure**. Tell me about the field team:',
-    type:'input',
-    fields:[
-      {id:'team_name',label:'Team name',placeholder:'e.g. Single Team'},
-      {id:'team_role',label:'Role',placeholder:'e.g. Rep'},
-      {id:'annual_rep_cost',label:'Annual rep cost ($)',placeholder:'e.g. 280000',type:'number'},
-      {id:'customer_type',label:'Customer type',type:'select',options:['HCP','Hospital','Pharmacy','Payer']}
-    ],
-    submit:'Save team →'
+    ask:'Almost done! Let\'s define your **team structure** — Structure Info, Teams, Coverage and Response Curve:',
+    type:'custom',
+    customId:'team-card',
+    submit:'Save Structure →'
   },
   {
     id:'review',
@@ -958,8 +1038,7 @@ function startCreateWorkflow(){
   Object.keys(collected).forEach(k=>delete collected[k]);
   showPage('page-bot');
   setBc([{label:'Home',action:'goEntry()'},{label:'Create workflow',action:null}]);
-  // reset progress
-  [0,1,2,3,4,5].forEach(i=>{
+  [0,1,2,3,4].forEach(i=>{
     document.getElementById('bp-'+i).className='bp-item'+(i===0?' active':'');
     document.getElementById('bpd-'+i).textContent=i+1;
     document.getElementById('bpc-'+i) && (document.getElementById('bpc-'+i).className='bp-connector');
@@ -972,8 +1051,7 @@ function startCreateWorkflow(){
 function botAsk(stepIdx){
   const step=steps[stepIdx];
   appendBotMsg(step.ask.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'));
-  // update progress bar
-  [0,1,2,3,4,5].forEach(i=>{
+  [0,1,2,3,4].forEach(i=>{
     const el=document.getElementById('bp-'+i);
     const dot=document.getElementById('bpd-'+i);
     const conn=document.getElementById('bpc-'+i);
@@ -981,16 +1059,1151 @@ function botAsk(stepIdx){
     else if(i===stepIdx){el.className='bp-item active';dot.textContent=i+1;}
     else{el.className='bp-item';dot.textContent=i+1;}
   });
-
   if(step.type==='input') setTimeout(()=>appendInputCard(step), 400);
+  if(step.type==='custom' && step.customId==='project-card') setTimeout(()=>appendProjectCard(), 400);
+  if(step.type==='custom' && step.customId==='brand-card') setTimeout(()=>appendBrandCard(), 400);
+  if(step.type==='custom' && step.customId==='team-card') setTimeout(()=>appendTeamCard(), 400);
   if(step.type==='review') setTimeout(()=>appendReviewCard(), 400);
+}
+
+/* ══ PROJECT CARD — matches the Add Project modal exactly ══ */
+function appendProjectCard(prefill=false){
+  const wrap=document.getElementById('chat-messages');
+  const c=collected;
+  const v=(k,fb='')=>prefill&&c[k]&&c[k]!=='—'?c[k]:fb;
+
+  const card=document.createElement('div');
+  card.className='bot-input-card';
+  card.id='bot-input-card';
+  card.style.cssText='padding:20px;gap:14px';
+
+  card.innerHTML=`
+    <div class="bic-label">Project details</div>
+
+    <!-- Row 1: Project Name + Customer Data Available -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div class="bic-field">
+        <label>Project Name <span style="color:#e55">*</span></label>
+        <input class="bic-input" id="bf-proj_name" placeholder="e.g. NNI Test" value="${v('proj_name')}"/>
+      </div>
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Customer Data Available
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Does customer-level data exist for this project?">ⓘ</span>
+        </label>
+        <div style="display:flex;gap:20px;align-items:center;margin-top:8px">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+            <input type="radio" name="bot-cda" id="bf-cda-yes" value="Yes" style="accent-color:var(--accent)" ${v('cda','Yes')==='Yes'?'checked':''}/> Yes
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+            <input type="radio" name="bot-cda" id="bf-cda-no" value="No" style="accent-color:var(--accent)" ${v('cda')==='No'?'checked':''}/> No
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Planning Scope + Discount Rate -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Planning Scope <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Start and end year for this project">ⓘ</span>
+        </label>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+          <input class="bic-input" id="bf-proj_scope_start" type="number" placeholder="Start year" style="flex:1" value="${v('proj_scope_start')}"/>
+          <span style="font-size:12px;color:var(--muted);flex-shrink:0">–</span>
+          <input class="bic-input" id="bf-proj_scope_end" type="number" placeholder="End year" style="flex:1" value="${v('proj_scope_end')}"/>
+        </div>
+      </div>
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Discount Rate (%) <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Enter 0–100">ⓘ</span>
+        </label>
+        <input class="bic-input" id="bf-discount_rate" type="number" placeholder="Enter Discount Rate (0 – 100)" min="0" max="100" value="${v('discount_rate')}"/>
+      </div>
+    </div>
+
+    <!-- Row 3: Inflation Rate + Currency -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Inflation Rate (%) <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Enter 0–100">ⓘ</span>
+        </label>
+        <input class="bic-input" id="bf-inflation_rate" type="number" placeholder="Enter Inflation Rate (0 – 100)" min="0" max="100" value="${v('inflation_rate')}"/>
+      </div>
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Currency <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
+        </label>
+        <select class="bic-select" id="bf-currency">
+          <option value="">Select Currency</option>
+          ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 4: Project Description (full width) -->
+    <div class="bic-field">
+      <label>Project Description</label>
+      <textarea class="bic-input" id="bf-proj_desc" placeholder="Enter Project Description" rows="3" style="resize:vertical;min-height:60px">${v('proj_desc')}</textarea>
+    </div>
+
+    <!-- Row 5: Add Collaborators toggle -->
+    <div>
+      <div id="collabs-bot-toggle" onclick="toggleBotCollabs()" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);cursor:pointer;font-weight:500;user-select:none">
+        <svg id="collabs-bot-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" style="transition:transform .2s"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Add Collaborators
+      </div>
+      <div id="collabs-bot-panel" style="display:none;margin-top:10px">
+        <input class="bic-input" id="bf-collaborators" placeholder="Search collaborators by name or email"/>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div style="display:flex;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--border);margin-top:4px">
+      <button class="bic-submit" id="proj-submit-btn" onclick="submitProjectCard(${prefill})">Add Project →</button>
+    </div>
+  `;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+  setTimeout(()=>document.getElementById('bf-proj_name')?.focus(),100);
+}
+
+function toggleBotCollabs(){
+  const panel=document.getElementById('collabs-bot-panel');
+  const arrow=document.getElementById('collabs-bot-arrow');
+  const open=panel.style.display==='';
+  panel.style.display=open?'none':'';
+  arrow.style.transform=open?'':'rotate(90deg)';
+}
+
+function submitProjectCard(isEdit=false){
+  // collect all project fields
+  const fields={
+    proj_name:   document.getElementById('bf-proj_name')?.value||'—',
+    cda:         document.querySelector('input[name="bot-cda"]:checked')?.value||'Yes',
+    proj_scope_start: document.getElementById('bf-proj_scope_start')?.value||'—',
+    proj_scope_end:   document.getElementById('bf-proj_scope_end')?.value||'—',
+    discount_rate:    document.getElementById('bf-discount_rate')?.value||'—',
+    inflation_rate:   document.getElementById('bf-inflation_rate')?.value||'—',
+    currency:    document.getElementById('bf-currency')?.value||'—',
+    proj_desc:   document.getElementById('bf-proj_desc')?.value||'',
+  };
+  Object.assign(collected, fields);
+
+  document.getElementById('bot-input-card')?.remove();
+
+  const summary=`<strong>${fields.proj_name}</strong> · ${fields.proj_scope_start}–${fields.proj_scope_end} · ${fields.currency} · Discount ${fields.discount_rate}%`;
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  if(isEdit){
+    botStep=4; // go to review
+    const confirmMsg=document.createElement('div');
+    confirmMsg.className='msg-bot';
+    confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">Project updated ✓ — other steps unchanged.
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(confirmMsg);
+    wrap.scrollTop=wrap.scrollHeight;
+    document.getElementById('bp-1').className='bp-item done';
+    document.getElementById('bpd-1').textContent='✓';
+    document.getElementById('bp-4').className='bp-item active';
+  } else {
+    botStep++;
+    if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+  }
+}
+
+/* ══ BRAND CARD — 3-section vertical tabs matching Add Brand modal ══ */
+function appendBrandCard(prefill=false){
+  const wrap=document.getElementById('chat-messages');
+  const c=collected;
+  const v=(k,fb='')=>prefill&&c[k]&&c[k]!=='—'?c[k]:fb;
+
+  const card=document.createElement('div');
+  card.id='bot-input-card';
+  card.className='brand-bot-card';
+
+  card.innerHTML=`
+    <!-- Panels fill full width — navigation via left sidebar only -->
+    <div class="brand-vpanels" style="width:100%">
+
+      <!-- ── PANEL 1: Brand Info ── -->
+      <div class="brand-vpanel active" id="bvp-info">
+        <div class="brand-vpanel-title">Add Brand Information</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="bic-field">
+            <label>Brand Name <span style="color:#e55">*</span>
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Official brand name">ⓘ</span>
+            </label>
+            <input class="bic-input" id="bf-brand_name" placeholder="e.g. Lexorin" value="${v('brand_name')}"/>
+          </div>
+          <div class="bic-field">
+            <label>Therapeutic Area
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Therapy area">ⓘ</span>
+            </label>
+            <input class="bic-input" id="bf-therapeutic_area" placeholder="Enter Therapeutic Area" value="${v('therapeutic_area')}"/>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="bic-field">
+            <label>Years in Market
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="How many years on market">ⓘ</span>
+            </label>
+            <input class="bic-input" id="bf-years_market" type="number" placeholder="Enter years" value="${v('years_market')}"/>
+          </div>
+          <div class="bic-field">
+            <label>Competition Type
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Type of competition">ⓘ</span>
+            </label>
+            <select class="bic-select" id="bf-competition_type">
+              <option value="">Select competition type</option>
+              ${['Branded','Generic','Biosimilar'].map(o=>`<option${v('competition_type')===o?' selected':''}>${o}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="bic-field">
+          <label>Brand Description
+            <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Optional description">ⓘ</span>
+          </label>
+          <textarea class="bic-input" id="bf-brand_desc" placeholder="Enter brand description" rows="3" style="resize:vertical;min-height:60px">${v('brand_desc')}</textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border)">
+          <button class="bic-submit" onclick="markBrandSubDone('info');switchBrandTab('fin')">Save & Add Financials →</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL 2: Financial Assumptions ── -->
+      <div class="brand-vpanel" id="bvp-fin">
+        <div class="brand-vpanel-title">Add Financial Assumptions</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:2px">
+          <div style="display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:5px 10px">
+            <input class="bic-input" id="bf-forecast_name" placeholder="Forecast name" value="${v('forecast_name','forecast1')}" style="border:none;background:transparent;padding:0;width:100px;font-size:12px"/>
+            <span style="font-size:14px;color:var(--accent);cursor:pointer" title="Favourite">★</span>
+            <span style="font-size:12px;color:var(--muted);cursor:pointer">⋮</span>
+          </div>
+          <span style="font-size:12px;color:var(--accent);font-weight:500;cursor:pointer">+ Financial Assumptions</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">Carryover Window: <strong>0 years</strong></div>
+        <div style="overflow-x:auto">
+          <table class="bfin-table">
+            <thead><tr>
+              <th style="min-width:140px"></th>
+              <th>2027</th><th>2028</th><th>2029</th>
+              <th style="background:var(--accent);width:22px;cursor:pointer" title="Add year">＋</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>Total Forecast ($)</td><td><input value="100"/></td><td><input value="100"/></td><td><input value="100"/></td><td style="background:transparent"></td></tr>
+              <tr><td>COGS (%)</td><td><input value="0%"/></td><td><input value="0%"/></td><td><input value="0%"/></td><td style="background:transparent"></td></tr>
+              <tr><td>Gross to Net (%)</td><td><input value="100%"/></td><td><input value="100%"/></td><td><input value="100%"/></td><td style="background:transparent"></td></tr>
+              <tr><td>Non SF Impact (%)</td><td><input value="0%"/></td><td><input value="0%"/></td><td><input value="0%"/></td><td style="background:transparent"></td></tr>
+              <tr><td>Carryover Rate (%)</td><td><input value="0%"/></td><td><input value="0%"/></td><td><input value="0%"/></td><td style="background:transparent"></td></tr>
+              <tr><td>Prior Period Carryover ($)</td><td><input value="0"/></td><td><input value="0"/></td><td><input value="0"/></td><td style="background:transparent"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border)">
+          <button class="bic-submit" onclick="markBrandSubDone('fin');switchBrandTab('cust')">Save & Add Customer →</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL 3: Customers ── -->
+      <div class="brand-vpanel" id="bvp-cust">
+        <div class="brand-vpanel-title">Upload Customers</div>
+        <div id="brand-upload-state">
+          <!-- initial upload choice -->
+          <div class="brand-upload-grid" id="brand-upload-choice">
+            <div class="brand-upload-box" onclick="brandFileUploaded()">
+              <div class="brand-upload-box-icon">📄</div>
+              <div class="brand-upload-box-label">Choose a local file</div>
+            </div>
+            <div class="brand-upload-or">or</div>
+            <div class="brand-upload-box plain" onclick="showToast('Network upload coming soon')">
+              <div class="brand-upload-box-icon">🌐</div>
+              <div class="brand-upload-box-label" style="color:var(--muted);text-decoration:none">Upload from Network</div>
+            </div>
+          </div>
+          <ul class="brand-upload-notes" style="margin-top:12px">
+            <li>Please upload the data in CSV format.</li>
+            <li>Values like "#NULL", "#REF!", "#DIV/0!", "#N/A", etc. would be converted to "NA".</li>
+            <li>NA/NA type values in Sales and Activity column(s) will be replaced with "0".</li>
+            <li>NA/NA type values in segment column(s) will be replaced with "Not Available".</li>
+            <li>NA/NA type values are not allowed in ID column of sales & activity File.</li>
+          </ul>
+        </div>
+
+        <!-- post-upload: column mapping (hidden initially) -->
+        <div id="brand-col-state" style="display:none">
+          <div class="brand-file-badge">
+            <span>📄</span>
+            <span id="brand-filename">test_file_dummy_correct.csv</span>
+            <span class="brand-file-x" onclick="brandClearFile()">✕</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <div class="bic-field">
+              <label>Customer Type
+                <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Type of customer">ⓘ</span>
+              </label>
+              <select class="bic-select" id="bf-customer_type_brand">
+                <option value="">Select Customer Type</option>
+                <option>HCP</option><option>Hospital</option><option>Pharmacy</option><option>Payer</option>
+              </select>
+            </div>
+          </div>
+          <table class="brand-col-table">
+            <thead>
+              <tr>
+                <th style="width:30px"></th>
+                <th>Column ↕</th>
+                <th>Alias Name ↕</th>
+                <th>Column Type ↕</th>
+                <th style="width:22px;background:var(--accent);color:#fff;cursor:pointer">ⓘ</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[
+                ['CustID','CustID',''],
+                ['TimePeriod','TimePeriod',''],
+                ['Sales_NRx','NRx','Sales'],
+                ['Activity_SF','SF','Activity'],
+                ['Segment_HMLZ','HMLZ','Segment'],
+                ['Segment_PS','PS','Segment'],
+              ].map(([col,alias,type],i)=>`
+              <tr style="${i===1?'background:#fffbeb':''}">
+                <td><input type="checkbox" style="accent-color:var(--accent)"/></td>
+                <td style="font-size:12px">${col}</td>
+                <td style="font-size:12px">${alias}</td>
+                <td>
+                  <select style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;width:100%;font-family:inherit">
+                    <option value="">${type||'Select column type'}</option>
+                    <option ${type==='Sales'?'selected':''}>Sales</option>
+                    <option ${type==='Activity'?'selected':''}>Activity</option>
+                    <option ${type==='Segment'?'selected':''}>Segment</option>
+                    <option>ID</option><option>Date</option>
+                  </select>
+                </td>
+                <td></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
+          <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="submitBrandCard(${prefill},true)">Save & Add Another Customer</button>
+          <button class="bic-submit" onclick="submitBrandCard(${prefill},false)">Save Brand</button>
+        </div>
+      </div>
+
+    </div><!-- /brand-vpanels -->
+  `;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+  // show brand sub-items in sidebar, reset to Brand Info
+  document.getElementById('brand-subitems').style.display='';
+  switchBrandTab('info');
+  setTimeout(()=>document.getElementById('bf-brand_name')?.focus(),100);
+}
+
+function switchBrandTab(tab){
+  // panels
+  ['info','fin','cust'].forEach(t=>{
+    const p=document.getElementById('bvp-'+t);
+    if(p) p.className='brand-vpanel'+(t===tab?' active':'');
+    // sync sidebar sub-items
+    const si=document.getElementById('bsi-'+t);
+    if(si) si.className='bp-sub-item'+(t===tab?' active':'');
+  });
+}
+
+function brandFileUploaded(){
+  document.getElementById('brand-upload-choice').style.display='none';
+  document.querySelector('.brand-upload-notes')?.style && (document.querySelector('.brand-upload-notes').style.display='none');
+  document.getElementById('brand-col-state').style.display='';
+}
+
+function brandClearFile(){
+  document.getElementById('brand-upload-choice').style.display='';
+  document.querySelector('.brand-upload-notes') && (document.querySelector('.brand-upload-notes').style.display='');
+  document.getElementById('brand-col-state').style.display='none';
+}
+
+function markBrandSubDone(tab){
+  const si=document.getElementById('bsi-'+tab);
+  if(si){si.className='bp-sub-item done';si.querySelector('.bp-sub-dot').textContent='✓';}
+}
+
+function submitBrandCard(isEdit=false, addAnother=false){
+  // collect brand fields
+  collected.brand_name        = document.getElementById('bf-brand_name')?.value||'—';
+  collected.therapeutic_area  = document.getElementById('bf-therapeutic_area')?.value||'—';
+  collected.years_market      = document.getElementById('bf-years_market')?.value||'—';
+  collected.competition_type  = document.getElementById('bf-competition_type')?.value||'—';
+  collected.brand_desc        = document.getElementById('bf-brand_desc')?.value||'';
+  collected.forecast_name     = document.getElementById('bf-forecast_name')?.value||'forecast1';
+
+  document.getElementById('bot-input-card')?.remove();
+  // mark all brand sub-items done then collapse after a moment
+  ['info','fin','cust'].forEach(t=>markBrandSubDone(t));
+  setTimeout(()=>{ document.getElementById('brand-subitems').style.display='none'; }, 900);
+
+  const summary=`Brand: <strong>${collected.brand_name}</strong> · ${collected.therapeutic_area} · ${collected.competition_type}`;
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  if(isEdit){
+    botStep=4;
+    const confirmMsg=document.createElement('div');
+    confirmMsg.className='msg-bot';
+    confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">Brand updated ✓ — other steps unchanged.
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(confirmMsg);
+    document.getElementById('bp-2').className='bp-item done';
+    document.getElementById('bpd-2').textContent='✓';
+    document.getElementById('bp-4').className='bp-item active';
+  } else {
+    botStep++;
+    if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+  }
+}
+
+/* ══ TEAM CARD — 4-section vertical tabs ══ */
+function appendTeamCard(prefill=false){
+  const wrap=document.getElementById('chat-messages');
+  const c=collected;
+  const v=(k,fb='')=>prefill&&c[k]&&c[k]!=='—'?c[k]:fb;
+
+  const card=document.createElement('div');
+  card.id='bot-input-card';
+  card.className='brand-bot-card'; /* reuse same vertical-tab card styles */
+
+  card.innerHTML=`
+    <!-- Panels fill full width — navigation via left sidebar only -->
+    <div class="brand-vpanels" style="width:100%">
+
+      <!-- ── PANEL 1: Structure Info (screenshot 1) ── -->
+      <div class="brand-vpanel active" id="tvp-structure">
+        <div class="brand-vpanel-title">Add Structure</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="bic-field">
+            <label>Structure Name <span style="color:#e55">*</span>
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help">ⓘ</span>
+            </label>
+            <input class="bic-input" id="tf-struct_name" placeholder="Enter here" value="${v('struct_name')}"/>
+          </div>
+          <div class="bic-field">
+            <label>Structure Description
+              <span style="font-size:10px;color:var(--muted);float:right;cursor:help">ⓘ</span>
+            </label>
+            <input class="bic-input" id="tf-struct_desc" placeholder="Enter description here." value="${v('struct_desc')}"/>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border);margin-top:8px">
+          <button class="bic-submit" onclick="markTeamSubDone('structure');switchTeamTab('teams')">Save & Add Teams →</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL 2: Teams (screenshots 2–6) ── -->
+      <div class="brand-vpanel" id="tvp-teams">
+        <!-- sub-view: initial create team form (screenshots 2,3) -->
+        <div id="team-create-view">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer">← Create Team</div>
+            <div style="display:flex;align-items:center;gap:14px;font-size:12px">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+                <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block"></span> Team Info
+              </label>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)">
+                <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block"></span> Position Effectiveness
+              </label>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+            <div class="bic-field">
+              <label>Team Name <span style="color:#e55">*</span>
+                <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+              </label>
+              <input class="bic-input" id="tf-team_name" placeholder="e.g. test" value="${v('team_name')}"/>
+            </div>
+            <div class="bic-field">
+              <label>Role <span style="color:#e55">*</span>
+                <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+              </label>
+              <input class="bic-input" id="tf-team_role" placeholder="e.g. rep" value="${v('team_role')}"/>
+            </div>
+            <div class="bic-field">
+              <label>Annual Rep Cost ($) <span style="color:#e55">*</span>
+                <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+              </label>
+              <input class="bic-input" id="tf-annual_rep_cost" type="number" placeholder="280000" value="${v('annual_rep_cost')}"/>
+            </div>
+            <div class="bic-field">
+              <label>Customer Type <span style="color:#e55">*</span>
+                <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+              </label>
+              <select class="bic-select" id="tf-customer_type">
+                <option value="">Select</option>
+                ${['HCP','Hospital','Pharmacy','Payer'].map(o=>`<option${v('customer_type')===o?' selected':''}>${o}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <!-- HCP detail section (screenshot 3) — shown after customer type selected -->
+          <div id="team-hcp-detail" style="display:none">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Add details for Customer Types:</div>
+            <div style="font-size:12px;font-weight:600;margin-bottom:8px">HCP:
+              <span style="font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;border-radius:4px;padding:2px 7px;margin-left:6px">Brand_1</span>
+              <span style="font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;border-radius:4px;padding:2px 7px;margin-left:4px">demodryl</span>
+              <span style="float:right;color:var(--muted);cursor:pointer;font-size:16px">—</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+              <div class="bic-field">
+                <label>Activity 1 <span style="color:#e55">*</span> <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span></label>
+                <select class="bic-select"><option>F2F Calls</option><option>Virtual Calls</option><option>Email</option></select>
+              </div>
+              <div class="bic-field">
+                <label>Annual Activity Capacity <span style="color:#e55">*</span></label>
+                <input class="bic-input" type="number" value="1500" placeholder="e.g. 1500"/>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+              <div class="bic-field">
+                <label>Select Brands <span style="color:#e55">*</span> <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span></label>
+                <div style="display:flex;gap:6px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 10px;background:var(--surface)">
+                  <span style="background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;border-radius:4px;padding:2px 7px;font-size:11px">Brand_1 ×</span>
+                  <span style="background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;border-radius:4px;padding:2px 7px;font-size:11px">demodryl ×</span>
+                </div>
+              </div>
+              <div class="bic-field">
+                <label>No. of Positions <span style="color:#e55">*</span> <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span></label>
+                <input class="bic-input" type="number" value="2" placeholder="e.g. 2"/>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text);margin-bottom:6px">Vary product bag by years?</div>
+            <div style="display:flex;gap:18px;margin-bottom:10px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="vary-bag" style="accent-color:var(--accent)"/> Yes</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="vary-bag" checked style="accent-color:var(--accent)"/> No</label>
+            </div>
+            <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:10px;align-items:center;font-size:12px">
+              <div style="color:var(--muted)">(2027-2029):</div>
+              <div class="bic-field"><label style="font-size:10px;color:var(--muted)">P1:</label><select class="bic-select"><option>Brand_1</option><option>demodryl</option></select></div>
+              <div class="bic-field"><label style="font-size:10px;color:var(--muted)">P2:</label><select class="bic-select"><option>demodryl</option><option>Brand_1</option></select></div>
+            </div>
+          </div>
+          <!-- Position Effectiveness section (screenshots 4,5) — shown after create team -->
+          <div id="team-pos-eff" style="display:none">
+            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:10px">← Position Effectiveness:</div>
+            <div style="display:flex;gap:18px;margin-bottom:8px;font-size:13px">
+              <span style="font-weight:500">Do you want to vary effectiveness by Years?</span>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-yr" style="accent-color:var(--accent)"/> Yes</label>
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-yr" checked style="accent-color:var(--accent)"/> No</label>
+            </div>
+            <div style="font-size:12px;font-weight:600;margin-bottom:6px">Global Effectiveness</div>
+            <div style="overflow-x:auto;margin-bottom:10px">
+              <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid var(--border)">
+                <thead><tr>
+                  <th style="padding:8px 14px;background:var(--bg);font-weight:600;border:1px solid var(--border);text-align:center">P1</th>
+                  <th style="padding:8px 14px;background:var(--bg);font-weight:600;border:1px solid var(--border);text-align:center">P2</th>
+                </tr></thead>
+                <tbody><tr>
+                  <td style="padding:8px 14px;background:#fdf8ee;border:1px solid var(--border);text-align:center">100%</td>
+                  <td style="padding:8px 14px;background:#fdf8ee;border:1px solid var(--border);text-align:center">50%</td>
+                </tr></tbody>
+              </table>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="display:flex;gap:18px;font-size:13px;align-items:center">
+                <span>Do you want to vary effectiveness by Brand?</span>
+                <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-br" id="vary-br-yes" onchange="toggleBrandEffTable(true)" style="accent-color:var(--accent)"/> Yes</label>
+                <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-br" checked onchange="toggleBrandEffTable(false)" style="accent-color:var(--accent)"/> No</label>
+              </div>
+              <div id="show-positions-row" style="display:none;gap:12px;font-size:11px;align-items:center">
+                Show positions as:
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="pos-show" style="accent-color:var(--accent)"/> Absolute</label>
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="pos-show" checked style="accent-color:var(--accent)"/> Relative</label>
+              </div>
+            </div>
+            <!-- brand effectiveness table (screenshot 5) — shown when vary by brand = Yes -->
+            <div id="brand-eff-table" style="display:none;overflow-x:auto">
+              <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px">HCP: <span style="float:right;cursor:pointer">—</span></div>
+              <table style="width:100%;border-collapse:collapse;font-size:11px">
+                <thead><tr style="background:var(--bg)">
+                  <th style="padding:6px 8px;border:1px solid var(--border);font-weight:600">Brand 1</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);font-weight:600">Brand 2</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);font-weight:600">Brand 3</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);font-weight:600">P1</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);font-weight:600">P2</th>
+                </tr></thead>
+                <tbody>
+                  ${[['Brand_1','demodryl','Brand_2'],['Brand_1','Brand_2','demodryl'],['demodryl','Brand_1','Brand_2'],['demodryl','Brand_2','Brand_1'],['Brand_2','Brand_1','demodryl'],['Brand_2','demodryl','Brand_1']].map((row,i)=>`
+                  <tr style="${i===0?'background:#fffbeb':''}">
+                    ${row.map(b=>`<td style="padding:5px 8px;border:1px solid var(--border)">${b}</td>`).join('')}
+                    <td style="padding:5px 8px;border:1px solid var(--border);color:var(--accent)">100%</td>
+                    <td style="padding:5px 8px;border:1px solid var(--border);color:var(--accent)">100%</td>
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
+            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="toggleTeamHCPDetail()">
+              <span id="hcp-toggle-label">Show HCP Detail</span>
+            </button>
+            <button class="bic-submit" onclick="showTeamSummary()">Create Team & Define Effectiveness →</button>
+          </div>
+        </div>
+
+        <!-- sub-view: team summary (screenshot 6) — shown after Create Team -->
+        <div id="team-summary-view" style="display:none">
+          <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:12px">All Teams (1)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <!-- existing team card -->
+            <div style="border:1px solid var(--border);border-radius:var(--r);padding:16px;background:var(--surface)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="font-size:13px;font-weight:600" id="team-summary-name">test</div>
+                <span style="font-size:14px;color:var(--muted);cursor:pointer">⋮</span>
+              </div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Role:</div>
+              <div style="font-size:12px;margin-bottom:8px" id="team-summary-role">rep</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Annual Cost:</div>
+              <div style="font-size:12px;margin-bottom:8px" id="team-summary-cost">$280,000.00</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Customer Type & Brands:</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap">
+                <span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span>
+                <span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">demodryl</span>
+              </div>
+            </div>
+            <!-- add another team card -->
+            <div style="border:1.5px dashed var(--border);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:20px;transition:all .15s" onclick="showTeamCreateView()" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+              <div style="font-size:26px;opacity:.35">👥</div>
+              <div style="font-size:13px;font-weight:500;color:var(--accent)">+ Team</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:12px;gap:10px">
+            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="showTeamCreateView()">Add another Team</button>
+            <button class="bic-submit" onclick="markTeamSubDone('teams');switchTeamTab('coverage')">Save & Proceed to Coverage →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PANEL 3: Coverage (screenshots 7, 8) ── -->
+      <div class="brand-vpanel" id="tvp-coverage">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+          <div class="brand-vpanel-title">Coverage</div>
+          <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span>
+        </div>
+        <!-- coverage option -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div class="bic-field">
+            <label>Enter Name <span style="font-size:10px;color:var(--muted);margin-left:4px">ⓘ</span></label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px;border:1.5px solid var(--accent);border-radius:var(--r-sm);padding:6px 10px;background:var(--accent-light);font-size:12px;font-weight:600;color:var(--accent)">
+                ☆ <input style="border:none;background:transparent;outline:none;font-size:12px;width:110px;color:var(--accent)" value="Coverage Option 1"/>
+                <span style="cursor:pointer;color:var(--muted)">⋮</span>
+              </div>
+              <span style="font-size:12px;color:var(--accent);font-weight:500;cursor:pointer">+ Another Coverage Option</span>
+            </div>
+          </div>
+          <div class="bic-field">
+            <label>Customer Type: <span style="font-size:10px;color:var(--muted);margin-left:2px">ⓘ</span></label>
+            <span style="display:inline-block;background:var(--accent-light);border:1.5px solid var(--accent);border-radius:var(--r-sm);padding:4px 12px;font-size:12px;font-weight:600;color:var(--accent-dark)">HCP</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:start">
+            <div class="bic-field">
+              <label>Group using Segments: <span style="font-size:10px;color:var(--muted)">ⓘ</span></label>
+              <div style="display:flex;gap:5px;flex-wrap:wrap;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface)">
+                <span style="font-size:11px;background:var(--accent-light);color:var(--accent);border-radius:3px;padding:2px 6px">demodryl | HMLZ ×</span>
+                <span style="font-size:11px;background:var(--accent-light);color:var(--accent);border-radius:3px;padding:2px 6px">demodryl | PS ×</span>
+              </div>
+            </div>
+            <div class="bic-field">
+              <label>Vary Coverage by Years:</label>
+              <div style="display:flex;gap:8px;align-items:center;margin-top:6px;font-size:12px">
+                <span style="color:var(--muted)">No</span>
+                <div style="width:32px;height:18px;border-radius:9px;background:var(--accent);position:relative;cursor:pointer"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:16px;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div>
+                <span style="color:var(--accent);font-weight:500">Yes</span>
+              </div>
+            </div>
+            <div class="bic-field">
+              <label>Vary Coverage by Teams:</label>
+              <div style="display:flex;gap:8px;align-items:center;margin-top:6px;font-size:12px">
+                <span style="color:var(--muted)">No</span>
+                <div style="width:32px;height:18px;border-radius:9px;background:var(--accent);position:relative;cursor:pointer"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:16px;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div>
+                <span style="color:var(--accent);font-weight:500">Yes</span>
+              </div>
+            </div>
+          </div>
+          <!-- coverage upload buttons -->
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:12px;color:var(--muted)">Coverage:</span>
+            <button class="bic-submit" style="padding:6px 14px;font-size:12px;background:var(--accent-dark)">⬇ Download Template</button>
+            <button class="bic-submit" style="padding:6px 14px;font-size:12px;background:transparent;color:var(--accent);border:1.5px solid var(--accent)">Upload Coverage</button>
+          </div>
+          <!-- coverage data table (screenshot 8) — shown when both vary toggles are Yes -->
+          <div style="overflow-x:auto;border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+            <table style="width:100%;border-collapse:collapse;font-size:11px">
+              <thead>
+                <tr style="background:var(--bg)">
+                  <th style="padding:6px 8px;border:1px solid var(--border);text-align:left">demodryl | H…</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);text-align:left">demodryl | PS</th>
+                  <th style="padding:6px 8px;border:1px solid var(--border);text-align:left">Customer Group</th>
+                  <th colspan="4" style="padding:6px 8px;border:1px solid var(--border);text-align:center;background:var(--accent-light)">2027 — test</th>
+                  <th colspan="4" style="padding:6px 8px;border:1px solid var(--border);text-align:center;background:#e8f5f3">2028 — test</th>
+                </tr>
+                <tr style="background:var(--bg)">
+                  <th style="padding:4px 8px;border:1px solid var(--border)"></th><th style="padding:4px 8px;border:1px solid var(--border)"></th><th style="padding:4px 8px;border:1px solid var(--border)"></th>
+                  ${['Reach %','Min Freq','Max Freq','Forced Min','Reach %','Min Freq','Max Freq','Forced Min'].map(h=>`<th style="padding:4px 6px;border:1px solid var(--border);font-size:10px;font-weight:500">${h}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${[['h','0','All (2)'],['h','0','1'],['h','0','5'],['l','0','All (2)'],['m','1','All (2)'],['2','1','All (2)']].map(([a,b,g])=>`
+                <tr>
+                  <td style="padding:5px 8px;border:1px solid var(--border)">${a}</td>
+                  <td style="padding:5px 8px;border:1px solid var(--border)">${b}</td>
+                  <td style="padding:5px 8px;border:1px solid var(--border)">${g}<span style="margin-left:4px;cursor:pointer;opacity:.5">⊕</span></td>
+                  ${[0,0,0,0,0,0,0,0].map((_,i)=>`<td style="padding:5px 8px;border:1px solid var(--border);${i===2?'border:2px solid var(--accent)':''}">${i===3?`<select style="font-size:10px;border:none;background:transparent"><option>false</option><option>true</option></select>`:'<input type="number" style="width:44px;border:none;background:transparent;font-size:11px"/>'}</td>`).join('')}
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border);margin-top:4px">
+          <button class="bic-submit" onclick="markTeamSubDone('coverage');switchTeamTab('response')">Save Coverage & Add Response Curve →</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL 4: Response Curve ── -->
+      <div class="brand-vpanel" id="tvp-response">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:13px;font-weight:700;color:var(--text);letter-spacing:.3px">Brands Inputs</div>
+          <span style="font-size:11px;color:var(--muted);cursor:help;border:1px solid var(--border);border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center">ⓘ</span>
+        </div>
+
+        <!-- Brand 1 — expanded by default -->
+        <div class="rc-accordion" id="rca-1" style="margin-bottom:10px">
+          <div class="rc-acc-header" onclick="toggleRCBrand(this)">
+            <span style="font-size:13px;font-weight:600;color:var(--text)">1. Brand_1</span>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="rc-status-badge pending" id="rcb1-status">⚠ Upload Pending for HCP</span>
+              <span class="rc-chevron" style="transform:rotate(180deg)">▼</span>
+            </div>
+          </div>
+          <div class="rc-acc-body" style="display:block">
+            <!-- HCP pill -->
+            <div style="padding:14px 18px 0">
+              <span class="rc-hcp-pill">HCP</span>
+            </div>
+            <!-- filter row matching screenshot -->
+            <div style="padding:10px 18px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;border-bottom:1px solid var(--border);margin-top:10px">
+              <span style="color:var(--muted)">Forecast:</span>
+              <select class="rc-inline-select"><option>forecast1</option></select>
+              <span style="color:var(--muted);margin-left:6px">Team:</span>
+              <select class="rc-inline-select"><option>Team_1</option></select>
+              <span style="color:var(--muted);margin-left:6px">Segments:</span>
+              <select class="rc-inline-select" id="rc-segments-b1" onchange="handleRCSegments(this,'rc-chart-b1','rcb1-status')">
+                <option value="">Select a Segment</option>
+                <option value="Centiles">SEGMENT_Centiles</option>
+                <option value="All">All</option>
+              </select>
+              <span style="color:var(--muted);margin-left:6px">Year:</span>
+              <select class="rc-inline-select"><option>2027</option><option>2028</option><option>2029</option></select>
+              <span style="margin-left:auto;color:var(--accent);font-size:12px;font-weight:500;cursor:pointer">+ Edit adjustment factors</span>
+              <div style="display:flex;gap:4px;margin-left:8px">
+                <button class="rc-icon-btn" id="rc-refresh-btn" title="Refresh" onclick="showToast('Refreshing data…')">↺</button>
+                <button class="rc-icon-btn rc-view-active" id="rc-chart-btn" title="Chart view" onclick="toggleRCView('chart')">📈</button>
+                <button class="rc-icon-btn" id="rc-table-btn" title="Table view" onclick="toggleRCView('table')">⊞</button>
+              </div>
+            </div>
+            <!-- config row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border)">
+              <div class="bic-field">
+                <label style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block">Upload mode</label>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+                  <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+                    <input type="radio" name="rc-mode-b1" checked style="accent-color:var(--accent)"/>
+                    Upload new Response Curve
+                  </label>
+                  <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+                    <input type="radio" name="rc-mode-b1" style="accent-color:var(--accent)"/>
+                    Use previously added Response Curve for Brand_1
+                  </label>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="bic-field">
+                  <label style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block">Period</label>
+                  <div style="display:flex;flex-direction:column;gap:5px;font-size:12px">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="rc-period-b1" checked style="accent-color:var(--accent)"/> Single Year</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="rc-period-b1" style="accent-color:var(--accent)"/> Multi-Year</label>
+                  </div>
+                  <select class="bic-select" style="font-size:12px;margin-top:6px"><option>2027</option><option>2028</option><option>2029</option></select>
+                </div>
+                <div class="bic-field">
+                  <label style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block">Base Forecast</label>
+                  <select class="bic-select" style="font-size:12px"><option>forecast1</option></select>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px">
+                    <span style="color:var(--muted)">Customer Level Curve</span>
+                    <div class="rc-toggle"><div class="rc-toggle-thumb"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- upload buttons -->
+            <div style="padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;font-weight:500;color:var(--muted)">Response Curve:</span>
+              <button class="rc-btn-dark">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Download Template
+              </button>
+              <button class="rc-btn-outline" onclick="handleRCUpload('rc-segments-b1','rc-chart-b1','rcb1-status')">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 11V4M3 7l3-3 3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Upload Response Curve
+              </button>
+            </div>
+            <!-- chart area — shown when segment selected -->
+            <div id="rc-chart-b1" style="display:block;padding:14px 18px">
+              <div class="rc-chart-container">
+                <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+                  <!-- background -->
+                  <rect x="46" y="10" width="504" height="195" fill="#fafaf9" rx="2"/>
+                  <!-- grid lines -->
+                  <line x1="46" y1="10"  x2="550" y2="10"  stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="4 3"/>
+                  <line x1="46" y1="49"  x2="550" y2="49"  stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="4 3"/>
+                  <line x1="46" y1="88"  x2="550" y2="88"  stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="4 3"/>
+                  <line x1="46" y1="127" x2="550" y2="127" stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="4 3"/>
+                  <line x1="46" y1="166" x2="550" y2="166" stroke="#e8e4de" stroke-width="0.5" stroke-dasharray="4 3"/>
+                  <!-- axes -->
+                  <line x1="46" y1="205" x2="550" y2="205" stroke="#bcb8b2" stroke-width="1"/>
+                  <line x1="46" y1="10"  x2="46"  y2="205" stroke="#bcb8b2" stroke-width="1"/>
+                  <!-- y-axis label (rotated) -->
+                  <text font-size="9" fill="#7a7570" text-anchor="middle" transform="rotate(-90 14 110)">Revenue ($)</text>
+                  <!-- y-axis values -->
+                  <text x="42" y="13"  font-size="8.5" fill="#9db4b1" text-anchor="end">152k</text>
+                  <text x="42" y="52"  font-size="8.5" fill="#9db4b1" text-anchor="end">127k</text>
+                  <text x="42" y="91"  font-size="8.5" fill="#9db4b1" text-anchor="end">76k</text>
+                  <text x="42" y="130" font-size="8.5" fill="#9db4b1" text-anchor="end">5k</text>
+                  <text x="42" y="169" font-size="8.5" fill="#9db4b1" text-anchor="end">2.5k</text>
+                  <text x="42" y="208" font-size="8.5" fill="#9db4b1" text-anchor="end">0</text>
+                  <!-- x-axis values -->
+                  <text x="46"  y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">0</text>
+                  <text x="107" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">5</text>
+                  <text x="168" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">10</text>
+                  <text x="229" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">15</text>
+                  <text x="290" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">20</text>
+                  <text x="351" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">25</text>
+                  <text x="412" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">30</text>
+                  <text x="473" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">40</text>
+                  <text x="534" y="218" font-size="8.5" fill="#9db4b1" text-anchor="middle">50</text>
+                  <text x="298" y="232" font-size="9" fill="#7a7570" text-anchor="middle">Activity</text>
+                  <!-- curves — logarithmic, fan out from origin -->
+                  <path d="M46,204 C80,130 140,28 240,14 S430,10 550,9"   stroke="#06b6d4" stroke-width="1.8" fill="none"/>
+                  <path d="M46,204 C80,145 145,55 245,36 S435,28 550,24"  stroke="#10b981" stroke-width="1.7" fill="none"/>
+                  <path d="M46,204 C80,155 148,72 248,54 S438,44 550,40"  stroke="#8b5cf6" stroke-width="1.6" fill="none"/>
+                  <path d="M46,204 C80,160 150,84 250,66 S440,56 550,52"  stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+                  <path d="M46,204 C80,165 152,95 252,78 S442,68 550,64"  stroke="#ef4444" stroke-width="1.5" fill="none"/>
+                  <path d="M46,204 C80,168 154,103 254,87 S444,76 550,72" stroke="#ec4899" stroke-width="1.4" fill="none"/>
+                  <path d="M46,204 C80,171 156,110 256,95 S446,84 550,80" stroke="#14b8a6" stroke-width="1.4" fill="none"/>
+                  <path d="M46,204 C80,174 157,116 258,101 S448,90 550,87" stroke="#6366f1" stroke-width="1.3" fill="none"/>
+                  <path d="M46,204 C80,177 158,121 260,107 S450,96 550,93" stroke="#84cc16" stroke-width="1.3" fill="none"/>
+                  <path d="M46,204 C80,179 159,126 262,112 S452,101 550,98" stroke="#f97316" stroke-width="1.2" fill="none"/>
+                  <path d="M46,204 C80,181 160,130 264,116 S454,106 550,103" stroke="#a855f7" stroke-width="1.2" fill="none"/>
+                  <path d="M46,204 C80,183 161,134 266,120 S456,111 550,108" stroke="#0ea5e9" stroke-width="1.1" fill="none" opacity=".8"/>
+                </svg>
+                <!-- legend grid -->
+                <div class="rc-legend">
+                  ${[
+                    ['#06b6d4','OCS_Brand_1_PCP_69'],
+                    ['#10b981','OCS_Brand_1_ENDO_100'],
+                    ['#8b5cf6','OCS_Brand_1_ENDO_91'],
+                    ['#f59e0b','OCS_Brand_1_PCP_45'],
+                    ['#ef4444','OCS_Brand_1_ENDO_3'],
+                    ['#ec4899','OCS_Brand_1_ENDO_42'],
+                    ['#14b8a6','OCS_Brand_1_PCP_60'],
+                    ['#6366f1','OCS_Brand_1_ENDO_48'],
+                  ].map(([c,l])=>`
+                  <div class="rc-legend-item">
+                    <div style="width:18px;height:2.5px;background:${c};border-radius:2px;flex-shrink:0"></div>
+                    <span>SEGMENT_Centiles: ${l}</span>
+                  </div>`).join('')}
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:10px;color:var(--muted)">
+                  <span style="cursor:pointer;font-size:11px">▲</span>
+                  <span>1/51</span>
+                  <span style="cursor:pointer;font-size:11px">▼</span>
+                </div>
+              </div>
+
+              <!-- TABLE VIEW — hidden by default, shown on ⊞ click -->
+              <div id="rc-table-view" style="display:none">
+                <!-- meta row -->
+                <div style="display:flex;gap:24px;margin-bottom:12px;font-size:12px;flex-wrap:wrap">
+                  <div><span style="color:var(--muted)">Selected Period: </span><strong>2027</strong></div>
+                  <div><span style="color:var(--muted)">Selected Segments: </span><strong>Centiles</strong></div>
+                  <div><span style="color:var(--muted)">Customer Level Curve: </span><strong>No</strong></div>
+                  <div><span style="color:var(--muted)">Selected Base Forecast: </span><strong>forecast1</strong></div>
+                </div>
+                <!-- scrollable table -->
+                <div style="overflow:auto;border:1px solid var(--border);border-radius:var(--r-sm)">
+                  <table style="border-collapse:collapse;font-size:11px;min-width:900px;width:100%">
+                    <thead>
+                      <!-- year header -->
+                      <tr style="background:var(--bg)">
+                        <th colspan="4" style="padding:6px 10px;border:1px solid var(--border);font-weight:600;color:var(--muted);text-align:left">Years</th>
+                        <th colspan="9" style="padding:6px 10px;border:1px solid var(--border);font-weight:600;color:var(--accent-dark);text-align:center;background:var(--accent-light)">2027</th>
+                      </tr>
+                      <!-- column headers -->
+                      <tr style="background:#f5f4f1">
+                        <th style="padding:7px 10px;border:1px solid var(--border);text-align:left;min-width:70px;white-space:nowrap">Cent…</th>
+                        <th style="padding:7px 10px;border:1px solid var(--border);text-align:left;min-width:80px">Customer…</th>
+                        <th style="padding:7px 10px;border:1px solid var(--border);text-align:left;min-width:80px">Activity</th>
+                        <th style="padding:7px 10px;border:1px solid var(--border);text-align:right;min-width:60px">Customers</th>
+                        ${[0,2,4,6,8,10,12,14,16].map(n=>`<th style="padding:7px 8px;border:1px solid var(--border);text-align:right;min-width:70px;color:var(--muted)">activ…</th>`).join('')}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${[
+                        ['79.76','7194.06','7738.32','8230.49','8682.05','9100.88','9492.63','9861.51','10027.2'],
+                        ['56.39','61289.93','65926.74','70119.74','73966.84','77535.05','80872.54','84015.20','86990.8'],
+                        ['75.92','12875.34','13849.41','14730.24','15538.41','16288.00','16989.11','17649.31','18274.4'],
+                        ['12.62','614.56','6519.89','6742.58','6946.90','7040.17','7127.40','7129.39','7131.28'],
+                        ['5.56','487.16','487.16','487.16','487.16','487.16','487.16','487.16','487.16'],
+                        ['79.10','6099.98','6418.45','6585.99','6739.72','6760.70','6780.32','6798.80','6816.25'],
+                        ['36.47','6523.51','7017.04','7463.33','7872.80','8252.59','8607.82','8771.57','8773.70'],
+                        ['13.64','6072.13','6531.51','6791.07','7029.22','7191.22','7342.75','7342.75','7342.75'],
+                        ['6.98','947.92','947.92','947.92','947.92','947.92','947.92','947.92','947.92'],
+                        ['12.14','5698.76','5958.15','6006.50','6050.86','6058.92','6066.46','6073.57','6080.21'],
+                      ].map((row,i)=>`
+                      <tr style="background:${i%2===0?'#fff':'#fafaf8'}">
+                        <td style="padding:6px 10px;border:1px solid var(--border);color:var(--muted)">${row[0]}</td>
+                        <td style="padding:6px 10px;border:1px solid var(--border);color:var(--accent);font-weight:500">HCP</td>
+                        <td style="padding:6px 10px;border:1px solid var(--border)">F2F CALLS</td>
+                        <td style="padding:6px 10px;border:1px solid var(--border);text-align:right;color:var(--accent)">1</td>
+                        ${row.slice(1).map(v=>`<td style="padding:6px 10px;border:1px solid var(--border);text-align:right">${v}</td>`).join('')}
+                      </tr>`).join('')}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- table footer actions -->
+                <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
+                  <button class="bic-submit" style="background:transparent;color:var(--muted);border:1px solid var(--border);padding:5px 12px;font-size:12px">Cancel</button>
+                  <button class="bic-submit" style="padding:5px 12px;font-size:12px">Save</button>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <!-- Brand 2 — collapsed -->
+        <div class="rc-accordion" id="rca-2" style="margin-bottom:10px">
+          <div class="rc-acc-header" onclick="toggleRCBrand(this)">
+            <span style="font-size:13px;font-weight:600;color:var(--text)">2. Brand_2</span>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="rc-status-badge pending">⚠ Upload Pending for HCP</span>
+              <span class="rc-chevron">▼</span>
+            </div>
+          </div>
+          <div class="rc-acc-body" style="display:none;padding:16px 18px;border-top:1px solid var(--border)">
+            <span class="rc-hcp-pill">HCP</span>
+            <p style="font-size:12px;color:var(--muted);margin-top:12px">Select a segment and upload the response curve for Brand_2.</p>
+          </div>
+        </div>
+
+        <!-- Brand 3 / demodryl — collapsed -->
+        <div class="rc-accordion" id="rca-3" style="margin-bottom:10px">
+          <div class="rc-acc-header" onclick="toggleRCBrand(this)">
+            <span style="font-size:13px;font-weight:600;color:var(--text)">3. demodryl</span>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="rc-status-badge pending">⚠ Upload Pending for HCP</span>
+              <span class="rc-chevron">▼</span>
+            </div>
+          </div>
+          <div class="rc-acc-body" style="display:none;padding:16px 18px;border-top:1px solid var(--border)">
+            <span class="rc-hcp-pill">HCP</span>
+            <p style="font-size:12px;color:var(--muted);margin-top:12px">Select a segment and upload the response curve for demodryl.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:12px;border-top:1px solid var(--border);margin-top:4px">
+          <button class="bic-submit" style="background:transparent;color:var(--muted);border:1px solid var(--border)">Cancel</button>
+          <button class="bic-submit" onclick="submitTeamCard(${prefill})">Save Response Curve &amp; Proceed →</button>
+        </div>
+      </div>
+
+    </div><!-- /brand-vpanels -->
+  `;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  // show team sub-items in sidebar, reset to Structure Info
+  document.getElementById('team-subitems').style.display='';
+  switchTeamTab('structure');
+
+  // wire customer type change to show HCP detail
+  setTimeout(()=>{
+    document.getElementById('tf-customer_type')?.addEventListener('change', function(){
+      document.getElementById('team-hcp-detail').style.display = this.value ? '' : 'none';
+    });
+    document.getElementById('tf-team_name')?.focus();
+  }, 100);
+}
+
+function switchTeamTab(tab){
+  // panels
+  ['structure','teams','coverage','response'].forEach(t=>{
+    const p=document.getElementById('tvp-'+t);
+    if(p) p.className='brand-vpanel'+(t===tab?' active':'');
+    // sync sidebar sub-items
+    const si=document.getElementById('tsi-'+t);
+    if(si) si.className='bp-sub-item'+(t===tab?' active':'');
+  });
+}
+
+function toggleRCBrand(header){
+  const body=header.nextElementSibling;
+  const chevron=header.querySelector('.rc-chevron');
+  const isOpen=body.style.display==='block'||body.style.display==='';
+  body.style.display=isOpen?'none':'block';
+  if(chevron) chevron.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+function toggleRCView(view){
+  // chart container is inside rc-chart-container, table is rc-table-view
+  const chartCont=document.querySelector('.rc-chart-container');
+  const chartLegend=document.querySelector('.rc-legend');
+  const pager=document.querySelector('#rc-chart-b1 > div:last-of-type'); // ▲1/51▼ row
+  const tableView=document.getElementById('rc-table-view');
+  const chartBtn=document.getElementById('rc-chart-btn');
+  const tableBtn=document.getElementById('rc-table-btn');
+
+  if(view==='chart'){
+    if(chartCont) chartCont.style.display='';
+    if(tableView) tableView.style.display='none';
+    chartBtn?.classList.add('rc-view-active');
+    tableBtn?.classList.remove('rc-view-active');
+  } else {
+    if(chartCont) chartCont.style.display='none';
+    if(tableView) tableView.style.display='';
+    tableBtn?.classList.add('rc-view-active');
+    chartBtn?.classList.remove('rc-view-active');
+  }
+}
+function handleRCSegments(selectEl,chartId,statusId){
+  const val=selectEl.value;
+  const chart=document.getElementById(chartId);
+  if(chart) chart.style.display=val?'block':'none';
+  const badge=document.getElementById(statusId);
+  if(badge&&val){badge.className='rc-status-badge done';badge.textContent='✓ Uploaded for HCP';}
+}
+function handleRCUpload(segId,chartId,statusId){
+  const chart=document.getElementById(chartId);
+  if(chart) chart.style.display='block';
+  const badge=document.getElementById(statusId);
+  if(badge){badge.className='rc-status-badge done';badge.textContent='✓ Uploaded for HCP';}
+  showToast('Response curve uploaded successfully.');
+}
+function showRCChart(){
+  const ca=document.getElementById('rc-chart-b1');
+  if(ca) ca.style.display=ca.style.display==='block'?'none':'block';
+}
+function toggleBrandEffTable(show){
+  document.getElementById('brand-eff-table').style.display=show?'':'none';
+  document.getElementById('show-positions-row').style.display=show?'flex':'none';
+}
+
+function toggleTeamHCPDetail(){
+  const d=document.getElementById('team-hcp-detail');
+  const open=d.style.display==='';
+  d.style.display=open?'none':'';
+  const btn=document.getElementById('hcp-toggle-label');
+  if(btn) btn.textContent=open?'Show HCP Detail':'Hide HCP Detail';
+  if(!open){
+    // show position effectiveness after a moment
+    setTimeout(()=>{
+      document.getElementById('team-pos-eff').style.display='';
+    }, 300);
+  }
+}
+
+function showTeamSummary(){
+  // fill summary with entered values
+  const name=document.getElementById('tf-team_name')?.value||'test';
+  const role=document.getElementById('tf-team_role')?.value||'rep';
+  const cost=document.getElementById('tf-annual_rep_cost')?.value||'280000';
+  document.getElementById('team-summary-name').textContent=name;
+  document.getElementById('team-summary-role').textContent=role;
+  document.getElementById('team-summary-cost').textContent='$'+Number(cost).toLocaleString()+'.00';
+  // save to collected
+  collected.team_name=name; collected.team_role=role; collected.annual_rep_cost=cost;
+  collected.customer_type=document.getElementById('tf-customer_type')?.value||'HCP';
+  document.getElementById('team-create-view').style.display='none';
+  document.getElementById('team-summary-view').style.display='';
+}
+
+function showTeamCreateView(){
+  document.getElementById('team-create-view').style.display='';
+  document.getElementById('team-summary-view').style.display='none';
+}
+
+function markTeamSubDone(tab){
+  const si=document.getElementById('tsi-'+tab);
+  if(si){si.className='bp-sub-item done';si.querySelector('.bp-sub-dot').textContent='✓';}
+}
+
+function submitTeamCard(isEdit=false){
+  document.getElementById('bot-input-card')?.remove();
+  // mark all team sub-items done then collapse
+  ['structure','teams','coverage','response'].forEach(t=>markTeamSubDone(t));
+  setTimeout(()=>{ document.getElementById('team-subitems').style.display='none'; }, 900);
+
+  const summary=`Structure: <strong>${collected.struct_name||document.getElementById('tf-struct_name')?.value||'Team'}</strong> · ${collected.team_name||'Team'} · ${collected.customer_type||'HCP'}`;
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  if(isEdit){
+    botStep=4;
+    const confirmMsg=document.createElement('div');
+    confirmMsg.className='msg-bot';
+    confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">Team structure updated ✓ — other steps unchanged.
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(confirmMsg);
+    document.getElementById('bp-3').className='bp-item done';
+    document.getElementById('bpd-3').textContent='✓';
+    document.getElementById('bp-4').className='bp-item active';
+  } else {
+    botStep++;
+    if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+  }
 }
 
 function appendBotMsg(html){
   const wrap=document.getElementById('chat-messages');
-  // typing indicator
   const typing=document.createElement('div');
-  typing.className='typing-indicator';
   typing.id='typing-ind';
   typing.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
   wrap.appendChild(typing);
@@ -1049,7 +2262,7 @@ function submitBotStep(isEdit=false){
 
   if(isEdit){
     // editing mode: save only this step, then show a confirmation and re-show review
-    botStep=5; // back to review
+    botStep=4; // back to review
     const confirmMsg=document.createElement('div');
     confirmMsg.className='msg-bot';
     confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
@@ -1063,8 +2276,8 @@ function submitBotStep(isEdit=false){
     // update sidebar to show this step as done again
     document.getElementById('bp-'+steps.indexOf(step))?.classList.remove('active');
     document.getElementById('bp-'+steps.indexOf(step))?.classList.add('done');
-    document.getElementById('bp-5').className='bp-item active';
-    document.getElementById('bpd-5').textContent='6';
+    document.getElementById('bp-4').className='bp-item active';
+    document.getElementById('bpd-4').textContent='5';
   } else {
     // normal flow: advance to next step
     botStep++;
@@ -1083,11 +2296,12 @@ function appendReviewCard(){
     ['Workspace name','ws_name'],
     ['Description','ws_desc'],
     ['Project name','proj_name'],
-    ['Start year','proj_scope_start'],
-    ['End year','proj_scope_end'],
+    ['Planning start year','proj_scope_start'],
+    ['Planning end year','proj_scope_end'],
     ['Currency','currency'],
     ['Discount rate (%)','discount_rate'],
     ['Inflation rate (%)','inflation_rate'],
+    ['Customer data','cda'],
     ['Brand name','brand_name'],
     ['Therapeutic area','therapeutic_area'],
     ['Team name','team_name'],
@@ -1117,12 +2331,12 @@ function appendReviewCard(){
   wrap.appendChild(card);
   wrap.scrollTop=wrap.scrollHeight;
 
-  [0,1,2,3,4].forEach(i=>{
+  [0,1,2,3].forEach(i=>{
     document.getElementById('bp-'+i).className='bp-item done';
     document.getElementById('bpd-'+i).textContent='✓';
     document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
   });
-  document.getElementById('bp-5').className='bp-item active';
+  document.getElementById('bp-4').className='bp-item active';
 }
 
 function editStep(){
@@ -1191,7 +2405,7 @@ function finalCreate(){
 
   // final success message
   setTimeout(()=>{
-    [0,1,2,3,4,5].forEach(i=>{
+    [0,1,2,3,4].forEach(i=>{
       document.getElementById('bp-'+i).className='bp-item done';
       document.getElementById('bpd-'+i).textContent='✓';
     });
@@ -1324,37 +2538,29 @@ function resetThinking(){
 
 /* ══ JUMP TO STEP (clickable sidebar — edits only that step) ══ */
 function jumpToStep(stepIdx){
-  // only allow jumping to already-completed steps
   if(stepIdx > botStep) return;
-
-  const stepNames=['Workspace','Project','Financials','Brand','Team structure','Review'];
+  const stepNames=['Workspace','Project','Brand','Team structure','Review'];
   const wrap=document.getElementById('chat-messages');
 
-  // remove any existing input card so we don't stack two
   document.getElementById('bot-input-card')?.remove();
   document.getElementById('review-card')?.remove();
 
-  // mark that step as active in sidebar, keep others as-is
-  [0,1,2,3,4,5].forEach(i=>{
+  [0,1,2,3,4].forEach(i=>{
     const el=document.getElementById('bp-'+i);
     const dot=document.getElementById('bpd-'+i);
     if(i < stepIdx){
-      el.className='bp-item done';
-      dot.textContent='✓';
+      el.className='bp-item done'; dot.textContent='✓';
       document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
     } else if(i === stepIdx){
-      el.className='bp-item active';
-      dot.textContent=i+1;
+      el.className='bp-item active'; dot.textContent=i+1;
     } else {
       el.className='bp-item'+(i <= botStep ? ' done' : '');
       dot.textContent=i <= botStep ? '✓' : i+1;
     }
   });
 
-  // set botStep to this step so submitBotStep saves to the right key
   botStep=stepIdx;
 
-  // append a separator in chat to show the edit context
   const sep=document.createElement('div');
   sep.style.cssText='display:flex;align-items:center;gap:10px;margin:8px 0;padding:0 4px';
   sep.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div>
@@ -1362,7 +2568,6 @@ function jumpToStep(stepIdx){
     <div style="flex:1;height:1px;background:var(--border)"></div>`;
   wrap.appendChild(sep);
 
-  // show just this step's question + input card (no clearing other messages)
   const step=steps[stepIdx];
   const botMsg=document.createElement('div');
   botMsg.className='msg-bot';
@@ -1371,9 +2576,25 @@ function jumpToStep(stepIdx){
   wrap.appendChild(botMsg);
   wrap.scrollTop=wrap.scrollHeight;
 
-  // pre-fill the input card with existing values for this step
   setTimeout(()=>{
-    appendInputCard(step, true /* prefill */);
+    if(step.type==='custom' && step.customId==='project-card') appendProjectCard(true);
+    else if(step.type==='custom' && step.customId==='brand-card'){
+      ['info','fin','cust'].forEach(t=>{
+        const si=document.getElementById('bsi-'+t);
+        if(si){si.className='bp-sub-item'+(t==='info'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='info'?'●':'○';}
+      });
+      document.getElementById('brand-subitems').style.display='';
+      appendBrandCard(true);
+    }
+    else if(step.type==='custom' && step.customId==='team-card'){
+      ['structure','teams','coverage','response'].forEach(t=>{
+        const si=document.getElementById('tsi-'+t);
+        if(si){si.className='bp-sub-item'+(t==='structure'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='structure'?'●':'○';}
+      });
+      document.getElementById('team-subitems').style.display='';
+      appendTeamCard(true);
+    }
+    else appendInputCard(step, true);
     wrap.scrollTop=wrap.scrollHeight;
   }, 300);
 

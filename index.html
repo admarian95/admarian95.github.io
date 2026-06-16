@@ -1,6 +1,8 @@
-<html lang="en"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Field Designer</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -627,7 +629,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 <div class="topbar">
   <button class="tb-toggle" id="sb-toggle-btn" onclick="toggleSidebar()" style="display:none">☰</button>
   <div class="tb-logo" onclick="goEntry()">FIELD DESIGNER</div>
-  <div class="tb-bc" id="tb-bc"><span class="seg" onclick="goEntry()">Home</span><span class="sep"> › </span><span class="seg dim">Create workflow</span></div>
+  <div class="tb-bc" id="tb-bc"><span class="seg dim">Home</span></div>
   <div class="tb-right">
     <button class="feedback-btn">Feedback</button>
     <div class="avatar">P</div>
@@ -637,7 +639,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 <!-- ════════════════════════════
      PAGE 0 — ENTRY
 ════════════════════════════ -->
-<div class="page" id="page-entry">
+<div class="page active" id="page-entry">
   <div class="entry-wrap">
 
     <div class="entry-hero">
@@ -707,7 +709,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 <!-- ════════════════════════════
      PAGE 1 — BOT CREATE
 ════════════════════════════ -->
-<div class="page active" id="page-bot">
+<div class="page" id="page-bot">
 
   <!-- Progress sidebar -->
   <div class="bot-progress">
@@ -716,76 +718,76 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="bp-sub">Answer each question to build your workflow</div>
     </div>
 
-    <div class="bp-item done" id="bp-0" onclick="jumpToStep(0)" title="Click to edit">
-      <div class="bp-dot" id="bpd-0">✓</div>
+    <div class="bp-item active" id="bp-0" onclick="jumpToStep(0)" title="Click to edit">
+      <div class="bp-dot" id="bpd-0">1</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Workspace</div>
-        <div class="bp-item-sub" id="bps-0">Name &amp; description</div>
+        <div class="bp-item-sub" id="bps-0">Name & description</div>
       </div>
     </div>
-    <div class="bp-connector done" id="bpc-0"></div>
-    <div class="bp-item done" id="bp-1" onclick="jumpToStep(1)" title="Click to edit">
-      <div class="bp-dot" id="bpd-1">✓</div>
+    <div class="bp-connector" id="bpc-0"></div>
+    <div class="bp-item" id="bp-1" onclick="jumpToStep(1)" title="Click to edit">
+      <div class="bp-dot" id="bpd-1">2</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Project</div>
         <div class="bp-item-sub" id="bps-1">Name, scope, financials</div>
       </div>
     </div>
-    <div class="bp-connector done" id="bpc-1"></div>
-    <div class="bp-item done" id="bp-2" onclick="jumpToStep(2)" title="Click to edit">
-      <div class="bp-dot" id="bpd-2">✓</div>
+    <div class="bp-connector" id="bpc-1"></div>
+    <div class="bp-item" id="bp-2" onclick="jumpToStep(2)" title="Click to edit">
+      <div class="bp-dot" id="bpd-2">3</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Brand</div>
         <div class="bp-item-sub" id="bps-2">Name, area, competition</div>
       </div>
     </div>
     <!-- Brand sub-items — shown when brand step is active or done -->
-    <div id="brand-subitems" style="display: none;">
-      <div class="bp-sub-item done" id="bsi-info" onclick="switchBrandTab('info')">
-        <div class="bp-sub-dot" id="bsid-info">✓</div>
+    <div id="brand-subitems" style="display:none">
+      <div class="bp-sub-item active" id="bsi-info" onclick="switchBrandTab('info')">
+        <div class="bp-sub-dot" id="bsid-info">●</div>
         <div class="bp-sub-label">Brand Info</div>
       </div>
-      <div class="bp-sub-item done" id="bsi-fin" onclick="switchBrandTab('fin')">
-        <div class="bp-sub-dot" id="bsid-fin">✓</div>
+      <div class="bp-sub-item" id="bsi-fin" onclick="switchBrandTab('fin')">
+        <div class="bp-sub-dot" id="bsid-fin">○</div>
         <div class="bp-sub-label">Financial Assumptions</div>
       </div>
-      <div class="bp-sub-item done" id="bsi-cust" onclick="switchBrandTab('cust')">
-        <div class="bp-sub-dot" id="bsid-cust">✓</div>
+      <div class="bp-sub-item" id="bsi-cust" onclick="switchBrandTab('cust')">
+        <div class="bp-sub-dot" id="bsid-cust">○</div>
         <div class="bp-sub-label">Customers</div>
       </div>
     </div>
-    <div class="bp-connector done" id="bpc-2"></div>
-    <div class="bp-item done" id="bp-3" onclick="jumpToStep(3)" title="Click to edit">
-      <div class="bp-dot" id="bpd-3">✓</div>
+    <div class="bp-connector" id="bpc-2"></div>
+    <div class="bp-item" id="bp-3" onclick="jumpToStep(3)" title="Click to edit">
+      <div class="bp-dot" id="bpd-3">4</div>
       <div class="bp-item-body">
         <div class="bp-item-label">Team structure</div>
         <div class="bp-item-sub" id="bps-3">Role, cost, coverage</div>
       </div>
     </div>
     <!-- Team sub-items — shown when team step is active or done -->
-    <div id="team-subitems" style="display: none;">
-      <div class="bp-sub-item done" id="tsi-structure" onclick="switchTeamTab('structure')">
-        <div class="bp-sub-dot" id="tsid-structure">✓</div>
+    <div id="team-subitems" style="display:none">
+      <div class="bp-sub-item active" id="tsi-structure" onclick="switchTeamTab('structure')">
+        <div class="bp-sub-dot" id="tsid-structure">●</div>
         <div class="bp-sub-label">Structure Info</div>
       </div>
-      <div class="bp-sub-item done" id="tsi-teams" onclick="switchTeamTab('teams')">
-        <div class="bp-sub-dot" id="tsid-teams">✓</div>
+      <div class="bp-sub-item" id="tsi-teams" onclick="switchTeamTab('teams')">
+        <div class="bp-sub-dot" id="tsid-teams">○</div>
         <div class="bp-sub-label">Teams</div>
       </div>
-      <div class="bp-sub-item done" id="tsi-coverage" onclick="switchTeamTab('coverage')">
-        <div class="bp-sub-dot" id="tsid-coverage">✓</div>
+      <div class="bp-sub-item" id="tsi-coverage" onclick="switchTeamTab('coverage')">
+        <div class="bp-sub-dot" id="tsid-coverage">○</div>
         <div class="bp-sub-label">Coverage</div>
       </div>
-      <div class="bp-sub-item done" id="tsi-response" onclick="switchTeamTab('response')">
-        <div class="bp-sub-dot" id="tsid-response">✓</div>
+      <div class="bp-sub-item" id="tsi-response" onclick="switchTeamTab('response')">
+        <div class="bp-sub-dot" id="tsid-response">○</div>
         <div class="bp-sub-label">Response Curve</div>
       </div>
     </div>
-    <div class="bp-connector done" id="bpc-3"></div>
-    <div class="bp-item done" id="bp-4" onclick="jumpToStep(4)" title="Click to edit">
-      <div class="bp-dot" id="bpd-4">✓</div>
+    <div class="bp-connector" id="bpc-3"></div>
+    <div class="bp-item" id="bp-4" onclick="jumpToStep(4)" title="Click to edit">
+      <div class="bp-dot" id="bpd-4">5</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Review &amp; create</div>
+        <div class="bp-item-label">Review & create</div>
         <div class="bp-item-sub" id="bps-4">Confirm all details</div>
       </div>
     </div>
@@ -805,23 +807,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 
   <!-- Chat area -->
   <div class="bot-chat">
-    <div class="chat-messages" id="chat-messages"><div class="msg-bot"><div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">👋 Let's set up your workflow. First, what would you like to name your <strong>workspace</strong>?</div></div><div class="msg-user"><div class="msg-user-bubble"><strong>Workspace name:</strong> —&nbsp;&nbsp;<strong>Description (optional):</strong> —&nbsp;&nbsp;</div></div><div class="msg-bot"><div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">Great! Now let's create your first <strong>project</strong>. Fill in the details below:</div></div><div class="msg-user"><div class="msg-user-bubble"><strong>—</strong> · —–— · — · Discount —%</div></div><div class="msg-bot"><div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">Now let's add your first <strong>brand</strong>. Fill in the brand details, financial assumptions and customer data:</div></div><div class="msg-user"><div class="msg-user-bubble">Brands saved: <strong>—</strong></div></div><div class="msg-bot"><div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">Almost done! Let's define your <strong>team structure</strong> — Structure Info, Teams, Coverage and Response Curve:</div></div><div class="msg-user"><div class="msg-user-bubble">Structure: <strong>Team</strong> · test · HCP</div></div><div class="msg-bot"></div><div class="msg-bot"><div class="msg-bot-avatar">✦</div>
-    <div style="flex:1">
-      <div class="msg-bot-bubble" style="margin-bottom:8px">Creating your workflow — this will take a moment…</div>
-
-    </div></div><div class="msg-bot"><div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
-      <strong>Workflow created successfully! ✓</strong><br>
-      Workspace <strong>—</strong> is ready with project <strong>—</strong>, brand <strong>—</strong> and team <strong>test</strong>.
-    </div></div><div class="msg-bot" id="scenario-prompt-msg"><div class="msg-bot-avatar">✦</div>
-        <div style="flex:1">
-          <div class="msg-bot-bubble" style="margin-bottom:10px">
-            Would you like to <strong>create a scenario</strong> for this workflow? Scenarios let you model different sizing strategies, objectives and targets.
-          </div>
-          <div class="quick-replies">
-            <button class="qr-chip" style="background:var(--accent);color:#fff;border-color:var(--accent)" onclick="startPostWorkflowScenario()">✦ Yes, create a scenario</button>
-            <button class="qr-chip" onclick="skipScenarioGoTeams()">No, go to workspace →</button>
-          </div>
-        </div></div></div>
+    <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-wrap">
 
       <div class="chat-disclaimer">✦ Agentic setup — your inputs build the workflow automatically</div>
@@ -856,7 +842,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       </div>
       <div style="padding:10px 16px 8px">
         <div class="thinking-nlq-wrap">
-          <input class="thinking-nlq-input" id="thinking-input" placeholder="e.g. What happens if I reduce Single Team to 15 FTEs?" onkeydown="if(event.key==='Enter')launchThinking()">
+          <input class="thinking-nlq-input" id="thinking-input" placeholder="e.g. What happens if I reduce Single Team to 15 FTEs?" onkeydown="if(event.key==='Enter')launchThinking()"/>
           <button class="thinking-nlq-send" onclick="launchThinking()">➤</button>
         </div>
         <div class="thinking-disclaimer" style="margin-top:6px;text-align:center">⚠ AI-generated scenarios should be validated before applying to production</div>
@@ -878,7 +864,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   <div class="ws-toolbar">
     <div class="ws-search-wrap">
       <span class="ws-search-icon">⌕</span>
-      <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)">
+      <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)"/>
     </div>
     <div class="ws-sort">☰ Newest first</div>
   </div>
@@ -900,7 +886,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   <div class="p2-sidebar" id="p2-sidebar">
     <div class="p2-sb-header">
       <div class="p2-sb-title">Projects<button class="p2-sb-add" onclick="openModal('project')">+</button></div>
-      <div class="p2-sb-search-wrap"><span class="p2-sb-search-icon">⌕</span><input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)"></div>
+      <div class="p2-sb-search-wrap"><span class="p2-sb-search-icon">⌕</span><input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)"/></div>
       <div class="p2-sb-ws-label" onclick="goWorkspaces()">← <span id="p2-ws-name">Workspace</span></div>
     </div>
     <div class="p2-sb-body" id="p2-sb-body">
@@ -949,8 +935,8 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
           <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
           <div class="team-count">All Teams (4):</div>
           <div class="team-sub-grid">
-            <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type &amp; Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
-            <div class="team-sub-card"><div class="team-sub-name">Team_2</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type &amp; Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
+            <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
+            <div class="team-sub-card"><div class="team-sub-name">Team_2</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
           </div>
           <div class="used-label">Used in scenarios (2):</div>
           <div class="scenario-tags"><span class="scenario-tag">↑ Test</span><span class="scenario-tag">↑ Test2</span></div>
@@ -982,7 +968,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <!-- Card 1: Test2 -->
       <div class="sc-card" onclick="openScenarioDetail('Test2')">
         <div class="sc-card-header">
-          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()">
+          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
           <div class="sc-card-name" style="margin-left:8px">Test2</div>
           <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
           <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
@@ -1057,7 +1043,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <!-- Card 2: Test -->
       <div class="sc-card" onclick="openScenarioDetail('Test')">
         <div class="sc-card-header">
-          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()">
+          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
           <div class="sc-card-name" style="margin-left:8px">Test</div>
           <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
           <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
@@ -1175,7 +1161,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center">🏠</button>
     <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent-light);color:var(--accent);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700">＋</button>
     <div style="position:relative;flex:1">
-      <input class="scd-constraint-input" placeholder="✦  Try: Adding constraints">
+      <input class="scd-constraint-input" placeholder="✦  Try: Adding constraints"/>
     </div>
     <button class="scd-constraint-btn">➤</button>
   </div>
@@ -1290,8 +1276,8 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
             <!-- Reached/Target -->
             <div class="scd-donut-cell" style="height:62px">
               <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"></circle>
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"></circle>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
                 <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
                 <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
               </svg>
@@ -1348,8 +1334,8 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
             <div class="scd-team-cell">0.00%</div>
             <div class="scd-donut-cell" style="height:62px">
               <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"></circle>
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"></circle>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
                 <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
                 <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
               </svg>
@@ -1388,7 +1374,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
             <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
             <div class="scd-donut-cell" style="height:62px">
               <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"></circle>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
                 <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
                 <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
               </svg>
@@ -1417,7 +1403,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
             <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
             <div class="scd-donut-cell" style="height:62px">
               <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"></circle>
+                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
                 <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
                 <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
               </svg>
@@ -1454,29 +1440,29 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     <div class="modal-body">
       <div class="step-panel active" id="pp-1">
         <div class="step-layout">
-          <div class="field-group"><label class="field-label">Project Name <span class="req">*</span></label><input class="field-input" id="proj-name" placeholder="e.g. NNI Test"></div>
-          <div class="field-group"><label class="field-label">Customer Data Available</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="cda" value="yes" checked=""> Yes</label><label class="radio-opt"><input type="radio" name="cda" value="no"> No</label></div></div>
+          <div class="field-group"><label class="field-label">Project Name <span class="req">*</span></label><input class="field-input" id="proj-name" placeholder="e.g. NNI Test"/></div>
+          <div class="field-group"><label class="field-label">Customer Data Available</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="cda" value="yes" checked/> Yes</label><label class="radio-opt"><input type="radio" name="cda" value="no"/> No</label></div></div>
         </div>
         <div class="step-layout">
-          <div class="field-group"><label class="field-label">Planning Scope <span class="req">*</span></label><div class="date-range"><input type="number" class="field-input" placeholder="Start year"><span class="date-sep">→</span><input type="number" class="field-input" placeholder="End year"></div></div>
-          <div class="field-group"><label class="field-label">Discount Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"></div>
+          <div class="field-group"><label class="field-label">Planning Scope <span class="req">*</span></label><div class="date-range"><input type="number" class="field-input" placeholder="Start year"/><span class="date-sep">→</span><input type="number" class="field-input" placeholder="End year"/></div></div>
+          <div class="field-group"><label class="field-label">Discount Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"/></div>
         </div>
         <div class="step-layout">
-          <div class="field-group"><label class="field-label">Inflation Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"></div>
+          <div class="field-group"><label class="field-label">Inflation Rate (%) <span class="req">*</span></label><input type="number" class="field-input" placeholder="0 – 100"/></div>
           <div class="field-group"><label class="field-label">Currency <span class="req">*</span></label><select class="field-select"><option value="">Select Currency</option><option>USD ($)</option><option>EUR (€)</option><option>GBP (£)</option><option>INR (₹)</option></select></div>
         </div>
         <div class="field-group"><label class="field-label">Project Description</label><textarea class="field-textarea" placeholder="Enter project description"></textarea></div>
-        <div><div class="collabs-toggle" onclick="toggleCollabs()" id="collabs-toggle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg> Add Collaborators</div><div id="collabs-panel" style="display:none;margin-top:10px"><input class="field-input" placeholder="Search collaborators by name or email"></div></div>
+        <div><div class="collabs-toggle" onclick="toggleCollabs()" id="collabs-toggle"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add Collaborators</div><div id="collabs-panel" style="display:none;margin-top:10px"><input class="field-input" placeholder="Search collaborators by name or email"/></div></div>
       </div>
       <div class="step-panel" id="pp-2">
-        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1" value="forecast1"></div></div>
+        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1" value="forecast1"/></div></div>
         <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody>
-          <tr><td>Total Forecast ($)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>COGS (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Gross to Net (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
+          <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
         </tbody></table></div>
       </div>
       <div class="step-panel" id="pp-3">
@@ -1486,7 +1472,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" id="proj-back-btn" style="visibility:hidden" onclick="projStep(-1)">← Back</button>
-      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('project')">Cancel</button><button class="btn btn-primary" id="proj-next-btn" onclick="projStep(1)">Save &amp; Add Financials →</button></div>
+      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('project')">Cancel</button><button class="btn btn-primary" id="proj-next-btn" onclick="projStep(1)">Save & Add Financials →</button></div>
     </div>
   </div>
 </div>
@@ -1504,24 +1490,24 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     </div>
     <div class="modal-body">
       <div class="step-panel active" id="bp-1">
-        <div class="step-layout"><div class="field-group"><label class="field-label">Brand Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Brand_X"></div><div class="field-group"><label class="field-label">Therapeutic Area</label><input class="field-input" placeholder="Enter therapeutic area"></div></div>
-        <div class="step-layout"><div class="field-group"><label class="field-label">Years in Market</label><input type="number" class="field-input" placeholder="Enter years"></div><div class="field-group"><label class="field-label">Competition Type</label><select class="field-select"><option value="">Select competition type</option><option>Branded</option><option>Generic</option><option>Biosimilar</option></select></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Brand Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Brand_X"/></div><div class="field-group"><label class="field-label">Therapeutic Area</label><input class="field-input" placeholder="Enter therapeutic area"/></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Years in Market</label><input type="number" class="field-input" placeholder="Enter years"/></div><div class="field-group"><label class="field-label">Competition Type</label><select class="field-select"><option value="">Select competition type</option><option>Branded</option><option>Generic</option><option>Biosimilar</option></select></div></div>
         <div class="field-group"><label class="field-label">Brand Description</label><textarea class="field-textarea" placeholder="Enter brand description"></textarea></div>
       </div>
       <div class="step-panel" id="bp-2">
-        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1"></div></div>
+        <div class="step-layout single"><div class="field-group"><label class="field-label">Forecast Name</label><input class="field-input" placeholder="e.g. forecast1"/></div></div>
         <div style="overflow-x:auto"><table class="fin-table"><thead><tr><th>Metric</th><th>2027</th><th>2028</th><th>2029</th></tr></thead><tbody>
-          <tr><td>Total Forecast ($)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>COGS (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Gross to Net (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
-          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"></td><td><input placeholder="—"></td><td><input placeholder="—"></td></tr>
+          <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
+          <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td></tr>
         </tbody></table></div>
       </div>
       <div class="step-panel" id="bp-3">
         <div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Upload Customer File</label></div>
-          <div class="upload-zone" onclick="simulateUpload()" id="upload-zone"><div class="upload-zone-icon">📂</div><div class="upload-zone-text">Click to upload CSV or drag &amp; drop</div></div>
+          <div class="upload-zone" onclick="simulateUpload()" id="upload-zone"><div class="upload-zone-icon">📂</div><div class="upload-zone-text">Click to upload CSV or drag & drop</div></div>
           <div id="upload-result" style="display:none;margin-top:10px"><div class="upload-badge"><span>📄</span><span>customer_data.csv</span><span class="upload-badge-x" onclick="clearUpload()">✕</span></div></div>
         </div>
         <div class="field-group"><label class="field-label">Customer Type</label><select class="field-select"><option value="">Select Customer Type</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option><option>Payer</option></select></div>
@@ -1539,7 +1525,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" id="brand-back-btn" style="visibility:hidden" onclick="brandStep(-1)">← Back</button>
-      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('brand')">Cancel</button><button class="btn btn-primary" id="brand-next-btn" onclick="brandStep(1)">Save &amp; Add Financials →</button></div>
+      <div class="modal-footer-right"><button class="btn btn-ghost" onclick="closeModal('brand')">Cancel</button><button class="btn btn-primary" id="brand-next-btn" onclick="brandStep(1)">Save & Add Financials →</button></div>
     </div>
   </div>
 </div>
@@ -1559,22 +1545,22 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     </div>
     <div class="modal-body">
       <div class="step-panel active" id="tp-1">
-        <div class="step-layout three"><div class="field-group"><label class="field-label">Team Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. test"></div><div class="field-group"><label class="field-label">Role <span class="req">*</span></label><input class="field-input" placeholder="e.g. rep"></div><div class="field-group"><label class="field-label">Annual Rep Cost ($) <span class="req">*</span></label><input type="number" class="field-input" placeholder="e.g. 280000"></div></div>
+        <div class="step-layout three"><div class="field-group"><label class="field-label">Team Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. test"/></div><div class="field-group"><label class="field-label">Role <span class="req">*</span></label><input class="field-input" placeholder="e.g. rep"/></div><div class="field-group"><label class="field-label">Annual Rep Cost ($) <span class="req">*</span></label><input type="number" class="field-input" placeholder="e.g. 280000"/></div></div>
         <div class="step-layout single"><div class="field-group"><label class="field-label">Customer Type <span class="req">*</span></label><select class="field-select"><option value="">Select</option><option>HCP</option><option>Hospital</option><option>Pharmacy</option></select></div></div>
-        <div style="display:flex;gap:12px"><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="ti" checked="" style="accent-color:var(--accent)"> Team Info</label><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="pe" style="accent-color:var(--accent)"> Position Effectiveness</label></div>
+        <div style="display:flex;gap:12px"><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="ti" checked style="accent-color:var(--accent)"/> Team Info</label><label style="font-size:13px;font-weight:500"><input type="radio" name="ttype" value="pe" style="accent-color:var(--accent)"/> Position Effectiveness</label></div>
       </div>
       <div class="step-panel" id="tp-2">
         <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Add sub-teams and assign brand coverage.</div>
-        <div class="step-layout"><div class="field-group"><label class="field-label">Sub-team Name</label><input class="field-input" placeholder="e.g. Team_1"></div><div class="field-group"><label class="field-label">Assign Brands</label><select class="field-select" multiple="" style="height:76px"><option>Brand_1</option><option>Brand_2</option><option>Brand_3</option></select></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Sub-team Name</label><input class="field-input" placeholder="e.g. Team_1"/></div><div class="field-group"><label class="field-label">Assign Brands</label><select class="field-select" multiple style="height:76px"><option>Brand_1</option><option>Brand_2</option><option>Brand_3</option></select></div></div>
         <button class="btn btn-ghost btn-sm" style="width:fit-content">+ Add sub-team</button>
       </div>
       <div class="step-panel" id="tp-3">
         <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Define territory coverage.</div>
-        <div class="step-layout"><div class="field-group"><label class="field-label">Coverage Model</label><select class="field-select"><option>National</option><option>Regional</option><option>Territory</option></select></div><div class="field-group"><label class="field-label">Number of Territories</label><input type="number" class="field-input" placeholder="e.g. 50"></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Coverage Model</label><select class="field-select"><option>National</option><option>Regional</option><option>Territory</option></select></div><div class="field-group"><label class="field-label">Number of Territories</label><input type="number" class="field-input" placeholder="e.g. 50"/></div></div>
       </div>
       <div class="step-panel" id="tp-4">
         <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Set response curve parameters.</div>
-        <div class="step-layout"><div class="field-group"><label class="field-label">Curve Type</label><select class="field-select"><option>S-Curve</option><option>Linear</option><option>Diminishing Returns</option></select></div><div class="field-group"><label class="field-label">Saturation Point (%)</label><input type="number" class="field-input" placeholder="e.g. 85"></div></div>
+        <div class="step-layout"><div class="field-group"><label class="field-label">Curve Type</label><select class="field-select"><option>S-Curve</option><option>Linear</option><option>Diminishing Returns</option></select></div><div class="field-group"><label class="field-label">Saturation Point (%)</label><input type="number" class="field-input" placeholder="e.g. 85"/></div></div>
         <div style="background:var(--accent-light);border-radius:var(--r);padding:13px;border:1px solid var(--accent);font-size:13px;color:var(--accent)">✦ All steps complete. Click <strong>Create Team</strong> to save.</div>
       </div>
     </div>
@@ -1601,13 +1587,13 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="field-group">
           <label class="field-label">Scenario Name <span class="req">*</span></label>
-          <input class="field-input" id="sc-name" placeholder="Enter Scenario Name">
+          <input class="field-input" id="sc-name" placeholder="Enter Scenario Name"/>
         </div>
         <div class="field-group">
           <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Customer Type <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
           <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px">
             <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">HCP <span style="cursor:pointer;margin-left:3px" onclick="this.parentElement.remove()">×</span></span>
-            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:60px;background:transparent" placeholder="Add type…">
+            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:60px;background:transparent" placeholder="Add type…"/>
           </div>
         </div>
       </div>
@@ -1615,7 +1601,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <!-- Row 2: Description -->
       <div class="field-group">
         <label class="field-label">Scenario Description</label>
-        <input class="field-input" id="sc-desc" placeholder="Enter Scenario Description">
+        <input class="field-input" id="sc-desc" placeholder="Enter Scenario Description"/>
       </div>
 
       <!-- Row 3: Sizing Horizon + Sizing Strategy -->
@@ -1623,17 +1609,17 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         <div class="field-group">
           <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Horizon <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
           <div style="display:flex;align-items:center;gap:6px">
-            <input type="number" class="field-input" id="sc-start-year" placeholder="Start year" style="width:100px">
+            <input type="number" class="field-input" id="sc-start-year" placeholder="Start year" style="width:100px"/>
             <span style="color:var(--muted);font-size:12px">–</span>
-            <input type="number" class="field-input" id="sc-end-year" placeholder="End year" style="width:100px">
+            <input type="number" class="field-input" id="sc-end-year" placeholder="End year" style="width:100px"/>
             <span style="font-size:14px;color:var(--muted);cursor:pointer" title="Pick date">📅</span>
           </div>
         </div>
         <div class="field-group">
           <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Strategy Every Year <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
           <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="same" checked="" style="accent-color:var(--accent)"> Same Size</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="diff" style="accent-color:var(--accent)"> Different Size</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="same" checked style="accent-color:var(--accent)"/> Same Size</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="diff" style="accent-color:var(--accent)"/> Different Size</label>
           </div>
         </div>
       </div>
@@ -1645,7 +1631,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
           <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px;cursor:pointer" onclick="this.querySelector('input').focus()">
             <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_1 <span style="cursor:pointer;margin-left:3px">×</span></span>
             <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_2 <span style="cursor:pointer;margin-left:3px">×</span></span>
-            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:50px;background:transparent" placeholder="">
+            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:50px;background:transparent" placeholder=""/>
             <span style="color:var(--muted);margin-left:auto">▾</span>
           </div>
         </div>
@@ -1666,8 +1652,8 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="field-group">
         <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Do you want objective to vary by year? <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
         <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="yes" style="accent-color:var(--accent)"> Yes</label>
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="no" checked="" style="accent-color:var(--accent)"> No</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="yes" style="accent-color:var(--accent)"/> Yes</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="no" checked style="accent-color:var(--accent)"/> No</label>
         </div>
       </div>
 
@@ -1689,7 +1675,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         </div>
         <div class="field-group">
           <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Target Value <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <input type="number" class="field-input" id="sc-target-val" value="0">
+          <input type="number" class="field-input" id="sc-target-val" value="0"/>
         </div>
       </div>
 
@@ -1707,7 +1693,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 </div>
 
 <!-- TOAST -->
-<div class="toast" id="toast">✓ <span id="toast-msg">Workflow created successfully.</span></div>
+<div class="toast" id="toast">✓ <span id="toast-msg"></span></div>
 
 <script>
 /* ══ TEAMS DETECTION ══ */
@@ -1751,12 +1737,6 @@ const steps=[
     customId:'team-card',
     submit:'Save Structure →'
   },
-  {
-    id:'review',
-    ask:'Everything looks great! Here\'s a summary of what we\'ll create:',
-    type:'review',
-    submit:'Create workflow ✓'
-  }
 ];
 
 /* ══ PAGE NAVIGATION ══ */
@@ -2190,8 +2170,7 @@ function appendBrandCard(prefill=false){
           </table>
         </div>
 
-        <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
-          <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="submitBrandCard(${prefill},true)">Save & Add Another Customer</button>
+        <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
           <button class="bic-submit" onclick="submitBrandCard(${prefill},false)">Save Brand</button>
         </div>
       </div>
@@ -2203,7 +2182,6 @@ function appendBrandCard(prefill=false){
           <!-- saved brand cards injected here by JS -->
         </div>
         <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:12px;gap:10px">
-          <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="showBrandCreateView()">Add another Brand</button>
           <button class="bic-submit" onclick="proceedFromBrandSummary()">Save & Proceed to Teams →</button>
         </div>
       </div>
@@ -2605,7 +2583,6 @@ function appendTeamCard(prefill=false){
             </div>
           </div>
           <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:12px;gap:10px">
-            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="showTeamCreateView()">Add another Team</button>
             <button class="bic-submit" onclick="markTeamSubDone('teams');switchTeamTab('coverage')">Save & Proceed to Coverage →</button>
           </div>
         </div>
@@ -4002,6 +3979,5 @@ function toggleCollabs(){const p=document.getElementById('collabs-panel');const 
 /* ══ TOAST ══ */
 function showToast(msg){document.getElementById('toast-msg').textContent=msg;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 </script>
-
-
-</body></html>
+</body>
+</html>

@@ -69,141 +69,6 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .er-name{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .er-time{font-size:10px;color:var(--light);margin-top:1px}
 
-/* ════════ SCENARIO BOT STEP ════════ */
-.sc-bot-card{background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);overflow:hidden;margin-top:8px;box-shadow:var(--shadow-md);width:100%}
-.sc-bot-card-body{overflow-y:auto;max-height:calc(100vh - 320px)}
-.sc-bot-card-body::-webkit-scrollbar{width:4px}
-.sc-bot-card-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.sc-bot-section{padding:14px 18px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--border)}
-.sc-bot-section:last-child{border-bottom:none}
-.sc-bot-section-title{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
-.sc-field-row{display:grid;gap:10px}
-.sc-field-row.two{grid-template-columns:1fr 1fr}
-.sc-field-row.three{grid-template-columns:1fr 1fr 1fr}
-.sc-tag-input{display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:5px 8px;background:var(--surface);min-height:36px;cursor:text;transition:border .15s}
-.sc-tag-input:focus-within{border-color:var(--accent)}
-.sc-tag{display:inline-flex;align-items:center;gap:4px;background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600}
-.sc-tag-x{cursor:pointer;opacity:.6;font-size:10px}.sc-tag-x:hover{opacity:1}
-.sc-tag-ghost{border:none;outline:none;background:transparent;font-size:12px;color:var(--text);font-family:inherit;flex:1;min-width:50px}
-.sc-radio-group{display:flex;gap:14px;flex-wrap:wrap}
-.sc-radio-group label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}
-.sc-radio-group input[type=radio]{accent-color:var(--accent)}
-.sc-bot-footer{display:flex;justify-content:flex-end;padding:12px 18px;background:var(--bg);border-top:1px solid var(--border)}
-.sc-submit-btn{padding:8px 22px;border-radius:var(--r-sm);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
-.sc-submit-btn:hover{background:var(--accent-dark)}
-
-/* ════════ ALL SCENARIOS PAGE ════════ */
-#page-scenarios{flex-direction:column;overflow:hidden}
-.sc-page-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.sc-page-title{font-size:16px;font-weight:700;color:var(--text)}
-.sc-page-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
-.sc-page-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:16px}
-.sc-page-body::-webkit-scrollbar{width:4px}
-.sc-page-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.sc-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;cursor:pointer;transition:all .2s;position:relative}
-.sc-card:hover{box-shadow:var(--shadow-md);border-color:var(--accent-mid);transform:translateY(-1px)}
-.sc-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.sc-card-checkbox{width:16px;height:16px;border:2px solid var(--border);border-radius:3px;cursor:pointer;accent-color:var(--accent)}
-.sc-card-name{font-size:14px;font-weight:700;color:var(--text);margin-left:8px;flex:1}
-.sc-card-star{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;color:var(--light);cursor:pointer;transition:color .15s;font-size:14px}
-.sc-card-star:hover,.sc-card-star.active{color:#f59e0b}
-.sc-card-more{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;color:var(--muted);cursor:pointer;font-size:16px}
-.sc-card-more:hover{background:var(--bg)}
-.sc-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.sc-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;color:var(--muted);background:var(--bg)}
-.sc-year-label{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.3px}
-.sc-metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:12px}
-.sc-metric{padding:6px 0}
-.sc-metric-label{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);margin-bottom:3px}
-.sc-metric-val{font-size:14px;font-weight:700;color:var(--text)}
-.sc-metric-icon{font-size:11px}
-.sc-bars-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.sc-bars-col{}
-.sc-bars-col-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sc-bar-item{margin-bottom:8px}
-.sc-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:3px}
-.sc-bar-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
-.sc-bar-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px;transition:width .4s ease}
-.sc-bar-val{font-size:10px;font-weight:600;color:var(--muted)}
-.sc-forecast-bar{margin-bottom:7px}
-.sc-forecast-label{font-size:11px;color:var(--muted);margin-bottom:3px;font-weight:500}
-.sc-forecast-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:2px}
-.sc-forecast-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:3px}
-.sc-forecast-pct{font-size:10px;font-weight:700;color:#7c3aed}
-.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px}
-
-/* ════════ SCENARIO DETAIL PAGE ════════ */
-#page-scenario-detail{flex-direction:column;overflow:hidden}
-.scd-topbar{height:40px;background:var(--accent-dark);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0}
-.scd-topbar-bc{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7)}
-.scd-topbar-bc .scd-bc-seg{color:#fff;font-weight:600;cursor:pointer}.scd-topbar-bc .scd-bc-seg:hover{opacity:.8}
-.scd-topbar-bc .scd-bc-sep{opacity:.4}
-.scd-topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.scd-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);color:#fff;background:rgba(255,255,255,.12)}
-.scd-subbar{height:36px;background:#1a1a2e;display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
-.scd-mroi-label{font-size:11px;color:rgba(255,255,255,.6)}
-.scd-mroi-buckets{display:flex;gap:10px}
-.scd-bucket{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.8)}
-.scd-bucket-dot{width:8px;height:8px;border-radius:50%}
-.scd-constraint-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0}
-.scd-constraint-input{flex:1;border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:inherit;color:var(--muted);outline:none;transition:border .15s;background:var(--bg)}
-.scd-constraint-input:focus{border-color:var(--accent);color:var(--text)}
-.scd-constraint-btn{width:30px;height:30px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.scd-year-sel{padding:5px 10px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:12px;cursor:pointer;font-family:inherit;outline:none}
-.scd-download{width:28px;height:28px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.scd-body{flex:1;display:flex;overflow:hidden}
-.scd-summary{width:200px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-.scd-summary::-webkit-scrollbar{width:3px}
-.scd-summary::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-.scd-sum-header{padding:12px 14px 8px;border-bottom:1px solid var(--border)}
-.scd-sum-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.scd-sum-metrics{padding:10px 14px;display:flex;flex-direction:column;gap:8px}
-.scd-sum-metric{display:flex;flex-direction:column;gap:1px}
-.scd-sum-label{font-size:10px;color:var(--muted)}
-.scd-sum-val{font-size:14px;font-weight:700;color:var(--text)}
-.scd-sum-view-more{padding:6px 14px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px}
-.scd-kpi-section{padding:10px 14px;border-top:1px solid var(--border)}
-.scd-kpi-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:5px;cursor:pointer}
-.scd-kpi-item{font-size:11px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:color .15s}
-.scd-kpi-item:hover{color:var(--accent)}
-.scd-kpi-item:last-child{border-bottom:none}
-.scd-main{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.scd-team-header{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);flex-shrink:0}
-.scd-team-title-area{}
-.scd-team-super{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.scd-team-name{font-size:15px;font-weight:700;color:var(--text)}
-.scd-view-tabs{display:flex;gap:4px;background:var(--bg);border-radius:var(--r-sm);padding:3px}
-.scd-view-tab{padding:4px 12px;border-radius:5px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:all .15s}
-.scd-view-tab.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow-sm)}
-.scd-table-wrap{flex:1;overflow:auto}
-.scd-table-wrap::-webkit-scrollbar{width:4px;height:4px}
-.scd-table-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.scd-kpi-col{width:220px;background:var(--surface);border-right:1px solid var(--border);flex-shrink:0;position:sticky;left:0;z-index:2}
-.scd-kpi-col-header{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;position:sticky;top:0;z-index:3}
-.scd-section-header{padding:6px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
-.scd-section-icon{font-size:11px}
-.scd-kpi-row{padding:7px 14px;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.scd-team-col{min-width:200px;border-right:1px solid var(--border);flex-shrink:0;vertical-align:top}
-.scd-team-col-header{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:2;white-space:nowrap}
-.scd-team-fte{font-size:13px;font-weight:700;color:var(--text)}
-.scd-team-cell{padding:7px 14px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text)}
-.scd-bar-cell{padding:5px 14px;border-bottom:1px solid var(--border)}
-.scd-bar-h{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;position:relative}
-.scd-bar-f{height:100%;border-radius:3px}
-.scd-bar-f.teal{background:linear-gradient(90deg,#0d9488,#2dd4bf)}
-.scd-bar-f.green{background:linear-gradient(90deg,#059669,#34d399)}
-.scd-bar-f.purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
-.scd-mini-chart{display:flex;align-items:flex-end;gap:2px;height:24px;padding:2px 14px 4px}
-.scd-mini-bar{border-radius:2px 2px 0 0}
-.scd-donut-cell{padding:5px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.scd-donut{width:44px;height:44px;flex-shrink:0}
-.scd-range-cell{padding:5px 14px;border-bottom:1px solid var(--border)}
-.scd-range-track{height:6px;background:var(--bg);border-radius:3px;position:relative;margin-bottom:3px}
-.scd-range-fill{height:100%;background:var(--accent);border-radius:3px;position:absolute}
-.scd-range-thumb{width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid #fff;position:absolute;top:-2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.scd-range-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--light)}
-.scd-grid-table{display:flex;min-width:100%}
-
 /* ── THINKING MODE TILE ── */
 .entry-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
 .entry-card-thinking{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:22px 20px;cursor:default;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:border .2s;grid-column:1/-1}
@@ -241,12 +106,10 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .edit-field label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
 .edit-input{padding:7px 10px;border-radius:var(--r-sm);border:1.5px solid var(--border);font-size:12px;font-family:inherit;color:var(--text);background:var(--surface);transition:border .15s;width:100%}
 .edit-input:focus{outline:none;border-color:var(--accent)}
-#page-bot{flex-direction:row;overflow:hidden;height:100%}
+#page-bot{flex-direction:row}
 
 /* progress sidebar */
-.bot-progress{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:20px 0;overflow-y:auto;overflow-x:hidden}
-.bot-progress::-webkit-scrollbar{width:3px}
-.bot-progress::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.bot-progress{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:20px 0}
 .bp-header{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
 .bp-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
 .bp-sub{font-size:11px;color:var(--muted)}
@@ -292,14 +155,10 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .bp-reset:hover{border-color:var(--accent);color:var(--accent)}
 
 /* chat area */
-.bot-chat{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-.chat-messages{flex:1;min-height:0;overflow-y:auto;padding:20px 24px 40px}
-.chat-messages::-webkit-scrollbar{width:6px}
+.bot-chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.chat-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.chat-messages::-webkit-scrollbar{width:4px}
 .chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-/* children of chat-messages stack vertically */
-.chat-messages > *{display:block;margin-bottom:14px}
-.chat-messages > .msg-bot{display:flex}
-.chat-messages > .msg-user{display:flex;justify-content:flex-end}
 
 /* message bubbles */
 .msg-bot{display:flex;align-items:flex-start;gap:10px;max-width:80%}
@@ -332,7 +191,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sc-item .sc-label{font-size:11px;color:var(--light)}
 .sc-item .sc-val{font-size:13px;font-weight:500;color:var(--text)}
-.sc-sum-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;margin:2px 2px 0 0}
+.sc-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent);border:1px solid #f5d5b5;margin:2px 2px 0 0}
 
 /* typing indicator */
 .typing-indicator{display:flex;align-items:flex-start;gap:10px}
@@ -621,6 +480,56 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .toast.show{transform:translateX(-50%) translateY(0)}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+/* ── SCENARIO KPI TILES ── */
+.scenario-kpi-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px}
+.scenario-kpi-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.scenario-kpi-add{align-items:center;justify-content:center;border-style:dashed;background:transparent}
+.scenario-kpi-add:hover{background:var(--accent-light)}
+.skc-header{display:flex;align-items:center;justify-content:space-between}
+.skc-name{font-size:14px;font-weight:600;color:var(--text)}
+.skc-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;letter-spacing:.3px}
+.skc-badge-active{background:var(--accent);color:#fff}
+.skc-badge-pending{background:var(--pending-bg);color:#92400e;border:1px solid #fde68a}
+.skc-badge-done{background:var(--completed-bg);color:#065f46;border:1px solid #a7f3d0}
+.skc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.skc-metric{text-align:center}
+.skc-metric-val{font-size:15px;font-weight:700;color:var(--text)}
+.skc-metric-label{font-size:10px;color:var(--light);margin-top:2px}
+.skc-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px}
+.skc-team{font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:var(--r-sm);border:1px solid #f5d5b5}
+.skc-time{font-size:10px;color:var(--light)}
+/* ── EDA OVERVIEW GRID ── */
+.eda-overview-card{background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);width:100%;align-self:stretch}
+.eda-ov-header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--accent-light);border-radius:var(--r) var(--r) 0 0}
+.eda-ov-title{font-size:12px;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.5px}
+.eda-ov-count{font-size:11px;color:var(--muted)}
+.eda-ov-body{padding:14px}
+.eda-ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.eda-item-card{border:1.5px solid var(--border);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .18s;position:relative;background:var(--surface)}
+.eda-item-card:hover{border-color:var(--accent);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.eda-item-card.active-editing{border-color:var(--accent);background:var(--accent-light);box-shadow:var(--shadow-md)}
+.eda-item-card.validated{border-color:var(--completed);background:var(--completed-bg);cursor:default}
+.eda-item-card.validated:hover{transform:none;box-shadow:none}
+.eda-item-tick{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--completed);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.eda-item-num{width:22px;height:22px;border-radius:50%;background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:7px}
+.eda-item-card.validated .eda-item-num{background:var(--completed-bg);border-color:var(--completed);color:var(--completed)}
+.eda-item-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.eda-item-sub{font-size:11px;color:var(--muted);line-height:1.5}
+.eda-item-add{border:1.5px dashed var(--border);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .18s;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:96px}
+.eda-item-add:hover{border-color:var(--accent);background:var(--accent-light)}
+.eda-ov-missing{margin:0 14px 14px;background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r-sm);padding:9px 12px}
+.eda-ov-missing-title{font-size:10px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.eda-ov-missing-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--bot-text);margin-bottom:3px}
+/* ── ETF TEAM FORM TABS ── */
+.etf-tab{padding:9px 14px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+.etf-tab:hover{color:var(--accent)}
+.etf-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.etf-panel{display:none}
+.etf-panel[style*="display:flex"]{display:flex!important}
+/* ── ANALYTICAL CONFIG MODAL TABS ── */
+.ac-modal-tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.ac-modal-tab:hover{color:var(--accent)}
+.ac-modal-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
@@ -721,16 +630,16 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     <div class="bp-item active" id="bp-0" onclick="jumpToStep(0)" title="Click to edit">
       <div class="bp-dot" id="bpd-0">1</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Workspace</div>
-        <div class="bp-item-sub" id="bps-0">Name & description</div>
+        <div class="bp-item-label">Project</div>
+        <div class="bp-item-sub" id="bps-0">Name, scope, financials</div>
       </div>
     </div>
     <div class="bp-connector" id="bpc-0"></div>
     <div class="bp-item" id="bp-1" onclick="jumpToStep(1)" title="Click to edit">
       <div class="bp-dot" id="bpd-1">2</div>
       <div class="bp-item-body">
-        <div class="bp-item-label">Project</div>
-        <div class="bp-item-sub" id="bps-1">Name, scope, financials</div>
+        <div class="bp-item-label">EDA Upload</div>
+        <div class="bp-item-sub" id="bps-1">Optional — auto-populate fields</div>
       </div>
     </div>
     <div class="bp-connector" id="bpc-1"></div>
@@ -789,14 +698,6 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="bp-item-body">
         <div class="bp-item-label">Review & create</div>
         <div class="bp-item-sub" id="bps-4">Confirm all details</div>
-      </div>
-    </div>
-    <div class="bp-connector" id="bpc-4"></div>
-    <div class="bp-item" id="bp-5" style="display:none" onclick="" title="Scenario step">
-      <div class="bp-dot" id="bpd-5">6</div>
-      <div class="bp-item-body">
-        <div class="bp-item-label">Scenario</div>
-        <div class="bp-item-sub" id="bps-5">Optional sizing scenario</div>
       </div>
     </div>
 
@@ -875,7 +776,6 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     <div class="ws-card" onclick="openWorkspace('Sizing Analysis 1')"><div class="ws-card-top"><div class="ws-card-icon">📐</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Sizing Analysis 1</div><div class="ws-card-meta"><div class="ws-card-time">1 week ago</div><div class="ws-card-count">4 projects</div></div></div>
     <div class="ws-card" onclick="openWorkspace('Test_Workspace_1')"><div class="ws-card-top"><div class="ws-card-icon">🧪</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Test_Workspace_1</div><div class="ws-card-desc">Test workspace 1</div><div class="ws-card-meta"><div class="ws-card-time">2 weeks ago</div><div class="ws-card-count">1 project</div></div></div>
     <div class="ws-card" onclick="openWorkspace('New Workspace1')"><div class="ws-card-top"><div class="ws-card-icon">🌐</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">New Workspace1</div><div class="ws-card-desc">Workspace created by API</div><div class="ws-card-meta"><div class="ws-card-time">1 month ago</div><div class="ws-card-count">0 projects</div></div></div>
-    <div class="ws-card ws-card-add" onclick="startCreateWorkflow()"><div class="ws-card-add-icon">＋</div><div class="ws-card-add-label">New Workspace</div></div>
   </div>
 </div>
 
@@ -906,7 +806,11 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         <div class="icon-btn" title="Sort">↕</div>
         <div class="icon-btn" title="Filter">☰</div>
         <div class="icon-btn" title="Search">⌕</div>
-        <button class="fab-inline" id="p2-add-btn" onclick="p2Add()">+ Add Brand</button>
+        <button class="fab-inline" style="background:var(--surface);color:var(--accent);border:1.5px solid var(--accent);display:flex;align-items:center;gap:5px" onclick="openModal('analytical-config')">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M10 10l1.1 1.1M10 4l1.1-1.1M2.9 11.1L4 10"/></svg>
+          Analytical Configuration
+        </button>
+        <button class="fab-inline" id="p2-add-btn" onclick="openModal('scenario')">+ Add Scenario</button>
       </div>
     </div>
     <div class="p2-content">
@@ -915,507 +819,84 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         <div class="sug-text"><strong>Agentic suggestion</strong>Test_Brand has no customers configured yet — add customers to complete setup.</div>
         <div class="sug-actions"><button class="sug-btn sug-btn-white" onclick="dismissSug()">Fix it</button><button class="sug-btn sug-btn-ghost" onclick="dismissSug()">Dismiss</button></div>
       </div>
-      <div class="tabs">
-        <div class="tab active" id="tab-brands" onclick="switchTab('brands')">📊 Brands</div>
-        <div class="tab" id="tab-teams" onclick="switchTab('teams')">👥 Teams</div>
-        <div class="tab" id="tab-scenarios" onclick="goToAllScenarios()">🎯 Scenarios</div>
+
+      <!-- Scenarios as KPI tiles -->
+      <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">Scenarios</div>
+        <div style="font-size:12px;color:var(--muted)">4 scenarios</div>
       </div>
-      <div id="brands-pane">
-        <div class="subtabs"><div class="subtab active">Brands</div><div class="subtab">Reporting Groups</div></div>
-        <div class="brand-grid" style="margin-top:14px">
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Test_Brand ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-pending">⚠ Pending</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_3 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_2 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_1 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
-        </div>
-      </div>
-      <div id="teams-pane" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;color:var(--muted)">All Structures</span><span class="scenario-btn" onclick="openScenarioModal('detail')">+ Scenario</span></div>
-        <div class="structure-card">
-          <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
-          <div class="team-count">All Teams (4):</div>
-          <div class="team-sub-grid">
-            <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
-            <div class="team-sub-card"><div class="team-sub-name">Team_2</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
-          </div>
-          <div class="used-label">Used in scenarios (2):</div>
-          <div class="scenario-tags"><span class="scenario-tag">↑ Test</span><span class="scenario-tag">↑ Test2</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <div id="scenarios-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
 
+        <div class="scenario-kpi-card" onclick="showToast('Opening Baseline…')">
+          <div class="skc-header">
+            <div class="skc-name">Baseline</div>
+            <div class="skc-badge skc-badge-active">Active</div>
+          </div>
+          <div class="skc-metrics">
+            <div class="skc-metric"><div class="skc-metric-val">$5.53M</div><div class="skc-metric-label">Spend</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">174.8%</div><div class="skc-metric-label">ROI</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">20</div><div class="skc-metric-label">FTEs</div></div>
+          </div>
+          <div class="skc-footer">
+            <span class="skc-team">Team</span>
+            <span class="skc-time">just now</span>
+          </div>
+        </div>
 
-<!-- ════════════════════════════
-     PAGE 4 — ALL SCENARIOS
-════════════════════════════ -->
-<div class="page" id="page-scenarios">
-  <div class="sc-page-header">
-    <div style="display:flex;flex-direction:column;gap:2px">
-      <div class="sc-page-title">All Scenarios</div>
-    </div>
-    <div class="sc-page-actions">
-      <div style="display:flex;gap:6px">
-        <button class="icon-btn" title="Sort" onclick="">↕</button>
-        <button class="icon-btn" title="Filter" onclick="">⊟</button>
-        <button class="icon-btn" title="Search" onclick="">⌕</button>
-      </div>
-    </div>
-  </div>
-  <div class="sc-page-body">
-    <div class="sc-grid" id="sc-grid">
-      <!-- Card 1: Test2 -->
-      <div class="sc-card" onclick="openScenarioDetail('Test2')">
-        <div class="sc-card-header">
-          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
-          <div class="sc-card-name" style="margin-left:8px">Test2</div>
-          <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
-          <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
-        </div>
-        <div class="sc-pills">
-          <span class="sc-pill">📅 2027</span>
-          <span class="sc-pill">⊞ Same Size</span>
-          <span class="sc-pill">👥 Team</span>
-        </div>
-        <div class="sc-year-label">2027</div>
-        <div class="sc-metrics-row">
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">⊞</span> FTEs</div>
-            <div class="sc-metric-val">2984</div>
+        <div class="scenario-kpi-card" onclick="showToast('Opening Test…')">
+          <div class="skc-header">
+            <div class="skc-name">Test</div>
+            <div class="skc-badge skc-badge-pending">In progress</div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">$</span> Impactable Revenue</div>
-            <div class="sc-metric-val">$6.08B</div>
+          <div class="skc-metrics">
+            <div class="skc-metric"><div class="skc-metric-val">$4.20M</div><div class="skc-metric-label">Spend</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">217.3%</div><div class="skc-metric-label">ROI</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">15</div><div class="skc-metric-label">FTEs</div></div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">⊙</span> Spend</div>
-            <div class="sc-metric-val">$1.19B</div>
+          <div class="skc-footer">
+            <span class="skc-team">Team</span>
+            <span class="skc-time">2 days ago</span>
           </div>
         </div>
-        <div class="sc-metrics-row" style="margin-bottom:14px">
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> ROI</div>
-            <div class="sc-metric-val">410.75%</div>
-          </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> mROI</div>
-            <div class="sc-metric-val">0%</div>
-          </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span style="width:8px;height:8px;background:#3b82f6;border-radius:50%;display:inline-block"></span> Target MROI</div>
-            <div class="sc-metric-val" style="color:#3b82f6">0</div>
-          </div>
-        </div>
-        <div class="sc-bars-row">
-          <div class="sc-bars-col">
-            <div class="sc-bars-col-title">Team Size:</div>
-            <div class="sc-bar-item">
-              <div class="sc-bar-label"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;font-size:10px">Team Unconstraine...</span><span class="sc-bar-val">1,491</span></div>
-              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
-            </div>
-            <div class="sc-bar-item">
-              <div class="sc-bar-label"><span style="font-size:10px">Team Unconstrained</span><span class="sc-bar-val">1,491</span></div>
-              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
-            </div>
-          </div>
-          <div class="sc-bars-col">
-            <div class="sc-bars-col-title">Forecast Attainment:</div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_1</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:54%"></div></div>
-              <div class="sc-forecast-pct">538280.19%</div>
-            </div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_2</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:82%"></div></div>
-              <div class="sc-forecast-pct">3216808.44%</div>
-            </div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_3</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:100%"></div></div>
-              <div class="sc-forecast-pct">4325165.7%</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Card 2: Test -->
-      <div class="sc-card" onclick="openScenarioDetail('Test')">
-        <div class="sc-card-header">
-          <input type="checkbox" class="sc-card-checkbox" onclick="event.stopPropagation()"/>
-          <div class="sc-card-name" style="margin-left:8px">Test</div>
-          <div class="sc-card-star" onclick="event.stopPropagation();this.classList.toggle('active')">★</div>
-          <div class="sc-card-more" onclick="event.stopPropagation()">⋮</div>
-        </div>
-        <div class="sc-pills">
-          <span class="sc-pill">📅 2027</span>
-          <span class="sc-pill">⊞ Same Size</span>
-          <span class="sc-pill">👥 Team</span>
-        </div>
-        <div class="sc-year-label">2027</div>
-        <div class="sc-metrics-row">
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">⊞</span> FTEs</div>
-            <div class="sc-metric-val">2984</div>
+        <div class="scenario-kpi-card" onclick="showToast('Opening Test2…')">
+          <div class="skc-header">
+            <div class="skc-name">Test2</div>
+            <div class="skc-badge skc-badge-done">Complete</div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">$</span> Impactable Revenue</div>
-            <div class="sc-metric-val">$6.08B</div>
+          <div class="skc-metrics">
+            <div class="skc-metric"><div class="skc-metric-val">$6.10M</div><div class="skc-metric-label">Spend</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">158.2%</div><div class="skc-metric-label">ROI</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">22</div><div class="skc-metric-label">FTEs</div></div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">⊙</span> Spend</div>
-            <div class="sc-metric-val">$1.19B</div>
+          <div class="skc-footer">
+            <span class="skc-team">Team</span>
+            <span class="skc-time">3 days ago</span>
           </div>
         </div>
-        <div class="sc-metrics-row" style="margin-bottom:14px">
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> ROI</div>
-            <div class="sc-metric-val">410.72%</div>
+
+        <div class="scenario-kpi-card" onclick="showToast('Opening Optimized…')">
+          <div class="skc-header">
+            <div class="skc-name">Optimized</div>
+            <div class="skc-badge skc-badge-done">Complete</div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span class="sc-metric-icon">%</span> mROI</div>
-            <div class="sc-metric-val">0%</div>
+          <div class="skc-metrics">
+            <div class="skc-metric"><div class="skc-metric-val">$4.80M</div><div class="skc-metric-label">Spend</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">198.6%</div><div class="skc-metric-label">ROI</div></div>
+            <div class="skc-metric"><div class="skc-metric-val">18</div><div class="skc-metric-label">FTEs</div></div>
           </div>
-          <div class="sc-metric">
-            <div class="sc-metric-label"><span style="width:8px;height:8px;background:#3b82f6;border-radius:50%;display:inline-block"></span> Target MROI</div>
-            <div class="sc-metric-val" style="color:#3b82f6">0</div>
+          <div class="skc-footer">
+            <span class="skc-team">Team</span>
+            <span class="skc-time">1 week ago</span>
           </div>
         </div>
-        <div class="sc-bars-row">
-          <div class="sc-bars-col">
-            <div class="sc-bars-col-title">Team Size:</div>
-            <div class="sc-bar-item">
-              <div class="sc-bar-label"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;font-size:10px">Team Unconstraine...</span><span class="sc-bar-val">1,491</span></div>
-              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
-            </div>
-            <div class="sc-bar-item">
-              <div class="sc-bar-label"><span style="font-size:10px">Team Unconstrained</span><span class="sc-bar-val">1,491</span></div>
-              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:95%"></div></div>
-            </div>
-          </div>
-          <div class="sc-bars-col">
-            <div class="sc-bars-col-title">Forecast Attainment:</div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_1</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:54%"></div></div>
-              <div class="sc-forecast-pct">538280.19%</div>
-            </div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_2</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:82%"></div></div>
-              <div class="sc-forecast-pct">3216808.44%</div>
-            </div>
-            <div class="sc-forecast-bar">
-              <div class="sc-forecast-label" style="font-size:10px">Brand_3</div>
-              <div class="sc-forecast-track"><div class="sc-forecast-fill" style="width:100%"></div></div>
-              <div class="sc-forecast-pct">4325165.7%</div>
-            </div>
-          </div>
+
+        <!-- Add scenario tile -->
+        <div class="scenario-kpi-card scenario-kpi-add" onclick="openModal('scenario')">
+          <div style="font-size:28px;color:var(--light);margin-bottom:8px">＋</div>
+          <div style="font-size:13px;font-weight:500;color:var(--muted)">New Scenario</div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- ════════════════════════════
-     PAGE 5 — SCENARIO DETAIL
-════════════════════════════ -->
-<div class="page" id="page-scenario-detail">
-  <!-- Dark top bar matching screenshot -->
-  <div class="scd-topbar">
-    <div class="scd-topbar-bc">
-      <span class="scd-bc-seg" onclick="goWorkspaces()">All Projects</span>
-      <span class="scd-bc-sep">›</span>
-      <span class="scd-bc-seg" onclick="openWorkspace(currentWS||'NNI Test')">NNI Test</span>
-      <span class="scd-bc-sep">›</span>
-      <span style="color:rgba(255,255,255,.5)">All Scenarios</span>
-      <span class="scd-bc-sep">:</span>
-      <span class="scd-bc-seg" id="scd-scenario-name">Test2</span>
-      <span style="font-size:11px;color:rgba(255,255,255,.4);margin-left:4px">✎</span>
-    </div>
-    <div class="scd-topbar-right">
-      <span class="scd-tag">⊞ Sizing: Same Size</span>
-      <span class="scd-tag">👥 Structure: Team</span>
-      <span class="scd-tag">🏷 Brands: Brand_1, Brand_2, Brand_3</span>
-      <span class="scd-tag" style="background:rgba(59,130,246,.3);border-color:rgba(59,130,246,.5)">🎯 Objectives: 2027: Maximum Profitability</span>
-    </div>
-  </div>
-  <!-- Sub bar: mROI buckets -->
-  <div class="scd-subbar">
-    <div class="scd-mroi-label">mROI Buckets:</div>
-    <div class="scd-mroi-buckets">
-      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#22c55e"></div>&gt;20%</div>
-      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#f59e0b"></div>0–20%</div>
-      <div class="scd-bucket"><div class="scd-bucket-dot" style="background:#ef4444"></div>&lt;0%</div>
-    </div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
-      <select class="scd-year-sel">
-        <option>2027 ▾</option><option>2028</option><option>2029</option>
-      </select>
-      <button class="scd-download" title="Download">⬇</button>
-    </div>
-  </div>
-  <!-- Constraint / NLQ bar -->
-  <div class="scd-constraint-bar">
-    <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center">🏠</button>
-    <button style="width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent-light);color:var(--accent);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700">＋</button>
-    <div style="position:relative;flex:1">
-      <input class="scd-constraint-input" placeholder="✦  Try: Adding constraints"/>
-    </div>
-    <button class="scd-constraint-btn">➤</button>
-  </div>
-
-  <!-- Main body: summary sidebar + data table -->
-  <div class="scd-body">
-    <!-- Left Summary Panel -->
-    <div class="scd-summary">
-      <div class="scd-sum-header">
-        <div class="scd-sum-title">Teams: All Teams</div>
-      </div>
-      <div style="padding:8px 14px 4px;font-size:12px;font-weight:700;color:var(--text)">Summary</div>
-      <div class="scd-sum-metrics">
-        <div class="scd-sum-metric"><div class="scd-sum-label">FTEs</div><div class="scd-sum-val">2,984</div></div>
-        <div class="scd-sum-metric"><div class="scd-sum-label">Spend ($)</div><div class="scd-sum-val">$1.19B</div></div>
-        <div class="scd-sum-metric"><div class="scd-sum-label">Impactable Revenue ($)</div><div class="scd-sum-val">$6.08B</div></div>
-        <div class="scd-sum-metric"><div class="scd-sum-label">ROI</div><div class="scd-sum-val">410.74%</div></div>
-        <div class="scd-sum-metric"><div class="scd-sum-label">mROI</div><div class="scd-sum-val">0.00%</div></div>
-      </div>
-      <div class="scd-sum-view-more">▾ View More</div>
-
-      <!-- KPI Selection -->
-      <div class="scd-kpi-section">
-        <div class="scd-kpi-title">▾ Select KPIs</div>
-        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#7c3aed">⊞ Headcount</div>
-        <div class="scd-kpi-item" style="color:var(--text);font-weight:500">FTEs</div>
-        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#059669">$ Financials</div>
-        <div class="scd-kpi-item">Spend ($)</div>
-        <div class="scd-kpi-item">Impactable Revenue ($)</div>
-        <div class="scd-kpi-item">ROI</div>
-        <div class="scd-kpi-item">mROI</div>
-        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:#0891b2">⊙ Coverage</div>
-        <div class="scd-kpi-item">Reached / Target Customer</div>
-        <div class="scd-kpi-item">Avg Customer / FTE</div>
-        <div class="scd-kpi-title" style="margin-top:8px;font-size:10px;color:var(--accent)">★ Effort</div>
-        <div class="scd-kpi-item">Calls</div>
-        <div class="scd-kpi-item">Call Frequency</div>
-        <div class="scd-kpi-item">PDE Frequency</div>
-        <div class="scd-kpi-item">Distribution By Brands</div>
-      </div>
-    </div>
-
-    <!-- Main Data Table -->
-    <div class="scd-main">
-      <div class="scd-team-header">
-        <div class="scd-team-title-area">
-          <div class="scd-team-super">Teams:</div>
-          <div class="scd-team-name">All Teams</div>
-        </div>
-        <div class="scd-view-tabs">
-          <button class="scd-view-tab active" onclick="setScdView('teams',this)">Teams</button>
-          <button class="scd-view-tab" onclick="setScdView('brands',this)">Brands</button>
-          <button class="scd-view-tab" onclick="setScdView('customers',this)">Customers</button>
-          <button class="scd-view-tab" style="padding:4px 8px;font-size:14px" onclick="">⊞</button>
-          <button class="scd-view-tab" style="padding:4px 8px;font-size:14px" onclick="">≡</button>
-        </div>
-      </div>
-
-      <div class="scd-table-wrap" id="scd-table-wrap">
-        <div class="scd-grid-table">
-          <!-- Sticky left KPI column -->
-          <div class="scd-kpi-col">
-            <div class="scd-kpi-col-header">▾ Select KPIs</div>
-            <!-- Headcount section -->
-            <div class="scd-section-header"><span class="scd-section-icon">⊞</span> Headcount</div>
-            <div class="scd-kpi-row">FTEs</div>
-            <!-- Financials section -->
-            <div class="scd-section-header"><span class="scd-section-icon">$</span> Financials</div>
-            <div class="scd-kpi-row" style="height:36px">Spend ($)</div>
-            <div class="scd-kpi-row" style="height:36px">Impactable Revenue ($)</div>
-            <div class="scd-kpi-row">ROI</div>
-            <div class="scd-kpi-row">mROI</div>
-            <!-- Coverage section -->
-            <div class="scd-section-header"><span class="scd-section-icon">⊙</span> Coverage</div>
-            <div class="scd-kpi-row" style="height:62px">Reached / Target Customer</div>
-            <div class="scd-kpi-row">Avg Customer / FTE</div>
-            <!-- Effort section -->
-            <div class="scd-section-header"><span class="scd-section-icon">★</span> Effort</div>
-            <div class="scd-kpi-row">Calls</div>
-            <div class="scd-kpi-row" style="height:44px">Call Frequency</div>
-            <div class="scd-kpi-row" style="height:44px">PDE Frequency</div>
-            <div class="scd-kpi-row" style="height:44px">Distribution By Brands</div>
-          </div>
-
-          <!-- Team Unconstrained col -->
-          <div class="scd-team-col">
-            <div class="scd-team-col-header">
-              <span>👤</span>
-              <div>
-                <div style="font-size:10px;color:var(--muted);font-weight:400">Team Unconstrained</div>
-                <div class="scd-team-fte">1,492</div>
-              </div>
-            </div>
-            <!-- FTEs -->
-            <div class="scd-team-cell">1,492</div>
-            <!-- Spend -->
-            <div class="scd-bar-cell" style="height:36px">
-              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$595.34M</div>
-              <div class="scd-bar-h"><div class="scd-bar-f teal" style="width:72%"></div></div>
-              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$597M</span><span>$30M</span></div>
-            </div>
-            <!-- Impactable Revenue -->
-            <div class="scd-bar-cell" style="height:36px">
-              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$3.04B</div>
-              <div class="scd-bar-h"><div class="scd-bar-f green" style="width:60%"></div></div>
-              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$3B</span><span>$1M</span></div>
-            </div>
-            <!-- ROI -->
-            <div class="scd-team-cell">410.73%</div>
-            <!-- mROI -->
-            <div class="scd-team-cell">0.00%</div>
-            <!-- Reached/Target -->
-            <div class="scd-donut-cell" style="height:62px">
-              <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
-                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
-                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
-              </svg>
-              <div style="font-size:10px;color:var(--muted)">289,463/402,884</div>
-            </div>
-            <!-- Avg Customer / FTE -->
-            <div class="scd-team-cell">194</div>
-            <!-- Calls -->
-            <div class="scd-team-cell">📞 2,089,046</div>
-            <!-- Call Frequency -->
-            <div class="scd-range-cell" style="height:44px">
-              <div class="scd-range-track"><div class="scd-range-fill" style="width:30%;left:20%"></div><div class="scd-range-thumb" style="left:50%"></div></div>
-              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">7</span><span>24</span></div>
-            </div>
-            <!-- PDE Frequency -->
-            <div class="scd-range-cell" style="height:44px">
-              <div class="scd-range-track"><div class="scd-range-fill" style="width:25%;left:20%"></div><div class="scd-range-thumb" style="left:45%"></div></div>
-              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">11</span><span>38</span></div>
-            </div>
-            <!-- Distribution By Brands -->
-            <div class="scd-bar-cell" style="height:44px;display:flex;align-items:flex-end;gap:2px;padding-bottom:8px">
-              <div style="flex:1;background:#3b82f6;height:30px;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;background:#10b981;height:20px;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;background:#f59e0b;height:25px;border-radius:2px 2px 0 0"></div>
-              <div style="display:flex;flex-direction:column;justify-content:flex-end;font-size:8px;color:var(--muted);gap:3px;margin-left:4px">
-                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#3b82f6;border-radius:1px;display:inline-block"></span>Brand_2</span>
-                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#10b981;border-radius:1px;display:inline-block"></span>Brand_3</span>
-                <span style="display:flex;align-items:center;gap:2px"><span style="width:6px;height:6px;background:#f59e0b;border-radius:1px;display:inline-block"></span>Brand_1</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Team Unconstrained 2 -->
-          <div class="scd-team-col">
-            <div class="scd-team-col-header">
-              <span>👤</span>
-              <div>
-                <div style="font-size:10px;color:var(--muted);font-weight:400">Team Unconstrained 2</div>
-                <div class="scd-team-fte">1,492</div>
-              </div>
-            </div>
-            <div class="scd-team-cell">1,492</div>
-            <div class="scd-bar-cell" style="height:36px">
-              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$595.34M</div>
-              <div class="scd-bar-h"><div class="scd-bar-f teal" style="width:72%"></div></div>
-              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$597M</span><span>$30M</span></div>
-            </div>
-            <div class="scd-bar-cell" style="height:36px">
-              <div style="font-size:11px;font-weight:600;margin-bottom:3px">$3.04B</div>
-              <div class="scd-bar-h"><div class="scd-bar-f green" style="width:60%"></div></div>
-              <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>$3B</span><span>$1M</span></div>
-            </div>
-            <div class="scd-team-cell">410.75%</div>
-            <div class="scd-team-cell">0.00%</div>
-            <div class="scd-donut-cell" style="height:62px">
-              <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#0d9488" stroke-width="6" stroke-dasharray="72 29" stroke-dashoffset="25" transform="rotate(-90 22 22)"/>
-                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#0d9488">72%</text>
-                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
-              </svg>
-              <div style="font-size:10px;color:var(--muted)">289,460/402,884</div>
-            </div>
-            <div class="scd-team-cell">194</div>
-            <div class="scd-team-cell">📞 2,089,048</div>
-            <div class="scd-range-cell" style="height:44px">
-              <div class="scd-range-track"><div class="scd-range-fill" style="width:30%;left:20%"></div><div class="scd-range-thumb" style="left:50%"></div></div>
-              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">7</span><span>24</span></div>
-            </div>
-            <div class="scd-range-cell" style="height:44px">
-              <div class="scd-range-track"><div class="scd-range-fill" style="width:25%;left:20%"></div><div class="scd-range-thumb" style="left:45%"></div></div>
-              <div class="scd-range-labels"><span>2</span><span style="font-weight:700;color:var(--accent)">11</span><span>38</span></div>
-            </div>
-            <div class="scd-bar-cell" style="height:44px;display:flex;align-items:flex-end;gap:2px;padding-bottom:8px">
-              <div style="flex:1;background:#3b82f6;height:30px;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;background:#10b981;height:20px;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;background:#f59e0b;height:25px;border-radius:2px 2px 0 0"></div>
-            </div>
-          </div>
-
-          <!-- Team_1 -->
-          <div class="scd-team-col">
-            <div class="scd-team-col-header">
-              <span>👤</span>
-              <div>
-                <div style="font-size:10px;color:var(--muted);font-weight:400">Team_1</div>
-                <div class="scd-team-fte" style="color:var(--muted)">0</div>
-              </div>
-            </div>
-            <div class="scd-team-cell" style="color:var(--muted)">0</div>
-            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
-            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
-            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
-            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
-            <div class="scd-donut-cell" style="height:62px">
-              <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
-                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
-                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
-              </svg>
-              <div style="font-size:10px;color:var(--muted)">0/0</div>
-            </div>
-            <div class="scd-team-cell" style="color:var(--muted)">0</div>
-            <div class="scd-team-cell" style="color:var(--muted)">📞 0</div>
-            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-            <div class="scd-bar-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-          </div>
-
-          <!-- Team_2 -->
-          <div class="scd-team-col" style="border-right:none">
-            <div class="scd-team-col-header">
-              <span>👤</span>
-              <div>
-                <div style="font-size:10px;color:var(--muted);font-weight:400">Team_2</div>
-                <div class="scd-team-fte" style="color:var(--muted)">0</div>
-              </div>
-            </div>
-            <div class="scd-team-cell" style="color:var(--muted)">0</div>
-            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
-            <div class="scd-bar-cell" style="height:36px"><div style="font-size:11px;color:var(--muted)">$0.00</div></div>
-            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
-            <div class="scd-team-cell" style="color:var(--muted)">0.00%</div>
-            <div class="scd-donut-cell" style="height:62px">
-              <svg class="scd-donut" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="16" fill="none" stroke="#e6e2db" stroke-width="6"/>
-                <text x="22" y="22" text-anchor="middle" dominant-baseline="central" font-size="7" font-weight="700" fill="#7a7570">0%</text>
-                <text x="22" y="32" text-anchor="middle" font-size="5" fill="#7a7570">Reach</text>
-              </svg>
-              <div style="font-size:10px;color:var(--muted)">0/0</div>
-            </div>
-            <div class="scd-team-cell" style="color:var(--muted)">0</div>
-            <div class="scd-team-cell" style="color:var(--muted)">📞 0</div>
-            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-            <div class="scd-range-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-            <div class="scd-bar-cell" style="height:44px"><div style="font-size:10px;color:var(--light)">—</div></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1571,122 +1052,111 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   </div>
 </div>
 
-<!-- SCENARIO MODAL — full featured -->
+<!-- SCENARIO MODAL -->
 <div class="overlay" id="modal-scenario">
-  <div class="modal" style="max-width:520px">
-    <div class="modal-header">
-      <div class="modal-title">Add Scenario</div>
-      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
-        <span style="font-size:11px;color:var(--muted)">Data auto-saved just now</span>
-        <button class="modal-close" onclick="closeScenarioModal()">✕</button>
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header"><div class="modal-title">Add Scenario</div><button class="modal-close" onclick="closeModal('scenario')">✕</button></div>
+    <div class="modal-body">
+      <div class="step-panel active">
+        <div class="field-group"><label class="field-label">Scenario Name <span class="req">*</span></label><input class="field-input" placeholder="e.g. Test3"/></div>
+        <div class="field-group"><label class="field-label">Based on Structure</label><select class="field-select"><option>Team (existing)</option></select></div>
+        <div class="field-group"><label class="field-label">Description</label><textarea class="field-textarea" placeholder="Optional description"></textarea></div>
       </div>
     </div>
-    <div class="modal-body" style="display:flex;flex-direction:column;gap:14px">
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('scenario')">Cancel</button>
+      <div class="modal-footer-right"><button class="btn btn-primary" onclick="closeModal('scenario');showToast('Scenario created.')">Create Scenario</button></div>
+    </div>
+  </div>
+</div>
 
-      <!-- Row 1: Scenario Name + Customer Type -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field-group">
-          <label class="field-label">Scenario Name <span class="req">*</span></label>
-          <input class="field-input" id="sc-name" placeholder="Enter Scenario Name"/>
+<!-- ANALYTICAL CONFIGURATION MODAL -->
+<div class="overlay" id="modal-analytical-config">
+  <div class="modal" style="max-width:720px;height:560px;display:flex;flex-direction:column">
+    <div class="modal-header">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M10 10l1.1 1.1M10 4l1.1-1.1M2.9 11.1L4 10"/></svg>
+        Analytical Configuration
+      </div>
+      <button class="modal-close" onclick="closeModal('analytical-config')">✕</button>
+    </div>
+    <!-- tabs -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 20px">
+      <div class="ac-modal-tab active" id="act-brands" onclick="switchAcTab('brands')">📊 Brands</div>
+      <div class="ac-modal-tab" id="act-teams" onclick="switchAcTab('teams')">👥 Teams</div>
+      <div class="ac-modal-tab" id="act-eda" onclick="switchAcTab('eda')">📁 EDA</div>
+    </div>
+    <div class="modal-body" style="flex:1;overflow-y:auto;padding:20px">
+
+      <!-- BRANDS PANEL -->
+      <div id="acp-brands">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Brands</div>
+          <button class="btn btn-primary btn-sm" onclick="showToast('Add Brand opened')">+ Add Brand</button>
         </div>
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Customer Type <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px">
-            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">HCP <span style="cursor:pointer;margin-left:3px" onclick="this.parentElement.remove()">×</span></span>
-            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:60px;background:transparent" placeholder="Add type…"/>
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px">
+          <div class="subtab active" style="padding:7px 14px;cursor:pointer;font-size:12px">Brands</div>
+          <div class="subtab" style="padding:7px 14px;cursor:pointer;font-size:12px">Reporting Groups</div>
+        </div>
+        <div class="brand-grid">
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Test_Brand ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-pending">⚠ Pending</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_3 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Oncology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_2 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Cardiology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_1 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Neurology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+        </div>
+      </div>
+
+      <!-- TEAMS PANEL -->
+      <div id="acp-teams" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Team Structures</div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('team');closeModal('analytical-config')">+ Add Structure</button>
+        </div>
+        <div class="structure-card">
+          <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
+          <div class="team-count">All Teams (4):</div>
+          <div class="team-sub-grid">
+            <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
+            <div class="team-sub-card"><div class="team-sub-name">Team_2</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
           </div>
         </div>
       </div>
 
-      <!-- Row 2: Description -->
-      <div class="field-group">
-        <label class="field-label">Scenario Description</label>
-        <input class="field-input" id="sc-desc" placeholder="Enter Scenario Description"/>
-      </div>
-
-      <!-- Row 3: Sizing Horizon + Sizing Strategy -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Horizon <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <div style="display:flex;align-items:center;gap:6px">
-            <input type="number" class="field-input" id="sc-start-year" placeholder="Start year" style="width:100px"/>
-            <span style="color:var(--muted);font-size:12px">–</span>
-            <input type="number" class="field-input" id="sc-end-year" placeholder="End year" style="width:100px"/>
-            <span style="font-size:14px;color:var(--muted);cursor:pointer" title="Pick date">📅</span>
+      <!-- EDA PANEL -->
+      <div id="acp-eda" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:600;color:var(--text)">EDA Configuration</div>
+          <button class="btn btn-primary btn-sm" onclick="showToast('EDA upload triggered')">↑ Re-upload EDA</button>
+        </div>
+        <div style="background:var(--completed-bg);border:1px solid #a7f3d0;border-radius:var(--r);padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:16px">✓</span>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:#065f46">EDA file loaded</div>
+            <div style="font-size:11px;color:#065f46;opacity:.8">eda_analysis_Q3_2027.xlsx · uploaded just now</div>
           </div>
         </div>
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Sizing Strategy Every Year <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="same" checked style="accent-color:var(--accent)"/> Same Size</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="diff" style="accent-color:var(--accent)"/> Different Size</label>
-          </div>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Auto-populated fields</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+          ${[['Brand_1 — Therapeutic Area','Oncology'],['Brand_2 — Therapeutic Area','Cardiology'],['Brand_3 — Therapeutic Area','Neurology'],['Primary Care Team — Role','Rep'],['Primary Care Team — Annual Cost','$280,000'],['Specialty Team — Role','Specialist Rep']].map(([l,v])=>`
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 10px">
+            <div style="font-size:10px;color:var(--light)">${l}</div>
+            <div style="font-size:12px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:5px">${v} <span class="auto-tag" style="font-size:9px;padding:1px 5px">✓ EDA</span></div>
+          </div>`).join('')}
+        </div>
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Items requiring manual input</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${EDA_MOCK.missing.map(m=>`<div style="background:var(--pending-bg);border:1px solid #fde68a;border-radius:var(--r-sm);padding:8px 10px;font-size:12px;color:#92400e;display:flex;align-items:center;gap:7px">
+            <span>⚠</span>${m}
+          </div>`).join('')}
         </div>
       </div>
-
-      <!-- Row 4: Brands + Structure -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Brands <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px;cursor:pointer" onclick="this.querySelector('input').focus()">
-            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_1 <span style="cursor:pointer;margin-left:3px">×</span></span>
-            <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">Brand_2 <span style="cursor:pointer;margin-left:3px">×</span></span>
-            <input style="border:none;outline:none;font-size:12px;flex:1;min-width:50px;background:transparent" placeholder=""/>
-            <span style="color:var(--muted);margin-left:auto">▾</span>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Structure <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <select class="field-select" id="sc-structure">
-            <option>Team</option>
-            <option>Team_1</option>
-            <option>Team_2</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Financial Assumption link -->
-      <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Financial Assumption options</div>
-
-      <!-- Row 5: Vary objective by year -->
-      <div class="field-group">
-        <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Do you want objective to vary by year? <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-        <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="yes" style="accent-color:var(--accent)"/> Yes</label>
-          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="no" checked style="accent-color:var(--accent)"/> No</label>
-        </div>
-      </div>
-
-      <!-- Row 6: Objective + Target Value -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="field-group" style="position:relative">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Objective <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <div style="position:relative">
-            <select class="field-select" id="sc-objective" style="appearance:none;-webkit-appearance:none;padding-right:32px">
-              <option value="">Select Objective</option>
-              <option value="Target MROI">Target MROI</option>
-              <option value="Target Revenue">Target Revenue</option>
-              <option value="Target Spend">Target Spend</option>
-              <option value="Fixed Headcount">Fixed Headcount</option>
-              <option value="Target Calls">Target Calls</option>
-            </select>
-            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted)">▾</span>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label" style="display:flex;align-items:center;justify-content:space-between">Target Value <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
-          <input type="number" class="field-input" id="sc-target-val" value="0"/>
-        </div>
-      </div>
-
-      <!-- Coverage options link -->
-      <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Coverage options</div>
 
     </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeScenarioModal()">Cancel</button>
+      <div></div>
       <div class="modal-footer-right">
-        <button class="btn btn-primary" id="sc-submit-btn" onclick="submitScenarioModal()">Add Scenario</button>
+        <button class="btn btn-ghost" onclick="closeModal('analytical-config')">Close</button>
+        <button class="btn btn-primary" onclick="closeModal('analytical-config');showToast('Analytical configuration saved.')">Save changes</button>
       </div>
     </div>
   </div>
@@ -1707,21 +1177,17 @@ let botStep=0;
 const collected={};
 const steps=[
   {
-    id:'workspace',
-    ask:'👋 Let\'s set up your workflow. First, what would you like to name your **workspace**?',
-    type:'input',
-    fields:[
-      {id:'ws_name',label:'Workspace name',placeholder:'e.g. Q1 2027 Planning'},
-      {id:'ws_desc',label:'Description (optional)',placeholder:'Brief description'}
-    ],
-    submit:'Create workspace →'
-  },
-  {
     id:'project',
-    ask:'Great! Now let\'s create your first **project**. Fill in the details below:',
+    ask:'👋 Let\'s set up your workflow. First, fill in your **project** details:',
     type:'custom',
     customId:'project-card',
     submit:'Save & Continue →'
+  },
+  {
+    id:'eda',
+    ask:'Great! Do you have an existing **EDA file**? Uploading one will auto-populate brands and team fields — saving you significant setup time.',
+    type:'eda-choice',
+    submit:''
   },
   {
     id:'brand',
@@ -1739,11 +1205,28 @@ const steps=[
   },
   {
     id:'review',
-    ask:'',
+    ask:'Everything looks great! Here\'s a summary of what we\'ll create:',
     type:'review',
     submit:'Create workflow ✓'
   }
 ];
+
+/* EDA mock data for auto-population */
+const EDA_MOCK={
+  brands:[
+    {name:'Brand_1',therapeutic_area:'Oncology',years_market:'3',competition_type:'Branded'},
+    {name:'Brand_2',therapeutic_area:'Cardiology',years_market:'5',competition_type:'Generic'},
+    {name:'Brand_3',therapeutic_area:'Neurology',years_market:'2',competition_type:'Branded'},
+  ],
+  teams:[
+    {struct_name:'Primary Care Team',team_name:'PC_Team_1',team_role:'Rep',annual_rep_cost:'280000',customer_type:'HCP'},
+    {struct_name:'Specialty Team',team_name:'SP_Team_1',team_role:'Specialist Rep',annual_rep_cost:'320000',customer_type:'HCP'},
+    {struct_name:'Key Account Team',team_name:'KA_Team_1',team_role:'Key Account Manager',annual_rep_cost:'360000',customer_type:'HCP'},
+  ],
+  missing:['Financial assumptions for Brand_2 and Brand_3','Coverage data for Specialty Team and Key Account Team','Response curves for all brands'],
+};
+let edaBrandIdx=0; // which brand we're currently filling
+let edaTeamIdx=0;  // which team we're currently filling
 
 /* ══ PAGE NAVIGATION ══ */
 function showPage(id){
@@ -1767,6 +1250,8 @@ function openWorkspace(name){
 /* ══ ENTRY PAGE ══ */
 function startCreateWorkflow(){
   botStep=0;
+  edaBrandIdx=0;
+  edaTeamIdx=0;
   Object.keys(collected).forEach(k=>delete collected[k]);
   showPage('page-bot');
   setBc([{label:'Home',action:'goEntry()'},{label:'Create workflow',action:null}]);
@@ -1791,11 +1276,629 @@ function botAsk(stepIdx){
     else if(i===stepIdx){el.className='bp-item active';dot.textContent=i+1;}
     else{el.className='bp-item';dot.textContent=i+1;}
   });
+  if(step.type==='eda-choice') setTimeout(()=>appendEdaChoiceCard(), 400);
   if(step.type==='input') setTimeout(()=>appendInputCard(step), 400);
   if(step.type==='custom' && step.customId==='project-card') setTimeout(()=>appendProjectCard(), 400);
   if(step.type==='custom' && step.customId==='brand-card') setTimeout(()=>appendBrandCard(), 400);
   if(step.type==='custom' && step.customId==='team-card') setTimeout(()=>appendTeamCard(), 400);
   if(step.type==='review') setTimeout(()=>appendReviewCard(), 400);
+}
+
+/* ══ EDA CHOICE & QC FLOW ══ */
+function appendEdaChoiceCard(){
+  const wrap=document.getElementById('chat-messages');
+  const card=document.createElement('div');
+  card.className='bot-input-card';
+  card.id='eda-choice-card';
+  card.style.cssText='gap:12px';
+  card.innerHTML=`
+    <div class="bic-label">EDA File Upload</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.5">An EDA (Exploratory Data Analysis) file can auto-populate brand names, team structures and financial assumptions — saving you significant setup time.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="bic-submit" onclick="edaYes()" style="display:flex;align-items:center;gap:6px">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Yes, I have an EDA file
+      </button>
+      <button class="bic-submit" onclick="edaNo()" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)">
+        No, I'll enter manually
+      </button>
+    </div>`;
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function edaNo(){
+  document.getElementById('eda-choice-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML='<div class="msg-user-bubble">No EDA file — I\'ll enter manually</div>';
+  wrap.appendChild(msg);
+  document.getElementById('bp-1').className='bp-item done';
+  document.getElementById('bpd-1').textContent='✓';
+  document.getElementById('bpc-1').className='bp-connector done';
+  botStep=2;
+  setTimeout(()=>botAsk(2),600);
+}
+
+function edaYes(){
+  document.getElementById('eda-choice-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML='<div class="msg-user-bubble">Yes, I have an EDA file</div>';
+  wrap.appendChild(msg);
+  const upCard=document.createElement('div');
+  upCard.className='bot-input-card';
+  upCard.id='eda-upload-card';
+  upCard.style.cssText='gap:12px';
+  upCard.innerHTML=`
+    <div class="bic-label">Upload EDA File</div>
+    <div onclick="simulateEdaUpload()" style="border:2px dashed var(--accent);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;background:var(--accent-light);transition:all .15s" onmouseover="this.style.background='#fde8d0'" onmouseout="this.style.background='var(--accent-light)'">
+      <div style="font-size:28px;margin-bottom:8px">📂</div>
+      <div style="font-size:13px;font-weight:600;color:var(--accent)">Click to choose EDA file</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">Supported: .xlsx, .csv, .json</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end">
+      <button class="bic-submit" onclick="simulateEdaUpload()">Simulate upload →</button>
+    </div>`;
+  wrap.appendChild(upCard);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function simulateEdaUpload(){
+  document.getElementById('eda-upload-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const filMsg=document.createElement('div');
+  filMsg.className='msg-user';
+  filMsg.innerHTML='<div class="msg-user-bubble">📄 eda_analysis_Q3_2027.xlsx</div>';
+  wrap.appendChild(filMsg);
+
+  const qcChecks=[
+    {id:'qc0',label:'Parsing EDA file structure…',sub:'Checking sheets and column headers'},
+    {id:'qc1',label:'Validating brand records',sub:'Checking for required fields'},
+    {id:'qc2',label:'Validating team structure data',sub:'Checking role and cost fields'},
+    {id:'qc3',label:'Checking financial assumptions',sub:'Verifying forecast data presence'},
+    {id:'qc4',label:'Running data quality checks',sub:'Null values, format consistency'},
+  ];
+  const qcCard=document.createElement('div');
+  qcCard.className='msg-bot';
+  qcCard.id='eda-qc-card';
+  qcCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
+    <div style="flex:1">
+      <div class="msg-bot-bubble" style="margin-bottom:8px">Processing your EDA file — running QC checks…</div>
+      <div class="creation-status">
+        ${qcChecks.map(c=>`<div class="cs-step waiting" id="${c.id}">
+          <div class="cs-icon"></div>
+          <div class="cs-label">${c.label}</div>
+          <div class="cs-sub">${c.sub}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  wrap.appendChild(qcCard);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  qcChecks.forEach((c,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(c.id);
+      if(el){el.classList.remove('waiting');el.classList.add('running');}
+      wrap.scrollTop=wrap.scrollHeight;
+    }, i*600);
+    setTimeout(()=>{
+      const el=document.getElementById(c.id);
+      if(!el) return;
+      el.classList.remove('running');
+      if(i===3){
+        el.querySelector('.cs-label').textContent='⚠ Financial assumptions — partial';
+        el.querySelector('.cs-sub').textContent='Brand_2 missing forecast data';
+        el.style.background='var(--pending-bg)';el.style.borderColor='var(--pending)';el.style.color='#92400e';
+        el.querySelector('.cs-icon').textContent='⚠';
+      } else {
+        el.classList.add('done');el.querySelector('.cs-icon').textContent='✓';
+      }
+      wrap.scrollTop=wrap.scrollHeight;
+    }, i*600+500);
+  });
+
+  setTimeout(()=>{
+    const resultCard=document.createElement('div');
+    resultCard.className='msg-bot';
+    resultCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div style="flex:1">
+        <div class="msg-bot-bubble" style="margin-bottom:8px">
+          <strong>EDA file processed ✓</strong> — QC passed with 1 warning.<br>
+          Auto-populated <strong>${EDA_MOCK.brands.length} brands</strong> and <strong>${EDA_MOCK.teams.length} team structures</strong>.
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">QC Results</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span><strong>3 brands</strong> detected — Brand_1, Brand_2, Brand_3</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span><strong>2 team structures</strong> detected — Primary Care Team, Specialty Team</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span>Therapeutic areas, years in market, competition types populated</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;background:var(--pending-bg);padding:7px 10px;border-radius:var(--r-sm);border:1px solid #fde68a"><span style="color:var(--pending);font-weight:700">⚠</span><span><strong>Brand_2:</strong> Financial assumptions not found in EDA — you'll need to enter these manually</span></div>
+          </div>
+        </div>
+        <div style="background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r);padding:12px 14px;margin-bottom:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">⚠ User input required for</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            ${EDA_MOCK.missing.map(m=>`<div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--bot-text)"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>${m}</div>`).join('')}
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="qr-chip" onclick="acceptEdaAndContinue()">Accept &amp; continue to Project →</button>
+          <button class="qr-chip" onclick="edaNo()" style="border-color:var(--border);color:var(--muted)">Skip — enter manually</button>
+        </div>
+      </div>`;
+    wrap.appendChild(resultCard);
+    wrap.scrollTop=wrap.scrollHeight;
+  }, qcChecks.length*600+300);
+}
+
+function acceptEdaAndContinue(){
+  collected._eda_applied = true;
+  edaBrandIdx = 0;
+  edaTeamIdx = 0;
+
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML='<div class="msg-user-bubble">Accept EDA data &amp; continue →</div>';
+  wrap.appendChild(msg);
+
+  document.getElementById('bp-1').className='bp-item done';
+  document.getElementById('bpd-1').textContent='✓';
+  document.getElementById('bpc-1').className='bp-connector done';
+  document.getElementById('bp-2').className='bp-item active';
+  botStep=2;
+
+  setTimeout(()=>{
+    const botMsg=document.createElement('div');
+    botMsg.className='msg-bot';
+    botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">
+        ✓ EDA processed — found <strong>${EDA_MOCK.brands.length} brands</strong> and <strong>${EDA_MOCK.teams.length} team structures</strong>.<br>
+        Click each brand to validate its auto-populated fields, then we'll do the same for teams.
+      </div>`;
+    wrap.appendChild(botMsg);
+    wrap.scrollTop=wrap.scrollHeight;
+    setTimeout(()=>showEdaBrandGrid(), 400);
+  }, 700);
+}
+
+/* ── EDA BRAND GRID OVERVIEW ── */
+function showEdaBrandGrid(){
+  const wrap=document.getElementById('chat-messages');
+  document.getElementById('eda-brand-grid-card')?.remove();
+  document.getElementById('eda-team-grid-card')?.remove();
+
+  const card=document.createElement('div');
+  card.className='eda-overview-card';
+  card.id='eda-brand-grid-card';
+
+  const brandCards=EDA_MOCK.brands.map((b,i)=>`
+    <div class="eda-item-card${i===0?' active-editing':''}" id="eda-bc-${i}" onclick="edaBrandCardClick(${i})">
+      <div id="eda-bc-tick-${i}" style="display:none" class="eda-item-tick">✓</div>
+      <div class="eda-item-num" id="eda-bc-num-${i}">${i+1}</div>
+      <div class="eda-item-name">${b.name}</div>
+      <div class="eda-item-sub">${b.therapeutic_area}<br>${b.competition_type} · ${b.years_market}yr</div>
+      <div id="eda-bc-status-${i}" style="margin-top:6px;font-size:10px;font-weight:600;color:${i===0?'var(--accent)':'var(--light)'}">${i===0?'↓ Validating now':'Pending'}</div>
+    </div>`).join('');
+
+  card.innerHTML=`
+    <div class="eda-ov-header">
+      <span class="eda-ov-title">📊 Brands detected</span>
+      <span class="eda-ov-count">${EDA_MOCK.brands.length} brands · click each to validate</span>
+    </div>
+    <div class="eda-ov-body">
+      <div class="eda-ov-grid">
+        ${brandCards}
+        <div class="eda-item-add" onclick="showToast('Add manually after EDA validation')">
+          <div style="font-size:22px;opacity:.3">＋</div>
+          <div style="font-size:12px;font-weight:500;color:var(--muted)">Add brand</div>
+        </div>
+      </div>
+    </div>
+    <div class="eda-ov-missing">
+      <div class="eda-ov-missing-title">⚠ User input required for</div>
+      ${EDA_MOCK.missing.filter(m=>m.toLowerCase().includes('brand')).map(m=>`
+        <div class="eda-ov-missing-item"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>${m}</div>`).join('')}
+    </div>
+    <div id="eda-brand-inline-form"></div>`;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+  setTimeout(()=>renderEdaBrandForm(0), 300);
+}
+
+function edaBrandCardClick(idx){
+  // only allow clicking validated or current+1
+  const alreadyValidated=document.getElementById('eda-bc-'+idx)?.classList.contains('validated');
+  if(alreadyValidated) return;
+  if(idx > edaBrandIdx) { showToast('Complete the current brand first'); return; }
+  edaBrandIdx=idx;
+  renderEdaBrandForm(idx);
+}
+
+function renderEdaBrandForm(idx){
+  const b=EDA_MOCK.brands[idx];
+  edaBrandIdx=idx;
+
+  // highlight active card in grid
+  EDA_MOCK.brands.forEach((_,i)=>{
+    const c=document.getElementById('eda-bc-'+i);
+    if(!c||c.classList.contains('validated')) return;
+    c.classList.toggle('active-editing', i===idx);
+    const st=document.getElementById('eda-bc-status-'+i);
+    if(st){st.textContent=i===idx?'↓ Validating now':'Pending';st.style.color=i===idx?'var(--accent)':'var(--light)';}
+  });
+
+  // set collected
+  collected.brand_name=b.name; collected.therapeutic_area=b.therapeutic_area;
+  collected.years_market=b.years_market; collected.competition_type=b.competition_type;
+  delete collected.brand_desc; delete collected.forecast_name;
+
+  const formSlot=document.getElementById('eda-brand-inline-form');
+  if(!formSlot) return;
+
+  const isLast=idx >= EDA_MOCK.brands.length-1;
+  const nextLabel=isLast ? 'Validate &amp; proceed to Teams →' : `Validate &amp; next brand (${idx+2}/${EDA_MOCK.brands.length}) →`;
+  const edaTag=`<span class="auto-tag" style="margin-left:6px"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> EDA</span>`;
+
+  formSlot.style.cssText='border-top:2px solid var(--accent)';
+  formSlot.innerHTML=`
+    <div style="padding:10px 16px;background:var(--accent-light);font-size:12px;font-weight:600;color:var(--accent-dark);display:flex;align-items:center;gap:6px;border-bottom:1px solid #f5d5b5">
+      Brand ${idx+1} of ${EDA_MOCK.brands.length} — <strong>${b.name}</strong>
+      <span style="font-size:11px;font-weight:400;color:var(--muted)">· EDA fields pre-filled · blanks need your input</span>
+    </div>
+    <div style="padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:12px">
+
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Brand info</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="bic-field">
+          <label>Brand Name <span style="color:#e55">*</span>${edaTag}</label>
+          <input class="bic-input auto-filled" id="bf-brand_name" value="${b.name}"/>
+        </div>
+        <div class="bic-field">
+          <label>Therapeutic Area${edaTag}</label>
+          <input class="bic-input auto-filled" id="bf-therapeutic_area" value="${b.therapeutic_area}"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="bic-field">
+          <label>Years in Market${edaTag}</label>
+          <input class="bic-input auto-filled" id="bf-years_market" type="number" value="${b.years_market}"/>
+        </div>
+        <div class="bic-field">
+          <label>Competition Type${edaTag}</label>
+          <select class="bic-select auto-filled" id="bf-competition_type">
+            ${['Branded','Generic','Biosimilar'].map(o=>`<option${b.competition_type===o?' selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="bic-field">
+        <label>Brand Description <span style="font-size:10px;color:var(--light);font-weight:400">(not in EDA — enter manually)</span></label>
+        <textarea class="bic-input" id="bf-brand_desc" placeholder="Enter brand description" rows="2" style="resize:vertical;min-height:48px"></textarea>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Financial assumptions <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--light)">(not in EDA — enter manually)</span></div>
+      <div style="overflow-x:auto">
+        <table class="bfin-table">
+          <thead><tr><th style="min-width:140px"></th><th>2027</th><th>2028</th><th>2029</th><th style="background:var(--accent);width:22px;cursor:pointer">＋</th></tr></thead>
+          <tbody>
+            <tr><td>Total Forecast ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+            <tr><td>COGS (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+            <tr><td>Gross to Net (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+            <tr><td>Non SF Impact (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+            <tr><td>Carryover Rate (%)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+            <tr><td>Prior Period Carryover ($)</td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td><input placeholder="—"/></td><td style="background:transparent"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Customer upload <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--light)">(not in EDA — enter manually)</span></div>
+      <div class="brand-upload-grid">
+        <div class="brand-upload-box" onclick="showToast('Customer file attached')">
+          <div class="brand-upload-box-icon">📄</div>
+          <div class="brand-upload-box-label">Choose a local file</div>
+        </div>
+        <div class="brand-upload-or">or</div>
+        <div class="brand-upload-box plain" onclick="showToast('Network upload coming soon')">
+          <div class="brand-upload-box-icon">🌐</div>
+          <div class="brand-upload-box-label" style="color:var(--muted);text-decoration:none">Upload from Network</div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border)">
+        <button class="bic-submit" onclick="validateEdaBrand(${idx})">${nextLabel}</button>
+      </div>
+    </div>`;
+
+  // scroll to show inline form
+  const chatEl=document.getElementById('chat-messages');
+  if(chatEl) setTimeout(()=>{ chatEl.scrollTop=chatEl.scrollHeight; }, 50);
+}
+
+function validateEdaBrand(idx){
+  collected.brand_name       = document.getElementById('bf-brand_name')?.value||EDA_MOCK.brands[idx].name;
+  collected.therapeutic_area = document.getElementById('bf-therapeutic_area')?.value||EDA_MOCK.brands[idx].therapeutic_area;
+  collected.years_market     = document.getElementById('bf-years_market')?.value||EDA_MOCK.brands[idx].years_market;
+  collected.competition_type = document.getElementById('bf-competition_type')?.value||EDA_MOCK.brands[idx].competition_type;
+
+  // tick the card in the grid
+  const cardEl=document.getElementById('eda-bc-'+idx);
+  if(cardEl){
+    cardEl.classList.remove('active-editing');
+    cardEl.classList.add('validated');
+    const tick=document.getElementById('eda-bc-tick-'+idx); if(tick) tick.style.display='flex';
+    const st=document.getElementById('eda-bc-status-'+idx); if(st){st.textContent='✓ Validated';st.style.color='var(--completed)';}
+    const num=document.getElementById('eda-bc-num-'+idx); if(num){num.style.background='var(--completed-bg)';num.style.borderColor='var(--completed)';num.style.color='var(--completed)';}
+  }
+
+  const isLast=idx >= EDA_MOCK.brands.length-1;
+  if(!isLast){
+    edaBrandIdx=idx+1;
+    setTimeout(()=>{
+      const nextCard=document.getElementById('eda-bc-'+(idx+1));
+      if(nextCard) nextCard.classList.add('active-editing');
+      const st=document.getElementById('eda-bc-status-'+(idx+1));
+      if(st){st.textContent='↓ Validating now';st.style.color='var(--accent)';}
+      renderEdaBrandForm(idx+1);
+      document.getElementById('chat-messages').scrollTop=document.getElementById('chat-messages').scrollHeight;
+    }, 300);
+  } else {
+    // all brands done
+    const formSlot=document.getElementById('eda-brand-inline-form');
+    if(formSlot) formSlot.innerHTML=`
+      <div style="padding:12px 16px;background:var(--completed-bg);border-top:2px solid var(--completed);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:#065f46">
+        <span style="font-size:16px">✓</span> All ${EDA_MOCK.brands.length} brands validated — moving to team structures…
+      </div>`;
+    document.getElementById('bp-2').className='bp-item done';
+    document.getElementById('bpd-2').textContent='✓';
+    document.getElementById('bpc-2') && (document.getElementById('bpc-2').className='bp-connector done');
+    document.getElementById('bp-3').className='bp-item active';
+    botStep=3;
+    setTimeout(()=>showEdaTeamGrid(), 800);
+  }
+}
+
+/* ── EDA TEAM GRID OVERVIEW ── */
+function showEdaTeamGrid(){
+  const wrap=document.getElementById('chat-messages');
+  document.getElementById('eda-team-grid-card')?.remove();
+
+  const botMsg=document.createElement('div');
+  botMsg.className='msg-bot';
+  botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+    <div class="msg-bot-bubble">All brands validated ✓ — now let's validate your <strong>${EDA_MOCK.teams.length} team structures</strong>. Click each one to review.</div>`;
+  wrap.appendChild(botMsg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  setTimeout(()=>{
+    const card=document.createElement('div');
+    card.className='eda-overview-card';
+    card.id='eda-team-grid-card';
+
+    const teamCards=EDA_MOCK.teams.map((t,i)=>`
+      <div class="eda-item-card${i===0?' active-editing':''}" id="eda-tc-${i}" onclick="edaTeamCardClick(${i})">
+        <div id="eda-tc-tick-${i}" style="display:none" class="eda-item-tick">✓</div>
+        <div class="eda-item-num" id="eda-tc-num-${i}">${i+1}</div>
+        <div class="eda-item-name">${t.struct_name}</div>
+        <div class="eda-item-sub">${t.team_name}<br>${t.team_role} · $${Number(t.annual_rep_cost).toLocaleString()}</div>
+        <div id="eda-tc-status-${i}" style="margin-top:6px;font-size:10px;font-weight:600;color:${i===0?'var(--accent)':'var(--light)'}">${i===0?'↓ Validating now':'Pending'}</div>
+      </div>`).join('');
+
+    card.innerHTML=`
+      <div class="eda-ov-header">
+        <span class="eda-ov-title">👥 Team structures detected</span>
+        <span class="eda-ov-count">${EDA_MOCK.teams.length} structures · click each to validate</span>
+      </div>
+      <div class="eda-ov-body">
+        <div class="eda-ov-grid">
+          ${teamCards}
+          <div class="eda-item-add" onclick="showToast('Add manually after EDA validation')">
+            <div style="font-size:22px;opacity:.3">＋</div>
+            <div style="font-size:12px;font-weight:500;color:var(--muted)">Add team</div>
+          </div>
+        </div>
+      </div>
+      <div class="eda-ov-missing">
+        <div class="eda-ov-missing-title">⚠ User input required for</div>
+        ${EDA_MOCK.missing.filter(m=>!m.toLowerCase().includes('brand')).map(m=>`
+          <div class="eda-ov-missing-item"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>${m}</div>`).join('')}
+      </div>
+      <div id="eda-team-inline-form"></div>`;
+
+    wrap.appendChild(card);
+    wrap.scrollTop=wrap.scrollHeight;
+    setTimeout(()=>renderEdaTeamForm(0), 300);
+  }, 600);
+}
+
+function edaTeamCardClick(idx){
+  const alreadyValidated=document.getElementById('eda-tc-'+idx)?.classList.contains('validated');
+  if(alreadyValidated) return;
+  if(idx > edaTeamIdx){ showToast('Complete the current team first'); return; }
+  edaTeamIdx=idx;
+  renderEdaTeamForm(idx);
+}
+
+function switchEtfTab(tab, idx){
+  ['info','teams','coverage','response'].forEach(t=>{
+    const tabEl=document.getElementById('etf-tab-'+t+'-'+idx);
+    const panEl=document.getElementById('etf-panel-'+t+'-'+idx);
+    if(tabEl) tabEl.classList.toggle('active', t===tab);
+    if(panEl) panEl.style.display=t===tab?'flex':'none';
+  });
+  setTimeout(()=>{ const c=document.getElementById('chat-messages'); if(c) c.scrollTop=c.scrollHeight; },50);
+}
+
+function etfTabDone(tab, idx){
+  const tabEl=document.getElementById('etf-tab-'+tab+'-'+idx);
+  if(tabEl){ tabEl.style.color='var(--completed)'; tabEl.innerHTML=tabEl.innerHTML.replace(/^[0-9] · /,'')+'  ✓'; }
+  const order=['info','teams','coverage','response'];
+  const next=order[order.indexOf(tab)+1];
+  if(next) switchEtfTab(next, idx);
+}
+
+function renderEdaTeamForm(idx){
+  const t=EDA_MOCK.teams[idx];
+  edaTeamIdx=idx;
+
+  EDA_MOCK.teams.forEach((_,i)=>{
+    const c=document.getElementById('eda-tc-'+i);
+    if(!c||c.classList.contains('validated')) return;
+    c.classList.toggle('active-editing', i===idx);
+    const st=document.getElementById('eda-tc-status-'+i);
+    if(st){st.textContent=i===idx?'↓ Validating now':'Pending';st.style.color=i===idx?'var(--accent)':'var(--light)';}
+  });
+
+  collected.struct_name=t.struct_name; collected.team_name=t.team_name;
+  collected.team_role=t.team_role; collected.annual_rep_cost=t.annual_rep_cost;
+  collected.customer_type=t.customer_type; delete collected.struct_desc;
+
+  const formSlot=document.getElementById('eda-team-inline-form');
+  if(!formSlot) return;
+
+  const isLast=idx >= EDA_MOCK.teams.length-1;
+  const nextLabel=isLast ? 'Validate &amp; proceed to Review →' : 'Validate &amp; next team ('+(idx+2)+'/'+EDA_MOCK.teams.length+') →';
+  const edaTag='<span class="auto-tag"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> EDA</span>';
+  const brandTags=EDA_MOCK.brands.map(b=>'<span class="brand-tag">'+b.name+'</span>').join('');
+
+  formSlot.style.cssText='border-top:2px solid var(--accent)';
+  formSlot.innerHTML=
+    '<div style="padding:10px 16px;background:var(--accent-light);font-size:12px;font-weight:600;color:var(--accent-dark);display:flex;align-items:center;gap:6px;border-bottom:1px solid #f5d5b5">'
+    +'Team '+(idx+1)+' of '+EDA_MOCK.teams.length+' — <strong>'+t.struct_name+'</strong>'
+    +'<span style="font-size:11px;font-weight:400;color:var(--muted)">· EDA fields pre-filled · blanks need your input</span>'
+    +'</div>'
+
+    // tab strip
+    +'<div style="display:flex;gap:0;border-bottom:2px solid var(--border);background:#faf9f8;padding:0 16px">'
+    +'<div class="etf-tab active" id="etf-tab-info-'+idx+'" onclick="switchEtfTab(&apos;info&apos;,'+idx+')">1 · Structure Info</div>'
+    +'<div class="etf-tab" id="etf-tab-teams-'+idx+'" onclick="switchEtfTab(&apos;teams&apos;,'+idx+')">2 · Teams</div>'
+    +'<div class="etf-tab" id="etf-tab-coverage-'+idx+'" onclick="switchEtfTab(&apos;coverage&apos;,'+idx+')">3 · Coverage</div>'
+    +'<div class="etf-tab" id="etf-tab-response-'+idx+'" onclick="switchEtfTab(&apos;response&apos;,'+idx+')">4 · Response Curve</div>'
+    +'</div>'
+
+    // PANEL 1: Structure Info
+    +'<div id="etf-panel-info-'+idx+'" class="etf-panel" style="padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:12px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">'
+    +'<div class="bic-field"><label>Structure Name '+edaTag+'</label>'
+    +'<input class="bic-input auto-filled" id="tf-struct_name" value="'+t.struct_name+'"/></div>'
+    +'<div class="bic-field"><label>Structure Description <span style="font-size:10px;color:var(--light);font-weight:400">(not in EDA)</span></label>'
+    +'<input class="bic-input" id="tf-struct_desc" placeholder="e.g. Primary field force for HCP targeting"/></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:flex-end">'
+    +'<button class="bic-submit" onclick="etfTabDone(&apos;info&apos;,'+idx+')">Save &amp; Add Teams →</button>'
+    +'</div></div>'
+
+    // PANEL 2: Teams
+    +'<div id="etf-panel-teams-'+idx+'" class="etf-panel" style="display:none;padding:16px;background:var(--surface);flex-direction:column;gap:12px">'
+    +'<div style="font-size:12px;color:var(--muted);margin-bottom:4px">All Teams (1) — from EDA</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">'
+    +'<div style="border:1.5px solid var(--accent);border-radius:var(--r);padding:12px;background:var(--accent-light)">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
+    +'<span style="font-size:13px;font-weight:600">'+t.team_name+'</span>'
+    +'<span style="font-size:10px;padding:2px 7px;border-radius:8px;background:var(--accent);color:#fff">EDA</span>'
+    +'</div>'
+    +'<div style="font-size:11px;color:var(--muted);margin-bottom:3px">Role: <span style="color:var(--text);font-weight:500">'+t.team_role+'</span></div>'
+    +'<div style="font-size:11px;color:var(--muted);margin-bottom:3px">Annual Cost: <span style="color:var(--text);font-weight:500">$'+Number(t.annual_rep_cost).toLocaleString()+'.00</span></div>'
+    +'<div style="font-size:11px;color:var(--muted)">Customer Type &amp; Brands:</div>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">'
+    +'<span style="font-size:10px;font-weight:600;color:var(--muted)">'+t.customer_type+':</span>'+brandTags
+    +'</div></div>'
+    +'<div style="border:1.5px dashed var(--border);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:100px;cursor:pointer;padding:12px" onclick="showToast(&apos;Add another team&apos;)">'
+    +'<div style="font-size:24px;color:var(--light);opacity:.4">＋</div>'
+    +'<div style="font-size:12px;font-weight:500;color:var(--muted)">+ Team</div>'
+    +'</div></div>'
+    +'<div style="display:flex;justify-content:space-between">'
+    +'<button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="showToast(&apos;Add another team&apos;)">Add another Team</button>'
+    +'<button class="bic-submit" onclick="etfTabDone(&apos;teams&apos;,'+idx+')">Save &amp; Proceed to Coverage →</button>'
+    +'</div></div>'
+
+    // PANEL 3: Coverage
+    +'<div id="etf-panel-coverage-'+idx+'" class="etf-panel" style="display:none;padding:16px;background:var(--surface);flex-direction:column;gap:12px">'
+    +'<div style="font-size:12px;color:var(--muted);margin-bottom:4px">Coverage for <strong>'+t.struct_name+'</strong> <span style="font-size:10px;color:var(--light)">(not in EDA — enter manually)</span></div>'
+    +'<div style="overflow-x:auto">'
+    +'<table class="bfin-table"><thead><tr>'
+    +'<th style="min-width:100px">Team</th><th>Brand</th><th>Customer Segment</th><th>Reach (%)</th><th>Freq (calls/yr)</th>'
+    +'</tr></thead><tbody>'
+    +EDA_MOCK.brands.map(b=>'<tr><td>'+t.team_name+'</td><td>'+b.name+'</td>'
+      +'<td><input placeholder="e.g. Tier 1 HCP" style="width:110px"/></td>'
+      +'<td><input type="number" placeholder="—" style="width:60px"/></td>'
+      +'<td><input type="number" placeholder="—" style="width:70px"/></td></tr>').join('')
+    +'</tbody></table></div>'
+    +'<div style="display:flex;justify-content:flex-end">'
+    +'<button class="bic-submit" onclick="etfTabDone(&apos;coverage&apos;,'+idx+')">Save &amp; Add Response Curve →</button>'
+    +'</div></div>'
+
+    // PANEL 4: Response Curve
+    +'<div id="etf-panel-response-'+idx+'" class="etf-panel" style="display:none;padding:16px;background:var(--surface);flex-direction:column;gap:12px">'
+    +'<div style="font-size:12px;color:var(--muted);margin-bottom:4px">Response curve for <strong>'+t.struct_name+'</strong> <span style="font-size:10px;color:var(--light)">(not in EDA — upload or use template)</span></div>'
+    +'<div style="display:flex;gap:10px;margin-bottom:6px">'
+    +'<button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent);font-size:12px" onclick="showToast(&apos;Template downloaded&apos;)">&#8595; Download Template</button>'
+    +'<button class="bic-submit" style="font-size:12px" onclick="showToast(&apos;Response curve uploaded&apos;)">&#8593; Upload Response Curve</button>'
+    +'</div>'
+    +'<div style="border:2px dashed var(--border);border-radius:var(--r);padding:20px;text-align:center;background:var(--bg);cursor:pointer" onclick="showToast(&apos;Upload Response Curve above&apos;)">'
+    +'<div style="font-size:24px;margin-bottom:6px;opacity:.3">&#128200;</div>'
+    +'<div style="font-size:12px;color:var(--muted)">No response curve uploaded yet</div>'
+    +'<div style="font-size:11px;color:var(--light);margin-top:3px">Upload a CSV or use the template above</div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:flex-end;border-top:1px solid var(--border);padding-top:12px">'
+    +'<button class="bic-submit" onclick="validateEdaTeam('+idx+')">'+nextLabel+'</button>'
+    +'</div></div>';
+
+  setTimeout(()=>{ const c=document.getElementById('chat-messages'); if(c) c.scrollTop=c.scrollHeight; },50);
+}
+
+function validateEdaTeam(idx){
+  collected.struct_name     = document.getElementById('tf-struct_name')?.value||EDA_MOCK.teams[idx].struct_name;
+  collected.team_name       = document.getElementById('tf-team_name')?.value||EDA_MOCK.teams[idx].team_name;
+  collected.team_role       = document.getElementById('tf-team_role')?.value||EDA_MOCK.teams[idx].team_role;
+  collected.annual_rep_cost = document.getElementById('tf-annual_rep_cost')?.value||EDA_MOCK.teams[idx].annual_rep_cost;
+  collected.customer_type   = document.getElementById('tf-customer_type')?.value||EDA_MOCK.teams[idx].customer_type;
+
+  const cardEl=document.getElementById('eda-tc-'+idx);
+  if(cardEl){
+    cardEl.classList.remove('active-editing');
+    cardEl.classList.add('validated');
+    const tick=document.getElementById('eda-tc-tick-'+idx); if(tick) tick.style.display='flex';
+    const st=document.getElementById('eda-tc-status-'+idx); if(st){st.textContent='✓ Validated';st.style.color='var(--completed)';}
+    const num=document.getElementById('eda-tc-num-'+idx); if(num){num.style.background='var(--completed-bg)';num.style.borderColor='var(--completed)';num.style.color='var(--completed)';}
+  }
+
+  const isLast=idx >= EDA_MOCK.teams.length-1;
+  if(!isLast){
+    edaTeamIdx=idx+1;
+    setTimeout(()=>{
+      const nextCard=document.getElementById('eda-tc-'+(idx+1));
+      if(nextCard) nextCard.classList.add('active-editing');
+      const st=document.getElementById('eda-tc-status-'+(idx+1));
+      if(st){st.textContent='↓ Validating now';st.style.color='var(--accent)';}
+      renderEdaTeamForm(idx+1);
+      document.getElementById('chat-messages').scrollTop=document.getElementById('chat-messages').scrollHeight;
+    }, 300);
+  } else {
+    const formSlot=document.getElementById('eda-team-inline-form');
+    if(formSlot) formSlot.innerHTML=`
+      <div style="padding:12px 16px;background:var(--completed-bg);border-top:2px solid var(--completed);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:#065f46">
+        <span style="font-size:16px">✓</span> All ${EDA_MOCK.teams.length} team structures validated — proceeding to review…
+      </div>`;
+    document.getElementById('bp-3').className='bp-item done';
+    document.getElementById('bpd-3').textContent='✓';
+    document.getElementById('bpc-3') && (document.getElementById('bpc-3').className='bp-connector done');
+    document.getElementById('bp-4').className='bp-item active';
+    botStep=4;
+    setTimeout(()=>{
+      const wrap=document.getElementById('chat-messages');
+      const botMsg=document.createElement('div');
+      botMsg.className='msg-bot';
+      botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+        <div class="msg-bot-bubble">All teams validated ✓ — here's a summary of everything we'll create:</div>`;
+      wrap.appendChild(botMsg);
+      wrap.scrollTop=wrap.scrollHeight;
+      setTimeout(()=>appendReviewCard(), 400);
+    }, 800);
+  }
 }
 
 /* ══ AUTO-POPULATE FROM CURRENCY ══ */
@@ -1868,7 +1971,7 @@ function appendProjectCard(prefill=false){
       </div>
     </div>
 
-    <!-- Row 2: Planning Scope + Currency -->
+    <!-- Row 2: Planning Scope + Discount Rate -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
@@ -1883,20 +1986,6 @@ function appendProjectCard(prefill=false){
       </div>
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
-          Currency <span style="color:#e55">*</span>
-          <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
-        </label>
-        <select class="bic-select" id="bf-currency" onchange="autofillFromCurrency(this.value)">
-          <option value="">Select Currency</option>
-          ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
-        </select>
-      </div>
-    </div>
-
-    <!-- Row 3: Discount Rate + Inflation Rate -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
-      <div class="bic-field">
-        <label style="display:flex;align-items:center;justify-content:space-between">
           <span>Discount Rate (%) <span style="color:#e55">*</span>
             <span id="discount-auto-tag" style="display:none" class="auto-tag">
               <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1907,6 +1996,10 @@ function appendProjectCard(prefill=false){
         </label>
         <input class="bic-input" id="bf-discount_rate" type="number" placeholder="Enter Discount Rate (0 – 100)" min="0" max="100" value="${v('discount_rate')}" oninput="clearAutoTag('discount-auto-tag','bf-discount_rate')"/>
       </div>
+    </div>
+
+    <!-- Row 3: Inflation Rate + Currency -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
       <div class="bic-field">
         <label style="display:flex;align-items:center;justify-content:space-between">
           <span>Inflation Rate (%) <span style="color:#e55">*</span>
@@ -1919,7 +2012,20 @@ function appendProjectCard(prefill=false){
         </label>
         <input class="bic-input" id="bf-inflation_rate" type="number" placeholder="Enter Inflation Rate (0 – 100)" min="0" max="100" value="${v('inflation_rate')}" oninput="clearAutoTag('inflation-auto-tag','bf-inflation_rate')"/>
       </div>
+      <div class="bic-field">
+        <label style="display:flex;align-items:center;justify-content:space-between">
+          Currency <span style="color:#e55">*</span>
+          <span style="font-size:10px;color:var(--muted);cursor:help" title="Select the project currency">ⓘ</span>
+        </label>
+        <select class="bic-select" id="bf-currency" onchange="autofillFromCurrency(this.value)">
+          <option value="">Select Currency</option>
+          ${['USD ($)','EUR (€)','GBP (£)','INR (₹)'].map(o=>`<option${v('currency')===o?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>
     </div>
+
+    <!-- Row 2b: Discount Rate auto-tag (inline with its label) -->
+    <!-- (Discount rate is in Row 2 above — we'll update that label too) -->
 
     <!-- Row 4: Project Description (full width) -->
     <div class="bic-field">
@@ -2006,7 +2112,11 @@ function submitProjectCard(isEdit=false){
 function appendBrandCard(prefill=false){
   const wrap=document.getElementById('chat-messages');
   const c=collected;
-  const v=(k,fb='')=>prefill&&c[k]&&c[k]!=='—'?c[k]:fb;
+  const v=(k,fb='')=>(prefill||collected._eda_applied)&&c[k]&&c[k]!=='—'?c[k]:fb;
+  // show EDA auto-tag on fields that came from EDA
+  const edaKeys=['brand_name','therapeutic_area','years_market','competition_type'];
+  const edaTag=(k)=>(collected._eda_applied&&edaKeys.includes(k)&&c[k])?
+    `<span class="auto-tag" style="margin-left:6px"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> EDA</span>`:'';
 
   const card=document.createElement('div');
   card.id='bot-input-card';
@@ -2023,26 +2133,30 @@ function appendBrandCard(prefill=false){
           <div class="bic-field">
             <label>Brand Name <span style="color:#e55">*</span>
               <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Official brand name">ⓘ</span>
+              ${edaTag('brand_name')}
             </label>
-            <input class="bic-input" id="bf-brand_name" placeholder="e.g. Lexorin" value="${v('brand_name')}"/>
+            <input class="bic-input ${v('brand_name')?'auto-filled':''}" id="bf-brand_name" placeholder="e.g. Lexorin" value="${v('brand_name')}"/>
           </div>
           <div class="bic-field">
             <label>Therapeutic Area
               <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Therapy area">ⓘ</span>
+              ${edaTag('therapeutic_area')}
             </label>
-            <input class="bic-input" id="bf-therapeutic_area" placeholder="Enter Therapeutic Area" value="${v('therapeutic_area')}"/>
+            <input class="bic-input ${v('therapeutic_area')?'auto-filled':''}" id="bf-therapeutic_area" placeholder="Enter Therapeutic Area" value="${v('therapeutic_area')}"/>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div class="bic-field">
             <label>Years in Market
               <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="How many years on market">ⓘ</span>
+              ${edaTag('years_market')}
             </label>
-            <input class="bic-input" id="bf-years_market" type="number" placeholder="Enter years" value="${v('years_market')}"/>
+            <input class="bic-input ${v('years_market')?'auto-filled':''}" id="bf-years_market" type="number" placeholder="Enter years" value="${v('years_market')}"/>
           </div>
           <div class="bic-field">
             <label>Competition Type
               <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Type of competition">ⓘ</span>
+              ${edaTag('competition_type')}
             </label>
             <select class="bic-select" id="bf-competition_type">
               <option value="">Select competition type</option>
@@ -2176,19 +2290,13 @@ function appendBrandCard(prefill=false){
           </table>
         </div>
 
-        <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
-          <button class="bic-submit" onclick="submitBrandCard(${prefill},false)">Save Brand</button>
-        </div>
-      </div>
-
-      <!-- ── PANEL 4: Brand Summary (shown after Save Brand) ── -->
-      <div class="brand-vpanel" id="bvp-summary">
-        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:12px" id="brand-summary-count">All Brands (1)</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" id="brand-summary-grid">
-          <!-- saved brand cards injected here by JS -->
-        </div>
-        <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:12px;gap:10px">
-          <button class="bic-submit" onclick="proceedFromBrandSummary()">Save & Proceed to Teams →</button>
+        <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
+          <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="submitBrandCard(${prefill},true)">Save & Add Another Customer</button>
+          <button class="bic-submit" onclick="submitBrandCard(${prefill},false)">${
+            collected._eda_applied && edaBrandIdx < EDA_MOCK.brands.length - 1
+              ? `Save Brand & Next (${edaBrandIdx+2}/${EDA_MOCK.brands.length}) →`
+              : 'Save Brand'
+          }</button>
         </div>
       </div>
 
@@ -2205,10 +2313,10 @@ function appendBrandCard(prefill=false){
 
 function switchBrandTab(tab){
   // panels
-  ['info','fin','cust','summary'].forEach(t=>{
+  ['info','fin','cust'].forEach(t=>{
     const p=document.getElementById('bvp-'+t);
     if(p) p.className='brand-vpanel'+(t===tab?' active':'');
-    // sync sidebar sub-items (only info/fin/cust have sidebar items)
+    // sync sidebar sub-items
     const si=document.getElementById('bsi-'+t);
     if(si) si.className='bp-sub-item'+(t===tab?' active':'');
   });
@@ -2240,18 +2348,19 @@ function submitBrandCard(isEdit=false, addAnother=false){
   collected.brand_desc        = document.getElementById('bf-brand_desc')?.value||'';
   collected.forecast_name     = document.getElementById('bf-forecast_name')?.value||'forecast1';
 
+  document.getElementById('bot-input-card')?.remove();
+  ['info','fin','cust'].forEach(t=>markBrandSubDone(t));
+  setTimeout(()=>{ document.getElementById('brand-subitems').style.display='none'; }, 900);
+
+  const summary=`Brand: <strong>${collected.brand_name}</strong> · ${collected.therapeutic_area} · ${collected.competition_type}`;
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+
   if(isEdit){
-    // editing mode — mark all done and show review
-    document.getElementById('bot-input-card')?.remove();
-    ['info','fin','cust'].forEach(t=>markBrandSubDone(t));
-    setTimeout(()=>{ document.getElementById('brand-subitems').style.display='none'; }, 900);
-    const summary=`Brand: <strong>${collected.brand_name}</strong> · ${collected.therapeutic_area} · ${collected.competition_type}`;
-    const wrap=document.getElementById('chat-messages');
-    const msg=document.createElement('div');
-    msg.className='msg-user';
-    msg.innerHTML=`<div class="msg-user-bubble">${summary}</div>`;
-    wrap.appendChild(msg);
-    wrap.scrollTop=wrap.scrollHeight;
     botStep=4;
     const confirmMsg=document.createElement('div');
     confirmMsg.className='msg-bot';
@@ -2265,115 +2374,33 @@ function submitBrandCard(isEdit=false, addAnother=false){
     document.getElementById('bp-2').className='bp-item done';
     document.getElementById('bpd-2').textContent='✓';
     document.getElementById('bp-4').className='bp-item active';
-    return;
+  } else if(collected._eda_applied && edaBrandIdx < EDA_MOCK.brands.length - 1){
+    // more EDA brands to fill — advance to next
+    edaBrandIdx++;
+    setTimeout(()=>loadEdaBrand(edaBrandIdx), 600);
+  } else {
+    // all brands done — advance to team step
+    document.getElementById('bp-2').className='bp-item done';
+    document.getElementById('bpd-2').textContent='✓';
+    document.getElementById('bpc-2').className='bp-connector done';
+    botStep=3;
+    if(collected._eda_applied){
+      // EDA path — load first team directly
+      setTimeout(()=>loadEdaTeam(0), 600);
+    } else {
+      setTimeout(()=>botAsk(3), 600);
+    }
   }
-
-  // mark all brand sub-items done in sidebar
-  ['info','fin','cust'].forEach(t=>markBrandSubDone(t));
-
-  // push this brand into our saved brands list
-  if(!window._savedBrands) window._savedBrands=[];
-  window._savedBrands.push({
-    name: collected.brand_name,
-    ta: collected.therapeutic_area,
-    competition: collected.competition_type,
-    forecast: collected.forecast_name,
-    customerType: document.getElementById('bf-customer_type_brand')?.value||'HCP',
-  });
-
-  // refresh & show summary panel
-  renderBrandSummary();
-  switchBrandTab('summary');
-}
-
-/* ══ BRAND SUMMARY VIEW ══ */
-function renderBrandSummary(){
-  const brands = window._savedBrands || [];
-  const grid = document.getElementById('brand-summary-grid');
-  const countEl = document.getElementById('brand-summary-count');
-  if(!grid) return;
-  if(countEl) countEl.textContent = `All Brands (${brands.length})`;
-
-  // Build brand cards + the "+ Brand" add card
-  let html = brands.map((b,i)=>`
-    <div style="border:1px solid var(--border);border-radius:var(--r);padding:16px;background:var(--surface);position:relative">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:13px;font-weight:700">${b.name}</div>
-        <span style="font-size:15px;color:var(--muted);cursor:pointer">⋮</span>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Therapeutic Area:</div>
-      <div style="font-size:12px;margin-bottom:8px">${b.ta}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:2px">Competition:</div>
-      <div style="font-size:12px;margin-bottom:8px">${b.competition}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Customer Type:</div>
-      <div style="display:flex;gap:4px;flex-wrap:wrap">
-        <span style="font-size:11px;font-weight:600;color:var(--muted)">${b.customerType}:</span>
-        <span class="brand-tag">${b.forecast}</span>
-      </div>
-    </div>`).join('');
-
-  // Add card (dashed)
-  html += `
-    <div style="border:1.5px dashed var(--border);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:20px;transition:all .15s;min-height:140px"
-      onclick="showBrandCreateView()"
-      onmouseover="this.style.borderColor='var(--accent)'"
-      onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:26px;opacity:.35">🏷️</div>
-      <div style="font-size:13px;font-weight:500;color:var(--accent)">+ Brand</div>
-    </div>`;
-
-  grid.innerHTML = html;
-}
-
-function showBrandCreateView(){
-  // Reset brand form sub-tabs and switch back to Brand Info panel
-  ['info','fin','cust'].forEach(t=>{
-    const si=document.getElementById('bsi-'+t);
-    if(si){si.className='bp-sub-item'+(t==='info'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='info'?'●':'○';}
-  });
-  // Clear brand fields for a fresh entry
-  ['bf-brand_name','bf-therapeutic_area','bf-years_market','bf-competition_type','bf-brand_desc','bf-forecast_name'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.value=(id==='bf-forecast_name'?'forecast1':'');
-  });
-  // Reset customer upload state
-  const brandUploadChoice=document.getElementById('brand-upload-choice');
-  const brandUploadNotes=document.querySelector('.brand-upload-notes');
-  const brandColState=document.getElementById('brand-col-state');
-  if(brandUploadChoice) brandUploadChoice.style.display='';
-  if(brandUploadNotes) brandUploadNotes.style.display='';
-  if(brandColState) brandColState.style.display='none';
-
-  switchBrandTab('info');
-  setTimeout(()=>document.getElementById('bf-brand_name')?.focus(),100);
-}
-
-function proceedFromBrandSummary(){
-  // Collapse brand subitems in sidebar
-  ['info','fin','cust'].forEach(t=>markBrandSubDone(t));
-  setTimeout(()=>{ document.getElementById('brand-subitems').style.display='none'; }, 900);
-
-  // Show user summary bubble
-  const brands = window._savedBrands || [];
-  const summary = brands.map(b=>`<strong>${b.name}</strong>`).join(', ');
-  const wrap=document.getElementById('chat-messages');
-  const msg=document.createElement('div');
-  msg.className='msg-user';
-  msg.innerHTML=`<div class="msg-user-bubble">Brands saved: ${summary}</div>`;
-  wrap.appendChild(msg);
-  wrap.scrollTop=wrap.scrollHeight;
-
-  // Remove the bot input card and advance flow
-  document.getElementById('bot-input-card')?.remove();
-  botStep++;
-  if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
 }
 
 /* ══ TEAM CARD — 4-section vertical tabs ══ */
 function appendTeamCard(prefill=false){
   const wrap=document.getElementById('chat-messages');
   const c=collected;
-  const v=(k,fb='')=>prefill&&c[k]&&c[k]!=='—'?c[k]:fb;
+  const v=(k,fb='')=>(prefill||collected._eda_applied)&&c[k]&&c[k]!=='—'?c[k]:fb;
+  const edaTeamKeys=['struct_name','team_name','team_role','annual_rep_cost','customer_type'];
+  const edaTag=(k)=>(collected._eda_applied&&edaTeamKeys.includes(k)&&c[k])?
+    `<span class="auto-tag" style="margin-left:6px"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> EDA</span>`:'';
 
   const card=document.createElement('div');
   card.id='bot-input-card';
@@ -2390,8 +2417,9 @@ function appendTeamCard(prefill=false){
           <div class="bic-field">
             <label>Structure Name <span style="color:#e55">*</span>
               <span style="font-size:10px;color:var(--muted);float:right;cursor:help">ⓘ</span>
+              ${edaTag('struct_name')}
             </label>
-            <input class="bic-input" id="tf-struct_name" placeholder="Enter here" value="${v('struct_name')}"/>
+            <input class="bic-input ${v('struct_name')?'auto-filled':''}" id="tf-struct_name" placeholder="Enter here" value="${v('struct_name')}"/>
           </div>
           <div class="bic-field">
             <label>Structure Description
@@ -2410,13 +2438,13 @@ function appendTeamCard(prefill=false){
         <!-- sub-view: initial create team form (screenshots 2,3) -->
         <div id="team-create-view">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div style="font-size:13px;font-weight:600;color:var(--text)">Teams</div>
-            <div style="display:flex;align-items:center;gap:14px;font-size:12px" id="team-view-indicator">
-              <label style="display:flex;align-items:center;gap:5px;cursor:pointer" onclick="togglePosEff(false)">
-                <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block" id="dot-team-info"></span> Team Info
+            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer">← Create Team</div>
+            <div style="display:flex;align-items:center;gap:14px;font-size:12px">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer">
+                <span style="width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block"></span> Team Info
               </label>
-              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)" onclick="togglePosEff(true)">
-                <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block" id="dot-pos-eff"></span> Position Effectiveness
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)">
+                <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);display:inline-block"></span> Position Effectiveness
               </label>
             </div>
           </div>
@@ -2424,26 +2452,30 @@ function appendTeamCard(prefill=false){
             <div class="bic-field">
               <label>Team Name <span style="color:#e55">*</span>
                 <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+                ${edaTag('team_name')}
               </label>
-              <input class="bic-input" id="tf-team_name" placeholder="e.g. test" value="${v('team_name')}"/>
+              <input class="bic-input ${v('team_name')?'auto-filled':''}" id="tf-team_name" placeholder="e.g. test" value="${v('team_name')}"/>
             </div>
             <div class="bic-field">
               <label>Role <span style="color:#e55">*</span>
                 <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+                ${edaTag('team_role')}
               </label>
-              <input class="bic-input" id="tf-team_role" placeholder="e.g. rep" value="${v('team_role')}"/>
+              <input class="bic-input ${v('team_role')?'auto-filled':''}" id="tf-team_role" placeholder="e.g. rep" value="${v('team_role')}"/>
             </div>
             <div class="bic-field">
               <label>Annual Rep Cost ($) <span style="color:#e55">*</span>
                 <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+                ${edaTag('annual_rep_cost')}
               </label>
-              <input class="bic-input" id="tf-annual_rep_cost" type="number" placeholder="280000" value="${v('annual_rep_cost')}"/>
+              <input class="bic-input ${v('annual_rep_cost')?'auto-filled':''}" id="tf-annual_rep_cost" type="number" placeholder="280000" value="${v('annual_rep_cost')}"/>
             </div>
             <div class="bic-field">
               <label>Customer Type <span style="color:#e55">*</span>
                 <span style="font-size:10px;color:var(--muted);float:right">ⓘ</span>
+                ${edaTag('customer_type')}
               </label>
-              <select class="bic-select" id="tf-customer_type">
+              <select class="bic-select ${v('customer_type')?'auto-filled':''}" id="tf-customer_type">
                 <option value="">Select</option>
                 ${['HCP','Hospital','Pharmacy','Payer'].map(o=>`<option${v('customer_type')===o?' selected':''}>${o}</option>`).join('')}
               </select>
@@ -2493,13 +2525,7 @@ function appendTeamCard(prefill=false){
           </div>
           <!-- Position Effectiveness section (screenshots 4,5) — shown after create team -->
           <div id="team-pos-eff" style="display:none">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)">
-              
-              <div style="font-size:13px;font-weight:700;color:var(--text)">Position Effectiveness</div>
-              <div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--accent-light);border:1px solid #f5d5b5;border-radius:20px;padding:3px 10px">
-                <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block"></span> Active
-              </div>
-            </div>
+            <div style="font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:10px">← Position Effectiveness:</div>
             <div style="display:flex;gap:18px;margin-bottom:8px;font-size:13px">
               <span style="font-weight:500">Do you want to vary effectiveness by Years?</span>
               <label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="vary-eff-yr" style="accent-color:var(--accent)"/> Yes</label>
@@ -2551,14 +2577,12 @@ function appendTeamCard(prefill=false){
                 </tbody>
               </table>
             </div>
-            <!-- Define Effectiveness footer inside pos-eff -->
-            <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:10px">
-              <button class="bic-submit" onclick="showTeamSummary()">Define Effectiveness →</button>
-            </div>
           </div>
-          <!-- Footer: only shown in Team Info view (pos-eff hidden) -->
-          <div id="team-create-footer" style="display:flex;align-items:center;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
-            <button class="bic-submit" onclick="togglePosEff(true)">Create Team →</button>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);margin-top:8px">
+            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="toggleTeamHCPDetail()">
+              <span id="hcp-toggle-label">Show HCP Detail</span>
+            </button>
+            <button class="bic-submit" onclick="showTeamSummary()">Create Team & Define Effectiveness →</button>
           </div>
         </div>
 
@@ -2589,6 +2613,7 @@ function appendTeamCard(prefill=false){
             </div>
           </div>
           <div style="display:flex;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:12px;gap:10px">
+            <button class="bic-submit" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent)" onclick="showTeamCreateView()">Add another Team</button>
             <button class="bic-submit" onclick="markTeamSubDone('teams');switchTeamTab('coverage')">Save & Proceed to Coverage →</button>
           </div>
         </div>
@@ -2932,7 +2957,11 @@ function appendTeamCard(prefill=false){
 
         <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:12px;border-top:1px solid var(--border);margin-top:4px">
           <button class="bic-submit" style="background:transparent;color:var(--muted);border:1px solid var(--border)">Cancel</button>
-          <button class="bic-submit" onclick="submitTeamCard(${prefill})">Save Response Curve &amp; Proceed →</button>
+          <button class="bic-submit" onclick="submitTeamCard(${prefill})">${
+            collected._eda_applied && edaTeamIdx < EDA_MOCK.teams.length - 1
+              ? `Save Team & Next (${edaTeamIdx+2}/${EDA_MOCK.teams.length}) →`
+              : 'Save Response Curve &amp; Proceed →'
+          }</button>
         </div>
       </div>
 
@@ -3017,35 +3046,17 @@ function toggleBrandEffTable(show){
   document.getElementById('show-positions-row').style.display=show?'flex':'none';
 }
 
-function togglePosEff(show){
-  const posEff = document.getElementById('team-pos-eff');
-  const footer = document.getElementById('team-create-footer');
-  const hcpDetail = document.getElementById('team-hcp-detail');
-  const dotTeam = document.getElementById('dot-team-info');
-  const dotPE = document.getElementById('dot-pos-eff');
-  const lblTeam = dotTeam?.parentElement;
-  const lblPE = dotPE?.parentElement;
-
-  if(show){
-    // Switch to Position Effectiveness view
-    if(posEff) posEff.style.display = '';
-    if(footer) footer.style.display = 'none';
-    if(hcpDetail && hcpDetail.style.display === 'none') hcpDetail.style.display = '';
-    // Update dot indicators
-    if(dotTeam){ dotTeam.style.background='transparent'; dotTeam.style.border='1.5px solid var(--muted)'; }
-    if(dotPE){ dotPE.style.background='var(--accent)'; dotPE.style.border='none'; }
-    if(lblTeam) lblTeam.style.color='var(--muted)';
-    if(lblPE) lblPE.style.color='var(--accent)';
-    requestAnimationFrame(()=>{ posEff?.scrollIntoView({behavior:'smooth', block:'nearest'}); });
-  } else {
-    // Back to Team Info
-    if(posEff) posEff.style.display = 'none';
-    if(footer) footer.style.display = 'flex';
-    // Update dot indicators
-    if(dotTeam){ dotTeam.style.background='var(--accent)'; dotTeam.style.border='none'; }
-    if(dotPE){ dotPE.style.background='transparent'; dotPE.style.border='1.5px solid var(--muted)'; }
-    if(lblTeam) lblTeam.style.color='var(--text)';
-    if(lblPE) lblPE.style.color='var(--muted)';
+function toggleTeamHCPDetail(){
+  const d=document.getElementById('team-hcp-detail');
+  const open=d.style.display==='';
+  d.style.display=open?'none':'';
+  const btn=document.getElementById('hcp-toggle-label');
+  if(btn) btn.textContent=open?'Show HCP Detail':'Hide HCP Detail';
+  if(!open){
+    // show position effectiveness after a moment
+    setTimeout(()=>{
+      document.getElementById('team-pos-eff').style.display='';
+    }, 300);
   }
 }
 
@@ -3076,11 +3087,13 @@ function markTeamSubDone(tab){
 
 function submitTeamCard(isEdit=false){
   document.getElementById('bot-input-card')?.remove();
-  // mark all team sub-items done then collapse
   ['structure','teams','coverage','response'].forEach(t=>markTeamSubDone(t));
   setTimeout(()=>{ document.getElementById('team-subitems').style.display='none'; }, 900);
 
-  const summary=`Structure: <strong>${collected.struct_name||document.getElementById('tf-struct_name')?.value||'Team'}</strong> · ${collected.team_name||'Team'} · ${collected.customer_type||'HCP'}`;
+  const structName=collected.struct_name||document.getElementById('tf-struct_name')?.value||'Team';
+  const teamName=collected.team_name||'Team';
+  const custType=collected.customer_type||'HCP';
+  const summary=`Structure: <strong>${structName}</strong> · ${teamName} · ${custType}`;
   const wrap=document.getElementById('chat-messages');
   const msg=document.createElement('div');
   msg.className='msg-user';
@@ -3102,10 +3115,55 @@ function submitTeamCard(isEdit=false){
     document.getElementById('bp-3').className='bp-item done';
     document.getElementById('bpd-3').textContent='✓';
     document.getElementById('bp-4').className='bp-item active';
+
+  } else if(collected._eda_applied && edaTeamIdx < EDA_MOCK.teams.length - 1){
+    // more EDA teams to fill — advance to next
+    edaTeamIdx++;
+    setTimeout(()=>loadEdaTeam(edaTeamIdx), 600);
+
   } else {
-    botStep++;
-    if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
+    // all teams done — mark team step done, then offer add more or go to review
+    document.getElementById('bp-3').className='bp-item done';
+    document.getElementById('bpd-3').textContent='✓';
+    document.getElementById('bpc-3').className='bp-connector done';
+    document.getElementById('bp-4').className='bp-item active';
+    botStep=4;
+
+    const doneMsg=document.createElement('div');
+    doneMsg.className='msg-bot';
+    const teamsLabel=collected._eda_applied
+      ? `All <strong>${EDA_MOCK.teams.length} team structures</strong> from EDA are configured.`
+      : `Team structure <strong>${structName}</strong> saved.`;
+    doneMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
+      <div class="msg-bot-bubble">
+        ${teamsLabel} What would you like to do next?
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="qr-chip" onclick="addAnotherTeam(this)">+ Add another team</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()" style="background:var(--accent);color:#fff;border-color:var(--accent)">Review &amp; create workflow →</button>
+        </div>
+      </div>`;
+    wrap.appendChild(doneMsg);
+    wrap.scrollTop=wrap.scrollHeight;
   }
+}
+
+function addAnotherTeam(btn){
+  btn.closest('.msg-bot').remove();
+  const wrap=document.getElementById('chat-messages');
+  // clear team fields so card is blank
+  ['struct_name','struct_desc','team_name','team_role','annual_rep_cost','customer_type'].forEach(k=>delete collected[k]);
+  document.getElementById('bp-3').className='bp-item active';
+  const botMsg=document.createElement('div');
+  botMsg.className='msg-bot';
+  botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">Let\'s add another team structure. Fill in the details below:</div>`;
+  wrap.appendChild(botMsg);
+  wrap.scrollTop=wrap.scrollHeight;
+  document.getElementById('team-subitems').style.display='';
+  ['structure','teams','coverage','response'].forEach(tab=>{
+    const si=document.getElementById('tsi-'+tab);
+    if(si){si.className='bp-sub-item'+(tab==='structure'?' active':'');si.querySelector('.bp-sub-dot').textContent=tab==='structure'?'●':'○';}
+  });
+  setTimeout(()=>appendTeamCard(false), 400);
 }
 
 function appendBotMsg(html){
@@ -3200,8 +3258,6 @@ function appendReviewCard(){
 
   // editable fields map: key → [label, collectedKey]
   const editFields=[
-    ['Workspace name','ws_name'],
-    ['Description','ws_desc'],
     ['Project name','proj_name'],
     ['Planning start year','proj_scope_start'],
     ['Planning end year','proj_scope_end'],
@@ -3269,12 +3325,11 @@ function finalCreate(){
 
   // status steps to animate
   const statusSteps=[
-    {label:'Creating workspace',sub:collected.ws_name||'New Workspace',delay:0},
-    {label:'Setting up project',sub:collected.proj_name||'New Project',delay:700},
-    {label:'Configuring financials',sub:`${collected.currency||'USD'} · ${collected.discount_rate||'0'}% discount`,delay:1400},
-    {label:'Adding brand',sub:collected.brand_name||'Brand',delay:2100},
-    {label:'Building team structure',sub:collected.team_name||'Team',delay:2800},
-    {label:'Finalising workflow',sub:'Saving all records…',delay:3500},
+    {label:'Setting up project',sub:collected.proj_name||'New Project',delay:0},
+    {label:'Configuring financials',sub:`${collected.currency||'USD'} · ${collected.discount_rate||'0'}% discount`,delay:700},
+    {label:'Adding brand',sub:collected.brand_name||'Brand',delay:1400},
+    {label:'Building team structure',sub:collected.team_name||'Team',delay:2100},
+    {label:'Finalising workflow',sub:'Saving all records…',delay:2800},
   ];
 
   // render status card
@@ -3289,7 +3344,7 @@ function finalCreate(){
   statusCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
     <div style="flex:1">
       <div class="msg-bot-bubble" style="margin-bottom:8px">Creating your workflow — this will take a moment…</div>
-
+      <div class="creation-status">${statusHtml}</div>
     </div>`;
   wrap.appendChild(statusCard);
   wrap.scrollTop=wrap.scrollHeight;
@@ -3310,7 +3365,7 @@ function finalCreate(){
     }, s.delay+600);
   });
 
-  // final success message + scenario prompt
+  // final success message
   setTimeout(()=>{
     [0,1,2,3,4].forEach(i=>{
       document.getElementById('bp-'+i).className='bp-item done';
@@ -3320,31 +3375,16 @@ function finalCreate(){
     msg.className='msg-bot';
     msg.innerHTML=`<div class="msg-bot-avatar">✦</div><div class="msg-bot-bubble">
       <strong>Workflow created successfully! ✓</strong><br>
-      Workspace <strong>${collected.ws_name||'New Workspace'}</strong> is ready with project <strong>${collected.proj_name||'New Project'}</strong>, brand <strong>${collected.brand_name||'Brand'}</strong> and team <strong>${collected.team_name||'Team'}</strong>.
+      Project <strong>${collected.proj_name||'New Project'}</strong> is ready with brand <strong>${collected.brand_name||'Brand'}</strong> and team <strong>${collected.team_name||'Team'}</strong>.<br><br>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="qr-chip" onclick="openCreatedWorkspace()">Open project →</button>
+        <button class="qr-chip" onclick="startCreateWorkflow()">Create another</button>
+      </div>
     </div>`;
     wrap.appendChild(msg);
     wrap.scrollTop=wrap.scrollHeight;
     showToast('Workflow created successfully.');
-
-    // Ask about scenario after short delay
-    setTimeout(()=>{
-      const scMsg=document.createElement('div');
-      scMsg.className='msg-bot';
-      scMsg.id='scenario-prompt-msg';
-      scMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
-        <div style="flex:1">
-          <div class="msg-bot-bubble" style="margin-bottom:10px">
-            Would you like to <strong>create a scenario</strong> for this workflow? Scenarios let you model different sizing strategies, objectives and targets.
-          </div>
-          <div class="quick-replies">
-            <button class="qr-chip" style="background:var(--accent);color:#fff;border-color:var(--accent)" onclick="startPostWorkflowScenario()">✦ Yes, create a scenario</button>
-            <button class="qr-chip" onclick="skipScenarioGoTeams()">No, go to workspace →</button>
-          </div>
-        </div>`;
-      wrap.appendChild(scMsg);
-      wrap.scrollTop=wrap.scrollHeight;
-    }, 700);
-  }, 4400);
+  }, 3600);
 }
 
 /* ══ THINKING MODE ══ */
@@ -3461,7 +3501,7 @@ function resetThinking(){
 /* ══ JUMP TO STEP (clickable sidebar — edits only that step) ══ */
 function jumpToStep(stepIdx){
   if(stepIdx > botStep) return;
-  const stepNames=['Workspace','Project','Brand','Team structure','Review'];
+  const stepNames=['Project','EDA Upload','Brand','Team structure','Review'];
   const wrap=document.getElementById('chat-messages');
 
   document.getElementById('bot-input-card')?.remove();
@@ -3499,7 +3539,8 @@ function jumpToStep(stepIdx){
   wrap.scrollTop=wrap.scrollHeight;
 
   setTimeout(()=>{
-    if(step.type==='custom' && step.customId==='project-card') appendProjectCard(true);
+    if(step.type==='eda-choice') appendEdaChoiceCard();
+    else if(step.type==='custom' && step.customId==='project-card') appendProjectCard(true);
     else if(step.type==='custom' && step.customId==='brand-card'){
       ['info','fin','cust'].forEach(t=>{
         const si=document.getElementById('bsi-'+t);
@@ -3604,7 +3645,13 @@ function selectProject(name){
 function filterProjects(q){const ql=q.toLowerCase();document.querySelectorAll('.proj-item').forEach(el=>{el.style.display=el.querySelector('.proj-item-name').textContent.toLowerCase().includes(ql)?'':'none'});}
 function filterWSCards(q){const ql=q.toLowerCase();document.querySelectorAll('#ws-grid .ws-card:not(.ws-card-add)').forEach(c=>{c.style.display=c.querySelector('.ws-card-name').textContent.toLowerCase().includes(ql)?'':'none'});}
 function toggleSidebar(){sidebarOpen=!sidebarOpen;document.getElementById('p2-sidebar').classList.toggle('collapsed',!sidebarOpen);}
-function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.getElementById('brands-pane').style.display=t==='brands'?'':'none';document.getElementById('teams-pane').style.display=t==='teams'?'':'none';const btn=document.getElementById('p2-add-btn');if(btn)btn.textContent=t==='brands'?'+ Add Brand':'+ Add Structure';}
+function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t)?.classList.add('active');document.getElementById('brands-pane')&&(document.getElementById('brands-pane').style.display=t==='brands'?'':'none');document.getElementById('teams-pane')&&(document.getElementById('teams-pane').style.display=t==='teams'?'':'none');const btn=document.getElementById('p2-add-btn');if(btn)btn.textContent=t==='brands'?'+ Add Brand':'+ Add Structure';}
+function switchAcTab(t){
+  ['brands','teams','eda'].forEach(tab=>{
+    document.getElementById('act-'+tab)?.classList.toggle('active',tab===t);
+    document.getElementById('acp-'+tab) && (document.getElementById('acp-'+tab).style.display=tab===t?'':'none');
+  });
+}
 function p2Add(){openModal(currentTab==='brands'?'brand':'team');}
 function dismissSug(){document.getElementById('p2-sug-bar').style.display='none';}
 
@@ -3687,292 +3734,8 @@ function openModal(id){
   if(id==='project'){projCurrentStep=1;renderProjSteps();}
   if(id==='brand'){brandCurrentStep=1;renderBrandSteps();}
   if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
+  if(id==='analytical-config'){switchAcTab('brands');}
   document.getElementById('modal-'+id)?.classList.add('open');
-}
-
-/* ══ POST-WORKFLOW SCENARIO FLOW (in-chat bot card) ══ */
-
-function startPostWorkflowScenario(){
-  document.getElementById('scenario-prompt-msg')?.remove();
-
-  // Show scenario step in sidebar
-  const bp5 = document.getElementById('bp-5');
-  const bpc4 = document.getElementById('bpc-4');
-  if(bp5) { bp5.style.display='flex'; bp5.className='bp-item active'; }
-  if(bpc4) bpc4.style.display='block';
-
-  const wrap = document.getElementById('chat-messages');
-
-  // Bot message
-  const botMsg = document.createElement('div');
-  botMsg.className = 'msg-bot';
-  botMsg.innerHTML = `<div class="msg-bot-avatar">✦</div>
-    <div class="msg-bot-bubble">Great! Let's set up your scenario. Fill in the details below — this defines the sizing strategy, brands, and objectives for this workflow run.</div>`;
-  wrap.appendChild(botMsg);
-  wrap.scrollTop = wrap.scrollHeight;
-
-  setTimeout(()=>{
-    appendScenarioBotCard();
-  }, 500);
-}
-
-function appendScenarioBotCard(){
-  const wrap = document.getElementById('chat-messages');
-  document.getElementById('sc-bot-card')?.remove();
-
-  const card = document.createElement('div');
-  card.className = 'sc-bot-card';
-  card.id = 'sc-bot-card';
-  card.innerHTML = `
-    <!-- Header -->
-    <div style="background:var(--accent);padding:10px 18px;display:flex;align-items:center;justify-content:space-between">
-      <div style="font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.6px">Add Scenario</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7)">Data auto-saved</div>
-    </div>
-
-    <!-- Compact body: 2-column grid of all fields (scrollable) -->
-    <div class="sc-bot-card-body">
-    <div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-
-      <!-- Col 1, Row 1: Scenario Name -->
-      <div class="bic-field">
-        <label>Scenario Name <span style="color:var(--accent)">*</span></label>
-        <input class="bic-input" id="sc-bot-name" placeholder="e.g. Test2"/>
-      </div>
-
-      <!-- Col 2, Row 1: Customer Type -->
-      <div class="bic-field">
-        <label>Customer Type <span style="color:var(--accent)">*</span></label>
-        <div class="sc-tag-input" onclick="this.querySelector('input').focus()" style="min-height:34px;padding:4px 8px">
-          <span class="sc-tag">HCP <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
-          <input class="sc-tag-ghost" placeholder="Add…" onkeydown="if(event.key==='Enter'&&this.value.trim()){const t=document.createElement('span');t.className='sc-tag';t.innerHTML=this.value.trim()+' <span class=sc-tag-x onclick=this.parentElement.remove()>×</span>';this.parentElement.insertBefore(t,this);this.value='';event.preventDefault();}"/>
-        </div>
-      </div>
-
-      <!-- Col 1+2, Row 2: Description (full width) -->
-      <div class="bic-field" style="grid-column:1/-1">
-        <label>Scenario Description</label>
-        <input class="bic-input" id="sc-bot-desc" placeholder="Enter Scenario Description"/>
-      </div>
-
-      <!-- Col 1, Row 3: Sizing Horizon -->
-      <div class="bic-field">
-        <label>Sizing Horizon <span style="color:var(--accent)">*</span>
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Planning year range">ⓘ</span>
-        </label>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input class="bic-input" id="sc-bot-start" type="number" placeholder="Start year" style="flex:1"/>
-          <span style="color:var(--muted);font-size:12px">–</span>
-          <input class="bic-input" id="sc-bot-end" type="number" placeholder="End year" style="flex:1"/>
-        </div>
-      </div>
-
-      <!-- Col 2, Row 3: Sizing Strategy -->
-      <div class="bic-field">
-        <label>Sizing Strategy Every Year <span style="color:var(--accent)">*</span>
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Same or different size each year">ⓘ</span>
-        </label>
-        <div class="sc-radio-group" style="margin-top:8px">
-          <label><input type="radio" name="sc-bot-strategy" value="same" checked/> Same Size</label>
-          <label><input type="radio" name="sc-bot-strategy" value="diff"/> Different Size</label>
-        </div>
-      </div>
-
-      <!-- Col 1, Row 4: Brands -->
-      <div class="bic-field">
-        <label>Brands <span style="color:var(--accent)">*</span>
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Select brands">ⓘ</span>
-        </label>
-        <div class="sc-tag-input" onclick="this.querySelector('input').focus()" style="min-height:34px;padding:4px 8px">
-          <span class="sc-tag">Brand_1 <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
-          <span class="sc-tag">Brand_2 <span class="sc-tag-x" onclick="this.parentElement.remove()">×</span></span>
-          <input class="sc-tag-ghost" placeholder="Add…" onkeydown="if(event.key==='Enter'&&this.value.trim()){const t=document.createElement('span');t.className='sc-tag';t.innerHTML=this.value.trim()+' <span class=sc-tag-x onclick=this.parentElement.remove()>×</span>';this.parentElement.insertBefore(t,this);this.value='';event.preventDefault();}"/>
-        </div>
-      </div>
-
-      <!-- Col 2, Row 4: Structure -->
-      <div class="bic-field">
-        <label>Structure <span style="color:var(--accent)">*</span>
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Team structure">ⓘ</span>
-        </label>
-        <select class="bic-select" id="sc-bot-structure">
-          <option value="Team">Team</option>
-          <option value="Team_1">Team_1</option>
-          <option value="Team_2">Team_2</option>
-        </select>
-      </div>
-
-      <!-- Financial assumption link (full width) -->
-      <div style="grid-column:1/-1;font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:-4px">
-        ✎ <span>Financial Assumption options</span>
-      </div>
-
-      <!-- Col 1+2: Vary objective (full width) -->
-      <div class="bic-field" style="grid-column:1/-1">
-        <label>Do you want objective to vary by year?
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Vary objective per year">ⓘ</span>
-        </label>
-        <div class="sc-radio-group" style="margin-top:6px">
-          <label><input type="radio" name="sc-bot-vary" value="yes"/> Yes</label>
-          <label><input type="radio" name="sc-bot-vary" value="no" checked/> No</label>
-        </div>
-      </div>
-
-      <!-- Col 1, Row 6: Objective -->
-      <div class="bic-field">
-        <label>Objective <span style="color:var(--accent)">*</span>
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Sizing objective">ⓘ</span>
-        </label>
-        <select class="bic-select" id="sc-bot-obj">
-          <option value="">Select Objective</option>
-          <option value="Target MROI">Target MROI</option>
-          <option value="Target Revenue">Target Revenue</option>
-          <option value="Target Spend">Target Spend</option>
-          <option value="Fixed Headcount">Fixed Headcount</option>
-          <option value="Target Calls">Target Calls</option>
-        </select>
-      </div>
-
-      <!-- Col 2, Row 6: Target Value -->
-      <div class="bic-field">
-        <label>Target Value
-          <span style="font-size:10px;color:var(--muted);float:right;cursor:help" title="Target value">ⓘ</span>
-        </label>
-        <input class="bic-input" id="sc-bot-target" type="number" value="0"/>
-      </div>
-
-      <!-- Coverage link (full width) -->
-      <div style="grid-column:1/-1;font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;margin-top:-4px">
-        ✎ <span>Coverage options</span>
-      </div>
-
-    </div><!-- /grid -->
-    </div><!-- /sc-bot-card-body -->
-
-    <!-- Footer — always visible, pinned to bottom -->
-    <div class="sc-bot-footer">
-      <button class="btn btn-ghost btn-sm" onclick="skipScenarioGoTeams()" style="margin-right:8px">Skip →</button>
-      <button class="sc-submit-btn" onclick="submitScenarioBotCard()">Add Scenario →</button>
-    </div>
-  `;
-  wrap.appendChild(card);
-  // Scroll card into view — header pinned, footer pinned, middle scrolls
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      card.scrollIntoView({behavior:'smooth', block:'nearest'});
-      setTimeout(()=>document.getElementById('sc-bot-name')?.focus(), 300);
-    });
-  });
-}
-
-function submitScenarioBotCard(){
-  const name = document.getElementById('sc-bot-name')?.value?.trim();
-  if(!name){ document.getElementById('sc-bot-name').focus(); showToast('Please enter a scenario name.'); return; }
-  const obj = document.getElementById('sc-bot-obj')?.value;
-  if(!obj){ document.getElementById('sc-bot-obj').focus(); showToast('Please select an objective.'); return; }
-
-  const start = document.getElementById('sc-bot-start')?.value || '2027';
-  const end   = document.getElementById('sc-bot-end')?.value   || '2029';
-  const struct = document.getElementById('sc-bot-structure')?.value || 'Team';
-  const target = document.getElementById('sc-bot-target')?.value || '0';
-
-  document.getElementById('sc-bot-card')?.remove();
-
-  const wrap = document.getElementById('chat-messages');
-
-  // User summary bubble
-  const userMsg = document.createElement('div');
-  userMsg.className = 'msg-user';
-  userMsg.innerHTML = `<div class="msg-user-bubble">
-    Scenario: <strong>${name}</strong> · ${start}–${end} · ${struct} · <em>${obj}</em> (Target: ${target})
-  </div>`;
-  wrap.appendChild(userMsg);
-  wrap.scrollTop = wrap.scrollHeight;
-
-  // Mark scenario step done in sidebar
-  const bp5 = document.getElementById('bp-5');
-  if(bp5){ bp5.className='bp-item done'; bp5.querySelector('.bp-dot').textContent='✓'; }
-
-  // Bot confirmation + navigation
-  setTimeout(()=>{
-    const confirmMsg = document.createElement('div');
-    confirmMsg.className = 'msg-bot';
-    confirmMsg.innerHTML = `<div class="msg-bot-avatar">✦</div>
-      <div class="msg-bot-bubble">
-        <strong>Scenario "${name}" created! ✓</strong><br>
-        Sizing <em>${start}–${end}</em>, structure <em>${struct}</em>, objective <em>${obj}</em>.<br><br>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="qr-chip" onclick="goToAllScenarios()">View All Scenarios →</button>
-          <button class="qr-chip" onclick="openScenarioDetail('${name}')">Open Scenario →</button>
-        </div>
-      </div>`;
-    wrap.appendChild(confirmMsg);
-    wrap.scrollTop = wrap.scrollHeight;
-    showToast(`Scenario "${name}" created successfully.`);
-  }, 500);
-}
-
-/* ══ SCENARIO PAGE NAVIGATION ══ */
-function navigateToTeamsTab(){
-  const wsName = collected.ws_name || 'New Workspace';
-  openWorkspace(wsName);
-  setTimeout(()=>{
-    switchTab('teams');
-    const teamsTab = document.getElementById('tab-teams');
-    if(teamsTab){
-      teamsTab.style.transition='background .15s';
-      teamsTab.style.background='var(--accent-light)';
-      setTimeout(()=>{teamsTab.style.background='';},1200);
-    }
-    showToast('Navigated to Teams tab — your workspace is ready!');
-  }, 150);
-}
-
-function goToAllScenarios(){
-  showPage('page-scenarios');
-  setBc([{label:'Home',action:'goEntry()'},{label:currentWS||'NNI Test',action:'goWorkspaces()'},{label:'All Scenarios',action:null}]);
-}
-
-function openScenarioDetail(name){
-  showPage('page-scenario-detail');
-  const nameEl = document.getElementById('scd-scenario-name');
-  if(nameEl) nameEl.textContent = name || 'Test2';
-  setBc([{label:'Home',action:'goEntry()'},{label:currentWS||'NNI Test',action:'goWorkspaces()'},{label:'All Scenarios',action:'goToAllScenarios()'},{label:name||'Test2',action:null}]);
-}
-
-function setScdView(view, btn){
-  document.querySelectorAll('.scd-view-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function skipScenarioGoTeams(){
-  document.getElementById('scenario-prompt-msg')?.remove();
-  document.getElementById('sc-bot-card')?.remove();
-  navigateToTeamsTab();
-}
-
-/* ══ SCENARIO MODAL (from teams pane) ══ */
-let _scenarioSource = 'detail';
-function openScenarioModal(source){
-  _scenarioSource = source||'detail';
-  const sc = document.getElementById('modal-scenario');
-  if(!sc) return;
-  sc.querySelector('#sc-name').value='';
-  sc.querySelector('#sc-desc').value='';
-  sc.querySelector('#sc-start-year').value='';
-  sc.querySelector('#sc-end-year').value='';
-  sc.querySelector('#sc-objective').value='';
-  sc.querySelector('#sc-target-val').value='0';
-  document.querySelector('input[name="sc-strategy"][value="same"]').checked=true;
-  document.querySelector('input[name="sc-vary"][value="no"]').checked=true;
-  sc.classList.add('open');
-}
-function closeScenarioModal(){ document.getElementById('modal-scenario')?.classList.remove('open'); }
-function submitScenarioModal(){
-  const name=document.getElementById('sc-name')?.value?.trim();
-  if(!name){document.getElementById('sc-name').focus();return;}
-  document.getElementById('modal-scenario')?.classList.remove('open');
-  showToast(`Scenario "${name}" created successfully.`);
 }
 
 /* ══ UPLOAD ══ */

@@ -520,6 +520,97 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .eda-ov-missing{margin:0 14px 14px;background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r-sm);padding:9px 12px}
 .eda-ov-missing-title{font-size:10px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
 .eda-ov-missing-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--bot-text);margin-bottom:3px}
+/* ── CONTEXT MENU DROPDOWN ── */
+.ctx-menu{position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);box-shadow:var(--shadow-md);z-index:999;min-width:140px;padding:4px 0;animation:mIn .12s ease}
+.ctx-item{padding:8px 14px;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.ctx-item:hover{background:var(--accent-light);color:var(--accent)}
+.ctx-item.danger{color:#dc2626}
+.ctx-item.danger:hover{background:#fef2f2;color:#dc2626}
+.ctx-divider{height:1px;background:var(--border);margin:3px 0}
+/* ── EDA INSIGHTS PANEL ── */
+.eda-ins-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+.eda-ins-main{display:flex;flex-direction:column;gap:20px}
+.eda-ins-sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:0}
+
+/* File status bar */
+.eda-file-bar{background:var(--completed-bg);border:1px solid #a7f3d0;border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.eda-file-info{display:flex;align-items:center;gap:10px}
+.eda-file-icon{width:32px;height:32px;background:#059669;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex-shrink:0}
+.eda-file-name{font-size:13px;font-weight:600;color:#065f46}
+.eda-file-meta{font-size:11px;color:#059669;margin-top:1px}
+
+/* Section headers */
+.eda-sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.eda-sec-title{font-size:13px;font-weight:700;color:var(--text)}
+.eda-sec-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* Standard insight cards */
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ins-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:box-shadow .15s}
+.ins-card:hover{box-shadow:var(--shadow-md)}
+.ins-card-head{padding:12px 14px 0;display:flex;align-items:flex-start;gap:10px}
+.ins-card-icon{width:30px;height:30px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ins-card-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.ins-card-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.ins-card-chart{padding:10px 14px 0;height:90px;position:relative}
+.ins-card-footer{padding:8px 14px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);margin-top:10px}
+.ins-stat{font-size:18px;font-weight:700;color:var(--text)}
+.ins-stat-label{font-size:10px;color:var(--muted)}
+.ins-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px}
+.ins-badge-warn{background:var(--pending-bg);color:#92400e;border:1px solid #fde68a}
+.ins-badge-ok{background:var(--completed-bg);color:#065f46;border:1px solid #a7f3d0}
+.ins-badge-info{background:var(--bot-bg);color:var(--bot-text);border:1px solid var(--bot-border)}
+
+/* Overlap viz */
+.overlap-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.overlap-row:last-child{border:none}
+.overlap-bar-wrap{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.overlap-bar{height:100%;border-radius:4px;transition:width .4s ease}
+.overlap-label{width:140px;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.overlap-pct{width:36px;text-align:right;color:var(--muted);font-weight:600}
+
+/* Geography heatmap-style */
+.geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px}
+.geo-cell{border-radius:var(--r-sm);padding:8px 10px;text-align:center}
+.geo-region{font-size:11px;font-weight:600;color:inherit;margin-bottom:2px}
+.geo-count{font-size:18px;font-weight:700}
+.geo-sub{font-size:10px;opacity:.7}
+
+/* Chat interface */
+.ins-chat-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.ins-chat-messages{max-height:260px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ins-chat-messages::-webkit-scrollbar{width:3px}
+.ins-chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.ins-msg-bot{display:flex;gap:8px;align-items:flex-start}
+.ins-msg-bot-av{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.ins-msg-bot-bubble{background:var(--surface);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:8px 11px;font-size:12px;color:var(--text);line-height:1.6;max-width:100%}
+.ins-msg-user{align-self:flex-end;max-width:75%}
+.ins-msg-user-bubble{background:var(--accent);color:#fff;border-radius:8px 0 8px 8px;padding:7px 11px;font-size:12px;line-height:1.5}
+.ins-chat-input-wrap{border-top:1px solid var(--border);padding:10px 12px;display:flex;gap:8px;align-items:center;background:var(--surface)}
+.ins-chat-input{flex:1;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;font-family:inherit;outline:none;transition:border .15s;background:var(--bg)}
+.ins-chat-input:focus{border-color:var(--accent)}
+.ins-chat-send{width:30px;height:30px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+.ins-chat-send:hover{background:var(--accent-dark)}
+.ins-chip-row{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;border-top:1px solid var(--border);background:var(--surface)}
+.ins-chip{padding:4px 11px;border-radius:12px;border:1px solid var(--border);font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.ins-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
+
+/* Sidebar: auto-populated summary */
+.eda-summary-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.eda-summary-head{padding:12px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px}
+.eda-summary-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.eda-sum-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 0;border-bottom:1px solid var(--border)}
+.eda-sum-row:last-child{border:none}
+.eda-sum-label{color:var(--muted)}
+.eda-sum-val{font-weight:600;color:var(--text);display:flex;align-items:center;gap:5px}
+.eda-missing-card{background:var(--pending-bg);border:1px solid #fde68a;border-radius:var(--r);overflow:hidden}
+.eda-missing-head{padding:10px 14px;border-bottom:1px solid #fde68a;font-size:12px;font-weight:700;color:#92400e;display:flex;align-items:center;gap:6px}
+.eda-missing-body{padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.eda-missing-item{font-size:11px;color:#92400e;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+
+/* Run insights button */
+.ins-run-btn{width:100%;padding:9px;border-radius:var(--r-sm);background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.ins-run-btn:hover{background:var(--accent-dark)}
 /* ── ETF TEAM FORM TABS ── */
 .etf-tab{padding:9px 14px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
 .etf-tab:hover{color:var(--accent)}
@@ -527,9 +618,13 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .etf-panel{display:none}
 .etf-panel[style*="display:flex"]{display:flex!important}
 /* ── ANALYTICAL CONFIG MODAL TABS ── */
-.ac-modal-tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.ac-modal-tab:hover{color:var(--accent)}
+.ac-modal-tab{padding:11px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;user-select:none}
+.ac-modal-tab:hover{color:var(--accent);background:var(--accent-light)}
 .ac-modal-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* ── BRANDS/REPORTING GROUPS SUBTABS ── */
+.ac-subtab{padding:8px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.ac-subtab:hover{color:var(--accent)}
+.ac-subtab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
@@ -540,8 +635,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
   <div class="tb-logo" onclick="goEntry()">FIELD DESIGNER</div>
   <div class="tb-bc" id="tb-bc"><span class="seg dim">Home</span></div>
   <div class="tb-right">
-    <button class="feedback-btn">Feedback</button>
-    <div class="avatar">P</div>
+
   </div>
 </div>
 
@@ -696,8 +790,16 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
     <div class="bp-item" id="bp-4" onclick="jumpToStep(4)" title="Click to edit">
       <div class="bp-dot" id="bpd-4">5</div>
       <div class="bp-item-body">
+        <div class="bp-item-label">Scenario</div>
+        <div class="bp-item-sub" id="bps-4">Sizing objective & horizon</div>
+      </div>
+    </div>
+    <div class="bp-connector" id="bpc-4"></div>
+    <div class="bp-item" id="bp-5" onclick="jumpToStep(5)" title="Click to edit">
+      <div class="bp-dot" id="bpd-5">6</div>
+      <div class="bp-item-body">
         <div class="bp-item-label">Review & create</div>
-        <div class="bp-item-sub" id="bps-4">Confirm all details</div>
+        <div class="bp-item-sub" id="bps-5">Confirm all details</div>
       </div>
     </div>
 
@@ -767,7 +869,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <span class="ws-search-icon">⌕</span>
       <input class="ws-search" placeholder="Search workspaces..." oninput="filterWSCards(this.value)"/>
     </div>
-    <div class="ws-sort">☰ Newest first</div>
+
   </div>
   <div class="ws-grid" id="ws-grid">
     <div class="ws-card" onclick="openWorkspace('Bayer')"><div class="ws-card-top"><div class="ws-card-icon">🏢</div><span class="ws-card-more">⋮</span></div><div class="ws-card-name">Bayer</div><div class="ws-card-meta"><div class="ws-card-time">just now</div><div class="ws-card-count">6 projects</div></div></div>
@@ -785,7 +887,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 <div class="page" id="page-detail">
   <div class="p2-sidebar" id="p2-sidebar">
     <div class="p2-sb-header">
-      <div class="p2-sb-title">Projects<button class="p2-sb-add" onclick="openModal('project')">+</button></div>
+
       <div class="p2-sb-search-wrap"><span class="p2-sb-search-icon">⌕</span><input class="p2-sb-search" placeholder="Search projects..." oninput="filterProjects(this.value)"/></div>
       <div class="p2-sb-ws-label" onclick="goWorkspaces()">← <span id="p2-ws-name">Workspace</span></div>
     </div>
@@ -797,20 +899,17 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
       <div class="proj-item" id="psi-Demo 1" onclick="selectProject('Demo 1')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Demo 1</div><div class="proj-item-time">5 days ago · 2 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
       <div class="proj-item" id="psi-Project 1" onclick="selectProject('Project 1')"><div class="proj-item-row"><span class="proj-dot"></span><div class="proj-item-info"><div class="proj-item-name">Project 1</div><div class="proj-item-time">1 week ago · 17 scenarios</div></div><span class="proj-item-more">⋮</span></div></div>
     </div>
-    <div class="p2-sb-footer"><button class="p2-sb-new" onclick="openModal('project')">+ New Project</button></div>
+    <div class="p2-sb-footer"><button class="p2-sb-new" onclick="goToWorkflowSection('project')">+ New Project</button></div>
   </div>
   <div class="p2-main">
     <div class="p2-topstrip">
       <div style="font-size:13px;color:var(--muted)"><span id="p2-proj-name-strip" style="font-weight:600;color:var(--text)">NNI Test</span></div>
       <div class="p2-topstrip-right">
-        <div class="icon-btn" title="Sort">↕</div>
-        <div class="icon-btn" title="Filter">☰</div>
-        <div class="icon-btn" title="Search">⌕</div>
+
         <button class="fab-inline" style="background:var(--surface);color:var(--accent);border:1.5px solid var(--accent);display:flex;align-items:center;gap:5px" onclick="openModal('analytical-config')">
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M10 10l1.1 1.1M10 4l1.1-1.1M2.9 11.1L4 10"/></svg>
           Analytical Configuration
         </button>
-        <button class="fab-inline" id="p2-add-btn" onclick="openModal('scenario')">+ Add Scenario</button>
       </div>
     </div>
     <div class="p2-content">
@@ -892,7 +991,7 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         </div>
 
         <!-- Add scenario tile -->
-        <div class="scenario-kpi-card scenario-kpi-add" onclick="openModal('scenario')">
+        <div class="scenario-kpi-card scenario-kpi-add" onclick="goToWorkflowSection('scenario')">
           <div style="font-size:28px;color:var(--light);margin-bottom:8px">＋</div>
           <div style="font-size:13px;font-weight:500;color:var(--muted)">New Scenario</div>
         </div>
@@ -1072,48 +1171,56 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 
 <!-- ANALYTICAL CONFIGURATION MODAL -->
 <div class="overlay" id="modal-analytical-config">
-  <div class="modal" style="max-width:720px;height:560px;display:flex;flex-direction:column">
-    <div class="modal-header">
-      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
-        <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M10 10l1.1 1.1M10 4l1.1-1.1M2.9 11.1L4 10"/></svg>
+  <div class="modal" style="max-width:1000px;width:96vw;height:88vh;display:flex;flex-direction:column">
+    <div class="modal-header" style="padding:18px 24px;flex-shrink:0">
+      <div class="modal-title" style="display:flex;align-items:center;gap:10px;font-size:15px">
+        <svg width="17" height="17" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.9 2.9l1.1 1.1M10 10l1.1 1.1M10 4l1.1-1.1M2.9 11.1L4 10"/></svg>
         Analytical Configuration
       </div>
       <button class="modal-close" onclick="closeModal('analytical-config')">✕</button>
     </div>
     <!-- tabs -->
-    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 20px">
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 24px">
       <div class="ac-modal-tab active" id="act-brands" onclick="switchAcTab('brands')">📊 Brands</div>
       <div class="ac-modal-tab" id="act-teams" onclick="switchAcTab('teams')">👥 Teams</div>
-      <div class="ac-modal-tab" id="act-eda" onclick="switchAcTab('eda')">📁 EDA</div>
+      <div class="ac-modal-tab" id="act-eda" onclick="switchAcTab('eda')">📁 EDA &amp; Insights</div>
     </div>
-    <div class="modal-body" style="flex:1;overflow-y:auto;padding:20px">
+    <div class="modal-body" style="flex:1;overflow-y:auto;padding:24px;min-height:0">
 
       <!-- BRANDS PANEL -->
       <div id="acp-brands">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;font-weight:600;color:var(--text)">Brands</div>
-          <button class="btn btn-primary btn-sm" onclick="showToast('Add Brand opened')">+ Add Brand</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text)">Brands</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Manage brand configuration for this project</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="closeModal('analytical-config');goToWorkflowSection('brand')">+ Add Brand</button>
         </div>
-        <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px">
-          <div class="subtab active" style="padding:7px 14px;cursor:pointer;font-size:12px">Brands</div>
-          <div class="subtab" style="padding:7px 14px;cursor:pointer;font-size:12px">Reporting Groups</div>
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px">
+          <div class="ac-subtab active" onclick="switchAcSubtab(this,'brands-tab','brands-content');switchAcSubtab(this,'reporting-tab','reporting-content')">Brands</div>
+          <div class="ac-subtab" id="reporting-tab" onclick="switchAcSubtab(this,'brands-tab','reporting-content')">Reporting Groups</div>
         </div>
-        <div class="brand-grid">
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Test_Brand ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-pending">⚠ Pending</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_3 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Oncology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_2 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Cardiology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
-          <div class="brand-card"><div class="brand-card-header"><div class="brand-name">Brand_1 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Neurology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+        <div id="brands-content">
+        <div class="brand-grid" id="ac-brand-grid">
+          <div class="brand-card" id="ac-bc-Test_Brand"><div class="brand-card-header"><div class="brand-name">Test_Brand ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-pending">⚠ Pending</span><div class="more-btn" onclick="showCtxMenu(event,'brand','Test_Brand','–','–')">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">–</div></div><div><div class="meta-label">Customer Type</div><div class="customer-link">+Add Customers</div></div></div></div>
+          <div class="brand-card" id="ac-bc-Brand_3"><div class="brand-card-header"><div class="brand-name">Brand_3 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn" onclick="showCtxMenu(event,'brand','Brand_3','Oncology','HCP')">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Oncology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card" id="ac-bc-Brand_2"><div class="brand-card-header"><div class="brand-name">Brand_2 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn" onclick="showCtxMenu(event,'brand','Brand_2','Cardiology','HCP')">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Cardiology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
+          <div class="brand-card" id="ac-bc-Brand_1"><div class="brand-card-header"><div class="brand-name">Brand_1 ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn" onclick="showCtxMenu(event,'brand','Brand_1','Neurology','HCP')">⋮</div></div></div><div class="brand-meta"><div><div class="meta-label">Therapeutic Area</div><div class="meta-val">Neurology</div></div><div><div class="meta-label">Customer Type</div><div class="meta-val" style="color:var(--accent);font-weight:600">HCP</div></div></div></div>
         </div>
+        </div><!-- /brands-content -->
       </div>
 
       <!-- TEAMS PANEL -->
       <div id="acp-teams" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;font-weight:600;color:var(--text)">Team Structures</div>
-          <button class="btn btn-primary btn-sm" onclick="openModal('team');closeModal('analytical-config')">+ Add Structure</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text)">Team Structures</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Configure field force structures and team assignments</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="closeModal('analytical-config');goToWorkflowSection('team')">+ Add Structure</button>
         </div>
-        <div class="structure-card">
-          <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn">⋮</div></div></div>
+        <div class="structure-card" id="ac-tc-Team">
+          <div class="structure-header"><div class="structure-name">Team ⓘ</div><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-completed">✓ Completed</span><div class="more-btn" onclick="showCtxMenu(event,'team','Team','Rep','HCP')">⋮</div></div></div>
           <div class="team-count">All Teams (4):</div>
           <div class="team-sub-grid">
             <div class="team-sub-card"><div class="team-sub-name">Team_1</div><div class="team-field"><div class="team-field-label">Role</div><div class="team-field-val">Team</div></div><div class="team-field"><div class="team-field-label">Customer Type & Brands</div><div class="brand-tags"><span style="font-size:11px;font-weight:600;color:var(--muted)">HCP:</span><span class="brand-tag">Brand_1</span><span class="brand-tag">Brand_2</span><span class="brand-tag">Brand_3</span></div></div></div>
@@ -1122,37 +1229,13 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
         </div>
       </div>
 
-      <!-- EDA PANEL -->
+      <!-- EDA & INSIGHTS PANEL -->
       <div id="acp-eda" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;font-weight:600;color:var(--text)">EDA Configuration</div>
-          <button class="btn btn-primary btn-sm" onclick="showToast('EDA upload triggered')">↑ Re-upload EDA</button>
-        </div>
-        <div style="background:var(--completed-bg);border:1px solid #a7f3d0;border-radius:var(--r);padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
-          <span style="font-size:16px">✓</span>
-          <div>
-            <div style="font-size:12px;font-weight:600;color:#065f46">EDA file loaded</div>
-            <div style="font-size:11px;color:#065f46;opacity:.8">eda_analysis_Q3_2027.xlsx · uploaded just now</div>
-          </div>
-        </div>
-        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Auto-populated fields</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-          ${[['Brand_1 — Therapeutic Area','Oncology'],['Brand_2 — Therapeutic Area','Cardiology'],['Brand_3 — Therapeutic Area','Neurology'],['Primary Care Team — Role','Rep'],['Primary Care Team — Annual Cost','$280,000'],['Specialty Team — Role','Specialist Rep']].map(([l,v])=>`
-          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 10px">
-            <div style="font-size:10px;color:var(--light)">${l}</div>
-            <div style="font-size:12px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:5px">${v} <span class="auto-tag" style="font-size:9px;padding:1px 5px">✓ EDA</span></div>
-          </div>`).join('')}
-        </div>
-        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Items requiring manual input</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          ${EDA_MOCK.missing.map(m=>`<div style="background:var(--pending-bg);border:1px solid #fde68a;border-radius:var(--r-sm);padding:8px 10px;font-size:12px;color:#92400e;display:flex;align-items:center;gap:7px">
-            <span>⚠</span>${m}
-          </div>`).join('')}
-        </div>
+        <div id="eda-insights-root"></div>
       </div>
 
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" style="padding:16px 24px;flex-shrink:0">
       <div></div>
       <div class="modal-footer-right">
         <button class="btn btn-ghost" onclick="closeModal('analytical-config')">Close</button>
@@ -1202,6 +1285,13 @@ const steps=[
     type:'custom',
     customId:'team-card',
     submit:'Save Structure →'
+  },
+  {
+    id:'scenario',
+    ask:'Almost there! Let\'s set up your first **scenario** — define the sizing objective, horizon and structure:',
+    type:'custom',
+    customId:'scenario-card',
+    submit:'Save Scenario →'
   },
   {
     id:'review',
@@ -1255,9 +1345,9 @@ function startCreateWorkflow(){
   Object.keys(collected).forEach(k=>delete collected[k]);
   showPage('page-bot');
   setBc([{label:'Home',action:'goEntry()'},{label:'Create workflow',action:null}]);
-  [0,1,2,3,4].forEach(i=>{
-    document.getElementById('bp-'+i).className='bp-item'+(i===0?' active':'');
-    document.getElementById('bpd-'+i).textContent=i+1;
+  [0,1,2,3,4,5].forEach(i=>{
+    document.getElementById('bp-'+i)&&(document.getElementById('bp-'+i).className='bp-item'+(i===0?' active':''));
+    document.getElementById('bpd-'+i)&&(document.getElementById('bpd-'+i).textContent=i+1);
     document.getElementById('bpc-'+i) && (document.getElementById('bpc-'+i).className='bp-connector');
   });
   document.getElementById('chat-messages').innerHTML='';
@@ -1268,19 +1358,20 @@ function startCreateWorkflow(){
 function botAsk(stepIdx){
   const step=steps[stepIdx];
   appendBotMsg(step.ask.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'));
-  [0,1,2,3,4].forEach(i=>{
+  [0,1,2,3,4,5].forEach(i=>{
     const el=document.getElementById('bp-'+i);
     const dot=document.getElementById('bpd-'+i);
     const conn=document.getElementById('bpc-'+i);
-    if(i<stepIdx){el.className='bp-item done';dot.textContent='✓';if(conn)conn.className='bp-connector done';}
-    else if(i===stepIdx){el.className='bp-item active';dot.textContent=i+1;}
-    else{el.className='bp-item';dot.textContent=i+1;}
+    if(i<stepIdx){el&&(el.className='bp-item done');dot&&(dot.textContent='✓');if(conn)conn.className='bp-connector done';}
+    else if(i===stepIdx){el&&(el.className='bp-item active');dot&&(dot.textContent=i+1);}
+    else{el&&(el.className='bp-item');dot&&(dot.textContent=i+1);}
   });
   if(step.type==='eda-choice') setTimeout(()=>appendEdaChoiceCard(), 400);
   if(step.type==='input') setTimeout(()=>appendInputCard(step), 400);
   if(step.type==='custom' && step.customId==='project-card') setTimeout(()=>appendProjectCard(), 400);
   if(step.type==='custom' && step.customId==='brand-card') setTimeout(()=>appendBrandCard(), 400);
   if(step.type==='custom' && step.customId==='team-card') setTimeout(()=>appendTeamCard(), 400);
+  if(step.type==='custom' && step.customId==='scenario-card') setTimeout(()=>appendScenarioCard(), 400);
   if(step.type==='review') setTimeout(()=>appendReviewCard(), 400);
 }
 
@@ -1405,40 +1496,213 @@ function simulateEdaUpload(){
     resultCard.className='msg-bot';
     resultCard.innerHTML=`<div class="msg-bot-avatar">✦</div>
       <div style="flex:1">
-        <div class="msg-bot-bubble" style="margin-bottom:8px">
+        <div class="msg-bot-bubble" style="margin-bottom:10px">
           <strong>EDA file processed ✓</strong> — QC passed with 1 warning.<br>
-          Auto-populated <strong>${EDA_MOCK.brands.length} brands</strong> and <strong>${EDA_MOCK.teams.length} team structures</strong>.
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">QC Results</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span><strong>3 brands</strong> detected — Brand_1, Brand_2, Brand_3</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span><strong>2 team structures</strong> detected — Primary Care Team, Specialty Team</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="color:var(--completed);font-weight:700">✓</span><span>Therapeutic areas, years in market, competition types populated</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px;background:var(--pending-bg);padding:7px 10px;border-radius:var(--r-sm);border:1px solid #fde68a"><span style="color:var(--pending);font-weight:700">⚠</span><span><strong>Brand_2:</strong> Financial assumptions not found in EDA — you'll need to enter these manually</span></div>
-          </div>
-        </div>
-        <div style="background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r);padding:12px 14px;margin-bottom:10px">
-          <div style="font-size:11px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">⚠ User input required for</div>
-          <div style="display:flex;flex-direction:column;gap:5px">
-            ${EDA_MOCK.missing.map(m=>`<div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--bot-text)"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>${m}</div>`).join('')}
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="qr-chip" onclick="acceptEdaAndContinue()">Accept &amp; continue to Project →</button>
-          <button class="qr-chip" onclick="edaNo()" style="border-color:var(--border);color:var(--muted)">Skip — enter manually</button>
+          Found <strong>${EDA_MOCK.brands.length} brands</strong> and <strong>${EDA_MOCK.teams.length} team structures</strong>. I've run an insight analysis — review it below before deciding how to proceed.
         </div>
       </div>`;
     wrap.appendChild(resultCard);
     wrap.scrollTop=wrap.scrollHeight;
+    setTimeout(()=>showEdaInsightsInChat(), 400);
   }, qcChecks.length*600+300);
+}
+
+/* ══ EDA INSIGHTS IN CHAT (inline, after QC) ══ */
+const CHAT_INS_RESPONSES={
+  'Which brand has the highest HCP overlap?':'<strong>Brand_1 ∩ Brand_2</strong> has the highest overlap at <strong>72%</strong> (8,962 shared HCPs). This is well above the ~40% benchmark for co-detailed brands.<br><br><em>Suggestion: Consider splitting Primary Care Team into dedicated sub-teams for each brand.</em>',
+  'Which team covers the most brands?':'<strong>PC_Team_1</strong> currently details 3 brands (Brand_1, Brand_2, Brand_3) with an average of 8.2 calls/yr. This is the broadest coverage in your data but also carries the highest overlap risk.',
+  'Where are HCPs most concentrated?':'<strong>Northeast</strong> leads with 31% of your 12,480 HCPs (3,840 records), followed by Southeast at 21%. The current team allocation underweights the Northeast by ~3 reps.',
+  'Suggest an optimal team structure':'Based on 12,480 HCPs across 3 brands, I suggest:<br>• <strong>PC_Team_1</strong> (28 reps) — Brand_1 + Brand_2, HCP focus<br>• <strong>SP_Team_1</strong> (18 reps) — Brand_2 + Brand_3, specialist focus<br>• <strong>KA_Team_1</strong> (8 reps) — Key accounts, all brands<br><br>This reduces overlap from 72% → ~38% and aligns headcount with geographic concentration.',
+};
+let chatInsHistory=[];
+
+function showEdaInsightsInChat(){
+  const wrap=document.getElementById('chat-messages');
+  const card=document.createElement('div');
+  card.id='eda-insights-chat-card';
+  card.style.cssText='width:100%;max-width:100%;margin-bottom:4px';
+
+  card.innerHTML=`
+  <div style="background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--r);overflow:hidden">
+
+    <!-- header -->
+    <div style="background:var(--accent-light);padding:12px 16px;border-bottom:1px solid #f5d5b5;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--accent-dark)">📊 EDA Insights</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">AI analysis of your uploaded data — explore before deciding how to proceed</div>
+      </div>
+      <span style="font-size:10px;padding:3px 9px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600">12,480 HCPs</span>
+    </div>
+
+    <!-- standard insights grid -->
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Standard Insights</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+        <!-- overlap -->
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px">
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">🔁 Cross-brand overlap</div>
+          ${[['Brand_1 ∩ Brand_2','72%','#e87722'],['Brand_2 ∩ Brand_3','58%','#f59340'],['All 3 brands','34%','#d74654']].map(([l,p,c])=>`
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:11px">
+            <div style="flex:1;color:var(--muted)">${l}</div>
+            <div style="flex:1.2;height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="width:${p};height:100%;background:${c};border-radius:3px"></div></div>
+            <div style="width:30px;text-align:right;font-weight:600;color:${c}">${p}</div>
+          </div>`).join('')}
+          <div style="margin-top:7px;font-size:10px;padding:4px 8px;background:var(--pending-bg);border-radius:var(--r-sm);color:#92400e;border:1px solid #fde68a">⚠ 4,243 HCPs covered by &gt;2 brands</div>
+        </div>
+
+        <!-- team activity -->
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px">
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📞 Team & call activity</div>
+          ${[
+            {t:'PC_Team_1',b:['Brand_1','Brand_2'],c:'8.2'},
+            {t:'SP_Team_1',b:['Brand_2','Brand_3'],c:'11.4'},
+            {t:'KA_Team_1',b:['Brand_1','Brand_3'],c:'6.8'},
+          ].map(r=>`
+          <div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;border-bottom:1px solid var(--border)">
+            <div style="font-weight:600;width:70px;flex-shrink:0">${r.t}</div>
+            <div style="display:flex;gap:3px;flex:1">${r.b.map(b=>`<span class="brand-tag" style="font-size:10px;padding:1px 5px">${b}</span>`).join('')}</div>
+            <div style="color:var(--muted);white-space:nowrap;font-size:10px">${r.c}/yr</div>
+          </div>`).join('')}
+          <div style="margin-top:7px;font-size:10px;padding:4px 8px;background:var(--completed-bg);border-radius:var(--r-sm);color:#065f46;border:1px solid #a7f3d0">✓ 3 active teams detected</div>
+        </div>
+
+        <!-- geo concentration -->
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px">
+          <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📍 Geography concentration</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+            ${[{r:'NE',n:'3.8k',p:'31%',h:'#e87722'},{r:'SE',n:'2.6k',p:'21%',h:'#f59340'},{r:'MW',n:'2.1k',p:'17%',h:'#f5b87a'},{r:'W',n:'2.0k',p:'16%',h:'#f5c99e'},{r:'SW',n:'1.9k',p:'15%',h:'#fde8d0'}].map(g=>`
+            <div style="background:${g.h}20;border:1px solid ${g.h}50;border-radius:var(--r-sm);padding:5px;text-align:center">
+              <div style="font-size:10px;font-weight:700;color:var(--text)">${g.r}</div>
+              <div style="font-size:13px;font-weight:700;color:var(--accent-dark)">${g.n}</div>
+              <div style="font-size:9px;color:var(--muted)">${g.p}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+
+        <!-- AI suggestions -->
+        <div style="background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r-sm);padding:11px 13px">
+          <div style="font-size:11px;font-weight:600;color:var(--bot-text);margin-bottom:8px">✦ AI suggestions</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-size:11px;color:var(--bot-text);line-height:1.5">
+              <strong>Brands:</strong> 3 brands recommended — Brand_1 (Oncology), Brand_2 (Cardiology), Brand_3 (Neurology)
+            </div>
+            <div style="font-size:11px;color:var(--bot-text);line-height:1.5">
+              <strong>Teams:</strong> 3 structures — PC_Team_1 (28 reps), SP_Team_1 (18 reps), KA_Team_1 (8 reps)
+            </div>
+            <div style="font-size:11px;color:var(--bot-text);line-height:1.5">
+              <strong>Key action:</strong> Reduce Brand_1∩Brand_2 overlap from 72% → ~38% by splitting PC_Team_1
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NLQ chat -->
+    <div style="border-bottom:1px solid var(--border)">
+      <div style="padding:10px 16px 6px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Ask about your data</div>
+      <div id="ins-chat-bot-msgs" style="max-height:180px;overflow-y:auto;padding:0 16px 8px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:7px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">✦</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:8px 11px;font-size:12px;color:var(--text);line-height:1.6">
+            I've analysed your EDA. Ask me anything about the data — brand overlaps, team sizing, geographic hotspots — or use the suggestions above to configure your workflow.
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 8px">
+        <div class="ins-chip" onclick="chatInsAsk('Which brand has the highest HCP overlap?')">Highest HCP overlap?</div>
+        <div class="ins-chip" onclick="chatInsAsk('Which team covers the most brands?')">Team coverage?</div>
+        <div class="ins-chip" onclick="chatInsAsk('Where are HCPs most concentrated?')">Top geographies?</div>
+        <div class="ins-chip" onclick="chatInsAsk('Suggest an optimal team structure')">Suggest team structure</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;padding:8px 16px;border-top:1px solid var(--border);background:var(--surface)">
+        <input class="ins-chat-input" id="chat-ins-nlq" placeholder="Ask a question about your EDA data…" onkeydown="if(event.key==='Enter')chatInsSend()"/>
+        <button class="ins-chat-send" onclick="chatInsSend()">➤</button>
+      </div>
+    </div>
+
+    <!-- decision footer -->
+    <div style="padding:14px 16px;background:var(--surface)">
+      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:10px">How would you like to proceed?</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="bic-submit" onclick="acceptEdaAndContinue()" style="display:flex;align-items:center;gap:7px;flex:1;justify-content:center">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Yes — auto-populate brands &amp; teams from EDA
+        </button>
+        <button class="bic-submit" onclick="skipEdaAutoPopulate()" style="background:transparent;color:var(--accent);border:1.5px solid var(--accent);flex:1;justify-content:center">
+          No — I'll configure manually
+        </button>
+      </div>
+      <div style="font-size:11px;color:var(--light);margin-top:8px;text-align:center">
+        Auto-populate pre-fills brand names, team structures and EDA-sourced fields. You'll still review and complete each one.
+      </div>
+    </div>
+
+  </div>`;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function chatInsAsk(q){
+  const msgs=document.getElementById('ins-chat-bot-msgs');
+  if(!msgs) return;
+  msgs.innerHTML+=`<div style="align-self:flex-end;max-width:80%"><div style="background:var(--accent);color:#fff;border-radius:8px 0 8px 8px;padding:6px 11px;font-size:12px;line-height:1.5">${q}</div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  const thinking=document.createElement('div');
+  thinking.id='chat-ins-thinking';
+  thinking.style.cssText='display:flex;gap:7px;align-items:flex-start';
+  thinking.innerHTML=`<div style="width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">✦</div><div style="background:var(--surface);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:8px 11px;font-size:12px;color:var(--muted);font-style:italic">Analysing EDA data…</div>`;
+  msgs.appendChild(thinking);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    document.getElementById('chat-ins-thinking')?.remove();
+    const ans=CHAT_INS_RESPONSES[q]||`Based on your EDA (12,480 HCPs across ${EDA_MOCK.brands.length} brands and ${EDA_MOCK.teams.length} teams), here's what I found for "<strong>${q}</strong>":<br><br>The data shows patterns consistent with your uploaded dataset. Try a more specific question for deeper analysis.`;
+    msgs.innerHTML+=`<div style="display:flex;gap:7px;align-items:flex-start"><div style="width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">✦</div><div style="background:var(--surface);border:1px solid var(--border);border-radius:0 8px 8px 8px;padding:8px 11px;font-size:12px;color:var(--text);line-height:1.6">${ans}</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+    document.getElementById('chat-ins-nlq')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },1200);
+}
+
+function chatInsSend(){
+  const inp=document.getElementById('chat-ins-nlq');
+  if(!inp||!inp.value.trim()) return;
+  const q=inp.value.trim(); inp.value='';
+  chatInsAsk(q);
+}
+
+function skipEdaAutoPopulate(){
+  // User chose manual — remove the insights card, mark EDA step done, go to brand step WITHOUT pre-fill
+  document.getElementById('eda-insights-chat-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML='<div class="msg-user-bubble">I\'ll configure manually</div>';
+  wrap.appendChild(msg);
+  document.getElementById('bp-1').className='bp-item done';
+  document.getElementById('bpd-1').textContent='✓';
+  document.getElementById('bpc-1').className='bp-connector done';
+  document.getElementById('bp-2').className='bp-item active';
+  botStep=2;
+  // Do NOT set _eda_applied — brand and team cards will be blank
+  setTimeout(()=>{
+    appendBotMsg('No problem — let\'s configure manually. Fill in your first <strong>brand</strong> details below:');
+    document.getElementById('brand-subitems').style.display='';
+    ['info','fin','cust'].forEach(t=>{
+      const si=document.getElementById('bsi-'+t);
+      if(si){si.className='bp-sub-item'+(t==='info'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='info'?'●':'○';}
+    });
+    setTimeout(()=>appendBrandCard(false),400);
+  },600);
+  wrap.scrollTop=wrap.scrollHeight;
 }
 
 function acceptEdaAndContinue(){
   collected._eda_applied = true;
   edaBrandIdx = 0;
   edaTeamIdx = 0;
-
+  document.getElementById('eda-insights-chat-card')?.remove();
   const wrap=document.getElementById('chat-messages');
   const msg=document.createElement('div');
   msg.className='msg-user';
@@ -1881,7 +2145,7 @@ function validateEdaTeam(idx){
     const formSlot=document.getElementById('eda-team-inline-form');
     if(formSlot) formSlot.innerHTML=`
       <div style="padding:12px 16px;background:var(--completed-bg);border-top:2px solid var(--completed);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:#065f46">
-        <span style="font-size:16px">✓</span> All ${EDA_MOCK.teams.length} team structures validated — proceeding to review…
+        <span style="font-size:16px">✓</span> All ${EDA_MOCK.teams.length} team structures validated — moving to scenario setup…
       </div>`;
     document.getElementById('bp-3').className='bp-item done';
     document.getElementById('bpd-3').textContent='✓';
@@ -1889,14 +2153,8 @@ function validateEdaTeam(idx){
     document.getElementById('bp-4').className='bp-item active';
     botStep=4;
     setTimeout(()=>{
-      const wrap=document.getElementById('chat-messages');
-      const botMsg=document.createElement('div');
-      botMsg.className='msg-bot';
-      botMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
-        <div class="msg-bot-bubble">All teams validated ✓ — here's a summary of everything we'll create:</div>`;
-      wrap.appendChild(botMsg);
-      wrap.scrollTop=wrap.scrollHeight;
-      setTimeout(()=>appendReviewCard(), 400);
+      appendBotMsg('Great! All teams validated ✓ — now let\'s set up your first <strong>scenario</strong>:');
+      setTimeout(()=>appendScenarioCard(), 400);
     }, 800);
   }
 }
@@ -2094,7 +2352,7 @@ function submitProjectCard(isEdit=false){
     confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
       <div class="msg-bot-bubble">Project updated ✓ — other steps unchanged.
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendScenarioCard()">Continue to scenario →</button>
         </div>
       </div>`;
     wrap.appendChild(confirmMsg);
@@ -2367,7 +2625,7 @@ function submitBrandCard(isEdit=false, addAnother=false){
     confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
       <div class="msg-bot-bubble">Brand updated ✓ — other steps unchanged.
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendScenarioCard()">Continue to scenario →</button>
         </div>
       </div>`;
     wrap.appendChild(confirmMsg);
@@ -3108,7 +3366,7 @@ function submitTeamCard(isEdit=false){
     confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
       <div class="msg-bot-bubble">Team structure updated ✓ — other steps unchanged.
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendScenarioCard()">Continue to scenario →</button>
         </div>
       </div>`;
     wrap.appendChild(confirmMsg);
@@ -3139,7 +3397,7 @@ function submitTeamCard(isEdit=false){
         ${teamsLabel} What would you like to do next?
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
           <button class="qr-chip" onclick="addAnotherTeam(this)">+ Add another team</button>
-          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()" style="background:var(--accent);color:#fff;border-color:var(--accent)">Review &amp; create workflow →</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendScenarioCard()" style="background:var(--accent);color:#fff;border-color:var(--accent)">Continue to scenario →</button>
         </div>
       </div>`;
     wrap.appendChild(doneMsg);
@@ -3233,7 +3491,7 @@ function submitBotStep(isEdit=false){
     confirmMsg.innerHTML=`<div class="msg-bot-avatar">✦</div>
       <div class="msg-bot-bubble">Updated ✓ — all other steps unchanged. Ready to review the full workflow again?
         <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendReviewCard()">Review workflow →</button>
+          <button class="qr-chip" onclick="this.closest('.msg-bot').remove();appendScenarioCard()">Continue to scenario →</button>
         </div>
       </div>`;
     wrap.appendChild(confirmMsg);
@@ -3248,6 +3506,173 @@ function submitBotStep(isEdit=false){
     botStep++;
     if(botStep<steps.length) setTimeout(()=>botAsk(botStep),600);
   }
+}
+
+/* ══ SCENARIO CARD ══ */
+function appendScenarioCard(){
+  const wrap=document.getElementById('chat-messages');
+  document.getElementById('bot-input-card')?.remove();
+
+  // mark step 4 (scenario) active
+  [0,1,2,3].forEach(i=>{
+    document.getElementById('bp-'+i)&&(document.getElementById('bp-'+i).className='bp-item done');
+    document.getElementById('bpd-'+i)&&(document.getElementById('bpd-'+i).textContent='✓');
+    document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
+  });
+  document.getElementById('bp-4').className='bp-item active';
+  botStep=4;
+
+  const card=document.createElement('div');
+  card.className='bot-input-card';
+  card.id='scenario-bot-card';
+  card.style.cssText='gap:14px;max-width:100%';
+
+  card.innerHTML=`
+    <div class="bic-label">Add Scenario</div>
+
+    <!-- Row 1: Name + Customer Type -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="field-group">
+        <label class="field-label">Scenario Name <span class="req">*</span></label>
+        <input class="field-input" id="sc-name" placeholder="Enter Scenario Name"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Customer Type <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px">
+          <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">HCP <span style="cursor:pointer;margin-left:3px" onclick="this.parentElement.remove()">×</span></span>
+          <input style="border:none;outline:none;font-size:12px;flex:1;min-width:60px;background:transparent" placeholder="Add type…"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Description -->
+    <div class="field-group">
+      <label class="field-label">Scenario Description</label>
+      <input class="field-input" id="sc-desc" placeholder="Enter Scenario Description"/>
+    </div>
+
+    <!-- Row 3: Sizing Horizon + Strategy -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="field-group">
+        <label class="field-label">Sizing Horizon <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input type="number" class="field-input" id="sc-start-year" placeholder="Start year" style="width:100px"/>
+          <span style="color:var(--muted);font-size:12px">–</span>
+          <input type="number" class="field-input" id="sc-end-year" placeholder="End year" style="width:100px"/>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Sizing Strategy Every Year <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="same" checked style="accent-color:var(--accent)"/> Same Size</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-strategy" value="diff" style="accent-color:var(--accent)"/> Different Size</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Brands + Structure -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="field-group">
+        <label class="field-label">Brands <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:38px;cursor:pointer" onclick="this.querySelector('input').focus()">
+          <span style="background:var(--accent-light);color:var(--accent-dark);border:1px solid var(--accent);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600">${collected.brand_name||'Brand_1'} <span style="cursor:pointer;margin-left:3px">×</span></span>
+          <input style="border:none;outline:none;font-size:12px;flex:1;min-width:50px;background:transparent" placeholder=""/>
+          <span style="color:var(--muted);margin-left:auto">▾</span>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Structure <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <select class="field-select" id="sc-structure">
+          <option value="">${collected.struct_name||collected.team_name||'Select structure'}</option>
+          <option>Team</option>
+          <option>Team_1</option>
+          <option>Team_2</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Financial Assumption link -->
+    <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Financial Assumption options</div>
+
+    <!-- Row 5: Vary by year -->
+    <div class="field-group">
+      <label class="field-label">Do you want objective to vary by year? <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+      <div style="display:flex;gap:16px;align-items:center;margin-top:6px">
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="yes" style="accent-color:var(--accent)"/> Yes</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="sc-vary" value="no" checked style="accent-color:var(--accent)"/> No</label>
+      </div>
+    </div>
+
+    <!-- Row 6: Objective + Target Value -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="field-group">
+        <label class="field-label">Objective <span class="req">*</span> <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <select class="field-select" id="sc-objective">
+          <option value="">Select Objective</option>
+          <option value="Target MROI">Target MROI</option>
+          <option value="Target Revenue">Target Revenue</option>
+          <option value="Target Spend">Target Spend</option>
+          <option value="Fixed Headcount">Fixed Headcount</option>
+          <option value="Target Calls">Target Calls</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Target Value <span style="font-size:10px;color:var(--muted);cursor:help">ⓘ</span></label>
+        <input type="number" class="field-input" id="sc-target-val" value="0"/>
+      </div>
+    </div>
+
+    <!-- Coverage options link -->
+    <div style="font-size:12px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px">✎ Coverage options</div>
+
+    <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:10px;border-top:1px solid var(--border)">
+      <button class="bic-submit" style="background:transparent;color:var(--muted);border:1px solid var(--border)" onclick="skipScenario()">Skip for now</button>
+      <button class="bic-submit" onclick="submitScenarioCard()">Save Scenario &amp; Review →</button>
+    </div>`;
+
+  wrap.appendChild(card);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function submitScenarioCard(){
+  const name=document.getElementById('sc-name')?.value?.trim();
+  if(!name){ document.getElementById('sc-name')?.focus(); showToast('Please enter a scenario name'); return; }
+
+  collected.sc_name=name;
+  collected.sc_desc=document.getElementById('sc-desc')?.value||'';
+  collected.sc_start=document.getElementById('sc-start-year')?.value||'';
+  collected.sc_end=document.getElementById('sc-end-year')?.value||'';
+  collected.sc_objective=document.getElementById('sc-objective')?.value||'';
+  collected.sc_target=document.getElementById('sc-target-val')?.value||'0';
+  collected.sc_structure=document.getElementById('sc-structure')?.value||'';
+
+  document.getElementById('scenario-bot-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML=`<div class="msg-user-bubble">Scenario: <strong>${name}</strong> · ${collected.sc_objective||'No objective'} · ${collected.sc_start||'?'}–${collected.sc_end||'?'}</div>`;
+  wrap.appendChild(msg);
+  wrap.scrollTop=wrap.scrollHeight;
+
+  document.getElementById('bp-4').className='bp-item done';
+  document.getElementById('bpd-4').textContent='✓';
+  document.getElementById('bpc-4')&&(document.getElementById('bpc-4').className='bp-connector done');
+  botStep=5;
+  setTimeout(()=>botAsk(5), 600);
+}
+
+function skipScenario(){
+  document.getElementById('scenario-bot-card')?.remove();
+  const wrap=document.getElementById('chat-messages');
+  const msg=document.createElement('div');
+  msg.className='msg-user';
+  msg.innerHTML='<div class="msg-user-bubble">Skip scenario for now</div>';
+  wrap.appendChild(msg);
+  document.getElementById('bp-4').className='bp-item done';
+  document.getElementById('bpd-4').textContent='✓';
+  document.getElementById('bpc-4')&&(document.getElementById('bpc-4').className='bp-connector done');
+  botStep=5;
+  setTimeout(()=>botAsk(5), 600);
 }
 
 function appendReviewCard(){
@@ -3294,12 +3719,12 @@ function appendReviewCard(){
   wrap.appendChild(card);
   wrap.scrollTop=wrap.scrollHeight;
 
-  [0,1,2,3].forEach(i=>{
+  [0,1,2,3,4].forEach(i=>{
     document.getElementById('bp-'+i).className='bp-item done';
     document.getElementById('bpd-'+i).textContent='✓';
     document.getElementById('bpc-'+i)&&(document.getElementById('bpc-'+i).className='bp-connector done');
   });
-  document.getElementById('bp-4').className='bp-item active';
+  document.getElementById('bp-5').className='bp-item active';
 }
 
 function editStep(){
@@ -3367,9 +3792,9 @@ function finalCreate(){
 
   // final success message
   setTimeout(()=>{
-    [0,1,2,3,4].forEach(i=>{
-      document.getElementById('bp-'+i).className='bp-item done';
-      document.getElementById('bpd-'+i).textContent='✓';
+    [0,1,2,3,4,5].forEach(i=>{
+      document.getElementById('bp-'+i)&&(document.getElementById('bp-'+i).className='bp-item done');
+      document.getElementById('bpd-'+i)&&(document.getElementById('bpd-'+i).textContent='✓');
     });
     const msg=document.createElement('div');
     msg.className='msg-bot';
@@ -3646,11 +4071,465 @@ function filterProjects(q){const ql=q.toLowerCase();document.querySelectorAll('.
 function filterWSCards(q){const ql=q.toLowerCase();document.querySelectorAll('#ws-grid .ws-card:not(.ws-card-add)').forEach(c=>{c.style.display=c.querySelector('.ws-card-name').textContent.toLowerCase().includes(ql)?'':'none'});}
 function toggleSidebar(){sidebarOpen=!sidebarOpen;document.getElementById('p2-sidebar').classList.toggle('collapsed',!sidebarOpen);}
 function switchTab(t){currentTab=t;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t)?.classList.add('active');document.getElementById('brands-pane')&&(document.getElementById('brands-pane').style.display=t==='brands'?'':'none');document.getElementById('teams-pane')&&(document.getElementById('teams-pane').style.display=t==='teams'?'':'none');const btn=document.getElementById('p2-add-btn');if(btn)btn.textContent=t==='brands'?'+ Add Brand':'+ Add Structure';}
+/* ══ CONTEXT MENU ══ */
+let _ctxData={};
+function showCtxMenu(e, type, name, ta, custType){
+  e.stopPropagation();
+  closeCtxMenu();
+  _ctxData={type, name, ta, custType};
+  const menu=document.createElement('div');
+  menu.className='ctx-menu';
+  menu.id='ctx-menu';
+  const isTeam=type==='team';
+  menu.innerHTML=`
+    <div class="ctx-item" onclick="ctxEdit()">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l2 2-7 7H3v-2l7-7z"/></svg>
+      Edit ${isTeam?'structure':'brand'}
+    </div>
+    <div class="ctx-divider"></div>
+    <div class="ctx-item danger" onclick="ctxDelete()">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 3 12 3"/><path d="M5 3V2h4v1"/><rect x="3" y="3" width="8" height="9" rx="1"/><line x1="5" y1="6" x2="5" y2="10"/><line x1="9" y1="6" x2="9" y2="10"/></svg>
+      Delete ${isTeam?'structure':'brand'}
+    </div>`;
+  // position near the click
+  document.body.appendChild(menu);
+  const r=menu.getBoundingClientRect();
+  let x=e.clientX, y=e.clientY+4;
+  if(x+r.width>window.innerWidth) x=window.innerWidth-r.width-8;
+  if(y+r.height>window.innerHeight) y=e.clientY-r.height-4;
+  menu.style.left=x+'px'; menu.style.top=y+'px';
+  setTimeout(()=>document.addEventListener('click', closeCtxMenu, {once:true}), 0);
+}
+function closeCtxMenu(){ document.getElementById('ctx-menu')?.remove(); }
+
+function ctxEdit(){
+  closeCtxMenu();
+  const {type, name, ta, custType}=_ctxData;
+  closeModal('analytical-config');
+  if(type==='brand'){
+    // pre-fill collected and go to brand section in edit mode
+    collected.brand_name=name;
+    collected.therapeutic_area=ta==='–'?'':ta;
+    collected.competition_type='';
+    collected.years_market='';
+    collected._editing_brand=name;
+    goToWorkflowSection('brand', true);
+  } else {
+    collected.struct_name=name;
+    collected.team_role=ta;
+    collected.customer_type=custType;
+    collected._editing_team=name;
+    goToWorkflowSection('team', true);
+  }
+}
+
+function ctxDelete(){
+  closeCtxMenu();
+  const {type, name}=_ctxData;
+  const cardId=type==='brand'?`ac-bc-${name}`:`ac-tc-${name}`;
+  const card=document.getElementById(cardId);
+  if(card){
+    card.style.transition='all .25s';
+    card.style.opacity='0';
+    card.style.transform='scale(.95)';
+    setTimeout(()=>{ card.remove(); showToast(`${name} deleted`); },250);
+  }
+}
+
+function goToWorkflowSection(section, isEdit=false){
+  const stepMap={project:0, brand:2, team:3, scenario:4};
+  const target=stepMap[section];
+
+  // For scenario — navigate to bot page at scenario step (step 4)
+  if(section==='scenario'){
+    showPage('page-bot');
+    setBc([{label:'Home',action:'goEntry()'},{label:'Create workflow',action:null}]);
+    if(!isEdit) Object.keys(collected).forEach(k=>{ if(!k.startsWith('_editing')) delete collected[k]; });
+    [0,1,2,3,4,5].forEach(i=>{
+      const el=document.getElementById('bp-'+i); const dot=document.getElementById('bpd-'+i); const conn=document.getElementById('bpc-'+i);
+      if(!el) return;
+      if(i<4){ el.className='bp-item done'; dot.textContent='✓'; if(conn) conn.className='bp-connector done'; }
+      else if(i===4){ el.className='bp-item active'; dot.textContent=i+1; }
+      else{ el.className='bp-item'; dot.textContent=i+1; }
+    });
+    botStep=4;
+    document.getElementById('chat-messages').innerHTML='';
+    appendBotMsg('Let\'s set up your <strong>scenario</strong> — define the sizing objective, horizon and structure:');
+    setTimeout(()=>appendScenarioCard(), 400);
+    return;
+  }
+
+  showPage('page-bot');
+  setBc([{label:'Home',action:'goEntry()'},{label:isEdit?'Edit workflow':'Create workflow',action:null}]);
+
+  if(!isEdit){ botStep=0; edaBrandIdx=0; edaTeamIdx=0; Object.keys(collected).forEach(k=>delete collected[k]); }
+
+  [0,1,2,3,4,5].forEach(i=>{
+    const el=document.getElementById('bp-'+i); const dot=document.getElementById('bpd-'+i); const conn=document.getElementById('bpc-'+i);
+    if(!el) return;
+    if(i<target){ el.className='bp-item done'; dot.textContent='✓'; if(conn) conn.className='bp-connector done'; }
+    else if(i===target){ el.className='bp-item active'; dot.textContent=i+1; }
+    else{ el.className='bp-item'; dot.textContent=i+1; }
+  });
+  botStep=target;
+  document.getElementById('chat-messages').innerHTML='';
+
+  if(section==='project'){
+    setTimeout(()=>{
+      appendBotMsg('👋 Let\'s set up your workflow. First, fill in your <strong>project</strong> details:');
+      setTimeout(()=>appendProjectCard(), 400);
+    }, 200);
+    return;
+  }
+
+  if(section==='brand'){
+    document.getElementById('brand-subitems').style.display='';
+    ['info','fin','cust'].forEach(t=>{
+      const si=document.getElementById('bsi-'+t);
+      if(si){si.className='bp-sub-item'+(t==='info'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='info'?'●':'○';}
+    });
+    const editMsg=isEdit
+      ? `Editing brand <strong>${_ctxData.name}</strong> — EDA-sourced fields are pre-filled. Update what you need.`
+      : 'Now let\'s add your first <strong>brand</strong>. Fill in the brand details, financial assumptions and customer data:';
+    setTimeout(()=>{
+      appendBotMsg(editMsg);
+      setTimeout(()=>appendBrandCard(isEdit), 400);
+    }, 200);
+    return;
+  }
+
+  if(section==='team'){
+    document.getElementById('team-subitems').style.display='';
+    ['structure','teams','coverage','response'].forEach(t=>{
+      const si=document.getElementById('tsi-'+t);
+      if(si){si.className='bp-sub-item'+(t==='structure'?' active':'');si.querySelector('.bp-sub-dot').textContent=t==='structure'?'●':'○';}
+    });
+    const editMsg=isEdit
+      ? `Editing team structure <strong>${_ctxData.name}</strong> — pre-filled with existing data. Update what you need.`
+      : 'Almost done! Let\'s define your <strong>team structure</strong>:';
+    setTimeout(()=>{
+      appendBotMsg(editMsg);
+      setTimeout(()=>appendTeamCard(isEdit), 400);
+    }, 200);
+    return;
+  }
+}
+
+function switchAcTab(t){
+  // simple brands/reporting groups toggle
+  const parent=el.closest('[style*="border-bottom"]')||el.parentElement;
+  parent.querySelectorAll('.ac-subtab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
 function switchAcTab(t){
   ['brands','teams','eda'].forEach(tab=>{
     document.getElementById('act-'+tab)?.classList.toggle('active',tab===t);
     document.getElementById('acp-'+tab) && (document.getElementById('acp-'+tab).style.display=tab===t?'':'none');
   });
+  if(t==='eda') renderEdaInsights();
+}
+
+/* ══ EDA INSIGHTS PANEL RENDERER ══ */
+let insightsChatHistory=[];
+function renderEdaInsights(){
+  const root=document.getElementById('eda-insights-root');
+  if(!root||root.dataset.rendered) return;
+  root.dataset.rendered='1';
+
+  root.innerHTML=`
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px">
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--text)">EDA &amp; Insights</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">AI-powered analysis of your uploaded EDA file — forecasting recommendations for brands and teams</div>
+    </div>
+    <button class="ins-run-btn" style="width:auto;padding:8px 18px;flex-shrink:0" onclick="runInsightAnalysis()">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 1 13 7 3 13"/></svg>
+      Run analysis
+    </button>
+  </div>
+
+  <!-- File status -->
+  <div class="eda-file-bar" style="margin-bottom:20px">
+    <div class="eda-file-info">
+      <div class="eda-file-icon">📊</div>
+      <div>
+        <div class="eda-file-name">eda_analysis_Q3_2027.xlsx</div>
+        <div class="eda-file-meta">3 brands · 3 team structures · 12,480 HCP records · uploaded just now</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="showToast('Re-upload EDA triggered')">↑ Re-upload</button>
+  </div>
+
+  <div class="eda-ins-layout">
+    <div class="eda-ins-main">
+
+      <!-- STANDARD INSIGHTS -->
+      <div>
+        <div class="eda-sec-head">
+          <div>
+            <div class="eda-sec-title">Standard Insight Set</div>
+            <div class="eda-sec-sub">Auto-generated on every run from your EDA data</div>
+          </div>
+          <span class="ins-badge ins-badge-ok" style="font-size:11px;padding:3px 10px">4 insights ready</span>
+        </div>
+        <div class="ins-grid">
+
+          <!-- Insight 1: Data summary -->
+          <div class="ins-card">
+            <div class="ins-card-head">
+              <div class="ins-card-icon" style="background:#eef2fb;color:#3b5bdb">📋</div>
+              <div>
+                <div class="ins-card-title">Data Summary</div>
+                <div class="ins-card-desc">Distribution of HCPs across brands and specialties from uploaded EDA</div>
+              </div>
+            </div>
+            <div class="ins-card-chart" id="chart-summary"></div>
+            <div class="ins-card-footer">
+              <div><div class="ins-stat">12,480</div><div class="ins-stat-label">Total HCP records</div></div>
+              <span class="ins-badge ins-badge-ok">✓ Analysed</span>
+            </div>
+          </div>
+
+          <!-- Insight 2: Cross-brand overlap -->
+          <div class="ins-card">
+            <div class="ins-card-head">
+              <div class="ins-card-icon" style="background:#fdf4e7;color:#92400e">🔁</div>
+              <div>
+                <div class="ins-card-title">Cross-Brand Customer Overlap</div>
+                <div class="ins-card-desc">HCPs covered by more than 2 or 3 brands simultaneously</div>
+              </div>
+            </div>
+            <div style="padding:10px 14px">
+              <div class="overlap-row">
+                <div class="overlap-label">Brand_1 ∩ Brand_2</div>
+                <div class="overlap-bar-wrap"><div class="overlap-bar" style="width:72%;background:#e87722"></div></div>
+                <div class="overlap-pct">72%</div>
+              </div>
+              <div class="overlap-row">
+                <div class="overlap-label">Brand_2 ∩ Brand_3</div>
+                <div class="overlap-bar-wrap"><div class="overlap-bar" style="width:58%;background:#f59340"></div></div>
+                <div class="overlap-pct">58%</div>
+              </div>
+              <div class="overlap-row">
+                <div class="overlap-label">All 3 brands</div>
+                <div class="overlap-bar-wrap"><div class="overlap-bar" style="width:34%;background:#d74654"></div></div>
+                <div class="overlap-pct">34%</div>
+              </div>
+            </div>
+            <div class="ins-card-footer">
+              <div><div class="ins-stat">4,243</div><div class="ins-stat-label">HCPs covered by &gt;2 brands</div></div>
+              <span class="ins-badge ins-badge-warn">⚠ High overlap</span>
+            </div>
+          </div>
+
+          <!-- Insight 3: Team & call activity -->
+          <div class="ins-card">
+            <div class="ins-card-head">
+              <div class="ins-card-icon" style="background:#ecfdf5;color:#059669">📞</div>
+              <div>
+                <div class="ins-card-title">Team &amp; Call Activity</div>
+                <div class="ins-card-desc">Existing teams detected and products each team is currently detailing</div>
+              </div>
+            </div>
+            <div style="padding:10px 14px;display:flex;flex-direction:column;gap:6px">
+              ${[
+                {team:'PC_Team_1',brands:['Brand_1','Brand_2'],calls:'8.2',role:'Rep'},
+                {team:'SP_Team_1',brands:['Brand_2','Brand_3'],calls:'11.4',role:'Specialist'},
+                {team:'KA_Team_1',brands:['Brand_1','Brand_3'],calls:'6.8',role:'KAM'},
+              ].map(r=>`
+              <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border)">
+                <div style="font-weight:600;color:var(--text);width:80px">${r.team}</div>
+                <div style="display:flex;gap:4px;flex:1">${r.brands.map(b=>`<span class="brand-tag">${b}</span>`).join('')}</div>
+                <div style="color:var(--muted);white-space:nowrap">${r.calls} calls/yr avg</div>
+              </div>`).join('')}
+            </div>
+            <div class="ins-card-footer">
+              <div><div class="ins-stat">3</div><div class="ins-stat-label">Active teams detected</div></div>
+              <span class="ins-badge ins-badge-ok">✓ Mapped</span>
+            </div>
+          </div>
+
+          <!-- Insight 4: Geography -->
+          <div class="ins-card">
+            <div class="ins-card-head">
+              <div class="ins-card-icon" style="background:#f0f4ff;color:#3b5bdb">📍</div>
+              <div>
+                <div class="ins-card-title">Geography / ZIP Concentration</div>
+                <div class="ins-card-desc">Regional hotspots where HCP density is highest</div>
+              </div>
+            </div>
+            <div style="padding:10px 14px">
+              <div class="geo-grid">
+                ${[
+                  {r:'Northeast',n:3840,pct:31,heat:'#e87722'},
+                  {r:'Southeast',n:2620,pct:21,heat:'#f59340'},
+                  {r:'Midwest',n:2100,pct:17,heat:'#f5b87a'},
+                  {r:'West',n:1980,pct:16,heat:'#f5c99e'},
+                  {r:'Southwest',n:1940,pct:15,heat:'#fde8d0'},
+                ].map(g=>`
+                <div class="geo-cell" style="background:${g.heat}18;border:1px solid ${g.heat}44;color:${g.heat === '#e87722' ? '#c45e0a' : '#7a7570'}">
+                  <div class="geo-region">${g.r}</div>
+                  <div class="geo-count" style="color:${g.heat === '#e87722' || g.heat === '#f59340' ? '#c45e0a' : '#1a1a1a'}">${(g.n/1000).toFixed(1)}k</div>
+                  <div class="geo-sub">${g.pct}%</div>
+                </div>`).join('')}
+              </div>
+            </div>
+            <div class="ins-card-footer">
+              <div><div class="ins-stat">Northeast</div><div class="ins-stat-label">Highest concentration</div></div>
+              <span class="ins-badge ins-badge-info">5 regions</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CONVERSATIONAL DEEP-DIVE -->
+      <div>
+        <div class="eda-sec-head">
+          <div>
+            <div class="eda-sec-title">Conversational Deep-Dive</div>
+            <div class="eda-sec-sub">Ask questions about your EDA data — get plain-English answers with visuals</div>
+          </div>
+        </div>
+        <div class="ins-chat-wrap">
+          <div class="ins-chat-messages" id="ins-chat-msgs">
+            <div class="ins-msg-bot">
+              <div class="ins-msg-bot-av">✦</div>
+              <div class="ins-msg-bot-bubble">
+                I've analysed your EDA file. You have <strong>12,480 HCP records</strong> across <strong>3 brands</strong> and <strong>3 team structures</strong>.<br><br>
+                I can help you explore cross-brand overlap, identify under-covered geographies, or suggest optimal team sizing. What would you like to know?
+              </div>
+            </div>
+          </div>
+          <div class="ins-chip-row">
+            <div class="ins-chip" onclick="insAsk('Which brands have the highest HCP overlap?')">Which brands have the highest HCP overlap?</div>
+            <div class="ins-chip" onclick="insAsk('Suggest optimal team size for Brand_1')">Suggest team size for Brand_1</div>
+            <div class="ins-chip" onclick="insAsk('Show under-covered ZIP codes for Brand_3')">Under-covered ZIPs for Brand_3</div>
+            <div class="ins-chip" onclick="insAsk('Which HCPs are being called by all 3 teams?')">HCPs called by all 3 teams</div>
+          </div>
+          <div class="ins-chat-input-wrap">
+            <input class="ins-chat-input" id="ins-chat-input" placeholder="Ask a question about your EDA data…" onkeydown="if(event.key==='Enter')insSend()"/>
+            <button class="ins-chat-send" onclick="insSend()">➤</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="eda-ins-sidebar">
+
+      <!-- Run analysis -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--text)">Forecasting Recommendations</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.6">Based on EDA analysis, the LLM can suggest brand configurations and team structures for your planning scenario.</div>
+        <button class="ins-run-btn" onclick="runInsightAnalysis()">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 1 13 7 3 13"/></svg>
+          Generate recommendations
+        </button>
+        <div id="ins-reco-output" style="display:none;flex-direction:column;gap:8px;margin-top:4px"></div>
+      </div>
+
+      <!-- EDA summary -->
+      <div class="eda-summary-card">
+        <div class="eda-summary-head">📋 EDA Summary</div>
+        <div class="eda-summary-body">
+          <div class="eda-sum-row"><span class="eda-sum-label">Total HCPs</span><span class="eda-sum-val">12,480</span></div>
+          <div class="eda-sum-row"><span class="eda-sum-label">Brands detected</span><span class="eda-sum-val">3 <span class="auto-tag" style="font-size:9px">EDA</span></span></div>
+          <div class="eda-sum-row"><span class="eda-sum-label">Team structures</span><span class="eda-sum-val">3 <span class="auto-tag" style="font-size:9px">EDA</span></span></div>
+          <div class="eda-sum-row"><span class="eda-sum-label">Geographies</span><span class="eda-sum-val">5 regions</span></div>
+          <div class="eda-sum-row"><span class="eda-sum-label">Avg call freq</span><span class="eda-sum-val">8.8 / yr</span></div>
+          <div class="eda-sum-row"><span class="eda-sum-label">Overlap &gt;2 brands</span><span class="eda-sum-val" style="color:#d97706">34%</span></div>
+        </div>
+      </div>
+
+      <!-- Missing items -->
+      <div class="eda-missing-card">
+        <div class="eda-missing-head">⚠ Needs manual input</div>
+        <div class="eda-missing-body">
+          <div class="eda-missing-item"><span style="flex-shrink:0">•</span>Financial assumptions for Brand_2 and Brand_3</div>
+          <div class="eda-missing-item"><span style="flex-shrink:0">•</span>Coverage data for Specialty Team and Key Account Team</div>
+          <div class="eda-missing-item"><span style="flex-shrink:0">•</span>Response curves for all brands</div>
+        </div>
+      </div>
+
+    </div>
+  </div>`;
+
+  // Draw mini bar chart for data summary card
+  setTimeout(()=>drawSummaryChart(), 100);
+}
+
+function drawSummaryChart(){
+  const el=document.getElementById('chart-summary');
+  if(!el) return;
+  const data=[{l:'Brand_1',v:4820,c:'#e87722'},{l:'Brand_2',v:4210,c:'#f59340'},{l:'Brand_3',v:3450,c:'#f5b87a'}];
+  const max=5000;
+  el.innerHTML=`<div style="display:flex;align-items:flex-end;gap:10px;height:70px;padding:0 4px">
+    ${data.map(d=>`
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
+      <div style="font-size:10px;font-weight:600;color:var(--muted)">${(d.v/1000).toFixed(1)}k</div>
+      <div style="width:100%;background:${d.c};border-radius:3px 3px 0 0;height:${Math.round(d.v/max*52)}px;transition:height .4s ease"></div>
+      <div style="font-size:10px;color:var(--muted);white-space:nowrap">${d.l}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function runInsightAnalysis(){
+  const btn=document.querySelector('.ins-run-btn');
+  if(btn){ btn.textContent='Analysing…'; btn.disabled=true; }
+  setTimeout(()=>{
+    if(btn){ btn.innerHTML='<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 1 13 7 3 13"/></svg> Re-run analysis'; btn.disabled=false; }
+    const out=document.getElementById('ins-reco-output');
+    if(!out) return;
+    out.style.display='flex';
+    const recos=[
+      {icon:'📊',title:'Reduce Brand_1 ∩ Brand_2 overlap',body:'72% of Brand_1 HCPs are shared with Brand_2. Consider splitting PC_Team_1 into dedicated sub-teams to improve call efficiency.'},
+      {icon:'👥',title:'Upsize Northeast field force',body:'31% of HCPs are in the Northeast but only 28% of rep capacity is allocated there. Recommend adding 2–3 reps.'},
+      {icon:'🔁',title:'Brand_3 under-detailed',body:'KA_Team_1 averages only 6.8 calls/yr for Brand_3 vs industry benchmark of 9.2. Coverage gap detected in Midwest ZIPs.'},
+    ];
+    out.innerHTML=recos.map(r=>`
+      <div style="background:var(--accent-light);border:1px solid #f5d5b5;border-radius:var(--r-sm);padding:10px 12px">
+        <div style="font-size:12px;font-weight:600;color:var(--accent-dark);margin-bottom:4px">${r.icon} ${r.title}</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">${r.body}</div>
+      </div>`).join('');
+    showToast('Analysis complete — 3 recommendations generated');
+  }, 1800);
+}
+
+const INS_RESPONSES={
+  'Which brands have the highest HCP overlap?':'Brand_1 and Brand_2 have the highest overlap at <strong>72%</strong> (8,962 shared HCPs). This is significantly above the benchmark of ~40% for co-detailed brands and may indicate redundant call activity.<br><br><em>Recommendation: Split PC_Team_1 into Brand_1-dedicated and Brand_2-dedicated sub-teams to reduce overlap.</em>',
+  'Suggest optimal team size for Brand_1':'Based on 4,820 Brand_1 HCPs, target call frequency of 9 calls/yr, and an average of 1,200 calls/rep/yr, the <strong>optimal team size is 36 reps</strong>. Current allocation (PC_Team_1) has 28 reps — a shortfall of <strong>8 reps</strong> for full coverage.<br><br><em>Geography note: 48% of Brand_1 HCPs are in Northeast and Southeast — consider allocating 60% of new reps there.</em>',
+  'Show under-covered ZIP codes for Brand_3':'Brand_3 has <strong>14 ZIP codes</strong> with &gt;20 HCPs but &lt;2 rep visits in the last 12 months. These are concentrated in:<br>• Midwest: 6 ZIPs (avg 31 HCPs each)<br>• Southwest: 5 ZIPs (avg 22 HCPs each)<br>• Mountain West: 3 ZIPs (avg 19 HCPs each)<br><br><em>Recommend assigning KA_Team_1 an additional territory sweep for these ZIPs.</em>',
+  'Which HCPs are being called by all 3 teams?':'<strong>1,847 HCPs</strong> (14.8% of total) are being detailed by all 3 teams simultaneously. These represent high-value specialists — primarily oncologists and cardiologists in Tier 1 hospitals.<br><br>Top 5 ZIP clusters: 10001, 90210, 60601, 77001, 30301<br><br><em>These HCPs are likely already saturated — consider whether all 3 teams need to call on them or if co-ordinated coverage would be more efficient.</em>',
+};
+
+function insAsk(q){
+  const msgs=document.getElementById('ins-chat-msgs');
+  if(!msgs) return;
+  msgs.innerHTML+=`<div class="ins-msg-user"><div class="ins-msg-user-bubble">${q}</div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  const thinking=document.createElement('div');
+  thinking.className='ins-msg-bot';
+  thinking.id='ins-thinking';
+  thinking.innerHTML=`<div class="ins-msg-bot-av">✦</div><div class="ins-msg-bot-bubble" style="color:var(--muted);font-style:italic">Analysing EDA data…</div>`;
+  msgs.appendChild(thinking);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    document.getElementById('ins-thinking')?.remove();
+    const answer=INS_RESPONSES[q]||`Based on your EDA data, here's what I found for "<strong>${q}</strong>":<br><br>The analysis shows patterns consistent with your uploaded dataset across ${3} brands and ${3} team structures. I can provide more specific insights if you narrow the query.`;
+    msgs.innerHTML+=`<div class="ins-msg-bot"><div class="ins-msg-bot-av">✦</div><div class="ins-msg-bot-bubble">${answer}</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  }, 1200);
+}
+
+function insSend(){
+  const inp=document.getElementById('ins-chat-input');
+  if(!inp||!inp.value.trim()) return;
+  const q=inp.value.trim();
+  inp.value='';
+  insAsk(q);
 }
 function p2Add(){openModal(currentTab==='brands'?'brand':'team');}
 function dismissSug(){document.getElementById('p2-sug-bar').style.display='none';}

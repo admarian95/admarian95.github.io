@@ -517,6 +517,19 @@ body{font-family:'Inter','Segoe UI',-apple-system,sans-serif;background:var(--bg
 .eda-item-sub{font-size:11px;color:var(--muted);line-height:1.5}
 .eda-item-add{border:1.5px dashed var(--border);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .18s;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:96px}
 .eda-item-add:hover{border-color:var(--accent);background:var(--accent-light)}
+/* ── 3-dot menu on eda item cards ── */
+.eda-item-menu-btn{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:4px;border:none;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2;font-family:inherit;transition:background .12s}
+.eda-item-card:hover .eda-item-menu-btn{display:flex}
+.eda-item-card.validated .eda-item-menu-btn{display:flex}
+.eda-item-menu-btn:hover{background:var(--border);color:var(--text)}
+.eda-item-menu-btn.open{display:flex;background:var(--border)}
+.eda-item-dropdown{position:absolute;top:28px;right:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:100;min-width:140px;overflow:hidden;display:none}
+.eda-item-dropdown.open{display:block}
+.eda-dd-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text);cursor:pointer;transition:background .12s;white-space:nowrap}
+.eda-dd-item:hover{background:var(--accent-light);color:var(--accent)}
+.eda-dd-item.danger{color:#dc2626}
+.eda-dd-item.danger:hover{background:#fef2f2;color:#b91c1c}
+.eda-dd-sep{height:1px;background:var(--border);margin:2px 0}
 .eda-ov-missing{margin:0 14px 14px;background:var(--bot-bg);border:1.5px solid var(--bot-border);border-radius:var(--r-sm);padding:9px 12px}
 .eda-ov-missing-title{font-size:10px;font-weight:700;color:var(--bot-text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
 .eda-ov-missing-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--bot-text);margin-bottom:3px}
@@ -1741,6 +1754,10 @@ function showEdaBrandGrid(){
 
   const brandCards=EDA_MOCK.brands.map((b,i)=>`
     <div class="eda-item-card${i===0?' active-editing':''}" id="eda-bc-${i}" onclick="edaBrandCardClick(${i})">
+      <button class="eda-item-menu-btn" id="eda-bc-menubtn-${i}" onclick="toggleEdaMenu(event,'eda-bc-menu-${i}',this)" title="Options">⋯</button>
+      <div class="eda-item-dropdown" id="eda-bc-menu-${i}">
+        <div class="eda-dd-item danger" onclick="edaBrandMenuAction(event,${i},'delete')">✕ Remove brand</div>
+      </div>
       <div id="eda-bc-tick-${i}" style="display:none" class="eda-item-tick">✓</div>
       <div class="eda-item-num" id="eda-bc-num-${i}">${i+1}</div>
       <div class="eda-item-name">${b.name}</div>
@@ -1944,6 +1961,10 @@ function showEdaTeamGrid(){
 
     const teamCards=EDA_MOCK.teams.map((t,i)=>`
       <div class="eda-item-card${i===0?' active-editing':''}" id="eda-tc-${i}" onclick="edaTeamCardClick(${i})">
+        <button class="eda-item-menu-btn" id="eda-tc-menubtn-${i}" onclick="toggleEdaMenu(event,'eda-tc-menu-${i}',this)" title="Options">⋯</button>
+        <div class="eda-item-dropdown" id="eda-tc-menu-${i}">
+          <div class="eda-dd-item danger" onclick="edaTeamMenuAction(event,${i},'delete')">✕ Remove team</div>
+        </div>
         <div id="eda-tc-tick-${i}" style="display:none" class="eda-item-tick">✓</div>
         <div class="eda-item-num" id="eda-tc-num-${i}">${i+1}</div>
         <div class="eda-item-name">${t.struct_name}</div>
@@ -4615,6 +4636,136 @@ function openModal(id){
   if(id==='team'){teamCurrentStep=1;renderTeamSteps();}
   if(id==='analytical-config'){switchAcTab('brands');}
   document.getElementById('modal-'+id)?.classList.add('open');
+}
+
+/* ══ EDA ITEM 3-DOT MENU ══ */
+function toggleEdaMenu(e, menuId, btn){
+  e.stopPropagation();
+  // close any other open menus first
+  document.querySelectorAll('.eda-item-dropdown.open').forEach(m=>{
+    if(m.id!==menuId){ m.classList.remove('open'); }
+  });
+  document.querySelectorAll('.eda-item-menu-btn.open').forEach(b=>{
+    if(b!==btn){ b.classList.remove('open'); }
+  });
+  const menu=document.getElementById(menuId);
+  if(!menu) return;
+  const isOpen=menu.classList.contains('open');
+  menu.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+}
+
+// Close all menus on outside click
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.eda-item-dropdown.open').forEach(m=>m.classList.remove('open'));
+  document.querySelectorAll('.eda-item-menu-btn.open').forEach(b=>b.classList.remove('open'));
+});
+
+function edaBrandMenuAction(e, idx, action){
+  e.stopPropagation();
+  // close menu
+  document.getElementById('eda-bc-menu-'+idx)?.classList.remove('open');
+  document.getElementById('eda-bc-menubtn-'+idx)?.classList.remove('open');
+
+  if(action==='delete'){
+    const card=document.getElementById('eda-bc-'+idx);
+    if(!card) return;
+    // if this brand is currently being validated, clear the form
+    if(idx===edaBrandIdx){
+      document.getElementById('eda-brand-inline-form').innerHTML='';
+    }
+    // animate out
+    card.style.transition='all .2s';
+    card.style.opacity='0';
+    card.style.transform='scale(.92)';
+    setTimeout(()=>{
+      card.remove();
+      EDA_MOCK.brands.splice(idx,1);
+      // update count label
+      const countEl=document.querySelector('#eda-brand-grid-card .eda-ov-count');
+      if(countEl) countEl.textContent=`${EDA_MOCK.brands.length} brands · click each to validate`;
+      // renumber remaining cards
+      EDA_MOCK.brands.forEach((_,i)=>{
+        const num=document.getElementById('eda-bc-num-'+i);
+        // ids are baked in; just update the visible number text
+        if(num) num.textContent=i+1;
+      });
+      // if we deleted the active one, open next available
+      if(idx===edaBrandIdx && EDA_MOCK.brands.length>0){
+        edaBrandIdx=Math.min(idx, EDA_MOCK.brands.length-1);
+        renderEdaBrandForm(edaBrandIdx);
+      }
+      showToast('Brand removed from this workflow.');
+    },200);
+
+  } else if(action==='rename'){
+    const nameEl=card_get_name_el('eda-bc-',idx);
+    if(!nameEl) return;
+    const current=nameEl.textContent;
+    const newName=prompt('Rename brand:',current);
+    if(newName && newName.trim() && newName.trim()!==current){
+      nameEl.textContent=newName.trim();
+      EDA_MOCK.brands[idx].name=newName.trim();
+      showToast(`Brand renamed to "${newName.trim()}"`);
+    }
+
+  } else if(action==='edit'){
+    edaBrandIdx=idx;
+    renderEdaBrandForm(idx);
+  }
+}
+
+function edaTeamMenuAction(e, idx, action){
+  e.stopPropagation();
+  document.getElementById('eda-tc-menu-'+idx)?.classList.remove('open');
+  document.getElementById('eda-tc-menubtn-'+idx)?.classList.remove('open');
+
+  if(action==='delete'){
+    const card=document.getElementById('eda-tc-'+idx);
+    if(!card) return;
+    if(idx===edaTeamIdx){
+      document.getElementById('eda-team-inline-form').innerHTML='';
+    }
+    card.style.transition='all .2s';
+    card.style.opacity='0';
+    card.style.transform='scale(.92)';
+    setTimeout(()=>{
+      card.remove();
+      EDA_MOCK.teams.splice(idx,1);
+      const countEl=document.querySelector('#eda-team-grid-card .eda-ov-count');
+      if(countEl) countEl.textContent=`${EDA_MOCK.teams.length} structures · click each to validate`;
+      EDA_MOCK.teams.forEach((_,i)=>{
+        const num=document.getElementById('eda-tc-num-'+i);
+        if(num) num.textContent=i+1;
+      });
+      if(idx===edaTeamIdx && EDA_MOCK.teams.length>0){
+        edaTeamIdx=Math.min(idx, EDA_MOCK.teams.length-1);
+        renderEdaTeamForm(edaTeamIdx);
+      }
+      showToast('Team removed from this workflow.');
+    },200);
+
+  } else if(action==='rename'){
+    const nameEl=card_get_name_el('eda-tc-',idx);
+    if(!nameEl) return;
+    const current=nameEl.textContent;
+    const newName=prompt('Rename team:',current);
+    if(newName && newName.trim() && newName.trim()!==current){
+      nameEl.textContent=newName.trim();
+      EDA_MOCK.teams[idx].struct_name=newName.trim();
+      showToast(`Team renamed to "${newName.trim()}"`);
+    }
+
+  } else if(action==='edit'){
+    edaTeamIdx=idx;
+    renderEdaTeamForm(idx);
+  }
+}
+
+function card_get_name_el(prefix, idx){
+  const card=document.getElementById(prefix+idx);
+  if(!card) return null;
+  return card.querySelector('.eda-item-name');
 }
 
 /* ══ UPLOAD ══ */

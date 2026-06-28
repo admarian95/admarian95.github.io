@@ -6,17 +6,11 @@
 <title>Planning Flow</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --teal: #2ABFBF;
-    --teal-light: #e8f9f9;
-    --teal-mid: #b2e8e8;
-    --teal-dark: #1a9494;
-    --purple: #7C3AED;
-    --purple-light: #ede9fe;
-    --purple-mid: #c4b5fd;
-    --orange: #F97316;
-    --orange-light: #fff7ed;
+    --teal: #1a9494;
+    --teal-light: #e6f4f4;
+    --teal-mid: #9fd4d4;
+    --teal-dark: #0d6e6e;
     --text-dark: #1a2332;
     --text-mid: #4b5768;
     --text-light: #8b95a2;
@@ -26,492 +20,360 @@
     --green: #10b981;
     --green-light: #d1fae5;
     --red: #ef4444;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
     --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
     --radius: 12px;
-    --radius-sm: 8px;
   }
-
-  html, body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #eef2f7;
-    height: 100%;
-    overflow: hidden;
-    color: var(--text-dark);
-  }
-
-  /* ── SCREEN WRAPPER ── */
-  .screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    flex-direction: column;
-    overflow-y: auto;
-    background: #eef2f7;
-  }
+  html, body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #eef2f7; height: 100%; overflow: hidden; color: var(--text-dark); }
+  .screen { display: none; position: fixed; inset: 0; flex-direction: column; overflow-y: auto; background: var(--white); }
   .screen.active { display: flex; }
 
-  /* ── SCREEN 1: ALL PROJECTS ── */
-  #s1 {
-    background: var(--white);
-    border: 2px solid var(--teal);
-    overflow: hidden;
-  }
-  .s1-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .s1-header h1 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
-  .s1-header-icons { display: flex; gap: 10px; }
-  .s1-icon-btn {
-    width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px;
-    background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: var(--text-mid); font-size: 14px;
-  }
-  .s1-body { padding: 24px; flex: 1; background: var(--bg); }
-  .project-card {
-    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 20px; width: 280px; cursor: pointer;
-    box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, transform 0.2s;
-    position: relative;
-  }
-  .project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-  .project-title { font-size: 14px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 6px; }
-  .project-title .info-dot {
-    width: 14px; height: 14px; border: 1px solid var(--text-light); border-radius: 50%;
-    font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light);
-  }
-  .project-card-actions { display: flex; align-items: center; gap: 6px; }
-  .btn-configure {
-    background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid);
-    padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 500; cursor: pointer;
-    display: flex; align-items: center; gap: 4px;
-  }
+  /* ═══ SCREEN 1: ALL PROJECTS ═══ */
+  #s1 { border: 2px solid var(--teal); }
+  .allproj-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .allproj-header h1 { font-size: 17px; font-weight: 600; color: var(--text-dark); }
+  .allproj-icons { display: flex; gap: 8px; }
+  .icon-btn { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 14px; }
+  .allproj-body { flex: 1; padding: 24px; background: var(--bg); position: relative; overflow-y: auto; }
+  .proj-cards-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .proj-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; width: 300px; box-shadow: var(--shadow-sm); cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; position: relative; }
+  .proj-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .proj-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .proj-title { font-size: 14px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 6px; }
+  .proj-info-dot { width: 14px; height: 14px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); flex-shrink: 0; }
+  .proj-actions { display: flex; align-items: center; gap: 6px; }
+  .btn-configure { background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
   .btn-configure:hover { background: var(--teal-mid); }
-  .project-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  .meta-item label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
-  .meta-item span { font-size: 13px; color: var(--text-dark); font-weight: 500; }
-  .fav-label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .fav-empty { font-size: 12px; color: var(--text-light); font-style: italic; }
-  .fab-btn {
-    position: fixed; bottom: 32px; right: 32px;
-    width: 44px; height: 44px; background: var(--teal); border-radius: 50%;
-    border: none; cursor: pointer; color: white; font-size: 24px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(42,191,191,0.4); transition: background 0.2s;
-  }
+  .proj-kebab { color: var(--text-light); cursor: pointer; font-size: 16px; padding: 2px 4px; }
+  .proj-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .proj-meta-item label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
+  .proj-meta-item span { font-size: 13px; color: var(--text-dark); font-weight: 500; }
+  .proj-fav-label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .proj-fav-empty { font-size: 12px; color: var(--text-light); font-style: italic; }
+  .allproj-wave { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; background: radial-gradient(ellipse 120% 80% at 40% 130%, rgba(26,148,148,0.06) 0%, transparent 70%); pointer-events: none; }
+  .fab-btn { position: fixed; bottom: 32px; right: 32px; width: 46px; height: 46px; background: var(--teal); border-radius: 50%; border: none; cursor: pointer; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(26,148,148,0.35); transition: background 0.2s; z-index: 10; }
   .fab-btn:hover { background: var(--teal-dark); }
-  .s1-wave {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
-    background: radial-gradient(ellipse 120% 80% at 40% 130%, rgba(42,191,191,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
 
-  /* ── STEPPER ── */
-  .stepper-bar {
-    background: var(--white); border-bottom: 1px solid var(--border);
-    padding: 16px 32px; display: flex; justify-content: flex-end;
-  }
-  .stepper {
-    display: flex; align-items: center; gap: 0;
-  }
-  .step {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--text-light); font-weight: 500;
-  }
-  .step.active { color: var(--purple); }
+  /* ═══ SCREEN 1B: BRANDS PAGE ═══ */
+  #s1b {}
+  .brands-topnav { display: flex; align-items: center; gap: 28px; padding: 0 24px; border-bottom: 1px solid var(--border); height: 50px; }
+  .brands-topnav-tab { font-size: 14px; font-weight: 500; color: var(--text-light); cursor: pointer; padding: 4px 0; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 6px; }
+  .brands-topnav-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .brands-topnav-tab .tab-icon { font-size: 14px; }
+  .brands-subtab-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 1px solid var(--border); }
+  .brands-subtabs { display: flex; gap: 4px; }
+  .brands-subtab { font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: var(--text-mid); }
+  .brands-subtab.active { background: var(--teal); color: white; border-radius: 6px; }
+  .brands-toolbar { display: flex; gap: 8px; }
+  .brands-body { flex: 1; padding: 20px 24px; background: var(--bg); position: relative; overflow-y: auto; }
+  .brands-cards-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .brand-card-b { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 20px 18px; width: 280px; box-shadow: var(--shadow-sm); position: relative; }
+  .brand-card-b-toprow { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .brand-card-b-left { display: flex; flex-direction: column; gap: 6px; }
+  .brand-card-b-name { font-size: 14px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 5px; }
+  .brand-info-dot { width: 14px; height: 14px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); flex-shrink: 0; }
+  .brand-pending-badge { font-size: 10px; font-weight: 600; color: var(--orange); background: var(--orange-light); border: 1px solid #fcd34d; border-radius: 5px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px; width: fit-content; }
+  .brand-card-b-right { display: flex; align-items: center; gap: 4px; }
+  .kebab-btn { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 16px; padding: 2px 5px; }
+  .kebab-menu { display: none; position: absolute; right: 14px; top: 44px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 50; min-width: 130px; overflow: hidden; }
+  .kebab-menu.open { display: block; }
+  .kebab-item { padding: 9px 14px; font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .kebab-item:hover { background: var(--bg); }
+  .kebab-item.danger { color: var(--red); }
+  .brand-card-b-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .brand-meta-col { display: flex; flex-direction: column; gap: 2px; }
+  .brand-meta-col label { font-size: 11px; color: var(--text-light); }
+  .brand-meta-col span { font-size: 13px; color: var(--text-dark); font-weight: 500; }
+  .brands-wave { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; background: radial-gradient(ellipse 120% 80% at 40% 130%, rgba(26,148,148,0.05) 0%, transparent 70%); pointer-events: none; }
+
+  /* ═══ ADD BRAND SIDEBAR ═══ */
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; }
+  .sidebar-overlay.open { display: block; }
+  .add-brand-sidebar { position: fixed; right: 0; top: 0; bottom: 0; width: 660px; background: var(--white); z-index: 201; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+  .add-brand-sidebar.open { transform: translateX(0); }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-header h3 { font-size: 17px; font-weight: 600; color: var(--text-dark); }
+  .sidebar-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-light); line-height: 1; }
+  .sidebar-tabs { display: flex; border-bottom: 1px solid var(--border); }
+  .sidebar-tab-item { display: flex; align-items: center; padding: 12px 20px; font-size: 13px; font-weight: 500; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; gap: 8px; }
+  .sidebar-tab-item.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .sidebar-tab-item .tab-num { width: 20px; height: 20px; border-radius: 50%; background: var(--border); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--text-light); }
+  .sidebar-tab-item.active .tab-num { background: var(--teal); color: white; }
+  .sidebar-body { flex: 1; overflow-y: auto; padding: 24px; }
+  .sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+  .btn-teal { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+  .form-section-title { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 18px; }
+  .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .form-field2 label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 6px; }
+  .form-field2 label .req { color: var(--red); }
+  .form-field2 input, .form-field2 select, .form-field2 textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 13px; color: var(--text-dark); background: var(--bg); transition: border-color 0.15s; font-family: inherit; }
+  .form-field2 input:focus, .form-field2 select:focus, .form-field2 textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .form-field2 textarea { resize: vertical; min-height: 72px; }
+  .info-icon { width: 15px; height: 15px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); cursor: help; flex-shrink: 0; }
+
+  /* ═══ STEPPER ═══ */
+  .stepper-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; justify-content: flex-end; }
+  .stepper { display: flex; align-items: center; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); font-weight: 500; }
+  .step.active { color: var(--teal-dark); }
   .step.done { color: var(--teal-dark); }
-  .step-num {
-    width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center; font-size: 11px;
-    background: var(--white); color: var(--text-light);
-  }
-  .step.active .step-num { border-color: var(--purple); background: var(--purple); color: white; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; background: var(--white); color: var(--text-light); }
+  .step.active .step-num { border-color: var(--teal); background: var(--teal); color: white; }
   .step.done .step-num { border-color: var(--teal); background: var(--teal); color: white; }
-  .step-sep {
-    width: 40px; height: 1px; background: var(--border); margin: 0 4px;
-  }
+  .step-sep { width: 40px; height: 1px; background: var(--border); margin: 0 4px; }
   .step-sep.done { background: var(--teal); }
 
-  /* ── MAIN CONTENT AREA ── */
-  .main-area {
-    flex: 1; padding: 28px 32px;
-    background: var(--bg);
-  }
-
-  /* ── PAGE HEADER ── */
-  .page-header {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
-  }
-  .back-btn {
-    width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px;
-    background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: var(--text-mid); font-size: 14px;
-  }
+  /* ═══ MAIN AREA ═══ */
+  .main-area { flex: 1; padding: 28px 32px; background: var(--bg); overflow-y: auto; }
+  .page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .back-btn { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 14px; }
   .page-header h2 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
 
-  /* ── UPLOAD CARDS ── */
-  .upload-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  .upload-card {
-    background: var(--white); border: 1.5px dashed var(--border); border-radius: var(--radius);
-    padding: 20px; min-height: 340px; display: flex; flex-direction: column;
-  }
-  .upload-from-btn {
-    background: var(--white); border: 1px solid var(--border); border-radius: 6px;
-    padding: 6px 12px; font-size: 11px; color: var(--text-mid); cursor: pointer; margin-bottom: 16px;
-    align-self: flex-start;
-  }
-  .upload-icon-area { text-align: center; margin-bottom: 12px; }
-  .upload-icon { font-size: 28px; margin-bottom: 6px; }
-  .upload-title { font-size: 14px; font-weight: 600; color: var(--teal-dark); margin-bottom: 10px; text-align: center; }
+  /* ═══ UPLOAD ═══ */
+  .upload-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .upload-card { background: var(--white); border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 18px; min-height: 300px; display: flex; flex-direction: column; transition: border-color 0.2s; }
+  .upload-card.has-file { border-color: var(--teal-mid); border-style: solid; }
+  .upload-card.has-error { border-color: var(--red); border-style: solid; }
+  .upload-drop-zone { border: 1.5px dashed var(--teal-mid); border-radius: 8px; padding: 18px 12px; text-align: center; cursor: pointer; margin-bottom: 14px; background: var(--teal-light); transition: background 0.15s; }
+  .upload-drop-zone:hover { background: #d0eeee; }
+  .upload-icon { font-size: 26px; margin-bottom: 6px; }
+  .upload-title { font-size: 13px; font-weight: 600; color: var(--teal-dark); margin-bottom: 4px; }
+  .upload-drop-hint { font-size: 11px; color: var(--text-light); }
   .upload-rules { font-size: 11px; color: var(--text-mid); line-height: 1.7; flex: 1; }
   .upload-rules li { margin-left: 14px; margin-bottom: 2px; }
   .upload-rules .hl { color: var(--teal-dark); }
-  .upload-rules a { color: var(--teal); text-decoration: none; }
-  .add-files-btn {
-    background: var(--purple); color: white; border: none; border-radius: 7px;
-    padding: 9px 20px; font-size: 13px; font-weight: 500; cursor: pointer; margin: 14px auto 0; display: block;
-    transition: background 0.2s;
-  }
-  .add-files-btn:hover { background: #6d28d9; }
-  .file-count { font-size: 11px; color: var(--text-light); margin-top: 12px; margin-bottom: 6px; }
+  .file-count { font-size: 11px; color: var(--text-light); margin-top: 10px; margin-bottom: 6px; }
   .file-count span { color: var(--teal); font-weight: 600; }
-  .file-item {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px;
-    padding: 6px 10px; margin-bottom: 5px; font-size: 11px;
-  }
+  .file-item { display: flex; align-items: center; justify-content: space-between; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 6px 10px; margin-bottom: 5px; font-size: 11px; }
   .file-item .file-name { color: var(--teal-dark); font-weight: 500; }
-  .file-item .file-del { color: var(--red); cursor: pointer; font-size: 13px; }
-  .file-item .file-spin { color: var(--purple); font-size: 11px; }
+  .file-item .file-ok { color: var(--green); font-size: 13px; }
+  .qc-panel { margin-top: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .qc-panel-header { padding: 8px 12px; font-size: 11px; font-weight: 600; color: var(--text-mid); background: var(--white); border-bottom: 1px solid var(--border); }
+  .qc-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 12px; border-bottom: 1px solid var(--border); font-size: 11px; }
+  .qc-row:last-child { border-bottom: none; }
+  .qc-row-label { color: var(--text-mid); }
+  .qc-badge { font-size: 10px; padding: 1px 7px; border-radius: 8px; font-weight: 600; }
+  .qc-badge.pass { background: var(--green-light); color: var(--green); }
+  .qc-badge.warn { background: #fef9c3; color: #92400e; }
+  .qc-badge.fail { background: #fee2e2; color: var(--red); }
   .continue-row { display: flex; justify-content: flex-end; margin-top: 20px; }
-  .btn-continue {
-    background: var(--white); border: 1px solid var(--border); border-radius: 7px;
-    padding: 9px 24px; font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
-  .btn-continue:hover { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal); }
+  .btn-teal-outline { background: var(--white); border: 1px solid var(--border); border-radius: 7px; padding: 9px 24px; font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.2s; }
+  .btn-teal-outline:hover { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal); }
 
-  /* ── DATA CONFIG ── */
-  .config-layout { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
-  .config-sidebar {
-    background: var(--white); border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 16px; font-size: 12px;
-  }
-  .config-sidebar-title { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
-  .sidebar-insight { color: var(--text-mid); line-height: 1.7; margin-bottom: 10px; }
-  .sidebar-insight strong { color: var(--text-dark); }
-  .insight-badge {
-    display: inline-block; background: var(--teal-light); color: var(--teal-dark);
-    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px;
-  }
-  .proceed-link {
-    display: flex; align-items: center; gap: 4px;
-    background: var(--white); border: 1px solid var(--border); border-radius: 6px;
-    padding: 7px 10px; font-size: 11px; color: var(--text-mid); cursor: pointer; margin-top: 10px;
-    transition: background 0.2s;
-  }
-  .proceed-link:hover { background: var(--purple-light); color: var(--purple); border-color: var(--purple-mid); }
-  .config-panel {
-    background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden;
-  }
-  .config-panel-header {
-    padding: 16px 20px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 12px;
-  }
-  .config-tab { font-size: 13px; font-weight: 600; color: var(--teal-dark); border-bottom: 2px solid var(--teal); padding-bottom: 4px; }
-  .config-file-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg);
-    font-size: 12px;
-  }
+  /* ═══ CONFIG ═══ */
+  .config-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  .config-panel-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; overflow-x: auto; }
+  .config-tab-btn { font-size: 12px; font-weight: 500; color: var(--text-light); padding: 5px 12px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; white-space: nowrap; background: none; }
+  .config-tab-btn.active { color: var(--teal-dark); border-color: var(--teal-mid); background: var(--teal-light); }
+  .config-file-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg); font-size: 12px; }
   .config-file-row .file-label { font-weight: 600; color: var(--text-dark); }
   .config-meta { display: flex; align-items: center; gap: 16px; }
-  .meta-select {
-    background: var(--white); border: 1px solid var(--border); border-radius: 5px;
-    padding: 4px 10px; font-size: 11px; color: var(--text-dark); cursor: pointer;
-  }
+  .meta-select { background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 4px 10px; font-size: 11px; color: var(--text-dark); cursor: pointer; }
   .config-table { width: 100%; border-collapse: collapse; }
-  .config-table thead th {
-    text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px;
-    border-bottom: 1px solid var(--border); background: var(--bg);
-  }
+  .config-table thead th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
   .config-table tbody tr { border-bottom: 1px solid var(--border); }
   .config-table tbody td { padding: 10px 12px; font-size: 12px; color: var(--text-dark); }
   .config-table tbody tr:hover td { background: var(--bg); }
   .col-check { color: var(--teal); }
   .col-alias { display: flex; align-items: center; gap: 4px; }
   .col-alias .edit-icon { font-size: 10px; color: var(--teal); cursor: pointer; }
-  .col-type-badge {
-    font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500;
-    background: var(--teal-light); color: var(--teal-dark);
-  }
-  .col-type-badge.id { background: var(--purple-light); color: var(--purple); }
+  .col-type-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500; background: var(--teal-light); color: var(--teal-dark); }
+  .col-type-badge.id { background: #ede9fe; color: #5b21b6; }
   .col-type-badge.date { background: #fef9c3; color: #854d0e; }
-  .seg-badge {
-    font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500;
-    background: var(--bg); color: var(--text-mid); border: 1px solid var(--border);
-    cursor: pointer;
-  }
+  .seg-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500; background: var(--bg); color: var(--text-mid); border: 1px solid var(--border); cursor: pointer; }
   .col-desc { color: var(--text-light); font-size: 11px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .config-bottom-bar {
-    padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;
-    gap: 10px;
-  }
-  .btn-proceed-purple {
-    background: var(--purple); color: white; border: none; border-radius: 7px;
-    padding: 9px 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s;
-  }
-  .btn-proceed-purple:hover { background: #6d28d9; }
+  .config-bottom-bar { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
 
-  /* ── DATA VALIDATION ── */
-  .validation-layout { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
-  .validation-panel {
-    background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden;
-  }
-  .val-header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
-  .val-header h3 { font-size: 15px; font-weight: 600; color: var(--text-dark); }
-  .val-section { padding: 14px 20px; border-bottom: 1px solid var(--border); }
-  .val-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-  .val-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-  .val-row-label { font-size: 12px; color: var(--text-mid); }
-  .val-badge {
-    font-size: 10px; padding: 2px 8px; border-radius: 8px; font-weight: 600;
-  }
-  .val-badge.ok { background: var(--green-light); color: var(--green); }
-  .val-badge.warn { background: #fef9c3; color: #92400e; }
-  .val-badge.err { background: #fee2e2; color: var(--red); }
-  .val-kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .val-kpi {
-    background: var(--bg); border-radius: 8px; padding: 12px;
-    text-align: center;
-  }
-  .val-kpi .kval { font-size: 20px; font-weight: 700; color: var(--text-dark); }
-  .val-kpi .klbl { font-size: 10px; color: var(--text-light); margin-top: 2px; }
-  .val-chart { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
-  .val-bar { height: 100%; background: var(--teal); border-radius: 3px; }
-
-  /* ── DATA INSIGHTS ── */
-  .insights-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; height: calc(100vh - 160px); }
-  .chatbot-panel {
-    background: var(--white); border-radius: var(--radius); border: 1px solid var(--border);
-    display: flex; flex-direction: column; overflow: hidden;
-  }
-  .chatbot-header {
-    padding: 14px 16px; border-bottom: 1px solid var(--border);
-    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-    color: white;
-  }
+  /* ═══ INSIGHTS ═══ */
+  .insights-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; height: calc(100vh - 160px); }
+  .chatbot-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .chatbot-header { padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--teal-dark); color: white; }
   .chatbot-header h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
   .chatbot-header p { font-size: 11px; opacity: 0.85; }
-  .chatbot-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
-  .chat-msg {
-    background: var(--bg); border-radius: 8px; padding: 10px 12px;
-    font-size: 11.5px; color: var(--text-mid); line-height: 1.6; border-left: 3px solid var(--teal);
-  }
+  .chatbot-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-msg { background: var(--bg); border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: var(--text-mid); line-height: 1.6; border-left: 3px solid var(--teal); }
   .chat-msg .msg-time { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
-  .chat-msg.rec { border-left-color: var(--purple); }
+  .chat-msg.rec { border-left-color: #8b5cf6; }
   .chat-msg.alert { border-left-color: var(--orange); }
-  .chat-tag {
-    display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
-    padding: 1px 6px; border-radius: 6px; margin-bottom: 4px; letter-spacing: 0.5px;
-  }
+  .chat-tag { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 1px 6px; border-radius: 6px; margin-bottom: 4px; letter-spacing: 0.5px; }
   .chat-tag.insight { background: var(--teal-light); color: var(--teal-dark); }
-  .chat-tag.rec { background: var(--purple-light); color: var(--purple); }
-  .chat-tag.alert { background: #fff7ed; color: var(--orange); }
-
-  /* Insights right panel */
+  .chat-tag.rec { background: #ede9fe; color: #5b21b6; }
+  .chat-tag.alert { background: #fffbeb; color: #92400e; }
+  .chatbot-input-row { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .chatbot-input-row input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 12px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
+  .chatbot-input-row input:focus { outline: none; border-color: var(--teal); }
+  .chatbot-send-btn { background: var(--teal); color: white; border: none; border-radius: 6px; padding: 7px 12px; font-size: 12px; cursor: pointer; font-weight: 500; }
   .insights-right { overflow-y: auto; }
-  .insights-filters {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
-  }
-  .filter-label { font-size: 11px; color: var(--text-light); font-weight: 500; }
-  .filter-pill {
-    background: var(--white); border: 1px solid var(--border); border-radius: 20px;
-    padding: 4px 12px; font-size: 11px; color: var(--text-mid); cursor: pointer;
-    display: flex; align-items: center; gap: 4px; transition: all 0.15s;
-  }
-  .filter-pill.active { background: var(--teal); border-color: var(--teal); color: white; }
-  .filter-pill .px { font-size: 11px; margin-left: 2px; }
-  .apply-btn {
-    background: var(--teal); color: white; border: none; border-radius: 6px;
-    padding: 5px 14px; font-size: 12px; cursor: pointer; font-weight: 500;
-  }
-
-  .insights-tiles-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;
-  }
-  .insight-tile {
-    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px; box-shadow: var(--shadow-sm);
-  }
+  .insights-tiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .insight-tile { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
   .tile-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
   .tile-title { font-size: 13px; font-weight: 700; color: var(--text-dark); }
-  .tile-chevron {
-    width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 4px;
-    display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; color: var(--text-light);
-  }
+  .tile-chevron { width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; color: var(--text-light); }
   .tile-body { font-size: 11.5px; color: var(--text-mid); line-height: 1.7; }
   .tile-body ul { padding-left: 14px; }
   .tile-body li { margin-bottom: 4px; }
   .tile-body strong { color: var(--text-dark); }
-  .tile-chip {
-    display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px;
-    border-radius: 8px; margin-right: 4px; margin-top: 6px;
-  }
+  .tile-chip { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin-right: 4px; margin-top: 6px; }
   .chip-green { background: var(--green-light); color: var(--green); }
-  .chip-orange { background: #fff7ed; color: var(--orange); }
-  .chip-purple { background: var(--purple-light); color: var(--purple); }
+  .chip-orange { background: #fffbeb; color: #92400e; }
   .chip-teal { background: var(--teal-light); color: var(--teal-dark); }
-
-  /* ── BRANDS ── */
+  .chip-purple { background: #ede9fe; color: #5b21b6; }
   .brands-section { margin-top: 20px; }
-  .brands-header-row {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
-  }
+  .brands-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .brands-header-row h3 { font-size: 14px; font-weight: 700; color: var(--text-dark); }
-  .user-input-msg {
-    font-size: 11px; color: var(--orange); background: var(--orange-light);
-    border: 1px solid #fed7aa; border-radius: 6px; padding: 5px 10px;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .brand-card {
-    background: var(--white); border: 2px solid var(--border); border-radius: var(--radius);
-    padding: 16px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
-    position: relative;
-  }
-  .brand-card:hover { border-color: var(--orange); box-shadow: var(--shadow-md); }
-  .brand-num {
-    width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--orange);
-    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
-    color: var(--orange); margin-bottom: 8px;
-  }
-  .brand-name { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
-  .brand-ta { font-size: 11px; color: var(--text-mid); margin-bottom: 8px; }
-  .brand-meta-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+  .brands-detected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .brand-card-det { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; position: relative; user-select: none; }
+  .brand-card-det:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
+  .brand-card-det.selected { border-color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 3px rgba(26,148,148,0.15); }
+  .brand-card-det .brand-check { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all 0.15s; }
+  .brand-card-det.selected .brand-check { background: var(--teal); border-color: var(--teal); color: white; }
+  .brand-num { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--teal-dark); margin-bottom: 8px; }
+  .brand-name-det { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+  .brand-ta-det { font-size: 11px; color: var(--text-mid); margin-bottom: 8px; }
+  .brand-meta-row { display: flex; flex-direction: column; gap: 4px; }
   .brand-meta-item { font-size: 11px; color: var(--text-mid); display: flex; justify-content: space-between; }
   .brand-meta-item strong { color: var(--text-dark); }
-  .brand-status { font-size: 10px; font-weight: 600; }
-  .brand-status.validating { color: var(--orange); }
-  .brand-status.pending { color: var(--text-light); }
+  .add-brands-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0 0; }
+  .selected-count { font-size: 12px; color: var(--text-mid); }
+  .selected-count strong { color: var(--teal-dark); }
+  .btn-add-brands { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; opacity: 0.35; pointer-events: none; }
+  .btn-add-brands.enabled { opacity: 1; pointer-events: auto; }
+  .btn-add-brands.enabled:hover { background: var(--teal-dark); }
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100;
-    display: none; align-items: center; justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--white); border-radius: var(--radius); width: 760px; max-height: 90vh;
-    overflow-y: auto; box-shadow: var(--shadow-lg);
-  }
-  .modal-header {
-    padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .modal-header h3 { font-size: 16px; font-weight: 700; color: var(--text-dark); }
-  .modal-close {
-    background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-light);
-    line-height: 1;
-  }
-  .modal-body { padding: 20px 24px; }
-  .modal-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-light); margin-bottom: 14px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
-  .form-field label {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 5px;
-  }
-  .form-field label .required { color: var(--red); }
-  .eda-badge {
-    background: var(--orange-light); color: var(--orange); border: 1px solid #fed7aa;
-    font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 6px;
-    display: inline-flex; align-items: center; gap: 3px;
-  }
-  .form-field input, .form-field select, .form-field textarea {
-    width: 100%; border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 9px 12px; font-size: 13px; color: var(--text-dark); background: var(--white);
-    transition: border-color 0.15s;
-    font-family: inherit;
-  }
-  .form-field input.eda-filled, .form-field select.eda-filled {
-    background: #fff8f3; border-color: #fed7aa;
-  }
-  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
-    outline: none; border-color: var(--orange);
-  }
-  .form-field textarea { resize: vertical; min-height: 70px; }
-  .modal-footer {
-    padding: 14px 24px; border-top: 1px solid var(--border);
-    display: flex; justify-content: flex-end; gap: 10px;
-  }
-  .btn-cancel {
-    background: var(--white); border: 1px solid var(--border); border-radius: 7px;
-    padding: 8px 18px; font-size: 13px; cursor: pointer; color: var(--text-mid);
-  }
-  .btn-save {
-    background: var(--orange); color: white; border: none; border-radius: 7px;
-    padding: 8px 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s;
-  }
-  .btn-save:hover { background: #ea6c0a; }
+  /* ═══ TOAST ═══ */
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a2332; color: white; padding: 11px 20px; border-radius: 8px; font-size: 13px; z-index: 999; transition: transform 0.3s; min-width: 260px; box-shadow: var(--shadow-lg); text-align: center; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--red); }
+  .toast.success { background: var(--green); }
 
-  /* responsive */
-  @media(max-width: 900px) {
-    .upload-grid { grid-template-columns: 1fr; }
-    .insights-layout, .config-layout, .validation-layout { grid-template-columns: 1fr; }
-    .insights-tiles-grid { grid-template-columns: 1fr; }
-    .brands-grid { grid-template-columns: 1fr 1fr; }
-    .form-grid { grid-template-columns: 1fr; }
-  }
+  @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- ══════════════ SCREEN 1: ALL PROJECTS ══════════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════ SCREEN 1: ALL PROJECTS ═══════════ -->
 <div id="s1" class="screen active">
-  <div class="s1-header">
+  <div class="allproj-header">
     <h1>All Projects</h1>
-    <div class="s1-header-icons">
-      <button class="s1-icon-btn">⇅</button>
-      <button class="s1-icon-btn">⌦</button>
-      <button class="s1-icon-btn">🔍</button>
+    <div class="allproj-icons">
+      <button class="icon-btn" title="Sort">⇅</button>
+      <button class="icon-btn" title="Filter">⊟</button>
+      <button class="icon-btn" title="Search">🔍</button>
     </div>
   </div>
-  <div class="s1-body" style="position:relative;flex:1;">
-    <div class="project-card" onclick="goTo('s2')">
-      <div class="project-card-header">
-        <div class="project-title">
-          Tanay test
-          <span class="info-dot">i</span>
+  <div class="allproj-body">
+    <div class="proj-cards-row">
+      <div class="proj-card">
+        <div class="proj-card-header">
+          <div class="proj-title">
+            Tanay test
+            <span class="proj-info-dot">i</span>
+          </div>
+          <div class="proj-actions">
+            <button class="btn-configure" onclick="event.stopPropagation(); goTo('s2')">⚙ Configure Inputs</button>
+            <span class="proj-kebab">⋮</span>
+          </div>
         </div>
-        <div class="project-card-actions">
-          <button class="btn-configure" onclick="event.stopPropagation();goTo('s2')">⚙ Configure Inputs</button>
-          <span style="color:var(--text-light);cursor:pointer;font-size:16px;">⋮</span>
+        <div class="proj-meta">
+          <div class="proj-meta-item">
+            <label>Planning Scope:</label>
+            <span>2025 – 2027</span>
+          </div>
+          <div class="proj-meta-item">
+            <label># of Scenarios</label>
+            <span>2</span>
+          </div>
         </div>
+        <div class="proj-fav-label">Favorite Scenarios (0):</div>
+        <div class="proj-fav-empty">No favorite scenarios</div>
       </div>
-      <div class="project-meta">
-        <div class="meta-item">
-          <label>Planning Scope:</label>
-          <span>2025 – 2027</span>
-        </div>
-        <div class="meta-item">
-          <label># of Scenarios</label>
-          <span>2</span>
-        </div>
-      </div>
-      <div class="fav-label">Favorite Scenarios (0):</div>
-      <div class="fav-empty">No favorite scenarios</div>
     </div>
-    <div class="s1-wave"></div>
+    <div class="allproj-wave"></div>
   </div>
-  <button class="fab-btn" onclick="goTo('s2')">+</button>
+  <button class="fab-btn" title="New Project">+</button>
 </div>
 
-<!-- ══════════════ SCREEN 2: DATA UPLOAD ══════════════ -->
+<!-- ═══════════ SCREEN 1B: BRANDS PAGE ═══════════ -->
+<div id="s1b" class="screen">
+  <!-- Top nav -->
+  <div class="brands-topnav">
+    <div class="brands-topnav-tab active"><span class="tab-icon">📋</span> Brands</div>
+    <div class="brands-topnav-tab"><span class="tab-icon">👥</span> Teams</div>
+  </div>
+  <!-- Sub-tabs + toolbar -->
+  <div class="brands-subtab-row">
+    <div class="brands-subtabs">
+      <button class="brands-subtab active">Brands</button>
+      <button class="brands-subtab">Reporting Groups</button>
+    </div>
+    <div class="brands-toolbar">
+      <button class="icon-btn" title="Sort">⇅</button>
+      <button class="icon-btn" title="Filter">⊟</button>
+      <button class="icon-btn" title="Search">🔍</button>
+    </div>
+  </div>
+  <!-- Body -->
+  <div class="brands-body">
+    <div class="brands-cards-row" id="brandsGrid"></div>
+    <div class="brands-wave"></div>
+  </div>
+  <button class="fab-btn" onclick="openAddBrandSidebar()" title="Add Brand">+</button>
+</div>
+
+<!-- ═══════════ ADD BRAND SIDEBAR ═══════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeAddBrandSidebar()"></div>
+<div class="add-brand-sidebar" id="addBrandSidebar">
+  <div class="sidebar-header">
+    <h3>Add Brand</h3>
+    <button class="sidebar-close" onclick="closeAddBrandSidebar()">×</button>
+  </div>
+  <div class="sidebar-tabs">
+    <div class="sidebar-tab-item active"><span class="tab-num">1</span> Brand Info</div>
+    <div class="sidebar-tab-item"><span class="tab-num">2</span> Financial Assumptions</div>
+    <div class="sidebar-tab-item"><span class="tab-num">3</span> Customers</div>
+  </div>
+  <div class="sidebar-body">
+    <div class="form-section-title">Add Brand Information</div>
+    <div class="form-grid2">
+      <div class="form-field2">
+        <label>Brand Name <span class="req">*</span> <span class="info-icon">i</span></label>
+        <input type="text" id="sb_brandName" placeholder="Enter Brand Name here">
+      </div>
+      <div class="form-field2">
+        <label>Therapeutic Area <span class="info-icon">i</span></label>
+        <input type="text" id="sb_ta" placeholder="Enter Therapeutic Area">
+      </div>
+      <div class="form-field2">
+        <label>Years in Market <span class="info-icon">i</span></label>
+        <input type="number" id="sb_years" placeholder="Enter years">
+      </div>
+      <div class="form-field2">
+        <label>Competition Type <span class="info-icon">i</span></label>
+        <select id="sb_compType">
+          <option value="">Select competition type</option>
+          <option>Branded</option>
+          <option>Generic</option>
+          <option>OTC</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-field2" style="margin-bottom:0;">
+      <label>Brand Description <span class="info-icon">i</span></label>
+      <textarea id="sb_desc" placeholder="Enter brand description"></textarea>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <button class="btn-teal" onclick="saveBrandFromSidebar()">Save &amp; Add Financials</button>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN 2: DATA UPLOAD ═══════════ -->
 <div id="s2" class="screen">
   <div class="stepper-bar">
     <div class="stepper">
@@ -519,9 +381,7 @@
       <div class="step-sep"></div>
       <div class="step"><div class="step-num">2</div> Data Configuration</div>
       <div class="step-sep"></div>
-      <div class="step"><div class="step-num">3</div> Data Validation</div>
-      <div class="step-sep"></div>
-      <div class="step"><div class="step-num">4</div> Data Insights</div>
+      <div class="step"><div class="step-num">3</div> Data Insights</div>
     </div>
   </div>
   <div class="main-area">
@@ -530,75 +390,78 @@
       <h2>Data Upload</h2>
     </div>
     <div class="upload-grid">
-      <!-- Sales & Activity -->
-      <div class="upload-card">
-        <button class="upload-from-btn">Upload from Local Storage</button>
-        <div class="upload-icon-area">
+      <div class="upload-card" id="uc_customer">
+        <div class="upload-drop-zone" onclick="simulateUpload('customer')">
           <div class="upload-icon">📤</div>
-          <div class="upload-title">Upload Sales &amp; Activity Data</div>
+          <div class="upload-title">Customer Upload Data</div>
+          <div class="upload-drop-hint">Click to upload CSV</div>
         </div>
         <ul class="upload-rules">
-          <li>File should be in CSV format</li>
-          <li>The <span class="hl">time granularity</span> of the data can be <span class="hl">weekly or monthly</span></li>
-          <li>Multiple Sales and Activity files can be uploaded within a cycle</li>
-          <li>The files should be unique at Customer/Geography level</li>
-          <li>It is mandatory to have at least one Sales or Activity column in a data file</li>
-          <li>It is mandatory to have exactly one ID and one Date Range column</li>
-          <li>File name should be unique within the same cycle</li>
-          <li>To view the input file guide <a href="#">click here</a></li>
+          <li>CSV format only</li>
+          <li>Time granularity: <span class="hl">weekly or monthly</span></li>
+          <li>Unique at Customer/Geography level</li>
+          <li>Mandatory: one ID and one Date Range column</li>
+          <li>At least one Sales or Activity column required</li>
         </ul>
-        <button class="add-files-btn">+ Add More Files</button>
-        <div class="file-count">Total Files: <span>3</span></div>
-        <div class="file-item"><span class="file-name">Account Monthly Data.csv</span><span class="file-del">✕</span></div>
-        <div class="file-item"><span class="file-name">HCP Monthly Data.csv</span><span class="file-del">✕</span></div>
-        <div class="file-item"><span class="file-name">HCP_DB 1.csv</span><span class="file-spin">⟳ 82%</span></div>
+        <div id="qc_customer" style="display:none;"></div>
+        <div id="files_customer"></div>
       </div>
-      <!-- Mapping -->
-      <div class="upload-card">
-        <button class="upload-from-btn">Upload from Local Storage</button>
-        <div class="upload-icon-area">
+      <div class="upload-card" id="uc_mapping">
+        <div class="upload-drop-zone" onclick="simulateUpload('mapping')">
           <div class="upload-icon">🗺</div>
           <div class="upload-title">Upload Mapping File</div>
+          <div class="upload-drop-hint">Click to upload CSV</div>
         </div>
         <ul class="upload-rules">
-          <li>File should be in CSV format</li>
-          <li>Only one mapping file can be uploaded per cycle</li>
-          <li>Must contain FromType, ToType, ValueTo, ValueFrom columns</li>
-          <li>Weights column is optional (defaults to equal mapping)</li>
-          <li>Cyclic mapping is not allowed</li>
-          <li>Maps entities from one level to another (e.g., HCP to ZIP)</li>
-          <li>To view the input file guide <a href="#">click here</a></li>
+          <li>CSV format only</li>
+          <li>One mapping file per cycle</li>
+          <li>Required: FromType, ToType, ValueTo, ValueFrom</li>
+          <li>Weights column optional</li>
+          <li>Cyclic mapping not allowed</li>
         </ul>
-        <div class="file-count" style="margin-top:auto;">Total Files: <span>1</span></div>
-        <div class="file-item"><span class="file-name">Mapping File.csv</span><span class="file-del">✕</span></div>
+        <div id="qc_mapping" style="display:none;"></div>
+        <div id="files_mapping"></div>
       </div>
-      <!-- Financial -->
-      <div class="upload-card">
-        <button class="upload-from-btn">Upload from Local Storage</button>
-        <div class="upload-icon-area">
+      <div class="upload-card" id="uc_financial">
+        <div class="upload-drop-zone" onclick="simulateUpload('financial')">
           <div class="upload-icon">💲</div>
           <div class="upload-title">Upload Financial Data</div>
+          <div class="upload-drop-hint">Click to upload CSV</div>
         </div>
         <ul class="upload-rules">
-          <li>File should be in CSV format</li>
-          <li>Only one financial file can be uploaded per cycle</li>
-          <li>All numeric values must be numbers — no commas or thousand-separators</li>
-          <li>Missing data in "Values" column will be treated as 0</li>
-          <li>Currency/units should be consistent across all rows</li>
-          <li>Channel names must be consistent with the activity and sales columns in the Sales &amp; Activity data</li>
-          <li>To view the input file guide <a href="#">click here</a></li>
+          <li>CSV format only</li>
+          <li>One financial file per cycle</li>
+          <li>No commas in numeric values</li>
+          <li>Currency units must be consistent</li>
+          <li>Channel names must match Customer data</li>
         </ul>
-        <div class="file-count" style="margin-top:auto;">Total Files: <span>1</span></div>
-        <div class="file-item"><span class="file-name">Financials.csv</span><span class="file-del">✕</span></div>
+        <div id="qc_financial" style="display:none;"></div>
+        <div id="files_financial"></div>
+      </div>
+      <div class="upload-card" id="uc_response">
+        <div class="upload-drop-zone" onclick="simulateUpload('response')">
+          <div class="upload-icon">📈</div>
+          <div class="upload-title">Upload Response Curve</div>
+          <div class="upload-drop-hint">Click to upload CSV</div>
+        </div>
+        <ul class="upload-rules">
+          <li>CSV format only</li>
+          <li>One response curve file per cycle</li>
+          <li>Required: Brand, Channel, Alpha, Beta columns</li>
+          <li>Brand names must match Customer data</li>
+          <li>Alpha and Beta must be positive numeric values</li>
+        </ul>
+        <div id="qc_response" style="display:none;"></div>
+        <div id="files_response"></div>
       </div>
     </div>
     <div class="continue-row">
-      <button class="btn-continue" onclick="goTo('s3')">Continue →</button>
+      <button class="btn-teal" onclick="goTo('s3')">Continue to Data Configuration →</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ SCREEN 3: DATA CONFIGURATION ══════════════ -->
+<!-- ═══════════ SCREEN 3: DATA CONFIGURATION ═══════════ -->
 <div id="s3" class="screen">
   <div class="stepper-bar">
     <div class="stepper">
@@ -606,9 +469,7 @@
       <div class="step-sep done"></div>
       <div class="step active"><div class="step-num">2</div> Data Configuration</div>
       <div class="step-sep"></div>
-      <div class="step"><div class="step-num">3</div> Data Validation</div>
-      <div class="step-sep"></div>
-      <div class="step"><div class="step-num">4</div> Data Insights</div>
+      <div class="step"><div class="step-num">3</div> Data Insights</div>
     </div>
   </div>
   <div class="main-area">
@@ -616,121 +477,84 @@
       <button class="back-btn" onclick="goTo('s2')">←</button>
       <h2>Data Configuration</h2>
     </div>
-    <div class="config-layout">
-      <!-- Sidebar -->
-      <div class="config-sidebar">
-        <div class="config-sidebar-title">AI Analysis</div>
-        <div class="insight-badge">Column Detection</div>
-        <div class="sidebar-insight"><strong>Activity Proxy</strong> shows no variation, indicating a lack of activity data.</div>
-        <div class="sidebar-insight"><strong>Sales_m_Account</strong> displays a wide range from 0 to 559,608, highlighting significant variation.</div>
-        <div class="sidebar-insight">Several activity columns, like <strong>Remote Calls</strong> and <strong>F2F Calls</strong>, show limited spread with frequent zeros, making the data appear sparse.</div>
-        <div class="sidebar-insight">Columns such as <strong>Display</strong> and <strong>EHR</strong> exhibit wide variation but also have high zero counts, introducing ambiguity.</div>
-        <div style="margin-top:10px;font-size:11px;color:var(--text-light);">Total Columns: <strong style="color:var(--text-dark)">19</strong> &nbsp;·&nbsp; Mapped Columns: <strong style="color:var(--teal-dark)">11</strong></div>
-        <button class="proceed-link" onclick="goTo('s4')">Proceed to Data Insights →</button>
+    <div class="config-panel">
+      <div class="config-panel-header">
+        <button class="config-tab-btn active" onclick="switchConfigTab(this,'cfg_customer')">Customer Data</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_mapping')">Mapping</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_financial')">Financial</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_response')">Response Curve</button>
       </div>
-      <!-- Main panel -->
-      <div class="config-panel">
-        <div class="config-panel-header">
-          <div class="config-tab">HCP</div>
-        </div>
+      <div id="cfg_customer">
         <div class="config-file-row">
-          <span class="file-label">HCP_DB 1.csv</span>
+          <span class="file-label">HCP_DB_1.csv</span>
           <div class="config-meta">
             <span style="font-size:11px;color:var(--text-light)">Level: <strong style="color:var(--text-dark)">HCP</strong></span>
-            <span style="font-size:11px;color:var(--text-light)">Time Granularity:</span>
+            <span style="font-size:11px;color:var(--text-light)">Granularity:</span>
             <select class="meta-select"><option>Monthly</option><option>Weekly</option></select>
-            <span style="cursor:pointer;color:var(--text-light)">⋮</span>
           </div>
         </div>
-        <div style="overflow-x:auto;max-height:320px;overflow-y:auto;">
+        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
           <table class="config-table">
-            <thead>
-              <tr>
-                <th style="width:30px"></th>
-                <th>Name</th>
-                <th>Alias</th>
-                <th>Column Type</th>
-                <th>Priority Segment</th>
-                <th>Description (Optional)</th>
-              </tr>
-            </thead>
+            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Priority Segment</th><th>Description</th></tr></thead>
             <tbody>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>HCP</td>
-                <td><div class="col-alias">HCP <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge id">ID</span></td>
-                <td><span style="font-size:11px;color:var(--text-light)">N/A</span></td>
-                <td><span class="col-desc">Unique identifier for healthcare</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>Timeframe_Month</td>
-                <td><div class="col-alias">Timeframe Month <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge date">Date Range</span></td>
-                <td><span style="font-size:11px;color:var(--text-light)">N/A</span></td>
-                <td><span class="col-desc">Monthly timeframe for data</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>Doximity_IMPR</td>
-                <td><div class="col-alias">Doximity IMPR <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">Doximity impressions count</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>Display_Programmatic_IMPR</td>
-                <td><div class="col-alias">Display Programmatic IMPR <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">Programmatic display impressions</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>EHR_IMPR</td>
-                <td><div class="col-alias">EHR IMPR <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">EHR impressions count</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>EMAIL_SENT</td>
-                <td><div class="col-alias">Email Sent <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">Number of emails sent</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>ENL_SENT</td>
-                <td><div class="col-alias">ENL Sent <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">Number of ENL emails sent</span></td>
-              </tr>
-              <tr>
-                <td><span class="col-check">✔</span></td>
-                <td>NBX_Banner_IMPR</td>
-                <td><div class="col-alias">NBX Banner IMPR <span class="edit-icon">✎</span></div></td>
-                <td><span class="col-type-badge">Activity</span></td>
-                <td><span class="seg-badge">Target_Tiers +1 ▾</span></td>
-                <td><span class="col-desc">NBX banner impressions count</span></td>
-              </tr>
+              <tr><td><span class="col-check">✔</span></td><td>HCP</td><td><div class="col-alias">HCP <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Unique HCP identifier</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Timeframe_Month</td><td><div class="col-alias">Timeframe Month <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge date">Date Range</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Monthly timeframe</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>EHR_IMPR</td><td><div class="col-alias">EHR IMPR <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Activity</span></td><td><span class="seg-badge">Target_Tiers ▾</span></td><td><span class="col-desc">EHR impressions count</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>EMAIL_SENT</td><td><div class="col-alias">Email Sent <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Activity</span></td><td><span class="seg-badge">Target_Tiers ▾</span></td><td><span class="col-desc">Emails sent</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Sales_m_Account</td><td><div class="col-alias">Sales Monthly <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Sales</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Monthly sales value</span></td></tr>
             </tbody>
           </table>
         </div>
-        <div class="config-bottom-bar">
-          <button class="btn-continue" onclick="goTo('s4')">Proceed to Data Validation →</button>
+      </div>
+      <div id="cfg_mapping" style="display:none;">
+        <div class="config-file-row"><span class="file-label">Mapping_File.csv</span></div>
+        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+          <table class="config-table">
+            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="col-check">✔</span></td><td>FromType</td><td><div class="col-alias">From Type <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Source entity type</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>ToType</td><td><div class="col-alias">To Type <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Target entity type</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>ValueFrom</td><td><div class="col-alias">Value From <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Value</span></td><td><span class="col-desc">Source value</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>ValueTo</td><td><div class="col-alias">Value To <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Value</span></td><td><span class="col-desc">Target value</span></td></tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+      <div id="cfg_financial" style="display:none;">
+        <div class="config-file-row"><span class="file-label">Financials.csv</span><div class="config-meta"><span style="font-size:11px;color:var(--text-light)">Currency: <strong style="color:var(--text-dark)">USD</strong></span></div></div>
+        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+          <table class="config-table">
+            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="col-check">✔</span></td><td>Channel</td><td><div class="col-alias">Channel <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Channel name</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Brand</td><td><div class="col-alias">Brand <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Brand identifier</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Values</td><td><div class="col-alias">Spend Value <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Budget spend value</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="cfg_response" style="display:none;">
+        <div class="config-file-row"><span class="file-label">Response_Curve.csv</span></div>
+        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+          <table class="config-table">
+            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="col-check">✔</span></td><td>Brand</td><td><div class="col-alias">Brand <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Brand identifier</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Channel</td><td><div class="col-alias">Channel <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Channel identifier</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Alpha</td><td><div class="col-alias">Alpha <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Curve alpha parameter</span></td></tr>
+              <tr><td><span class="col-check">✔</span></td><td>Beta</td><td><div class="col-alias">Beta <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Curve beta parameter</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="config-bottom-bar">
+        <button class="btn-teal" onclick="goTo('s4')">Proceed to Data Insights →</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ SCREEN 4: DATA VALIDATION ══════════════ -->
+<!-- ═══════════ SCREEN 4: DATA INSIGHTS ═══════════ -->
 <div id="s4" class="screen">
   <div class="stepper-bar">
     <div class="stepper">
@@ -738,404 +562,211 @@
       <div class="step-sep done"></div>
       <div class="step done"><div class="step-num">✓</div> Data Configuration</div>
       <div class="step-sep done"></div>
-      <div class="step active"><div class="step-num">3</div> Data Validation</div>
-      <div class="step-sep"></div>
-      <div class="step"><div class="step-num">4</div> Data Insights</div>
-    </div>
-  </div>
-  <div class="main-area">
-    <div class="page-header">
-      <button class="back-btn" onclick="goTo('s3')">←</button>
-      <h2>Data Validation</h2>
-    </div>
-    <div class="validation-layout">
-      <!-- sidebar reuse -->
-      <div class="config-sidebar">
-        <div class="config-sidebar-title">Validation Summary</div>
-        <div class="insight-badge">3 Files Scanned</div>
-        <div class="sidebar-insight">All core ID and Date Range columns detected without gaps.</div>
-        <div class="sidebar-insight"><strong>HCP_DB 1.csv</strong> passed schema validation. 11 mapped columns confirmed.</div>
-        <div class="sidebar-insight"><strong>Financials.csv</strong> — no missing values in the Values column. Currency units consistent.</div>
-        <div class="sidebar-insight"><strong>Mapping File.csv</strong> — FromType → ToType mappings validated. No cyclic entries found.</div>
-        <button class="proceed-link" onclick="goTo('s5')">Proceed to Data Insights →</button>
-      </div>
-      <div class="validation-panel">
-        <div class="val-header"><h3>Validation Results — HCP_DB 1.csv</h3></div>
-        <div class="val-section">
-          <div class="val-kpi-grid">
-            <div class="val-kpi"><div class="kval">19</div><div class="klbl">Total Columns</div></div>
-            <div class="val-kpi"><div class="kval" style="color:var(--teal)">11</div><div class="klbl">Mapped</div></div>
-            <div class="val-kpi"><div class="kval" style="color:var(--orange)">8</div><div class="klbl">Unmapped</div></div>
-          </div>
-        </div>
-        <div class="val-section">
-          <div class="val-section-title">✔ Schema Checks</div>
-          <div class="val-row"><span class="val-row-label">ID column present</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">Date Range column present</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">At least one Activity/Sales column</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">Unique records at Customer/Geo level</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">File name uniqueness within cycle</span><span class="val-badge ok">Pass</span></div>
-        </div>
-        <div class="val-section">
-          <div class="val-section-title">⚠ Data Quality</div>
-          <div class="val-row">
-            <div>
-              <div class="val-row-label">Doximity_IMPR — zero rate</div>
-              <div class="val-chart" style="width:180px"><div class="val-bar" style="width:38%;background:var(--orange)"></div></div>
-            </div>
-            <span class="val-badge warn">38% zeros</span>
-          </div>
-          <div class="val-row">
-            <div>
-              <div class="val-row-label">EHR_IMPR — zero rate</div>
-              <div class="val-chart" style="width:180px"><div class="val-bar" style="width:22%;background:var(--orange)"></div></div>
-            </div>
-            <span class="val-badge warn">22% zeros</span>
-          </div>
-          <div class="val-row">
-            <div>
-              <div class="val-row-label">Sales_m_Account — missing values</div>
-              <div class="val-chart" style="width:180px"><div class="val-bar" style="width:3%"></div></div>
-            </div>
-            <span class="val-badge ok">0.3% missing</span>
-          </div>
-        </div>
-        <div class="val-section">
-          <div class="val-section-title">💲 Financials.csv</div>
-          <div class="val-row"><span class="val-row-label">Numeric values format</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">Currency consistency</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">Channel name alignment with S&amp;A data</span><span class="val-badge ok">Pass</span></div>
-        </div>
-        <div class="val-section">
-          <div class="val-section-title">🗺 Mapping File.csv</div>
-          <div class="val-row"><span class="val-row-label">Required columns (FromType, ToType, ValueTo, ValueFrom)</span><span class="val-badge ok">Pass</span></div>
-          <div class="val-row"><span class="val-row-label">Cyclic mapping detection</span><span class="val-badge ok">None found</span></div>
-        </div>
-        <div class="config-bottom-bar">
-          <button class="btn-proceed-purple" onclick="goTo('s5')">Proceed to Data Insights →</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ SCREEN 5: DATA INSIGHTS (EDA) ══════════════ -->
-<div id="s5" class="screen">
-  <div class="stepper-bar">
-    <div class="stepper">
-      <div class="step done"><div class="step-num">✓</div> Data Upload</div>
-      <div class="step-sep done"></div>
-      <div class="step done"><div class="step-num">✓</div> Data Configuration</div>
-      <div class="step-sep done"></div>
-      <div class="step done"><div class="step-num">✓</div> Data Validation</div>
-      <div class="step-sep done"></div>
-      <div class="step active"><div class="step-num">4</div> Data Insights</div>
+      <div class="step active"><div class="step-num">3</div> Data Insights</div>
     </div>
   </div>
   <div class="main-area" style="padding-bottom:40px;">
     <div class="page-header">
-      <button class="back-btn" onclick="goTo('s4')">←</button>
+      <button class="back-btn" onclick="goTo('s3')">←</button>
       <div>
         <h2>Data Insights</h2>
-        <p style="font-size:12px;color:var(--text-light);margin-top:3px;">AI analysis of your uploaded data — explore before deciding how to proceed</p>
+        <p style="font-size:12px;color:var(--text-light);margin-top:3px;">AI analysis of your uploaded data — select brands to add to your project</p>
       </div>
     </div>
-
     <div class="insights-layout">
-      <!-- LEFT: Chatbot -->
       <div class="chatbot-panel">
         <div class="chatbot-header">
           <h4>🤖 AI Assistant</h4>
-          <p>Insights · Recommendations</p>
+          <p>Ask questions about your data</p>
         </div>
-        <div class="chatbot-body">
-          <div class="chat-msg">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag insight">Insight</span>
-            <div>Analysis complete for <strong>HCP_DB 1.csv</strong>. 19 columns detected, 11 mapped. Monthly granularity confirmed.</div>
-          </div>
-          <div class="chat-msg">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag insight">Insight</span>
-            <div>Peak sales observed in <strong>Apr '24 — $1,614</strong> per HCP, a 10.4% rise from March driven by promotional activity.</div>
-          </div>
-          <div class="chat-msg rec">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag rec">Recommendation</span>
-            <div>EHR impressions closely tracked sales from Sep '24 to Dec '24. Consider increasing EHR allocation in Q4 budgets.</div>
-          </div>
-          <div class="chat-msg alert">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag alert">Alert</span>
-            <div>Detailing + DTC TV dominate <strong>83%</strong> of $100M spend. High concentration may limit resource flexibility.</div>
-          </div>
-          <div class="chat-msg">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag insight">Insight</span>
-            <div>March consistently shows highest seasonal index — a natural demand peak in Q1. Mar '25 index at +26.76.</div>
-          </div>
-          <div class="chat-msg rec">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag rec">Recommendation</span>
-            <div><strong>3 brands detected</strong> from uploaded data. Brand_1 (Oncology), Brand_2 (Cardiology), Brand_3 (Neurology). Validate below.</div>
-          </div>
-          <div class="chat-msg alert">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag alert">Alert</span>
-            <div>Brand_1 ∩ Brand_2 overlap at <strong>72%</strong> across HCPs. Recommend splitting PC_Team_1 to reduce overlap to ~38%.</div>
-          </div>
-          <div class="chat-msg">
-            <div class="msg-time">Just now</div>
-            <span class="chat-tag insight">Insight</span>
-            <div>Geography: NE region leads with 3.8k HCPs (31%), followed by SE at 2.6k (21%).</div>
-          </div>
+        <div class="chatbot-body" id="chatBody">
+          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>Analysis complete. 19 columns detected, 11 mapped. Monthly granularity confirmed.</div></div>
+          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>Peak sales in <strong>Apr '24 — $1,614</strong> per HCP, +10.4% from March.</div></div>
+          <div class="chat-msg rec"><div class="msg-time">Just now</div><span class="chat-tag rec">Recommendation</span><div>EHR impressions closely tracked sales Sep–Dec '24. Consider increasing EHR allocation in Q4.</div></div>
+          <div class="chat-msg alert"><div class="msg-time">Just now</div><span class="chat-tag alert">Alert</span><div>Detailing + DTC TV dominate <strong>83%</strong> of $100M spend — concentration risk.</div></div>
+          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>NE region leads with 3.8k HCPs (31%), SE at 2.6k (21%).</div></div>
+        </div>
+        <div class="chatbot-input-row">
+          <input type="text" id="chatInput" placeholder="Ask about your data..." onkeydown="if(event.key==='Enter')sendChat()">
+          <button class="chatbot-send-btn" onclick="sendChat()">→</button>
         </div>
       </div>
-
       <div class="insights-right">
-        <!-- Context text -->
-        <div style="margin-bottom:18px;">
-          <p style="font-size:13px;color:var(--text-mid);line-height:1.7;">
-            Based on your uploaded Sales &amp; Activity, Mapping, and Financial data, the AI has surfaced key patterns across channels, geographies, and brand performance. Review the insights below and validate the detected brands before proceeding to response modeling.
-          </p>
-        </div>
-
-        <!-- 6 Insight Tiles -->
+        <div style="margin-bottom:16px;"><p style="font-size:13px;color:var(--text-mid);line-height:1.7;">Based on your uploaded data, the AI has surfaced key patterns. Select brands below and click <strong>Add Brand(s)</strong> to proceed.</p></div>
         <div class="insights-tiles-grid">
-          <!-- Tile 1: Overall Insights -->
-          <div class="insight-tile">
-            <div class="tile-header">
-              <div class="tile-title">📊 Overall Insights</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li>Data spans <strong>Mar '24 – Mar '25</strong> at monthly granularity for 12,480 HCPs.</li>
-                <li><strong>11 of 19 columns</strong> successfully mapped; 8 unmapped columns flagged for review.</li>
-                <li>Zero-rate in Activity Proxy columns is high — consider imputation before modeling.</li>
-              </ul>
-              <span class="tile-chip chip-teal">12 months</span>
-              <span class="tile-chip chip-purple">HCP Level</span>
-            </div>
-          </div>
-
-          <!-- Tile 2: Sales Insights -->
-          <div class="insight-tile">
-            <div class="tile-header">
-              <div class="tile-title">💹 Sales Insights</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li>Peak in <strong>Apr '24 — $1,614</strong>; +10.4% from March, likely promo-driven.</li>
-                <li>Post-peak decline in May '24 — Sales −7.2%, consistent post-promo normalization.</li>
-                <li>March consistently records highest seasonal index, Mar '25 at <strong>+26.76</strong>.</li>
-              </ul>
-              <span class="tile-chip chip-green">+10.4% peak</span>
-              <span class="tile-chip chip-orange">−7.2% post-peak</span>
-            </div>
-          </div>
-
-          <!-- Tile 3: Channel Insights -->
-          <div class="insight-tile">
-            <div class="tile-header">
-              <div class="tile-title">📡 Channel Insights</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li><strong>EHR IMPR</strong> aligned with sales Sep–Dec '24, suggesting a strong impact window.</li>
-                <li>Detailing + DTC TV account for <strong>83% of $100M</strong> budget — high concentration risk.</li>
-                <li>Doximity and Display show moderate correlation; NBX Banner IMPR uncorrelated.</li>
-              </ul>
-              <span class="tile-chip chip-orange">83% budget conc.</span>
-              <span class="tile-chip chip-teal">EHR correlated</span>
-            </div>
-          </div>
-
-          <!-- Tile 4: Cross-Brand Overlap -->
-          <div class="insight-tile">
-            <div class="tile-header">
-              <div class="tile-title">🔀 Cross-Brand Overlap</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li>Brand_1 ∩ Brand_2: <strong>72%</strong> HCP overlap — highest risk pair.</li>
-                <li>Brand_2 ∩ Brand_3: <strong>58%</strong> overlap; all 3 brands: <strong>34%</strong>.</li>
-                <li><strong>4,243 HCPs</strong> covered by more than 2 brands simultaneously.</li>
-              </ul>
-              <span class="tile-chip chip-orange">72% overlap</span>
-              <span class="tile-chip chip-purple">4,243 multi-brand</span>
-            </div>
-          </div>
-
-          <!-- Tile 5: Geography & Teams -->
-          <div class="insight-tile">
-            <div class="tile-header">
-              <div class="tile-title">📍 Geography &amp; Teams</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li>NE: 3.8k (31%) · SE: 2.6k (21%) · MW: 2.1k (17%) · W: 2.0k (16%) · SW: 1.9k (15%)</li>
-                <li><strong>3 active teams</strong>: PC_Team_1 (28 reps), SP_Team_1 (18 reps), KA_Team_1 (8 reps).</li>
-                <li>PC_Team_1 covers Brand_1 &amp; Brand_2 — key driver of 72% overlap.</li>
-              </ul>
-              <span class="tile-chip chip-teal">NE dominant</span>
-              <span class="tile-chip chip-purple">3 teams active</span>
-            </div>
-          </div>
-
-          <!-- Tile 6: AI Suggestions -->
-          <div class="insight-tile" style="border-color:var(--purple-mid);background:var(--purple-light);">
-            <div class="tile-header">
-              <div class="tile-title" style="color:var(--purple)">✨ AI Suggestions</div>
-              <div class="tile-chevron">∧</div>
-            </div>
-            <div class="tile-body">
-              <ul>
-                <li><strong>Brands:</strong> 3 recommended — Brand_1 (Oncology), Brand_2 (Cardiology), Brand_3 (Neurology).</li>
-                <li><strong>Teams:</strong> 3 structures — PC_Team_1 (28 reps), SP_Team_1 (18), KA_Team_1 (8).</li>
-                <li><strong>Key action:</strong> Reduce Brand_1∩Brand_2 overlap 72%→38% by splitting PC_Team_1.</li>
-              </ul>
-              <span class="tile-chip chip-purple">Auto-detected</span>
-              <span class="tile-chip chip-green">Actionable</span>
-            </div>
-          </div>
+          <div class="insight-tile"><div class="tile-header"><div class="tile-title">📊 Overall Insights</div><div class="tile-chevron">∧</div></div><div class="tile-body"><ul><li>Data spans <strong>Mar '24 – Mar '25</strong> — 12,480 HCPs at monthly granularity.</li><li><strong>11 of 19 columns</strong> mapped; 8 unmapped flagged.</li><li>High zero-rate in Activity Proxy columns.</li></ul><span class="tile-chip chip-teal">12 months</span><span class="tile-chip chip-purple">HCP Level</span></div></div>
+          <div class="insight-tile"><div class="tile-header"><div class="tile-title">💹 Sales Insights</div><div class="tile-chevron">∧</div></div><div class="tile-body"><ul><li>Peak in <strong>Apr '24 — $1,614</strong>; +10.4% from March.</li><li>Post-peak decline May '24 — Sales −7.2%.</li><li>March highest seasonal index: <strong>+26.76</strong>.</li></ul><span class="tile-chip chip-green">+10.4% peak</span><span class="tile-chip chip-orange">−7.2% post-peak</span></div></div>
+          <div class="insight-tile"><div class="tile-header"><div class="tile-title">📡 Channel Insights</div><div class="tile-chevron">∧</div></div><div class="tile-body"><ul><li><strong>EHR IMPR</strong> aligned with sales Sep–Dec '24.</li><li>Detailing + DTC TV account for <strong>83% of $100M</strong>.</li><li>Doximity and Display show moderate correlation.</li></ul><span class="tile-chip chip-orange">83% budget conc.</span><span class="tile-chip chip-teal">EHR correlated</span></div></div>
+          <div class="insight-tile"><div class="tile-header"><div class="tile-title">🔀 Cross-Brand Overlap</div><div class="tile-chevron">∧</div></div><div class="tile-body"><ul><li>Brand_1 ∩ Brand_2: <strong>72%</strong> HCP overlap.</li><li>Brand_2 ∩ Brand_3: <strong>58%</strong>; all 3: <strong>34%</strong>.</li><li><strong>4,243 HCPs</strong> covered by 2+ brands.</li></ul><span class="tile-chip chip-orange">72% overlap</span><span class="tile-chip chip-purple">4,243 multi-brand</span></div></div>
+          <div class="insight-tile" style="grid-column:1/-1;"><div class="tile-header"><div class="tile-title">📍 Geography &amp; Teams</div><div class="tile-chevron">∧</div></div><div class="tile-body"><ul><li>NE: 3.8k (31%) · SE: 2.6k (21%) · MW: 2.1k (17%) · W: 2.0k (16%) · SW: 1.9k (15%)</li><li><strong>3 active teams</strong>: PC_Team_1 (28 reps), SP_Team_1 (18 reps), KA_Team_1 (8 reps).</li></ul><span class="tile-chip chip-teal">NE dominant</span><span class="tile-chip chip-purple">3 teams active</span></div></div>
         </div>
-
-        <!-- BRANDS DETECTED -->
         <div class="brands-section">
-          <div class="brands-header-row">
-            <h3>Brands Detected</h3>
-            <div class="user-input-msg">⚠ User inputs needed — please validate each brand</div>
+          <div class="brands-header-row"><h3>Brands Detected</h3></div>
+          <div class="brands-detected-grid">
+            <div class="brand-card-det" id="bdet_0" onclick="toggleBrand(0)"><div class="brand-check">✓</div><div class="brand-num">1</div><div class="brand-name-det">Brand_1</div><div class="brand-ta-det">Oncology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>8,960</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div></div></div>
+            <div class="brand-card-det" id="bdet_1" onclick="toggleBrand(1)"><div class="brand-check">✓</div><div class="brand-num">2</div><div class="brand-name-det">Brand_2</div><div class="brand-ta-det">Cardiology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>9,856</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div></div></div>
+            <div class="brand-card-det" id="bdet_2" onclick="toggleBrand(2)"><div class="brand-check">✓</div><div class="brand-num">3</div><div class="brand-name-det">Brand_3</div><div class="brand-ta-det">Neurology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>5,248</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div></div></div>
           </div>
-          <div class="brands-grid">
-            <!-- Brand 1 -->
-            <div class="brand-card" onclick="openBrandModal(0)">
-              <div class="brand-num">1</div>
-              <div class="brand-name">Brand_1</div>
-              <div class="brand-ta">Oncology</div>
-              <div class="brand-meta-row">
-                <div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div>
-                <div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div>
-                <div class="brand-meta-item"><span>HCP Reach</span><strong>8,960 HCPs</strong></div>
-                <div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div>
-                <div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div>
-              </div>
-              <div class="brand-status validating">↻ Validating now</div>
-            </div>
-            <!-- Brand 2 -->
-            <div class="brand-card" onclick="openBrandModal(1)">
-              <div class="brand-num">2</div>
-              <div class="brand-name">Brand_2</div>
-              <div class="brand-ta">Cardiology</div>
-              <div class="brand-meta-row">
-                <div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div>
-                <div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div>
-                <div class="brand-meta-item"><span>HCP Reach</span><strong>9,856 HCPs</strong></div>
-                <div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div>
-                <div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div>
-              </div>
-              <div class="brand-status pending">● Pending</div>
-            </div>
-            <!-- Brand 3 -->
-            <div class="brand-card" onclick="openBrandModal(2)">
-              <div class="brand-num">3</div>
-              <div class="brand-name">Brand_3</div>
-              <div class="brand-ta">Neurology</div>
-              <div class="brand-meta-row">
-                <div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div>
-                <div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div>
-                <div class="brand-meta-item"><span>HCP Reach</span><strong>5,248 HCPs</strong></div>
-                <div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div>
-                <div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div>
-              </div>
-              <div class="brand-status pending">● Pending</div>
-            </div>
+          <div class="add-brands-bar">
+            <span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span>
+            <button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrands()">Add Brand(s)</button>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ BRAND MODAL ══════════════ -->
-<div class="modal-overlay" id="brandModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalTitle">Brand Info — Brand_1</h3>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section-title">Brand Info</div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Brand Name <span class="required">*</span> <span class="eda-badge">✓ EDA</span></label>
-          <input type="text" id="mBrandName" class="eda-filled" value="Brand_1">
-        </div>
-        <div class="form-field">
-          <label>Therapeutic Area <span class="eda-badge">✓ EDA</span></label>
-          <input type="text" id="mTA" class="eda-filled" value="Oncology">
-        </div>
-        <div class="form-field">
-          <label>Years in Market <span class="eda-badge">✓ EDA</span></label>
-          <input type="number" id="mYears" class="eda-filled" value="3">
-        </div>
-        <div class="form-field">
-          <label>Competition Type <span class="eda-badge">✓ EDA</span></label>
-          <select id="mCompType" class="eda-filled">
-            <option selected>Branded</option>
-            <option>Generic</option>
-            <option>OTC</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-field" style="margin-bottom:16px;">
-        <label>Brand Description <span style="font-size:10px;color:var(--text-light);font-weight:400;">(not in EDA — enter manually)</span></label>
-        <textarea id="mDesc" placeholder="Enter brand description"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="closeModal()">Save Brand Info</button>
     </div>
   </div>
 </div>
 
 <script>
-  const brands = [
-    { name: 'Brand_1', ta: 'Oncology', years: 3, compType: 'Branded' },
-    { name: 'Brand_2', ta: 'Cardiology', years: 5, compType: 'Generic' },
-    { name: 'Brand_3', ta: 'Neurology', years: 2, compType: 'Branded' },
+  const detectedBrands = [
+    { name:'Brand_1', ta:'Oncology', compType:'Branded' },
+    { name:'Brand_2', ta:'Cardiology', compType:'Generic' },
+    { name:'Brand_3', ta:'Neurology', compType:'Branded' },
   ];
+  let selectedBrands = new Set();
+  let addedBrands = [];
 
-  function goTo(screenId) {
+  function goTo(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(screenId);
-    el.classList.add('active');
+    document.getElementById(id).classList.add('active');
     window.scrollTo(0,0);
+    if(id==='s1b') renderBrandsGrid();
   }
 
-  function openBrandModal(idx) {
-    const b = brands[idx];
-    document.getElementById('modalTitle').textContent = 'Brand Info — ' + b.name;
-    document.getElementById('mBrandName').value = b.name;
-    document.getElementById('mTA').value = b.ta;
-    document.getElementById('mYears').value = b.years;
-    document.getElementById('mCompType').value = b.compType;
-    document.getElementById('mDesc').value = '';
-    document.getElementById('brandModal').classList.add('open');
+  /* ─ Sidebar ─ */
+  function openAddBrandSidebar() {
+    document.getElementById('sidebarOverlay').classList.add('open');
+    document.getElementById('addBrandSidebar').classList.add('open');
+  }
+  function closeAddBrandSidebar() {
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.getElementById('addBrandSidebar').classList.remove('open');
+  }
+  function saveBrandFromSidebar() {
+    const name = document.getElementById('sb_brandName').value.trim();
+    if(!name) { showToast('Brand name is required','error'); return; }
+    addedBrands.push({ name, ta: document.getElementById('sb_ta').value || '—', compType: document.getElementById('sb_compType').value });
+    closeAddBrandSidebar();
+    renderBrandsGrid();
+    showToast('Brand added successfully','success');
+    ['sb_brandName','sb_ta','sb_years','sb_desc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('sb_compType').value='';
   }
 
-  function closeModal() {
-    document.getElementById('brandModal').classList.remove('open');
+  /* ─ Brands grid (s1b) ─ */
+  function renderBrandsGrid() {
+    const grid = document.getElementById('brandsGrid');
+    if(!addedBrands.length) {
+      grid.innerHTML = '<p style="font-size:13px;color:var(--text-light);padding:8px 0;">No brands added yet. Click + to add a brand.</p>';
+      return;
+    }
+    grid.innerHTML = addedBrands.map((b, i) => `
+      <div class="brand-card-b">
+        <div class="brand-card-b-toprow">
+          <div class="brand-card-b-left">
+            <div class="brand-card-b-name">${b.name} <span class="brand-info-dot">i</span></div>
+            <span class="brand-pending-badge">⚠ Pending</span>
+          </div>
+          <div class="brand-card-b-right">
+            <button class="kebab-btn" onclick="toggleKebab(event,${i})">⋮</button>
+          </div>
+        </div>
+        <div class="kebab-menu" id="kebab_${i}">
+          <div class="kebab-item" onclick="editBrand(${i})">✎ Edit</div>
+          <div class="kebab-item danger" onclick="deleteBrand(${i})">🗑 Delete</div>
+        </div>
+        <div class="brand-card-b-meta">
+          <div class="brand-meta-col"><label>Therapeutic Area</label><span>${b.ta||'—'}</span></div>
+          <div class="brand-meta-col"><label>Customer Type</label><span style="color:var(--text-light);font-style:italic;font-size:12px;">—</span></div>
+        </div>
+      </div>
+    `).join('');
   }
 
-  document.getElementById('brandModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
+  function toggleKebab(e, i) {
+    e.stopPropagation();
+    document.querySelectorAll('.kebab-menu').forEach((m,j)=>{ if(j!==i) m.classList.remove('open'); });
+    document.getElementById('kebab_'+i).classList.toggle('open');
+  }
+  function deleteBrand(i) { addedBrands.splice(i,1); renderBrandsGrid(); showToast('Brand deleted','success'); }
+  function editBrand(i) { showToast('Edit coming soon',''); }
+  document.addEventListener('click', ()=> document.querySelectorAll('.kebab-menu').forEach(m=>m.classList.remove('open')));
+
+  /* ─ Upload QC ─ */
+  const qcChecks = {
+    customer:[{label:'ID column present',status:'pass'},{label:'Date Range column present',status:'pass'},{label:'Sales/Activity column present',status:'pass'},{label:'File uniqueness within cycle',status:'pass'},{label:'Doximity_IMPR zero rate',status:'warn',detail:'38% zeros'},{label:'EHR_IMPR zero rate',status:'warn',detail:'22% zeros'}],
+    mapping:[{label:'FromType column present',status:'pass'},{label:'ToType column present',status:'pass'},{label:'ValueFrom / ValueTo present',status:'pass'},{label:'Cyclic mapping detection',status:'pass',detail:'None found'}],
+    financial:[{label:'Numeric values format',status:'pass'},{label:'Currency consistency',status:'pass'},{label:'Channel name alignment',status:'pass'},{label:'Missing Values column',status:'pass',detail:'0 missing'}],
+    response:[{label:'Brand column present',status:'pass'},{label:'Channel column present',status:'pass'},{label:'Alpha values positive numeric',status:'pass'},{label:'Beta values positive numeric',status:'pass'},{label:'Brand names match Customer data',status:'pass'}],
+  };
+  const fileNames = { customer:'HCP_DB_1.csv', mapping:'Mapping_File.csv', financial:'Financials.csv', response:'Response_Curve.csv' };
+
+  function simulateUpload(type) {
+    const qcEl = document.getElementById('qc_'+type);
+    const filesEl = document.getElementById('files_'+type);
+    const card = document.getElementById('uc_'+type);
+    const checks = qcChecks[type];
+    const hasFail = checks.some(c=>c.status==='fail');
+    qcEl.style.display='block';
+    qcEl.innerHTML=`<div class="qc-panel"><div class="qc-panel-header">⟳ Running QC checks…</div></div>`;
+    setTimeout(()=>{
+      const rows = checks.map(c=>`<div class="qc-row"><span class="qc-row-label">${c.label}${c.detail?' — <em style="color:var(--text-light)">'+c.detail+'</em>':''}</span><span class="qc-badge ${c.status}">${c.status==='pass'?'Pass':c.status==='warn'?'Warn':'Fail'}</span></div>`).join('');
+      const hIcon = hasFail?'✕':checks.some(c=>c.status==='warn')?'⚠':'✓';
+      const hColor = hasFail?'color:var(--red)':checks.some(c=>c.status==='warn')?'color:#92400e':'color:var(--green)';
+      qcEl.innerHTML=`<div class="qc-panel"><div class="qc-panel-header" style="${hColor}">${hIcon} QC Checks</div>${rows}</div>`;
+      if(hasFail) { card.classList.add('has-error'); showToast('❌ '+fileNames[type]+' failed QC — fix and re-upload','error'); }
+      else { card.classList.remove('has-error'); card.classList.add('has-file'); filesEl.innerHTML=`<div class="file-count" style="margin-top:8px;">Uploaded: <span>1</span></div><div class="file-item"><span class="file-name">${fileNames[type]}</span><span class="file-ok">✓</span></div>`; showToast(checks.some(c=>c.status==='warn')?'⚠ Uploaded with warnings':'✓ '+fileNames[type]+' uploaded', checks.some(c=>c.status==='warn')?'':'success'); }
+    }, 900);
+  }
+
+  /* ─ Config tabs ─ */
+  function switchConfigTab(btn, tabId) {
+    document.querySelectorAll('.config-tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    ['cfg_customer','cfg_mapping','cfg_financial','cfg_response'].forEach(id=>{ document.getElementById(id).style.display=id===tabId?'block':'none'; });
+  }
+
+  /* ─ Brand selection ─ */
+  function toggleBrand(i) {
+    selectedBrands.has(i) ? selectedBrands.delete(i) : selectedBrands.add(i);
+    document.getElementById('bdet_'+i).classList.toggle('selected', selectedBrands.has(i));
+    const cnt = selectedBrands.size;
+    document.getElementById('selCount').innerHTML=`<strong>${cnt}</strong> brand(s) selected`;
+    document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt>0);
+  }
+
+  function addSelectedBrands() {
+    selectedBrands.forEach(i=>{
+      const b = detectedBrands[i];
+      if(!addedBrands.find(x=>x.name===b.name)) addedBrands.push({...b});
+    });
+    selectedBrands.clear();
+    document.querySelectorAll('.brand-card-det').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('selCount').innerHTML='<strong>0</strong> brand(s) selected';
+    document.getElementById('addBrandsBtn').classList.remove('enabled');
+    goTo('s1b');
+    showToast('Brands added successfully','success');
+  }
+
+  /* ─ Chat ─ */
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if(!msg) return;
+    const body = document.getElementById('chatBody');
+    body.innerHTML+=`<div class="chat-msg" style="border-left-color:var(--teal-dark);background:var(--teal-light);"><div class="msg-time">Just now</div><div style="color:var(--teal-dark);font-weight:500;">${msg}</div></div>`;
+    input.value='';
+    setTimeout(()=>{ body.innerHTML+=`<div class="chat-msg rec"><div class="msg-time">Just now</div><span class="chat-tag rec">Response</span><div>Based on your data, I found relevant patterns. Explore the insight tiles for more detail.</div></div>`; body.scrollTop=body.scrollHeight; }, 600);
+    body.scrollTop=body.scrollHeight;
+  }
+
+  /* ─ Toast ─ */
+  let tt;
+  function showToast(msg,type) {
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+    clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),3200);
+  }
 </script>
 </body>
 </html>

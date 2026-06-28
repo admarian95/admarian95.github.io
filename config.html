@@ -245,17 +245,28 @@
   .btn-add-brands.enabled:hover { background: var(--teal-dark); }
 
   /* ═══ TOAST ═══ */
-  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a2332; color: white; padding: 11px 20px; border-radius: 8px; font-size: 13px; z-index: 999; transition: transform 0.3s; min-width: 260px; box-shadow: var(--shadow-lg); text-align: center; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.error { background: var(--red); }
-  .toast.success { background: var(--green); }
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 16px 12px 18px; border-radius: 10px; font-size: 13px; z-index: 999; transition: transform 0.32s cubic-bezier(0.34,1.3,0.64,1); min-width: 300px; max-width: 480px; box-shadow: var(--shadow-lg); display: flex; align-items: flex-start; gap: 10px; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .toast.error { background: #991b1b; border-left: 4px solid #ef4444; }
+  .toast.success { background: #065f46; border-left: 4px solid #10b981; }
+  .toast.warn { background: #78350f; border-left: 4px solid #f59e0b; }
+  .toast-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .toast-body { flex: 1; line-height: 1.5; }
+  .toast-title { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .toast-sub { font-size: 11px; opacity: 0.85; }
+  .toast-dismiss { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 16px; cursor: pointer; flex-shrink: 0; line-height: 1; padding: 0; margin-top: 1px; }
+  .toast-dismiss:hover { color: white; }
 
   @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon"></span>
+  <div class="toast-body"><div class="toast-title" id="toastTitle"></div><div class="toast-sub" id="toastSub"></div></div>
+  <button class="toast-dismiss" onclick="dismissToast()">×</button>
+</div>
 
 <!-- ═══════════ SCREEN 1: ALL PROJECTS ═══════════ -->
 <div id="s1" class="screen active">
@@ -694,10 +705,33 @@
 
   /* ─ Upload QC ─ */
   const qcChecks = {
-    customer:[{label:'ID column present',status:'pass'},{label:'Date Range column present',status:'pass'},{label:'Sales/Activity column present',status:'pass'},{label:'File uniqueness within cycle',status:'pass'},{label:'Doximity_IMPR zero rate',status:'warn',detail:'38% zeros'},{label:'EHR_IMPR zero rate',status:'warn',detail:'22% zeros'}],
-    mapping:[{label:'FromType column present',status:'pass'},{label:'ToType column present',status:'pass'},{label:'ValueFrom / ValueTo present',status:'pass'},{label:'Cyclic mapping detection',status:'pass',detail:'None found'}],
-    financial:[{label:'Numeric values format',status:'pass'},{label:'Currency consistency',status:'pass'},{label:'Channel name alignment',status:'pass'},{label:'Missing Values column',status:'pass',detail:'0 missing'}],
-    response:[{label:'Brand column present',status:'pass'},{label:'Channel column present',status:'pass'},{label:'Alpha values positive numeric',status:'pass'},{label:'Beta values positive numeric',status:'pass'},{label:'Brand names match Customer data',status:'pass'}],
+    customer:[
+      {label:'ID column present', status:'pass'},
+      {label:'Date Range column present', status:'pass'},
+      {label:'Sales/Activity column present', status:'pass'},
+      {label:'File uniqueness within cycle', status:'pass'},
+      {label:'Doximity_IMPR zero rate', status:'warn', detail:'38% zeros — above threshold'},
+      {label:'EHR_IMPR zero rate', status:'warn', detail:'22% zeros'},
+    ],
+    mapping:[
+      {label:'FromType column present', status:'pass'},
+      {label:'ToType column present', status:'pass'},
+      {label:'ValueFrom / ValueTo present', status:'pass'},
+      {label:'Cyclic mapping detection', status:'pass', detail:'None found'},
+    ],
+    financial:[
+      {label:'Numeric values format', status:'fail', detail:'Comma separators found in rows 14, 27, 38'},
+      {label:'Currency consistency', status:'fail', detail:'Mixed USD and EUR detected'},
+      {label:'Channel name alignment with Customer data', status:'fail', detail:'"DTC_TV" not found in Customer file'},
+      {label:'Missing values in Values column', status:'warn', detail:'3 rows have empty Values'},
+    ],
+    response:[
+      {label:'Brand column present', status:'pass'},
+      {label:'Channel column present', status:'pass'},
+      {label:'Alpha values positive numeric', status:'pass'},
+      {label:'Beta values positive numeric', status:'pass'},
+      {label:'Brand names match Customer data', status:'pass'},
+    ],
   };
   const fileNames = { customer:'HCP_DB_1.csv', mapping:'Mapping_File.csv', financial:'Financials.csv', response:'Response_Curve.csv' };
 
@@ -707,15 +741,38 @@
     const card = document.getElementById('uc_'+type);
     const checks = qcChecks[type];
     const hasFail = checks.some(c=>c.status==='fail');
+    const hasWarn = checks.some(c=>c.status==='warn');
+
     qcEl.style.display='block';
     qcEl.innerHTML=`<div class="qc-panel"><div class="qc-panel-header">⟳ Running QC checks…</div></div>`;
+
     setTimeout(()=>{
-      const rows = checks.map(c=>`<div class="qc-row"><span class="qc-row-label">${c.label}${c.detail?' — <em style="color:var(--text-light)">'+c.detail+'</em>':''}</span><span class="qc-badge ${c.status}">${c.status==='pass'?'Pass':c.status==='warn'?'Warn':'Fail'}</span></div>`).join('');
-      const hIcon = hasFail?'✕':checks.some(c=>c.status==='warn')?'⚠':'✓';
-      const hColor = hasFail?'color:var(--red)':checks.some(c=>c.status==='warn')?'color:#92400e':'color:var(--green)';
+      const rows = checks.map(c=>`
+        <div class="qc-row">
+          <span class="qc-row-label">${c.label}${c.detail?' <span style="color:var(--text-light);font-size:10px;">— '+c.detail+'</span>':''}</span>
+          <span class="qc-badge ${c.status}">${c.status==='pass'?'Pass':c.status==='warn'?'Warn':'Fail'}</span>
+        </div>`).join('');
+      const hIcon = hasFail ? '✕' : hasWarn ? '⚠' : '✓';
+      const hColor = hasFail ? 'color:var(--red)' : hasWarn ? 'color:#92400e' : 'color:var(--green)';
       qcEl.innerHTML=`<div class="qc-panel"><div class="qc-panel-header" style="${hColor}">${hIcon} QC Checks</div>${rows}</div>`;
-      if(hasFail) { card.classList.add('has-error'); showToast('❌ '+fileNames[type]+' failed QC — fix and re-upload','error'); }
-      else { card.classList.remove('has-error'); card.classList.add('has-file'); filesEl.innerHTML=`<div class="file-count" style="margin-top:8px;">Uploaded: <span>1</span></div><div class="file-item"><span class="file-name">${fileNames[type]}</span><span class="file-ok">✓</span></div>`; showToast(checks.some(c=>c.status==='warn')?'⚠ Uploaded with warnings':'✓ '+fileNames[type]+' uploaded', checks.some(c=>c.status==='warn')?'':'success'); }
+
+      if(hasFail) {
+        card.classList.add('has-error');
+        card.classList.remove('has-file');
+        filesEl.innerHTML='';
+        const failCount = checks.filter(c=>c.status==='fail').length;
+        showToast(`${fileNames[type]}: ${failCount} QC check${failCount>1?'s':''} failed — fix the file and re-upload`, 'error', 6000);
+      } else {
+        card.classList.remove('has-error');
+        card.classList.add('has-file');
+        filesEl.innerHTML=`<div class="file-count" style="margin-top:8px;">Uploaded: <span>1</span></div><div class="file-item"><span class="file-name">${fileNames[type]}</span><span class="file-ok">✓</span></div>`;
+        if(hasWarn) {
+          const warnCount = checks.filter(c=>c.status==='warn').length;
+          showToast(`${fileNames[type]} uploaded with ${warnCount} warning${warnCount>1?'s':''}`, 'warn', 5000);
+        } else {
+          showToast(`${fileNames[type]} uploaded successfully`, 'success', 3000);
+        }
+      }
     }, 900);
   }
 
@@ -762,10 +819,20 @@
 
   /* ─ Toast ─ */
   let tt;
-  function showToast(msg,type) {
-    const t=document.getElementById('toast');
-    t.textContent=msg; t.className='toast show'+(type?' '+type:'');
-    clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),3200);
+  function showToast(msg, type, duration) {
+    const t = document.getElementById('toast');
+    const icons = { error:'✕', success:'✓', warn:'⚠', '':'ℹ' };
+    const titles = { error:'QC Failed', success:'Success', warn:'Uploaded with warnings', '':'Notice' };
+    document.getElementById('toastIcon').textContent = icons[type]||'ℹ';
+    document.getElementById('toastTitle').textContent = titles[type]||'Notice';
+    document.getElementById('toastSub').textContent = msg;
+    t.className = 'toast show' + (type ? ' '+type : '');
+    clearTimeout(tt);
+    tt = setTimeout(()=>t.classList.remove('show'), duration||3500);
+  }
+  function dismissToast() {
+    clearTimeout(tt);
+    document.getElementById('toast').classList.remove('show');
   }
 </script>
 </body>

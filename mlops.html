@@ -1,1 +1,1196 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cockpit — autonomous operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fbfbfa; --surface:#ffffff; --idle:#f6f6f4;
+    --ink:#15161a; --ink-2:#3d3f48; --muted:#6b6d76; --faint:#9a9ca5;
+    --line:#e7e7e4; --line-2:#efefec;
+    --indigo:#5b5bd6; --indigo-soft:#eeeefb;
+    --emerald:#15924f; --emerald-bg:#e9f6ee; --emerald-line:#cfe9d8;
+    --amber:#b06d00;  --amber-bg:#fcf2dd;  --amber-line:#ecdcb4;
+    --rose:#d33a3a;   --rose-bg:#fbe9e9;   --rose-line:#f2cfcf;
+    --sky:#1a73b8;    --sky-bg:#e6f1fa;
+    --violet:#6d4ed6; --violet-bg:#efeafb;
+    --r:12px;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(20,22,30,.04),0 4px 16px -8px rgba(20,22,30,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  button{font-family:inherit}
+
+  /* ===== shared app shell: one topbar, view router below it ===== */
+  .appbar{flex:0 0 auto;background:var(--surface);border-bottom:1px solid var(--line);z-index:30}
+  .appbar .in{padding:11px 18px;display:flex;align-items:center;gap:14px}
+  .applogo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em;text-decoration:none;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+  .applogo .mk{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+  .apprepo{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .appnav{display:flex;gap:4px;margin-left:8px}
+  .appnav button{font-size:12.5px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:7px;background:none;border:0;cursor:pointer;font-family:inherit}
+  .appnav button:hover{color:var(--ink)}
+  .appnav button.on{color:var(--ink);background:var(--idle);font-weight:500}
+  .appsp{flex:1}
+  .appchip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px}
+  .appchip .tl{width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#5b6ff5,#7c4dff);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+
+  #views{flex:1;min-height:0;position:relative}
+  .view{display:none;height:100%;overflow-y:auto}
+  .view.active{display:block}
+  #view-pipelines.active{display:flex;flex-direction:column;overflow:hidden}
+  #view-pipelines .shell{flex:1}
+
+  /* ===== view: home ===== */
+#view-home a{color:inherit}
+#view-home .topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+#view-home .topbar .in{padding:11px 18px;display:flex;align-items:center;gap:14px;max-width:1080px;margin:0 auto}
+#view-home .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em;text-decoration:none}
+#view-home .logo .mk{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+#view-home .repo{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+#view-home .sp{flex:1}
+#view-home .bot-chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px}
+#view-home .bot-chip .tl{width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#5b6ff5,#7c4dff);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+#view-home .wrap{max-width:1080px;margin:0 auto;padding:44px 18px 64px}
+#view-home .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo)}
+#view-home h1{font-family:var(--disp);font-weight:600;font-size:30px;letter-spacing:-.02em;margin:8px 0 8px}
+#view-home .lede{color:var(--muted);font-size:14.5px;max-width:560px;margin:0 0 36px}
+#view-home .stats{display:flex;gap:10px;margin-bottom:36px;flex-wrap:wrap}
+#view-home .stat{flex:1;min-width:130px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
+#view-home .stat .n{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.02em}
+#view-home .stat .n.bad{color:var(--rose)}
+#view-home .stat .n.warn{color:var(--amber)}
+#view-home .stat .n.ok{color:var(--emerald)}
+#view-home .stat .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+#view-home .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:780px) {
+#view-home .cards{grid-template-columns:1fr}
+}
+#view-home .card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:24px 24px 22px;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden}
+#view-home .card:hover{border-color:var(--faint);transform:translateY(-1px)}
+#view-home .card .tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;padding:4px 10px;border-radius:999px;width:fit-content;margin-bottom:14px}
+#view-home .card.a .tag{color:var(--rose);background:var(--rose-bg)}
+#view-home .card.b .tag{color:var(--indigo);background:var(--indigo-soft)}
+#view-home .card h2{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em;margin:0 0 8px}
+#view-home .card p{color:var(--muted);font-size:13.5px;margin:0 0 18px;max-width:420px}
+#view-home .card .feats{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+#view-home .card .feat{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--ink-2)}
+#view-home .card .feat .ic{width:14px;height:14px;flex-shrink:0;margin-top:2px;color:var(--faint)}
+#view-home .card .feat.a .ic{color:var(--rose)}
+#view-home .card .feat.b .ic{color:var(--indigo)}
+#view-home .card .go{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500}
+#view-home .card.a .go{color:var(--rose)}
+#view-home .card.b .go{color:var(--indigo)}
+#view-home .card .glyph{position:absolute;top:18px;right:20px;font-family:var(--mono);font-size:11px;color:var(--faint)}
+
+
+  /* ===== view: anomalies (list) ===== */
+#view-anomalies a{color:inherit;text-decoration:none}
+#view-anomalies .topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+#view-anomalies .topbar .in{padding:11px 18px;display:flex;align-items:center;gap:14px;max-width:1180px;margin:0 auto}
+#view-anomalies .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em}
+#view-anomalies .logo .mk{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+#view-anomalies .repo{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+#view-anomalies nav{display:flex;gap:4px;margin-left:8px}
+#view-anomalies nav a{font-size:12.5px;color:var(--muted);padding:6px 10px;border-radius:7px}
+#view-anomalies nav a.on{color:var(--ink);background:var(--idle);font-weight:500}
+#view-anomalies .sp{flex:1}
+#view-anomalies .bot-chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px}
+#view-anomalies .bot-chip .tl{width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#5b6ff5,#7c4dff);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+#view-anomalies .wrap{max-width:1180px;margin:0 auto;padding:30px 18px 60px}
+#view-anomalies .head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+#view-anomalies .head h1{font-family:var(--disp);font-weight:600;font-size:22px;letter-spacing:-.02em;margin:0 0 4px}
+#view-anomalies .head .sub{font-size:13px;color:var(--muted);max-width:520px}
+#view-anomalies .countchip{font-family:var(--mono);font-size:11.5px;color:var(--rose);background:var(--rose-bg);border:1px solid var(--rose-line);padding:5px 11px;border-radius:999px;white-space:nowrap}
+#view-anomalies .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+#view-anomalies .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 17px;box-shadow:var(--shadow);transition:.15s;cursor:pointer}
+#view-anomalies .tile:hover{border-color:var(--faint);transform:translateY(-1px)}
+#view-anomalies .tile .row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+#view-anomalies .tag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+#view-anomalies .tag.red{color:var(--rose);background:var(--rose-bg)}
+#view-anomalies .tag.amber{color:var(--amber);background:var(--amber-bg)}
+#view-anomalies .arrow{color:var(--faint);font-size:14px}
+#view-anomalies .tile h3{font-family:var(--disp);font-weight:600;font-size:14.5px;letter-spacing:-.01em;margin:0 0 12px;line-height:1.35}
+#view-anomalies .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-2);border-radius:9px;overflow:hidden;margin-bottom:12px}
+#view-anomalies .metric{background:var(--paper);padding:9px 10px}
+#view-anomalies .metric .mv{font-family:var(--disp);font-weight:600;font-size:15.5px;letter-spacing:-.01em;display:flex;align-items:baseline;gap:3px}
+#view-anomalies .metric .mv .dir{font-size:10px}
+#view-anomalies .metric .mv.up{color:var(--rose)}
+#view-anomalies .metric .mv.flat{color:var(--ink)}
+#view-anomalies .metric .ml{font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-top:2px}
+#view-anomalies .risk{display:flex;align-items:center;gap:9px}
+#view-anomalies .risk .lbl{font-size:11.5px;color:var(--muted);white-space:nowrap}
+#view-anomalies .risk .bar{flex:1;height:5px;background:var(--line-2);border-radius:999px;overflow:hidden}
+#view-anomalies .risk .bar i{display:block;height:100%;border-radius:999px}
+#view-anomalies .risk .pct{font-family:var(--mono);font-size:11.5px;font-weight:500}
+@media (prefers-reduced-motion:reduce) {
+#view-anomalies *{transition-duration:.01s!important}
+}
+
+
+  /* ===== view: anomaly detail ===== */
+#view-detail a{color:inherit;text-decoration:none}
+#view-detail .topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+#view-detail .topbar .in{padding:11px 18px;display:flex;align-items:center;gap:14px;max-width:920px;margin:0 auto}
+#view-detail .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em}
+#view-detail .logo .mk{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+#view-detail .repo{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+#view-detail nav{display:flex;gap:4px;margin-left:8px}
+#view-detail nav a{font-size:12.5px;color:var(--muted);padding:6px 10px;border-radius:7px}
+#view-detail nav a.on{color:var(--ink);background:var(--idle);font-weight:500}
+#view-detail .sp{flex:1}
+#view-detail .wrap{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+#view-detail .back{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);margin-bottom:16px}
+#view-detail .back:hover{color:var(--ink)}
+#view-detail .dh{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+#view-detail .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;display:inline-block;margin-bottom:10px}
+#view-detail .tag.red{color:var(--rose);background:var(--rose-bg)}
+#view-detail .tag.amber{color:var(--amber);background:var(--amber-bg)}
+#view-detail .dh h1{font-family:var(--disp);font-weight:600;font-size:23px;letter-spacing:-.02em;margin:0 0 8px;max-width:560px}
+#view-detail .dh .sub{font-size:13.5px;color:var(--muted);max-width:560px}
+#view-detail .riskbox{text-align:right;flex-shrink:0}
+#view-detail .riskbox .v{font-family:var(--disp);font-weight:600;font-size:28px;letter-spacing:-.02em}
+#view-detail .riskbox .l{font-size:12px;color:var(--muted)}
+#view-detail .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-2);border-radius:11px;overflow:hidden;margin-bottom:24px;box-shadow:var(--shadow)}
+#view-detail .metric{background:var(--surface);padding:13px 15px}
+#view-detail .metric .mv{font-family:var(--disp);font-weight:600;font-size:18px;letter-spacing:-.01em}
+#view-detail .metric .mv.up{color:var(--rose)}
+#view-detail .metric .ml{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-top:2px}
+#view-detail .section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+#view-detail .section .sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+#view-detail .section .sh .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+#view-detail .section.signal .sh .ic{background:var(--indigo-soft);color:var(--indigo)}
+#view-detail .section.drivers .sh .ic{background:var(--violet-bg);color:var(--violet)}
+#view-detail .section.remediation .sh .ic{background:var(--emerald-bg);color:var(--emerald)}
+#view-detail .section h2{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:-.01em;margin:0}
+#view-detail .section .shsub{font-size:12px;color:var(--faint);margin-top:1px}
+#view-detail .lead{font-size:13.5px;color:var(--ink-2);margin:0 0 14px}
+#view-detail .findlist{display:flex;flex-direction:column;gap:0}
+#view-detail .find{display:flex;gap:12px;padding:13px 0;border-top:1px solid var(--line-2)}
+#view-detail .find:first-child{border-top:0}
+#view-detail .find .num{font-family:var(--mono);font-size:11px;color:var(--faint);flex-shrink:0;padding-top:1px}
+#view-detail .find .body p{margin:0 0 6px;font-size:13.5px;color:var(--ink-2)}
+#view-detail .find .body p:last-child{margin-bottom:0}
+#view-detail .find .body .klabel{font-family:var(--disp);font-weight:600;font-size:13.5px;color:var(--ink);margin-bottom:4px;display:block}
+#view-detail .driver{border-top:1px solid var(--line-2);padding:15px 0}
+#view-detail .driver:first-child{border-top:0}
+#view-detail .driver .dtop{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
+#view-detail .driver .dname{font-family:var(--disp);font-weight:600;font-size:14px}
+#view-detail .driver .dweight{font-family:var(--mono);font-size:11px;color:var(--violet);background:var(--violet-bg);padding:2px 8px;border-radius:999px;white-space:nowrap}
+#view-detail .driver p{margin:0;font-size:13.5px;color:var(--ink-2)}
+#view-detail .remed{border-top:1px solid var(--line-2);padding:16px 0}
+#view-detail .remed:first-child{border-top:0}
+#view-detail .remed .rtop{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+#view-detail .remed .rnum{font-family:var(--mono);font-size:10.5px;color:var(--emerald);background:var(--emerald-bg);border:1px solid var(--emerald-line);border-radius:999px;width:20px;height:20px;display:grid;place-items:center;flex-shrink:0}
+#view-detail .remed .rname{font-family:var(--disp);font-weight:600;font-size:14px}
+#view-detail .remed .horizon{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+#view-detail .remed p{margin:0 0 6px;font-size:13.5px;color:var(--ink-2);padding-left:30px}
+#view-detail .remed p:last-child{margin-bottom:0}
+@media (max-width:600px) {
+#view-detail .metrics{grid-template-columns:1fr}
+}
+
+
+  /* ===== view: self-healing pipelines ===== */
+#view-pipelines button{font-family:inherit}
+#view-pipelines .topbar{flex:0 0 auto;background:var(--surface);border-bottom:1px solid var(--line);z-index:30}
+#view-pipelines .topbar .in{padding:11px 18px;display:flex;align-items:center;gap:14px}
+#view-pipelines .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em}
+#view-pipelines .logo .mk{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px}
+#view-pipelines .topbar .repo{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+#view-pipelines .topbar .sp{flex:1}
+#view-pipelines .bot-chip{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px}
+#view-pipelines .bot-chip .tl{width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#5b6ff5,#7c4dff);display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+#view-pipelines .shell{flex:1;display:grid;grid-template-columns:340px 1fr;min-height:0}
+#view-pipelines .btn{font-weight:500;font-size:13.5px;border-radius:9px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:.14s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+#view-pipelines .btn:hover{border-color:var(--faint)}
+#view-pipelines .btn:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+#view-pipelines .btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff;box-shadow:0 1px 2px rgba(91,91,214,.3)}
+#view-pipelines .btn.primary:hover{filter:brightness(1.05);background:var(--indigo)}
+#view-pipelines .btn.primary:disabled{opacity:.5;cursor:not-allowed;filter:none}
+#view-pipelines .btn svg{width:15px;height:15px}
+#view-pipelines .btn.sm{padding:6px 11px;font-size:12.5px}
+#view-pipelines .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;padding:4px 10px;border-radius:7px;white-space:nowrap}
+#view-pipelines .chip .d{width:6px;height:6px;border-radius:50%}
+#view-pipelines .chip.pass{color:var(--emerald);background:var(--emerald-bg)}
+#view-pipelines .chip.pass .d{background:var(--emerald)}
+#view-pipelines .chip.fail{color:var(--rose);background:var(--rose-bg)}
+#view-pipelines .chip.fail .d{background:var(--rose)}
+#view-pipelines .chip.run{color:var(--sky);background:var(--sky-bg)}
+#view-pipelines .chip.run .d{background:var(--sky);animation:beat 1.1s infinite}
+#view-pipelines .chip.wait{color:var(--amber);background:var(--amber-bg)}
+#view-pipelines .chip.wait .d{background:var(--amber)}
+@keyframes beat {0%,100%{opacity:1}50%{opacity:.35}}
+#view-pipelines .listpane{border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;min-height:0}
+#view-pipelines .lp-head{flex:0 0 auto;padding:14px 16px 10px}
+#view-pipelines .lp-head h1{font-family:var(--disp);font-weight:600;font-size:18px;letter-spacing:-.02em;margin:0 0 3px}
+#view-pipelines .lp-head .sub{font-size:12px;color:var(--muted)}
+#view-pipelines .lp-stats{display:flex;gap:8px;padding:0 16px 12px;flex-wrap:wrap}
+#view-pipelines .lp-stat{flex:1;min-width:70px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+#view-pipelines .lp-stat .n{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:-.02em}
+#view-pipelines .lp-stat .n.bad{color:var(--rose)}
+#view-pipelines .lp-stat .n.ok{color:var(--emerald)}
+#view-pipelines .lp-stat .n.warn{color:var(--amber)}
+#view-pipelines .lp-stat .l{font-size:10px;color:var(--muted);margin-top:1px}
+#view-pipelines .lp-scroll{flex:1;overflow-y:auto;padding:4px 10px 12px}
+#view-pipelines .lp-section{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600;padding:10px 8px 6px}
+#view-pipelines .pitem{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;border-radius:10px;padding:10px 11px;cursor:pointer;transition:.12s;margin-bottom:3px}
+#view-pipelines .pitem:hover{background:var(--paper)}
+#view-pipelines .pitem:focus-visible{outline:2px solid var(--indigo);outline-offset:-2px}
+#view-pipelines .pitem.sel{background:var(--indigo-soft);border-color:var(--indigo)}
+#view-pipelines .pitem .top{display:flex;align-items:center;gap:8px}
+#view-pipelines .pitem .pn{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#view-pipelines .pitem .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+#view-pipelines .pitem .dot.fail{background:var(--rose)}
+#view-pipelines .pitem .dot.wait{background:var(--amber)}
+#view-pipelines .pitem .dot.pass{background:var(--emerald)}
+#view-pipelines .pitem .sig{font-size:11.5px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#view-pipelines .pitem .when{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:2px}
+#view-pipelines .detail{overflow-y:auto;min-height:0}
+#view-pipelines .detail-in{padding:18px 22px 40px;max-width:980px}
+#view-pipelines .backbar{display:none}
+#view-pipelines .dh{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+#view-pipelines .dh .crumb{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+#view-pipelines .dh .crumb .s{opacity:.5;margin:0 6px}
+#view-pipelines .dh h2{font-family:var(--disp);font-weight:600;font-size:22px;letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#view-pipelines .dh .dmeta{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:9px}
+#view-pipelines .dh .acts{display:flex;gap:8px;flex-wrap:wrap}
+#view-pipelines .controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 18px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow)}
+#view-pipelines .ctl-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:600}
+#view-pipelines .seg{display:flex;gap:3px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:3px}
+#view-pipelines .seg button{font-size:12.5px;color:var(--muted);background:transparent;border:0;padding:7px 11px;border-radius:7px;cursor:pointer;transition:.14s;white-space:nowrap}
+#view-pipelines .seg button .sc{font-family:var(--mono);color:var(--faint);margin-right:6px;font-size:11px}
+#view-pipelines .seg button:hover{color:var(--ink)}
+#view-pipelines .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,22,30,.08)}
+#view-pipelines .seg button[aria-pressed="true"] .sc{color:var(--indigo)}
+#view-pipelines .controls .sp{flex:1}
+#view-pipelines .rail{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px}
+#view-pipelines .phase{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 13px;overflow:hidden;transition:.3s}
+#view-pipelines .phase .pn{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+#view-pipelines .phase .pt{font-family:var(--disp);font-weight:500;font-size:13.5px;margin-top:2px;color:var(--muted);transition:.3s}
+#view-pipelines .phase .pbar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--indigo);transition:width .5s}
+#view-pipelines .phase[data-state="active"]{border-color:var(--indigo);background:var(--indigo-soft)}
+#view-pipelines .phase[data-state="active"] .pt{color:var(--ink)}
+#view-pipelines .phase[data-state="active"] .pn{color:var(--indigo)}
+#view-pipelines .phase[data-state="active"] .pbar{width:100%}
+#view-pipelines .phase[data-state="done"] .pt{color:var(--ink)}
+#view-pipelines .phase[data-state="done"] .pbar{width:100%;background:var(--emerald)}
+#view-pipelines .dgrid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+#view-pipelines .stage{display:flex;flex-direction:column}
+#view-pipelines .node{position:relative;border:1px solid var(--line);background:var(--idle);border-radius:var(--r);padding:14px 15px;opacity:.92;transform:translateY(5px);transition:opacity .4s,transform .4s,border-color .4s,box-shadow .4s,background .4s;box-shadow:none}
+#view-pipelines .node.on{opacity:1;transform:none;background:var(--surface);box-shadow:var(--shadow)}
+#view-pipelines .node.busy{border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft)}
+#view-pipelines .node.ok{border-color:var(--emerald-line)}
+#view-pipelines .node .head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+#view-pipelines .node .tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+#view-pipelines .node .ttl{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-.01em}
+#view-pipelines .node .desc{color:var(--muted);font-size:13px}
+#view-pipelines .node .status{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);display:flex;align-items:center;gap:7px}
+#view-pipelines .node .status .sd{width:7px;height:7px;border-radius:50%;background:var(--faint);transition:.3s}
+#view-pipelines .node.busy .status{color:var(--indigo)}
+#view-pipelines .node.busy .status .sd{background:var(--indigo);animation:pulse 1.1s infinite}
+#view-pipelines .node.ok .status{color:var(--emerald)}
+#view-pipelines .node.ok .status .sd{background:var(--emerald)}
+@keyframes pulse {0%,100%{box-shadow:0 0 0 0 rgba(91,91,214,.4)}50%{box-shadow:0 0 0 5px rgba(91,91,214,0)}}
+#view-pipelines .spine{height:22px;width:2px;margin-left:28px;background:var(--line);position:relative}
+#view-pipelines .spine i{position:absolute;inset:0;background:var(--indigo);transform:scaleY(0);transform-origin:top;transition:transform .4s}
+#view-pipelines .spine.fill i{transform:scaleY(1)}
+#view-pipelines #n-trigger.on{border-color:var(--rose-line)}
+#view-pipelines .sigchip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--rose);border:1px solid var(--rose-line);background:var(--rose-bg);padding:3px 9px;border-radius:999px}
+#view-pipelines .kv{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:11px}
+#view-pipelines .kv div{font-size:12.5px;color:var(--muted)}
+#view-pipelines .kv b{color:var(--ink);font-weight:500}
+#view-pipelines .hist{margin-top:13px;border:1px dashed var(--line);border-radius:10px;padding:0;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .4s,padding .4s,border-color .4s}
+#view-pipelines .hist.show{max-height:260px;opacity:1;padding:13px 14px;border-color:var(--violet)}
+#view-pipelines .hist .hh{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet)}
+#view-pipelines .hist .match{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--violet)}
+#view-pipelines .hist .hsum{font-size:13px;color:var(--muted);margin-top:8px}
+#view-pipelines .hist .hid{font-family:var(--mono);color:var(--violet);font-size:12px}
+#view-pipelines .hist.weak{border-color:var(--line)}
+#view-pipelines .hist.weak .hh, #view-pipelines .hist.weak .match, #view-pipelines .hist.weak .hid{color:var(--faint)}
+#view-pipelines .diag-wrap{border:1px solid var(--line);background:var(--idle);border-radius:var(--r);padding:15px;opacity:.92;transform:translateY(5px);transition:.4s;box-shadow:none}
+#view-pipelines .diag-wrap.on{opacity:1;transform:none;background:var(--surface);box-shadow:var(--shadow)}
+#view-pipelines .dw-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+#view-pipelines .dw-head .ttl{font-family:var(--disp);font-weight:600;font-size:15px}
+#view-pipelines .dw-head .tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+#view-pipelines .dw-head .iso{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--violet);border:1px solid var(--violet);background:var(--violet-bg);padding:3px 9px;border-radius:999px}
+#view-pipelines .agents{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+#view-pipelines .agent{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:12px;min-height:104px;display:flex;flex-direction:column;gap:6px;transition:.35s;opacity:.9}
+#view-pipelines .agent.on{opacity:1}
+#view-pipelines .agent.busy{border-color:var(--indigo);box-shadow:inset 0 0 0 1px var(--indigo-soft);background:var(--surface)}
+#view-pipelines .agent.done{border-color:var(--emerald-line);background:var(--surface)}
+#view-pipelines .agent.skip{opacity:.72}
+#view-pipelines .agent .ah{display:flex;align-items:center;gap:8px}
+#view-pipelines .agent .an{font-family:var(--disp);font-weight:500;font-size:13px}
+#view-pipelines .agent .ad{width:7px;height:7px;border-radius:50%;background:var(--faint);margin-left:auto;transition:.3s}
+#view-pipelines .agent.busy .ad{background:var(--indigo);animation:pulse 1.1s infinite}
+#view-pipelines .agent.done .ad{background:var(--emerald)}
+#view-pipelines .agent.skip .ad{background:var(--faint)}
+#view-pipelines .agent .atool{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+#view-pipelines .agent .afind{font-size:12px;color:var(--muted);min-height:32px}
+#view-pipelines .agent .aconf{font-family:var(--mono);font-size:10.5px;color:var(--indigo);margin-top:auto}
+#view-pipelines .agent.done .aconf{color:var(--emerald)}
+#view-pipelines .agent.skip .aconf{color:var(--faint)}
+#view-pipelines .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+#view-pipelines .achip{display:flex;align-items:center;gap:9px;font-size:12.5px;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:8px 12px;opacity:.85;transition:.35s}
+#view-pipelines .achip.on{opacity:1}
+#view-pipelines .achip.run{border-color:var(--indigo)}
+#view-pipelines .achip.done{border-color:var(--emerald-line)}
+#view-pipelines .achip.held{border-color:var(--amber-line);background:var(--amber-bg)}
+#view-pipelines .achip .crisk{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;border:1px solid var(--line);color:var(--faint)}
+#view-pipelines .achip .crisk.high{color:var(--rose);border-color:var(--rose-line)}
+#view-pipelines .achip .crisk.medium{color:var(--amber);border-color:var(--amber-line)}
+#view-pipelines .achip .cstat{font-family:var(--mono);font-size:11px;color:var(--faint)}
+#view-pipelines .achip.run .cstat{color:var(--indigo)}
+#view-pipelines .achip.done .cstat{color:var(--emerald)}
+#view-pipelines .achip.held .cstat{color:var(--amber)}
+#view-pipelines .gate{margin-top:14px;border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:10px;padding:0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .45s,opacity .35s,padding .35s}
+#view-pipelines .gate.show{max-height:280px;opacity:1;padding:15px 16px}
+#view-pipelines .gate .gh{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:14px;color:var(--amber)}
+#view-pipelines .gate .gh .glamp{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(176,109,0,.16);animation:pulse-a 1.3s infinite}
+@keyframes pulse-a {0%,100%{box-shadow:0 0 0 0 rgba(176,109,0,.4)}50%{box-shadow:0 0 0 7px rgba(176,109,0,0)}}
+#view-pipelines .gate .gd{color:var(--ink-2);font-size:13px;margin:8px 0 13px}
+#view-pipelines .gate .gd b{color:var(--ink);font-weight:600}
+#view-pipelines .gate .gbtns{display:flex;gap:10px}
+#view-pipelines .btn.approve{background:var(--amber);border-color:var(--amber);color:#fff;font-weight:600}
+#view-pipelines .btn.approve:hover{filter:brightness(1.05);background:var(--amber)}
+#view-pipelines .btn.hold{background:var(--surface);border-color:var(--amber-line);color:var(--amber)}
+#view-pipelines .gate .gdone{font-family:var(--mono);font-size:12px;color:var(--emerald);display:none;align-items:center;gap:8px}
+#view-pipelines .gate.approved .gbtns{display:none}
+#view-pipelines .gate.approved .gdone{display:flex}
+#view-pipelines .verdict{margin-top:11px;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;color:var(--faint);opacity:0;transition:.4s}
+#view-pipelines .verdict.show{opacity:1}
+#view-pipelines .verdict.pass{color:var(--emerald)}
+#view-pipelines .vbadge{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:6px;border:1px solid var(--emerald-line);color:var(--emerald);background:var(--emerald-bg)}
+#view-pipelines .learnnote{margin-top:10px;font-size:13px;color:var(--muted);opacity:0;transition:.4s}
+#view-pipelines .learnnote.show{opacity:1}
+#view-pipelines .learnnote .rid{font-family:var(--mono);color:var(--violet)}
+#view-pipelines .side{display:flex;flex-direction:column;gap:14px;position:sticky;top:0}
+#view-pipelines .card{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden;box-shadow:var(--shadow)}
+#view-pipelines .card .ch{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line-2)}
+#view-pipelines .card .ch .ct{font-family:var(--disp);font-weight:600;font-size:13px}
+#view-pipelines .card .ch .cm{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+#view-pipelines .explain{padding:14px}
+#view-pipelines .explain .ex-ph{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo)}
+#view-pipelines .explain .ex-t{font-family:var(--disp);font-weight:600;font-size:15px;margin:5px 0 7px}
+#view-pipelines .explain .ex-d{font-size:12.5px;color:var(--muted)}
+#view-pipelines .metrics{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-2)}
+#view-pipelines .metric{background:var(--surface);padding:12px 14px}
+#view-pipelines .metric .mv{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.02em}
+#view-pipelines .metric .ml{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:2px}
+#view-pipelines .metric .mv.c{color:var(--indigo)}
+#view-pipelines .metric .mv.a{color:var(--amber)}
+#view-pipelines .trace{font-family:var(--mono);font-size:11.5px;padding:12px 14px;max-height:250px;overflow:auto;display:flex;flex-direction:column;gap:5px}
+#view-pipelines .trace .tl{display:flex;gap:9px;opacity:0;transform:translateY(3px);animation:tin .3s forwards}
+@keyframes tin {to{opacity:1;transform:none}}
+#view-pipelines .trace .tt{color:var(--faint);flex-shrink:0}
+#view-pipelines .trace .tx{color:var(--ink-2)}
+#view-pipelines .trace .tx .who{color:var(--indigo)}
+#view-pipelines .trace .tl.warn .tx, #view-pipelines .trace .tl.warn .tx .who{color:var(--amber)}
+#view-pipelines .trace .tl.ok .tx, #view-pipelines .trace .tl.ok .tx .who{color:var(--emerald)}
+#view-pipelines .trace .tl.hist .tx .who{color:var(--violet)}
+#view-pipelines .trace .empty{color:var(--faint)}
+#view-pipelines .trace::-webkit-scrollbar{width:8px}
+#view-pipelines .trace::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+#view-pipelines .ask .ch .ct{color:var(--indigo)}
+#view-pipelines .ask-body{padding:13px 14px}
+#view-pipelines .ask-body>p{font-size:12.5px;color:var(--muted);margin:0 0 11px}
+#view-pipelines .q{display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;font-family:var(--body);font-size:12.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;transition:.13s;margin-bottom:7px}
+#view-pipelines .q:last-child{margin-bottom:0}
+#view-pipelines .q:hover{border-color:var(--indigo);background:var(--indigo-soft)}
+#view-pipelines .q .qi{color:var(--indigo);font-family:var(--mono);font-weight:600}
+#view-pipelines .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);background:var(--ink);color:#fff;border-radius:10px;padding:12px 17px;font-size:13.5px;z-index:60;display:flex;align-items:center;gap:11px;box-shadow:0 18px 40px -16px rgba(0,0,0,.4);transition:transform .32s cubic-bezier(.2,.8,.2,1);max-width:90vw}
+#view-pipelines .toast.show{transform:translateX(-50%) translateY(0)}
+#view-pipelines .toast .ti{width:8px;height:8px;border-radius:50%;background:var(--indigo)}
+#view-pipelines .toast.good .ti{background:#5ee08f}
+@media (max-width:900px) {
+body{overflow:auto;height:auto}
+#view-pipelines .shell{grid-template-columns:1fr;min-height:0}
+#view-pipelines .listpane{border-right:0;border-bottom:1px solid var(--line)}
+#view-pipelines .lp-scroll{max-height:none}
+body.viewing .listpane{display:none}
+body.viewing .backbar{display:flex}
+body:not(.viewing) .detail{display:none}
+#view-pipelines .detail{height:auto}
+#view-pipelines .dgrid{grid-template-columns:1fr}
+#view-pipelines .side{position:static}
+#view-pipelines .rail{grid-template-columns:repeat(2,1fr)}
+#view-pipelines .backbar{align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+#view-pipelines .backbar button{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);background:none;border:0;cursor:pointer}
+}
+@media (max-width:560px) {
+#view-pipelines .agents{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce) {
+#view-pipelines *{animation-duration:.001s!important;transition-duration:.08s!important}
+}
+
+
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.08s!important}}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="in">
+    <button class="applogo" onclick="nav('home')"><span class="mk">◆</span> Cockpit</button>
+    <span class="apprepo">acme / data-platform</span>
+    <nav class="appnav">
+      <button data-nav="anomalies" onclick="nav('anomalies')">Anomaly detection</button>
+      <button data-nav="pipelines" onclick="nav('pipelines')">Self-healing pipelines</button>
+    </nav>
+    <span class="appsp"></span>
+    <span class="appchip"><span class="tl">P</span> Synced from Pipeline Bot · Teams</span>
+  </div>
+</div>
+
+<main id="views">
+
+<div class="view" id="view-home">
+
+
+<div class="wrap">
+  <div class="eyebrow">Autonomous operations</div>
+  <h1>What needs your attention</h1>
+  <p class="lede">Two agents watch the platform around the clock — one flags problems before they happen, the other fixes the ones that already did.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n bad">6</div><div class="l">Anomalies forecast this week</div></div>
+    <div class="stat"><div class="n warn">3</div><div class="l">Pipeline incidents open</div></div>
+    <div class="stat"><div class="n ok">94%</div><div class="l">Auto-resolved without escalation</div></div>
+    <div class="stat"><div class="n">11</div><div class="l">Patterns matched to history this month</div></div>
+  </div>
+
+  <div class="cards">
+    <a class="card a" href="javascript:void(0)" onclick="nav('anomalies')">
+      <span class="glyph">01</span>
+      <span class="tag">● Forecasting</span>
+      <h2>Proactive anomaly detection</h2>
+      <p>Reads trend lines across pipelines, services, and infrastructure to surface the ones drifting toward failure — before an alert fires.</p>
+      <div class="feats">
+        <div class="feat a"><span class="ic">→</span> Multi-metric KPI tiles ranked by risk of failure</div>
+        <div class="feat a"><span class="ic">→</span> Signal detection, likely drivers, and remediation per anomaly</div>
+        <div class="feat a"><span class="ic">→</span> Built from run history, not static thresholds</div>
+      </div>
+      <span class="go">View anomalies →</span>
+    </a>
+
+    <a class="card b" href="javascript:void(0)" onclick="nav('pipelines')">
+      <span class="glyph">02</span>
+      <span class="tag">● Reactive</span>
+      <h2>Self-healing pipelines</h2>
+      <p>When something actually breaks, an agent triages, diagnoses across parallel sub-agents, and remediates — pausing for your approval on anything risky.</p>
+      <div class="feats">
+        <div class="feat b"><span class="ic">→</span> Detect, triage, diagnose, remediate, verify, learn</div>
+        <div class="feat b"><span class="ic">→</span> Human approval gate on high blast-radius actions</div>
+        <div class="feat b"><span class="ic">→</span> Resolutions written back into incident history</div>
+      </div>
+      <span class="go">Open pipelines →</span>
+    </a>
+  </div>
+</div>
+
+
+</div>
+
+<div class="view" id="view-anomalies">
+
+
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Proactive anomalies</h1>
+      <div class="sub">Patterns flagged from trend history, before they become an incident on the self-healing side.</div>
+    </div>
+    <span class="countchip">6 active forecasts</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+
+
+
+</div>
+
+<div class="view" id="view-detail">
+
+
+<div class="wrap">
+  <a class="back" href="javascript:void(0)" onclick="nav('anomalies')">← All anomalies</a>
+  <div id="content"></div>
+</div>
+
+
+
+
+</div>
+
+<div class="view" id="view-pipelines">
+
+
+<div class="shell">
+  <!-- ===== LEFT : list ===== -->
+  <div class="listpane">
+    <div class="lp-head">
+      <h1>Pipelines</h1>
+      <div class="sub">Select one to open its self-healing view</div>
+    </div>
+    <div class="lp-stats">
+      <div class="lp-stat"><div class="n bad">3</div><div class="l">Incidents</div></div>
+      <div class="lp-stat"><div class="n warn">2</div><div class="l">Need you</div></div>
+      <div class="lp-stat"><div class="n ok">3</div><div class="l">Healthy</div></div>
+    </div>
+    <div class="lp-scroll" id="lp-scroll"></div>
+  </div>
+
+  <!-- ===== RIGHT : detail ===== -->
+  <div class="detail" id="detail">
+    <div class="backbar"><button id="backBtn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg> All pipelines</button></div>
+    <div class="detail-in">
+      <div class="dh">
+        <div>
+          <div class="crumb" id="dCrumb">data-platform <span class="s">/</span> customer_churn_features</div>
+          <h2 id="dTitle">Incident · self-healing <span class="chip fail" id="dChip"><span class="d"></span>Open</span></h2>
+          <div class="dmeta"><span>Reasoning &amp; remediation agent · Claude Agent SDK on Bedrock</span></div>
+        </div>
+        <div class="acts">
+          <button class="btn sm" id="dLogs">View logs</button>
+          <button class="btn sm" id="dRestart">Restart</button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <span class="ctl-label">Scenario</span>
+        <div class="seg" id="scenarios">
+          <button data-sc="A" aria-pressed="true"><span class="sc">A</span>Schema drift</button>
+          <button data-sc="B" aria-pressed="false"><span class="sc">B</span>Transient infra</button>
+          <button data-sc="C" aria-pressed="false"><span class="sc">C</span>Feature freshness</button>
+        </div>
+        <div class="sp"></div>
+        <button class="btn sm" id="resetBtn">Reset</button>
+        <button class="btn primary sm" id="runBtn"><span class="ico">▸</span> Run self-healing</button>
+      </div>
+
+      <div class="rail" id="rail">
+        <div class="phase" data-state="idle"><div class="pn">Phase 1</div><div class="pt">Detect &amp; trigger</div><div class="pbar"></div></div>
+        <div class="phase" data-state="idle"><div class="pn">Phase 2</div><div class="pt">Triage &amp; diagnose</div><div class="pbar"></div></div>
+        <div class="phase" data-state="idle"><div class="pn">Phase 3</div><div class="pt">Decide &amp; remediate</div><div class="pbar"></div></div>
+        <div class="phase" data-state="idle"><div class="pn">Phase 4</div><div class="pt">Verify &amp; learn</div><div class="pbar"></div></div>
+      </div>
+
+      <div class="dgrid">
+        <div class="stage">
+          <div class="node" id="n-trigger">
+            <div class="head"><span class="tag">Native detection → event bus</span><span class="status"><span class="sd"></span><span class="st">waiting</span></span></div>
+            <div class="ttl">Trigger</div>
+            <div style="margin-top:9px"><span class="sigchip" id="trig-sig">● signal</span></div>
+            <div class="kv" id="trig-kv"></div>
+          </div>
+          <div class="spine" id="sp-1"><i></i></div>
+
+          <div class="node" id="n-triage">
+            <div class="head"><span class="tag">Orchestrator</span><span class="ttl" style="margin-left:2px">Triage &amp; planner</span><span class="status"><span class="sd"></span><span class="st">idle</span></span></div>
+            <div class="desc" id="triage-desc">Classifies the signal and scopes the investigation.</div>
+            <div class="hist" id="hist">
+              <div class="hh">⟲ Matched against incident history <span class="match" id="hist-match"></span></div>
+              <div class="hsum"><span class="hid" id="hist-id"></span> <span id="hist-sum"></span></div>
+            </div>
+          </div>
+          <div class="spine" id="sp-2"><i></i></div>
+
+          <div class="diag-wrap" id="n-diag">
+            <div class="dw-head"><span class="tag">Sub-agents</span><span class="ttl">Parallel diagnosis</span><span class="iso">⊞ isolated context per agent</span></div>
+            <div class="agents" id="agents"></div>
+          </div>
+          <div class="spine" id="sp-3"><i></i></div>
+
+          <div class="node" id="n-remediate">
+            <div class="head"><span class="tag">Decision → platform APIs (MCP tools)</span><span class="status"><span class="sd"></span><span class="st">idle</span></span></div>
+            <div class="ttl">Remediation decision</div>
+            <div class="desc" id="diag-summary" style="margin-top:7px">Selects and sequences actions for the diagnosed cause.</div>
+            <div class="actions" id="actions"></div>
+            <div class="gate" id="gate">
+              <div class="gh"><span class="glamp"></span> Human approval needed</div>
+              <div class="gd" id="gate-desc"></div>
+              <div class="gbtns"><button class="btn approve" id="approveBtn">Approve action</button><button class="btn hold" id="holdBtn">Hold</button></div>
+              <div class="gdone">✓ Approved by you — proceeding</div>
+            </div>
+          </div>
+          <div class="spine" id="sp-4"><i></i></div>
+
+          <div class="node" id="n-eval">
+            <div class="head"><span class="tag">Independent evaluator</span><span class="ttl" style="margin-left:2px">Verify</span><span class="status"><span class="sd"></span><span class="st">idle</span></span></div>
+            <div class="desc">A separate agent re-checks the result — it never grades its own fix.</div>
+            <div class="verdict" id="verdict"><span class="vbadge">resolved</span> <span id="verdict-note"></span></div>
+          </div>
+          <div class="spine" id="sp-5"><i></i></div>
+
+          <div class="node" id="n-learn">
+            <div class="head"><span class="tag">Knowledge store</span><span class="ttl" style="margin-left:2px">Learn</span><span class="status"><span class="sd"></span><span class="st">idle</span></span></div>
+            <div class="desc">Writes the resolution back into the same history the triage agent searches.</div>
+            <div class="learnnote" id="learnnote"></div>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="card">
+            <div class="ch"><span class="ct">What's happening</span><span class="cm" id="ex-step">—</span></div>
+            <div class="explain">
+              <div class="ex-ph" id="ex-ph">Ready</div>
+              <div class="ex-t" id="ex-t">Press “Run self-healing”.</div>
+              <div class="ex-d" id="ex-d">Watch the agent move through detect, diagnose, decide, and verify. On risky steps it pauses and asks you to approve.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Run metrics</span></div>
+            <div class="metrics">
+              <div class="metric"><div class="mv c" id="m-time">0.0s</div><div class="ml">Elapsed</div></div>
+              <div class="metric"><div class="mv" id="m-conf">—</div><div class="ml">Diagnosis confidence</div></div>
+              <div class="metric"><div class="mv" id="m-actions">0</div><div class="ml">Actions taken</div></div>
+              <div class="metric"><div class="mv a" id="m-appr">0</div><div class="ml">Human approvals</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Live reasoning trace</span><span class="cm">agent telemetry</span></div>
+            <div class="trace" id="trace"><div class="empty">No events yet — start a run to stream the trace.</div></div>
+          </div>
+          <div class="card ask">
+            <div class="ch"><span class="ct">Ask Pipeline Bot</span><span class="cm">in Teams</span></div>
+            <div class="ask-body">
+              <p>Send a question back to the thread.</p>
+              <button class="q" data-ask="Why did this pipeline fail?"><span class="qi">?</span>Why did this fail?</button>
+              <button class="q" data-ask="Has this incident happened before?"><span class="qi">?</span>Seen this before?</button>
+              <button class="q" data-ask="What's the blast radius of the proposed fix?"><span class="qi">?</span>What's the blast radius?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="ti"></span><span id="toastMsg"></span></div>
+
+
+
+</div>
+
+</main>
+
+<script>
+/* ===== app router ===== */
+function nav(view, param){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const el = document.getElementById('view-' + view);
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.appnav button').forEach(b => b.classList.toggle('on', b.dataset.nav === view));
+  if(view === 'detail' && window.renderAnomalyDetail) window.renderAnomalyDetail(param || 'pipeline');
+  document.getElementById('views').scrollTop = 0;
+  if(el) el.scrollTop = 0;
+}
+
+/* ===== anomalies list ===== */
+(function(){
+
+const items = [
+  {
+    id:'pipeline', tag:'Pipeline latency', tagCls:'red', risk:86, riskCls:'var(--rose)',
+    title:'ETL pipeline "orders-sync" is trending toward a timeout',
+    metrics:[
+      {v:'2m 10s', l:'latest run time', dir:'up'},
+      {v:'3', l:'consecutive slow runs', dir:'up'},
+      {v:'4.2×', l:'source row growth', dir:'up'}
+    ]
+  },
+  {
+    id:'storage', tag:'Storage growth', tagCls:'amber', risk:64, riskCls:'var(--amber)',
+    title:'Staging volume will hit capacity in roughly 6 days',
+    metrics:[
+      {v:'88%', l:'volume used', dir:'up'},
+      {v:'+8pt/day', l:'growth rate', dir:'up'},
+      {v:'6 days', l:'to full capacity', dir:'up'}
+    ]
+  },
+  {
+    id:'apilatency', tag:'API latency', tagCls:'red', risk:71, riskCls:'var(--rose)',
+    title:'checkout-service p95 latency is drifting upward',
+    metrics:[
+      {v:'420ms', l:'p95 latency', dir:'up'},
+      {v:'+133%', l:'change over 5 days', dir:'up'},
+      {v:'flat', l:'request volume', dir:'flat'}
+    ]
+  },
+  {
+    id:'queue', tag:'Queue backlog', tagCls:'amber', risk:55, riskCls:'var(--amber)',
+    title:'notification-queue backlog is growing each cycle',
+    metrics:[
+      {v:'14.2k', l:'messages queued', dir:'up'},
+      {v:'7.1×', l:'growth over 3 cycles', dir:'up'},
+      {v:'+30%', l:'producer rate increase', dir:'up'}
+    ]
+  },
+  {
+    id:'errorrate', tag:'Error rate', tagCls:'red', risk:79, riskCls:'var(--rose)',
+    title:'payments-api error rate climbing since the 14:02 deploy',
+    metrics:[
+      {v:'3.8%', l:'current error rate', dir:'up'},
+      {v:'9.5×', l:'increase since deploy', dir:'up'},
+      {v:'/charge', l:'endpoint concentration', dir:'flat'}
+    ]
+  },
+  {
+    id:'jobfail', tag:'Job retries', tagCls:'amber', risk:48, riskCls:'var(--amber)',
+    title:'nightly-reindex job needing more retries each run',
+    metrics:[
+      {v:'3', l:'retries last run', dir:'up'},
+      {v:'4 runs', l:'of rising retries', dir:'up'},
+      {v:'+90s', l:'added per retry', dir:'up'}
+    ]
+  }
+];
+
+const grid = document.getElementById('grid');
+grid.innerHTML = items.map(it => `
+  <a class="tile" href="javascript:void(0)" onclick="nav('detail','${it.id}')">
+    <div class="row1">
+      <span class="tag ${it.tagCls}">${it.tag}</span>
+      <span class="arrow">→</span>
+    </div>
+    <h3>${it.title}</h3>
+    <div class="metrics">
+      ${it.metrics.map(m => `
+        <div class="metric">
+          <div class="mv ${m.dir}"><span>${m.v}</span>${m.dir==='up' ? '<span class="dir">↑</span>' : ''}</div>
+          <div class="ml">${m.l}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="risk">
+      <span class="lbl">Risk of failure</span>
+      <span class="bar"><i style="width:${it.risk}%;background:${it.riskCls}"></i></span>
+      <span class="pct">${it.risk}%</span>
+    </div>
+  </a>
+`).join('');
+
+})();
+
+
+/* ===== anomaly detail ===== */
+(function(){
+
+const DATA = {
+  pipeline: {
+    tag:'Pipeline latency', tagCls:'red', risk:86, riskLabel:'High risk of failure',
+    title:'ETL pipeline "orders-sync" is trending toward a timeout',
+    sub:'Run time has roughly tripled over the last four executions, and the growth is accelerating rather than holding steady.',
+    metrics:[{v:'2m 10s',l:'latest run time',up:true},{v:'3',l:'consecutive slow runs',up:true},{v:'4.2×',l:'source row growth',up:true}],
+    signalLead:'The detector is watching run duration for this job against its own trailing baseline, not a fixed threshold — so it caught a trend that a static timeout alert would have missed entirely until the timeout actually fired.',
+    signal:[
+      {label:'Run duration is compounding, not drifting', body:['The last four scheduled runs of orders-sync completed in 40 seconds, 1 minute 2 seconds, 1 minute 35 seconds, and 2 minutes 10 seconds.','The interval between each run is growing by a larger margin than the one before it — 22 seconds, then 33 seconds, then 35 seconds. A linear slowdown would show roughly equal increments; this pattern is closer to compounding, which usually points to a cost that scales with data volume rather than a one-off fluke.']},
+      {label:'The configured timeout is within reach', body:['The pipeline\'s configured hard timeout is 3 minutes. At the current trajectory, the next one or two scheduled runs are projected to cross that line, which would fail the job outright rather than just running slow.','This projection is based on continuing the same growth multiplier observed across the last three intervals, not a worst-case extrapolation.']},
+      {label:'No equivalent slowdown elsewhere in the DAG', body:['Sibling tasks in the same DAG — the tasks that run immediately before and after orders-sync — have flat run times over the same window, which narrows the cause to something specific to this task rather than a shared resource issue like cluster-wide contention.']}
+    ],
+    drivers:[
+      {name:'Upstream row count growth', weight:'Primary driver', body:'The source table this job reads from grew 4.2x in volume this week after a new upstream data feed was switched on. Since orders-sync performs a join against this table, its cost scales with the table\'s size, and the timing of the slowdown lines up almost exactly with when the new feed went live.'},
+      {name:'Missing index on the new join key', weight:'Compounding factor', body:'The new feed introduced a join key that has no supporting index. Without one, each run has to scan a growing number of rows to find matches, which means the per-row cost of the job is increasing at the same time the row count is increasing — the two effects multiply rather than add, which explains why the slowdown is accelerating instead of linear.'},
+      {name:'Intermittent retry overhead', weight:'Minor factor', body:'Two of the last four runs included a silent internal retry on a flaky downstream write, adding roughly 20 seconds to those runs specifically. This accounts for some of the variance between runs but not the overall upward trend, since the two slowest runs both included a retry but the two before them did not.'}
+    ],
+    remediation:[
+      {name:'Add an index on orders.feed_id', horizon:'Addresses root cause', body:['This directly targets the join cost that is compounding with row growth. Indexing the new join key should bring per-row scan cost back down regardless of how large the source table grows from here, which is the difference between a temporary patch and an actual fix.','Expected effect: run time should return to roughly its pre-feed baseline of 35-45 seconds once the index is built and statistics are refreshed.']},
+      {name:'Raise the task timeout to 5 minutes temporarily', horizon:'Buys time, not a fix', body:['This does not address why the job is slow, it only prevents the next run or two from failing outright while the index change is built and deployed. It should be treated as a stopgap and reverted once the index is in place, since leaving the timeout permanently higher would just mask the next instance of this pattern.']},
+      {name:'Flag the pipeline owner before the next scheduled run', horizon:'Context for the team', body:['The owning team added the new feed and is best positioned to confirm whether the join key was always meant to be indexed, or whether the access pattern itself should change. Surfacing the trend now, before a failure, gives them a chance to make that call deliberately rather than reactively after an outage.']}
+    ]
+  },
+  storage: {
+    tag:'Storage growth', tagCls:'amber', risk:64, riskLabel:'Moderate risk',
+    title:'Staging volume will hit capacity in roughly 6 days',
+    sub:'Disk usage has climbed by a consistent margin every day this week with no sign of plateauing, which makes the forecast unusually confident for this kind of capacity trend.',
+    metrics:[{v:'88%',l:'volume used',up:true},{v:'+8pt/day',l:'growth rate',up:true},{v:'6 days',l:'to full capacity',up:true}],
+    signalLead:'Capacity forecasts like this one are built from a rolling daily trend rather than a single snapshot, which is what lets the system give a specific day estimate instead of just a static "usage is high" warning.',
+    signal:[
+      {label:'Usage has grown by a near-constant daily increment', body:['Daily volume checks over the last four days read 61%, 71%, 79%, and 88% used.','The day-over-day increase has held in a narrow band of 8 to 10 percentage points each day, which is unusually steady — most organic usage growth is noisier than this, and a clean steady ramp like this one is a strong signal of a single ongoing cause rather than several unrelated small contributors.']},
+      {label:'Linear extrapolation puts full capacity 6 days out', body:['Continuing the observed daily increment, the volume crosses 100% in roughly 6 days. This is treated as a moderate-confidence forecast rather than a hard deadline, since a sudden cleanup or a change in write behavior could shift it in either direction.']},
+      {label:'The growth started at a specific point, not gradually', body:['Historical usage on this volume was flat for the three weeks prior to this trend, sitting in the 55-60% range with normal day-to-day fluctuation. The shift to steady daily growth has a clear start date, which makes it more likely to be caused by a specific change than a slow organic increase in normal traffic.']}
+    ],
+    drivers:[
+      {name:'Debug logging left enabled after last week\'s deploy', weight:'Primary driver', body:'A deploy six days ago enabled verbose debug-level logging on the staging service as a temporary diagnostic measure. That logging was never turned back off, and is currently writing approximately 12GB per day to this volume — which closely matches the size of the daily growth increment being observed.'},
+      {name:'No retention policy on the staging log bucket', weight:'Compounding factor', body:'Even if the logging were left on intentionally, there is no automatic cleanup configured for this bucket, so nothing is removing older log data to offset the new writes. Production buckets in the same environment all have a 7-day retention rule; this one was missed when staging was set up.'}
+    ],
+    remediation:[
+      {name:'Disable debug-level logging on the staging service', horizon:'Removes the largest contributor immediately', body:['This targets the change that triggered the trend in the first place. Since the deploy that enabled it was meant to be temporary diagnostic logging rather than a permanent setting, turning it off should not affect anything else the service depends on.','Expected effect: daily growth should drop back to roughly the pre-deploy baseline of under 1 point per day within 24 hours of the change taking effect.']},
+      {name:'Apply a 7-day retention rule to the staging log bucket', horizon:'Prevents recurrence', body:['This brings staging in line with the retention policy already used on production buckets, so the next time logging volume increases for any reason — debug, an incident, a new feature — it will not be able to silently accumulate indefinitely.']}
+    ]
+  },
+  apilatency: {
+    tag:'API latency', tagCls:'red', risk:71, riskLabel:'High risk',
+    title:'checkout-service p95 latency is drifting upward',
+    sub:'Latency has more than doubled over five days with request volume holding flat across the same window, which points toward a resource constraint rather than increased load.',
+    metrics:[{v:'420ms',l:'p95 latency',up:true},{v:'+133%',l:'change over 5 days',up:true},{v:'flat',l:'request volume',up:false}],
+    signalLead:'Because traffic volume is flat, the usual explanation for rising latency — more load — can be ruled out early, which narrows the investigation to the service\'s own resource behavior rather than its callers.',
+    signal:[
+      {label:'p95 latency has more than doubled with no traffic change', body:['Daily p95 readings across the last five days: 180ms, 240ms, 310ms, and 420ms — each day showing a meaningful jump from the one before.','Request volume to checkout-service over the same five days varied by less than 4%, which is well within normal day-to-day fluctuation. If this were a load problem, latency and volume would be expected to move together; here they are not.']},
+      {label:'The drift is isolated to one service\'s pod group', body:['Other services sharing the same cluster and the same downstream dependencies show stable latency over the same window, which rules out a cluster-wide or shared-dependency cause and points specifically at something local to checkout-service\'s own pods.']}
+    ],
+    drivers:[
+      {name:'Sustained memory pressure triggering GC pauses', weight:'Primary driver', body:'Pod-level memory usage for checkout-service has been sitting above 90% of its allocated limit for extended periods over the same five days. At that pressure level, garbage collection runs more frequently and each pause takes longer, which shows up directly as added request latency — and the timing of the memory pressure onset matches the timing of the latency drift closely.'},
+      {name:'Database connection pool exhaustion during peak hours', weight:'Compounding factor', body:'During the busiest hours of each day, the service\'s connection pool to its primary database is reaching its configured maximum, causing requests to queue while waiting for a free connection. This adds a second source of delay on top of the GC pauses, and explains why the worst latency spikes line up with peak-hour windows specifically rather than being spread evenly through the day.'}
+    ],
+    remediation:[
+      {name:'Increase the pod memory limit for checkout-service', horizon:'Addresses the GC pause cause', body:['Raising the memory ceiling gives the garbage collector more headroom before it needs to run, which should reduce both the frequency and duration of GC pauses. This is a configuration change rather than a code change, so it can typically be rolled out without a new deploy.']},
+      {name:'Expand the database connection pool size', horizon:'Removes the peak-hour queuing bottleneck', body:['This addresses the second, independent source of delay. Sizing the pool to match observed peak concurrency — rather than the current conservative default — should remove the queuing wait that is currently stacking on top of the GC-related delay during busy hours.']}
+    ]
+  },
+  queue: {
+    tag:'Queue backlog', tagCls:'amber', risk:55, riskLabel:'Moderate risk',
+    title:'notification-queue backlog is growing each processing cycle',
+    sub:'Consumer throughput has not kept pace with producer rate for three consecutive cycles, and the gap between the two is widening rather than holding steady.',
+    metrics:[{v:'14.2k',l:'messages queued',up:true},{v:'7.1×',l:'growth over 3 cycles',up:true},{v:'+30%',l:'producer rate increase',up:true}],
+    signalLead:'This pattern is detected by comparing producer and consumer rates against each other rather than watching queue depth in isolation, which is what makes it possible to flag the imbalance before the backlog itself looks alarming.',
+    signal:[
+      {label:'Backlog has grown by a widening margin each cycle', body:['Queue depth at the end of each of the last three processing cycles: 2,000, 5,400, 9,100, and 14,200 messages.','The amount added per cycle is increasing — 3,400, then 3,700, then 5,100 — meaning the gap between what is produced and what is consumed is not just present, it is growing, which suggests the imbalance will continue to worsen unscaled.']},
+      {label:'Consumer throughput is flat while producer rate rose', body:['Messages consumed per cycle has stayed within a tight band across the same window, while the producer side increased its rate by roughly 30% after a marketing campaign began sending notification triggers. The cause is on the producer side; the consumer side simply has not been resized to match.']}
+    ],
+    drivers:[
+      {name:'Fixed consumer pool size during a traffic increase', weight:'Primary driver', body:'The consumer pool for this queue is set to a fixed count of 4 workers and has not been adjusted since before the marketing campaign began. With producer volume up roughly 30% and no corresponding increase on the consuming side, the math simply does not balance, and the backlog is the direct, expected result of that mismatch rather than evidence of a fault in either the producer or consumer code itself.'}
+    ],
+    remediation:[
+      {name:'Scale the consumer pool from 4 to 8 workers', horizon:'Matches current demand', body:['Doubling the consumer count should bring throughput back in line with the current producer rate based on the 30% volume increase observed, allowing the existing backlog to drain over the following cycles rather than continuing to grow.']},
+      {name:'Enable autoscaling on the consumer group going forward', horizon:'Prevents recurrence under future spikes', body:['A fixed worker count will hit the same wall the next time producer volume increases for any reason — another campaign, a new integration, organic growth. Autoscaling tied to queue depth removes the need to manually catch and resize this each time.']}
+    ]
+  },
+  errorrate: {
+    tag:'Error rate', tagCls:'red', risk:79, riskLabel:'High risk',
+    title:'payments-api error rate climbing since the 14:02 deploy',
+    sub:'Error rate began rising in the very next measurement window after a deploy and has continued climbing across four consecutive windows, with the errors concentrated on a single endpoint.',
+    metrics:[{v:'3.8%',l:'current error rate',up:true},{v:'9.5×',l:'increase since deploy',up:true},{v:'/charge',l:'endpoint concentration',up:false}],
+    signalLead:'Correlating the onset timestamp against the deploy log is what turns this from a generic "errors are up" alert into a specific, actionable one — the exact moment the trend starts is known, not just the fact that it is happening.',
+    signal:[
+      {label:'Error rate climbed in lockstep with a specific deploy', body:['Error rate across four consecutive 10-minute windows following the 14:02 deploy: 0.4%, 1.1%, 2.3%, and 3.8%.','The pre-deploy baseline for this service over the prior 24 hours was a steady 0.3-0.5%, so the first post-deploy window already shows a meaningful jump, and each window since has continued upward rather than stabilizing at a new baseline.']},
+      {label:'Errors are concentrated on one endpoint, not spread evenly', body:['Of all error responses recorded in this window, the large majority originate from the /charge endpoint specifically, while other endpoints on the same service remain at their normal baseline error rate. This rules out an infrastructure-wide cause and points at something specific to the code path the deploy touched.']}
+    ],
+    drivers:[
+      {name:'Schema mismatch between the new deploy and an upstream caller', weight:'Primary driver', body:'The deploy at 14:02 introduced a new required field on the /charge request schema. The upstream payment gateway service has not yet been updated to send that field, so every request it sends is being rejected by validation on the new code path. This is a coordination gap between two services\' release timing rather than a logic bug in either one individually.'}
+    ],
+    remediation:[
+      {name:'Roll back to the previous build', horizon:'Stops the immediate impact', body:['Reverting removes the new required-field validation that is rejecting upstream requests, which should bring the error rate back to its pre-deploy baseline immediately. This is the fastest way to stop active customer impact while the underlying coordination issue is resolved properly.']},
+      {name:'Coordinate the field rollout with the gateway team before re-deploying', horizon:'Fixes the root cause', body:['The new field needs to either be made optional with a safe default, or the upstream gateway team needs to ship their corresponding change first. Re-deploying without resolving this sequencing will reproduce the exact same error pattern.']}
+    ]
+  },
+  jobfail: {
+    tag:'Job retries', tagCls:'amber', risk:48, riskLabel:'Watch',
+    title:'nightly-reindex job needing more retries each run',
+    sub:'The job is still completing successfully, but is needing progressively more retries to get there — a pattern that has historically preceded outright failure for jobs like this one.',
+    metrics:[{v:'3',l:'retries last run',up:true},{v:'4 runs',l:'of rising retries',up:true},{v:'+90s',l:'added per retry',up:true}],
+    signalLead:'This anomaly is lower risk than the others on this board precisely because the job is still succeeding — it is flagged as a "watch" because the retry trend is the kind of leading indicator that tends to precede a hard failure rather than evidence of one yet.',
+    signal:[
+      {label:'Retries needed to succeed have risen every run', body:['Number of retries required before the job completed successfully, over the last four nightly runs: 0, 1, 2, and 3.','In the three weeks prior to this trend starting, the job needed zero retries on every single run, which makes the recent pattern a clear departure from its established normal rather than ordinary noise.']},
+      {label:'Each retry adds meaningful time, even though the job still completes', body:['Each retry adds roughly 90 seconds to total job runtime. While the job has stayed within its scheduling window so far, the trend of needing more retries each night means that margin is shrinking, and a fifth consecutive increase would put the total runtime close to the window\'s edge.']}
+    ],
+    drivers:[
+      {name:'Index lock contention from an overlapping job', weight:'Primary driver', body:'A separate, read-heavy reporting job has recently shifted its start time to overlap with part of the reindex window. The reindex job needs a brief exclusive lock partway through its run, and when the reporting job is mid-read at that moment, the reindex job has to back off and retry until the lock is free — explaining both why retries are needed at all and why the number needed varies night to night depending on how much overlap occurs.'}
+    ],
+    remediation:[
+      {name:'Stagger the start times of the two jobs', horizon:'Removes the overlap causing contention', body:['Shifting either job\'s schedule so the two no longer run concurrently should eliminate the lock contention directly, since the underlying cause is the timing overlap itself rather than a flaw in either job\'s logic.']}
+    ]
+  }
+};
+
+window.renderAnomalyDetail = function(anomalyId){
+  const d = DATA[anomalyId] || DATA.pipeline;
+  document.getElementById('content').innerHTML = `
+  <div class="dh">
+    <div>
+      <span class="tag ${d.tagCls}">${d.tag}</span>
+      <h1>${d.title}</h1>
+      <div class="sub">${d.sub}</div>
+    </div>
+    <div class="riskbox">
+      <div class="v">${d.risk}%</div>
+      <div class="l">${d.riskLabel}</div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    ${d.metrics.map(m => `<div class="metric"><div class="mv ${m.up?'up':''}">${m.v}</div><div class="ml">${m.l}</div></div>`).join('')}
+  </div>
+
+  <div class="section signal">
+    <div class="sh">
+      <span class="ic">◎</span>
+      <div><h2>Signal detection</h2><div class="shsub">What the detector observed, and why it crossed the threshold</div></div>
+    </div>
+    <p class="lead">${d.signalLead}</p>
+    <div class="findlist">
+      ${d.signal.map((f,i) => `
+        <div class="find">
+          <div class="num">${String(i+1).padStart(2,'0')}</div>
+          <div class="body">
+            <span class="klabel">${f.label}</span>
+            ${f.body.map(p => `<p>${p}</p>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <div class="section drivers">
+    <div class="sh">
+      <span class="ic">◈</span>
+      <div><h2>Likely drivers</h2><div class="shsub">Contributing causes, ranked by estimated contribution</div></div>
+    </div>
+    ${d.drivers.map(dr => `
+      <div class="driver">
+        <div class="dtop"><span class="dname">${dr.name}</span><span class="dweight">${dr.weight}</span></div>
+        <p>${dr.body}</p>
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="section remediation">
+    <div class="sh">
+      <span class="ic">✓</span>
+      <div><h2>Recommended remediation</h2><div class="shsub">Suggested response, in order of priority</div></div>
+    </div>
+    ${d.remediation.map((r,i) => `
+      <div class="remed">
+        <div class="rtop"><span class="rnum">${i+1}</span><span class="rname">${r.name}</span><span class="horizon">${r.horizon}</span></div>
+        ${r.body.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    `).join('')}
+  </div>
+`;
+};
+
+})();
+
+
+/* ===== self-healing pipelines ===== */
+
+(function(){
+  "use strict";
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const toast=$("#toast"),toastMsg=$("#toastMsg");let tt;
+  function notify(m,good){toastMsg.textContent=m;toast.classList.toggle("good",!!good);toast.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove("show"),3000);}
+
+  const SCEN={
+    A:{label:"Open · Schema drift",chipCls:"fail",pipeline:"customer_churn_features",
+      trigger:{sigType:"Job failure",kv:[["Pipeline","customer_churn_features"],["Asset","feat.churn_daily"],["Detail","Load failed — column acct_tier not found"],["Severity","High"]]},
+      history:{found:true,sim:"0.86 similarity",id:"INC-1043",sum:"Upstream renamed account_tier → acct_tier. Fix: quarantine batch, backfill, ticket owner. Outcome: resolved."},
+      triage:"Signature matches a known schema-change incident. Scoping to schema + lineage; skipping the infra deep-dive.",
+      agents:[{id:"log",n:"Log analysis",t:"get_logs",run:true,find:"KeyError on acct_tier during load; 0 rows written.",conf:"0.74"},
+        {id:"lin",n:"Lineage & freshness",t:"get_lineage",run:true,find:"Upstream dim_accounts changed 2h ago; freshness OK.",conf:"0.81"},
+        {id:"sch",n:"Schema & DQ diff",t:"get_schema_diff",run:true,find:"Column account_tier renamed to acct_tier; type unchanged.",conf:"0.94"},
+        {id:"inf",n:"Infra & transient",t:"get_infra_metrics",run:false,find:"Skipped — not indicated by triage.",conf:"—"}],
+      diagnosis:"Upstream schema change (column rename) broke the feature load.",conf:"94%",
+      actions:[{a:"Quarantine bad batch",t:"quarantine_data",risk:"medium",gate:false},
+        {a:"Backfill from corrected source",t:"backfill",risk:"high",gate:true},
+        {a:"Open Jira ticket to upstream owner",t:"open_ticket",risk:"low",gate:false}],
+      gateText:"<b>Backfill</b> will rewrite 14 partitions of <b>feat.churn_daily</b> from the corrected source. High blast radius.",
+      verify:{note:"Feature load succeeded; row counts within 0.3% of baseline."},learnId:"INC-2208"},
+    B:{label:"Open · Executor lost",chipCls:"fail",pipeline:"fraud_scoring_hourly",
+      trigger:{sigType:"Job failure",kv:[["Pipeline","fraud_scoring_hourly"],["Asset","job.fraud_score"],["Detail","Executor lost — spot instance reclaimed"],["Severity","Medium"]]},
+      history:{found:false,sim:"0.31 — no strong match",id:"",sum:""},
+      triage:"No close historical match. Running the full diagnostic fan-out to rule out data vs infra causes.",
+      agents:[{id:"log",n:"Log analysis",t:"get_logs",run:true,find:"Stage failed: ExecutorLostFailure; retried task once.",conf:"0.69"},
+        {id:"lin",n:"Lineage & freshness",t:"get_lineage",run:true,find:"All upstreams fresh and unchanged.",conf:"0.88"},
+        {id:"sch",n:"Schema & DQ diff",t:"get_schema_diff",run:true,find:"No schema or data-quality drift detected.",conf:"0.90"},
+        {id:"inf",n:"Infra & transient",t:"get_infra_metrics",run:true,find:"Spot reclamation at 03:14; cluster healthy now.",conf:"0.92"}],
+      diagnosis:"Transient infrastructure failure (spot reclamation). No data issue.",conf:"92%",
+      actions:[{a:"Repair-run the failed job",t:"trigger_retrain",risk:"low",gate:false}],
+      gateText:"",verify:{note:"Repair run completed; output SLA met."},learnId:"INC-2209"},
+    C:{label:"Open · SLA breach",chipCls:"wait",pipeline:"pricing_model_v3",
+      trigger:{sigType:"Drift / SLA breach",kv:[["Pipeline","pricing_model_v3"],["Asset","feat.market_signals"],["Detail","Eval AUC dropped 0.07; feature table stale 9h"],["Severity","High"]]},
+      history:{found:true,sim:"0.79 similarity",id:"INC-0987",sum:"Stale market features after a failed upstream sync. Fix: restore last-good snapshot, backfill, retrain. Outcome: resolved."},
+      triage:"Strong match to a past freshness incident. Confirming staleness, then preparing a restore + retrain path.",
+      agents:[{id:"log",n:"Log analysis",t:"get_logs",run:true,find:"Upstream sync job silently no-op'd at 22:00.",conf:"0.71"},
+        {id:"lin",n:"Lineage & freshness",t:"get_lineage",run:true,find:"feat.market_signals 9h stale; SLA is 1h.",conf:"0.93"},
+        {id:"sch",n:"Schema & DQ diff",t:"get_schema_diff",run:false,find:"Skipped — schema unchanged per triage.",conf:"—"},
+        {id:"inf",n:"Infra & transient",t:"get_infra_metrics",run:true,find:"No infra fault; sync upstream is the gap.",conf:"0.80"}],
+      diagnosis:"Stale features from a failed upstream sync degraded the model.",conf:"93%",
+      actions:[{a:"RESTORE last-good snapshot",t:"restore_table",risk:"high",gate:true},
+        {a:"Backfill missing window",t:"backfill",risk:"medium",gate:false},
+        {a:"Retrain pricing_model_v3",t:"trigger_retrain",risk:"medium",gate:false}],
+      gateText:"<b>RESTORE</b> rolls <b>feat.market_signals</b> back to the 21:00 snapshot, affecting a live pricing model. High blast radius.",
+      verify:{note:"Freshness restored; eval AUC recovered to baseline (−0.004)."},learnId:"INC-2210"}
+  };
+  const PHASE_EXPLAIN={
+    detect:["Phase 1 · Detect","A signal arrives","Detection is native to the platform. A drift alert, job failure, or SLA breach is published to the event bus — that event is the only thing the agent needs to wake up."],
+    triage:["Phase 2 · Triage","Match, then scope","The orchestrator classifies the signal and searches incident history. A strong match narrows the investigation; a weak match means a full diagnostic sweep."],
+    diagnose:["Phase 2 · Diagnose","Four agents, four lenses","Diagnostic sub-agents run in parallel, each in its own context window so a deep log read can't pollute the lineage analysis. They return findings with confidence; the orchestrator merges them."],
+    remediate:["Phase 3 · Remediate","Decide and sequence","The decision agent picks actions for the diagnosed cause and orders them. Every action is a call into the existing platform — the agent never re-implements orchestration."],
+    gate:["Phase 3 · Approval","You stay in control","Before any high blast-radius action, the agent stops at a human gate. In production this is one tap in Teams or PagerDuty. Nothing risky runs without a person."],
+    verify:["Phase 4 · Verify","An independent check","A separate evaluator agent re-reads the metrics to confirm the fix worked. Splitting verification out avoids the agent grading its own homework."],
+    learn:["Phase 4 · Learn","The loop compounds","The resolved incident is written back into the same history the triage agent searches — so the next similar failure is matched and fixed faster."],
+    done:["Complete","Incident resolved","The pipeline is healthy again. Replay another scenario, or pick a different pipeline on the left."]
+  };
+
+  const pipes=[
+    {key:"A",name:"customer_churn_features",status:"fail",sig:"column acct_tier not found",when:"2m ago",group:"incident"},
+    {key:"B",name:"fraud_scoring_hourly",status:"fail",sig:"spot instance reclaimed",when:"6m ago",group:"incident"},
+    {key:"C",name:"pricing_model_v3",status:"wait",sig:"eval AUC dropped 0.07",when:"11m ago",group:"incident"},
+    {name:"order_events_stream",status:"pass",sig:"backfill complete",when:"40m ago",group:"healthy"},
+    {name:"inventory_sync",status:"pass",sig:"nightly run ok",when:"1h ago",group:"healthy"},
+    {name:"recs_embeddings",status:"pass",sig:"index rebuilt",when:"3h ago",group:"healthy"},
+  ];
+  const scroll=$("#lp-scroll");
+  function buildList(){
+    scroll.innerHTML="";
+    let lastGroup=null;
+    pipes.forEach((p,idx)=>{
+      if(p.group!==lastGroup){
+        const sec=document.createElement("div");sec.className="lp-section";
+        sec.textContent=p.group==="incident"?"Open incidents":"Healthy";
+        scroll.appendChild(sec);lastGroup=p.group;
+      }
+      const b=document.createElement("button");b.className="pitem";b.dataset.idx=idx;
+      b.innerHTML=`<div class="top"><span class="dot ${p.status}"></span><span class="pn">${p.name}</span></div>
+        <div class="sig">${p.sig}</div><div class="when">${p.when}</div>`;
+      b.addEventListener("click",()=>selectPipe(idx,b));
+      scroll.appendChild(b);
+    });
+  }
+  function selectPipe(idx,el){
+    const p=pipes[idx];
+    $$(".pitem").forEach(x=>x.classList.remove("sel"));
+    el.classList.add("sel");
+    if(p.key){
+      current=p.key;
+      $$("#scenarios button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.sc===p.key?"true":"false"));
+      applyScenarioHeader(); document.body.classList.add("viewing");
+      $("#detail").scrollTop=0; reset();
+    } else {
+      notify(`${p.name} — healthy, no incident`);
+    }
+  }
+  function applyScenarioHeader(){
+    const s=SCEN[current];
+    $("#dCrumb").innerHTML=`data-platform <span class="s">/</span> ${s.pipeline}`;
+    const chip=$("#dChip");chip.className="chip "+s.chipCls;chip.innerHTML=`<span class="d"></span>${s.label}`;
+  }
+  $("#backBtn").addEventListener("click",()=>{document.body.classList.remove("viewing");$$(".pitem").forEach(x=>x.classList.remove("sel"));});
+  $("#dLogs").addEventListener("click",()=>notify("Opening logs…"));
+  $("#dRestart").addEventListener("click",()=>notify("Restarting pipeline…"));
+  $$(".q").forEach(q=>q.addEventListener("click",()=>notify('Sent to Pipeline Bot: "'+q.dataset.ask+'"')));
+
+  /* ===== engine (same as v3) ===== */
+  let current="A", running=false, token=0, timer=null, t0=0, gateResolver=null;
+  const railEls=$$("#rail .phase"); const traceEl=$("#trace");
+  function setPhase(i,state){railEls.forEach((p,idx)=>{p.dataset.state=idx<i?"done":(idx===i?(state||"active"):"idle");});}
+  function allPhasesDone(){railEls.forEach(p=>p.dataset.state="done");}
+  function explain(key){const e=PHASE_EXPLAIN[key];if(!e)return;$("#ex-ph").textContent=e[0];$("#ex-t").textContent=e[1];$("#ex-d").textContent=e[2];}
+  function exStep(n){$("#ex-step").textContent=n;}
+  function nodeStatus(sel,text,cls){const node=$(sel);node.classList.remove("busy","ok");if(cls)node.classList.add(cls);const st=node.querySelector(".st");if(st)st.textContent=text;}
+  function trace(who,msg,kind){if(traceEl.querySelector(".empty"))traceEl.innerHTML="";const t=(performance.now()-t0)/1000;const line=document.createElement("div");line.className="tl"+(kind?" "+kind:"");line.innerHTML=`<span class="tt">${t.toFixed(1).padStart(4," ")}s</span><span class="tx"><span class="who">${who}</span> ${msg}</span>`;traceEl.appendChild(line);traceEl.scrollTop=traceEl.scrollHeight;}
+  function startClock(){t0=performance.now();timer=setInterval(()=>{$("#m-time").textContent=((performance.now()-t0)/1000).toFixed(1)+"s";},100);}
+  function stopClock(){clearInterval(timer);}
+  function renderScenario(key){
+    const s=SCEN[key];
+    $("#trig-sig").textContent="● "+s.trigger.sigType;
+    const kv=$("#trig-kv");kv.innerHTML="";
+    s.trigger.kv.forEach(([k,v])=>{const d=document.createElement("div");d.innerHTML=`${k}: <b>${v}</b>`;kv.appendChild(d);});
+    const ag=$("#agents");ag.innerHTML="";
+    s.agents.forEach(a=>{const el=document.createElement("div");el.className="agent";el.id="ag-"+a.id;el.innerHTML=`<div class="ah"><span class="an">${a.n}</span><span class="ad"></span></div><div class="atool">${a.t}()</div><div class="afind"></div><div class="aconf"></div>`;ag.appendChild(el);});
+    const ac=$("#actions");ac.innerHTML="";
+    s.actions.forEach((a,i)=>{const el=document.createElement("div");el.className="achip";el.id="ac-"+i;el.innerHTML=`<span class="crisk ${a.risk}">${a.risk}</span><span>${a.a}</span><span class="cstat">queued</span>`;ac.appendChild(el);});
+  }
+  function reset(){
+    token++;running=false;stopClock();
+    if(gateResolver){gateResolver("cancelled");gateResolver=null;}
+    railEls.forEach(p=>p.dataset.state="idle");
+    $$(".node").forEach(n=>{n.classList.remove("on","busy","ok");const st=n.querySelector(".st");if(st)st.textContent=n.id==="n-trigger"?"waiting":"idle";});
+    $$(".spine").forEach(sp=>sp.classList.remove("fill"));
+    $("#hist").className="hist";$("#n-diag").classList.remove("on");
+    $("#m-time").textContent="0.0s";$("#m-conf").textContent="—";$("#m-conf").className="mv";$("#m-actions").textContent="0";$("#m-appr").textContent="0";
+    $("#verdict").className="verdict";$("#verdict-note").textContent="";
+    $("#learnnote").className="learnnote";$("#learnnote").textContent="";
+    $("#gate").className="gate";
+    traceEl.innerHTML='<div class="empty">No events yet — start a run to stream the trace.</div>';
+    $("#ex-ph").textContent="Ready";$("#ex-t").textContent="Press “Run self-healing”.";$("#ex-d").textContent="Watch the agent move through detect, diagnose, decide, and verify. On risky steps it pauses and asks you to approve.";
+    exStep("—");$("#runBtn").disabled=false;$("#runBtn").innerHTML='<span class="ico">▸</span> Run self-healing';
+    renderScenario(current);
+  }
+  function awaitGate(){return new Promise(res=>{gateResolver=res;});}
+  async function run(){
+    if(running)return;running=true;const my=token+1;token=my;const s=SCEN[current];
+    $("#runBtn").disabled=true;$("#runBtn").innerHTML='<span class="ico">◴</span> Running…';
+    startClock();let approvals=0,actionsDone=0;const live=()=>token===my;
+    setPhase(0);explain("detect");exStep("1 / 7");
+    $("#n-trigger").classList.add("on");nodeStatus("#n-trigger","received","ok");
+    trace("eventbus",`${s.trigger.sigType.toLowerCase()} on ${s.trigger.kv[0][1]}`,"warn");
+    await sleep(900);if(!live())return;$("#sp-1").classList.add("fill");await sleep(350);if(!live())return;
+    setPhase(1);explain("triage");exStep("2 / 7");
+    $("#n-triage").classList.add("on","busy");nodeStatus("#n-triage","planning","busy");
+    $("#triage-desc").textContent=s.triage;trace("triage","classifying signal & searching incident history…");
+    await sleep(800);if(!live())return;
+    const h=$("#hist");
+    if(s.history.found){h.classList.add("show");$("#hist-match").textContent=s.history.sim;$("#hist-id").textContent=s.history.id;$("#hist-sum").textContent=s.history.sum;trace("history",`match ${s.history.id} (${s.history.sim}) — reusing as prior`,"hist");}
+    else{h.classList.add("show","weak");$("#hist-match").textContent=s.history.sim;$("#hist-id").textContent="no match";$("#hist-sum").textContent="Falling back to full diagnostic sweep.";trace("history",`${s.history.sim} — full diagnosis`,"hist");}
+    await sleep(900);if(!live())return;nodeStatus("#n-triage","planned","ok");$("#sp-2").classList.add("fill");await sleep(300);if(!live())return;
+    explain("diagnose");exStep("3 / 7");$("#n-diag").classList.add("on");
+    const runners=s.agents.filter(a=>a.run);
+    s.agents.forEach(a=>{const el=$("#ag-"+a.id);el.classList.add("on");if(!a.run){el.classList.add("skip");el.querySelector(".afind").textContent=a.find;el.querySelector(".aconf").textContent="skipped";}else{el.classList.add("busy");}});
+    runners.forEach(a=>trace(a.id,`${a.t}() → analyzing…`));
+    await sleep(1500);if(!live())return;
+    for(const a of runners){const el=$("#ag-"+a.id);el.classList.remove("busy");el.classList.add("done");el.querySelector(".afind").textContent=a.find;el.querySelector(".aconf").textContent="confidence "+a.conf;trace(a.id,`done — ${a.find}`,"ok");await sleep(260);if(!live())return;}
+    $("#m-conf").textContent=s.conf;$("#m-conf").className="mv c";
+    await sleep(350);$("#sp-3").classList.add("fill");await sleep(300);if(!live())return;
+    setPhase(2);explain("remediate");exStep("4 / 7");
+    $("#n-remediate").classList.add("on","busy");nodeStatus("#n-remediate","deciding","busy");
+    $("#diag-summary").textContent="Diagnosis: "+s.diagnosis+" — sequencing remediation.";trace("decision","diagnosis merged; selecting action sequence");
+    await sleep(800);if(!live())return;$$("#actions .achip").forEach(c=>c.classList.add("on"));await sleep(400);if(!live())return;
+    for(let i=0;i<s.actions.length;i++){
+      if(!live())return;const a=s.actions[i],chip=$("#ac-"+i);
+      if(a.gate){
+        explain("gate");exStep("5 / 7");chip.classList.add("held");chip.querySelector(".cstat").textContent="awaiting approval";
+        const g=$("#gate");$("#gate-desc").innerHTML=s.gateText;g.classList.add("show");
+        trace("guardrail",`hook paused "${a.a}" — high blast radius, human gate`,"warn");nodeStatus("#n-remediate","paused — needs you","busy");
+        const res=await awaitGate();gateResolver=null;
+        if(res==="cancelled"||!live())return;
+        if(res==="hold"){chip.querySelector(".cstat").textContent="on hold";trace("human","held — escalating to on-call instead","warn");nodeStatus("#n-remediate","held by human","busy");$("#runBtn").disabled=false;$("#runBtn").innerHTML='<span class="ico">▸</span> Run again';running=false;stopClock();explain("done");$("#ex-t").textContent="Paused by you";$("#ex-d").textContent="You chose to hold the risky action. In production the agent would page on-call and wait — nothing destructive runs without sign-off.";return;}
+        approvals++;$("#m-appr").textContent=approvals;g.classList.add("approved");chip.classList.remove("held");trace("human",`approved "${a.a}"`,"ok");nodeStatus("#n-remediate","executing","busy");await sleep(500);if(!live())return;
+      }
+      chip.classList.add("run");chip.querySelector(".cstat").textContent="running";trace("action",`${a.t}() → ${a.a}`);
+      await sleep(750);if(!live())return;chip.classList.remove("run");chip.classList.add("done");chip.querySelector(".cstat").textContent="done";actionsDone++;$("#m-actions").textContent=actionsDone;await sleep(180);
+    }
+    nodeStatus("#n-remediate","actions applied","ok");$("#sp-4").classList.add("fill");await sleep(300);if(!live())return;
+    setPhase(3);explain("verify");exStep("6 / 7");$("#n-eval").classList.add("on","busy");nodeStatus("#n-eval","re-checking","busy");
+    trace("evaluator","independent re-check of post-fix metrics…");await sleep(1300);if(!live())return;nodeStatus("#n-eval","confirmed","ok");
+    const v=$("#verdict");v.classList.add("show","pass");$("#verdict-note").textContent=s.verify.note;trace("evaluator","verdict: resolved — "+s.verify.note,"ok");
+    await sleep(700);$("#sp-5").classList.add("fill");await sleep(300);if(!live())return;
+    explain("learn");exStep("7 / 7");$("#n-learn").classList.add("on","busy");nodeStatus("#n-learn","writing","busy");
+    trace("knowledge","appending resolution to incident history…","hist");await sleep(900);if(!live())return;nodeStatus("#n-learn","stored","ok");
+    $("#learnnote").classList.add("show");$("#learnnote").innerHTML=`Stored as <span class="rid">${s.learnId}</span> — next time this signature appears, triage will match it in seconds.`;
+    trace("knowledge",`stored ${s.learnId} — history now ${s.history.found?"reinforced":"expanded"}`,"ok");
+    allPhasesDone();explain("done");exStep("done");stopClock();running=false;
+    $("#runBtn").disabled=false;$("#runBtn").innerHTML='<span class="ico">↻</span> Run again';
+    notify("Incident resolved — fix verified and stored",true);
+  }
+  $("#scenarios").addEventListener("click",e=>{const b=e.target.closest("button[data-sc]");if(!b)return;$$("#scenarios button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));current=b.dataset.sc;applyScenarioHeader();reset();});
+  $("#runBtn").addEventListener("click",run);
+  $("#resetBtn").addEventListener("click",reset);
+  $("#approveBtn").addEventListener("click",()=>{if(gateResolver)gateResolver("approve");});
+  $("#holdBtn").addEventListener("click",()=>{if(gateResolver)gateResolver("hold");});
+
+  buildList();
+  // auto-select first incident on desktop so the right pane isn't empty
+  const first=$(".pitem"); if(first){first.classList.add("sel");applyScenarioHeader();reset();}
+})();
+
+
+/* ===== initial view ===== */
+nav('home');
+</script>
+
+</body>
+</html>

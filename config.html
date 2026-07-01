@@ -139,7 +139,7 @@
   .page-header h2 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
 
   /* ═══ UPLOAD ═══ */
-  .upload-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .upload-card { background: var(--white); border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 18px; min-height: 300px; display: flex; flex-direction: column; transition: border-color 0.2s; }
   .upload-card.has-file { border-color: var(--teal-mid); border-style: solid; }
   .upload-card.has-error { border-color: var(--red); border-style: solid; }
@@ -156,6 +156,8 @@
   .file-item { display: flex; align-items: center; justify-content: space-between; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 6px 10px; margin-bottom: 5px; font-size: 11px; }
   .file-item .file-name { color: var(--teal-dark); font-weight: 500; }
   .file-item .file-ok { color: var(--green); font-size: 13px; }
+  .file-remove { color: var(--text-light); font-size: 11px; cursor: pointer; }
+  .file-remove:hover { color: var(--red); }
   .qc-panel { margin-top: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
   .qc-panel-header { padding: 8px 12px; font-size: 11px; font-weight: 600; color: var(--text-mid); background: var(--white); border-bottom: 1px solid var(--border); }
   .qc-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 12px; border-bottom: 1px solid var(--border); font-size: 11px; }
@@ -194,24 +196,31 @@
   .config-bottom-bar { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
 
   /* ═══ INSIGHTS ═══ */
-  .insights-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; height: calc(100vh - 160px); }
+  .insights-layout { display: grid; grid-template-columns: 380px 1fr; gap: 20px; height: calc(100vh - 160px); }
   .chatbot-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
   .chatbot-header { padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--teal-dark); color: white; }
   .chatbot-header h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
   .chatbot-header p { font-size: 11px; opacity: 0.85; }
-  .chatbot-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-  .chat-msg { background: var(--bg); border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: var(--text-mid); line-height: 1.6; border-left: 3px solid var(--teal); }
-  .chat-msg .msg-time { font-size: 10px; color: var(--text-light); margin-bottom: 4px; }
-  .chat-msg.rec { border-left-color: #8b5cf6; }
-  .chat-msg.alert { border-left-color: var(--orange); }
-  .chat-tag { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 1px 6px; border-radius: 6px; margin-bottom: 4px; letter-spacing: 0.5px; }
-  .chat-tag.insight { background: var(--teal-light); color: var(--teal-dark); }
-  .chat-tag.rec { background: #ede9fe; color: #5b21b6; }
-  .chat-tag.alert { background: #fffbeb; color: #92400e; }
-  .chatbot-input-row { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
-  .chatbot-input-row input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 12px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
-  .chatbot-input-row input:focus { outline: none; border-color: var(--teal); }
-  .chatbot-send-btn { background: var(--teal); color: white; border: none; border-radius: 6px; padding: 7px 12px; font-size: 12px; cursor: pointer; font-weight: 500; }
+  .chatbot-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-empty { font-size: 12px; color: var(--text-light); line-height: 1.7; text-align: center; margin: auto; padding: 0 10px; }
+  .chat-row { display: flex; }
+  .chat-row.user { justify-content: flex-end; }
+  .chat-row.ai { justify-content: flex-start; }
+  .chat-bubble { max-width: 85%; padding: 9px 13px; border-radius: 14px; font-size: 12.5px; line-height: 1.55; }
+  .chat-bubble .msg-time { font-size: 9px; opacity: 0.7; margin-bottom: 3px; }
+  .chat-bubble.user { background: var(--teal); color: white; border-bottom-right-radius: 4px; }
+  .chat-bubble.user .msg-time { color: rgba(255,255,255,0.75); }
+  .chat-bubble.ai { background: var(--bg); color: var(--text-dark); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .chat-typing { display: flex; gap: 3px; padding: 2px 0; }
+  .chat-typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--text-light); animation: chatTyping 1s infinite ease-in-out; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes chatTyping { 0%,80%,100%{transform:scale(0.6);opacity:0.4;} 40%{transform:scale(1);opacity:1;} }
+  .chatbot-input-row { padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .chatbot-input-row input { flex: 1; border: 1px solid var(--border); border-radius: 999px; padding: 10px 16px; font-size: 12.5px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
+  .chatbot-input-row input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .chatbot-send-btn { background: var(--teal); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; font-size: 14px; cursor: pointer; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .chatbot-send-btn:hover { background: var(--teal-dark); }
   .insights-right { overflow-y: auto; }
   .insights-tiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
   .insight-tile { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
@@ -243,6 +252,11 @@
   .brand-meta-item { font-size: 11px; color: var(--text-mid); display: flex; justify-content: space-between; }
   .brand-meta-item strong { color: var(--text-dark); }
   .add-brands-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0 0; }
+  .brand-objective-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .brand-objective-row label { font-size: 10px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
+  .brand-objective-input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; font-size: 11.5px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
+  .brand-objective-input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .brand-objective-input::placeholder { color: #b0bac6; }
   .selected-count { font-size: 12px; color: var(--text-mid); }
   .selected-count strong { color: var(--teal-dark); }
   .btn-add-brands { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; opacity: 0.35; pointer-events: none; }
@@ -263,6 +277,7 @@
   .toast-dismiss:hover { color: white; }
 
   @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } }
 
   /* ═══ FINANCIAL ASSUMPTIONS GRID ═══ */
   .fin-forecast-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -509,10 +524,11 @@
     </div>
     <div class="upload-grid">
       <div class="upload-card" id="uc_customer">
-        <div class="upload-drop-zone" onclick="simulateUpload('customer')">
+        <div class="upload-drop-zone" onclick="document.getElementById('finput_customer').click()">
+          <input type="file" id="finput_customer" multiple accept=".csv" style="display:none" onchange="handleFiles('customer', this.files)">
           <div class="upload-icon">📤</div>
           <div class="upload-title">Customer Upload Data</div>
-          <div class="upload-drop-hint">Click to upload CSV</div>
+          <div class="upload-drop-hint">Click to upload CSV (multiple files allowed)</div>
         </div>
         <ul class="upload-rules">
           <li>CSV format only</li>
@@ -525,10 +541,11 @@
         <div id="files_customer"></div>
       </div>
       <div class="upload-card" id="uc_mapping">
-        <div class="upload-drop-zone" onclick="simulateUpload('mapping')">
+        <div class="upload-drop-zone" onclick="document.getElementById('finput_mapping').click()">
+          <input type="file" id="finput_mapping" multiple accept=".csv" style="display:none" onchange="handleFiles('mapping', this.files)">
           <div class="upload-icon">🗺</div>
           <div class="upload-title">Upload Mapping File</div>
-          <div class="upload-drop-hint">Click to upload CSV</div>
+          <div class="upload-drop-hint">Click to upload CSV (multiple files allowed)</div>
         </div>
         <ul class="upload-rules">
           <li>CSV format only</li>
@@ -541,10 +558,11 @@
         <div id="files_mapping"></div>
       </div>
       <div class="upload-card" id="uc_financial">
-        <div class="upload-drop-zone" onclick="simulateUpload('financial')">
+        <div class="upload-drop-zone" onclick="document.getElementById('finput_financial').click()">
+          <input type="file" id="finput_financial" multiple accept=".csv" style="display:none" onchange="handleFiles('financial', this.files)">
           <div class="upload-icon">💲</div>
           <div class="upload-title">Upload Financial Data</div>
-          <div class="upload-drop-hint">Click to upload CSV</div>
+          <div class="upload-drop-hint">Click to upload CSV (multiple files allowed)</div>
         </div>
         <ul class="upload-rules">
           <li>CSV format only</li>
@@ -555,22 +573,6 @@
         </ul>
         <div id="qc_financial" style="display:none;"></div>
         <div id="files_financial"></div>
-      </div>
-      <div class="upload-card" id="uc_response">
-        <div class="upload-drop-zone" onclick="simulateUpload('response')">
-          <div class="upload-icon">📈</div>
-          <div class="upload-title">Upload Response Curve</div>
-          <div class="upload-drop-hint">Click to upload CSV</div>
-        </div>
-        <ul class="upload-rules">
-          <li>CSV format only</li>
-          <li>One response curve file per cycle</li>
-          <li>Required: Brand, Channel, Alpha, Beta columns</li>
-          <li>Brand names must match Customer data</li>
-          <li>Alpha and Beta must be positive numeric values</li>
-        </ul>
-        <div id="qc_response" style="display:none;"></div>
-        <div id="files_response"></div>
       </div>
     </div>
     <div class="continue-row">
@@ -600,7 +602,6 @@
         <button class="config-tab-btn active" onclick="switchConfigTab(this,'cfg_customer')">Customer Data</button>
         <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_mapping')">Mapping</button>
         <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_financial')">Financial</button>
-        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_response')">Response Curve</button>
       </div>
       <div id="cfg_customer">
         <div class="config-file-row">
@@ -651,20 +652,6 @@
           </table>
         </div>
       </div>
-      <div id="cfg_response" style="display:none;">
-        <div class="config-file-row"><span class="file-label">Response_Curve.csv</span></div>
-        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
-          <table class="config-table">
-            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><span class="col-check">✔</span></td><td>Brand</td><td><div class="col-alias">Brand <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Brand identifier</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Channel</td><td><div class="col-alias">Channel <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Channel identifier</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Alpha</td><td><div class="col-alias">Alpha <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Curve alpha parameter</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Beta</td><td><div class="col-alias">Beta <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Curve beta parameter</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
       <div class="config-bottom-bar">
         <button class="btn-teal" onclick="goTo('s4')">Proceed to Data Insights →</button>
       </div>
@@ -698,15 +685,11 @@
           <p>Ask questions about your data</p>
         </div>
         <div class="chatbot-body" id="chatBody">
-          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>Analysis complete. 19 columns detected, 11 mapped. Monthly granularity confirmed.</div></div>
-          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>Peak sales in <strong>Apr '24 — $1,614</strong> per HCP, +10.4% from March.</div></div>
-          <div class="chat-msg rec"><div class="msg-time">Just now</div><span class="chat-tag rec">Recommendation</span><div>EHR impressions closely tracked sales Sep–Dec '24. Consider increasing EHR allocation in Q4.</div></div>
-          <div class="chat-msg alert"><div class="msg-time">Just now</div><span class="chat-tag alert">Alert</span><div>Detailing + DTC TV dominate <strong>83%</strong> of $100M spend — concentration risk.</div></div>
-          <div class="chat-msg"><div class="msg-time">Just now</div><span class="chat-tag insight">Insight</span><div>NE region leads with 3.8k HCPs (31%), SE at 2.6k (21%).</div></div>
+          <div class="chat-empty" id="chatEmpty">Ask a question about your uploaded data to get started — e.g. "What were peak sales in 2024?" or "Which channel drove the most reach?"</div>
         </div>
         <div class="chatbot-input-row">
           <input type="text" id="chatInput" placeholder="Ask about your data..." onkeydown="if(event.key==='Enter')sendChat()">
-          <button class="chatbot-send-btn" onclick="sendChat()">→</button>
+          <button class="chatbot-send-btn" onclick="sendChat()" title="Send">➤</button>
         </div>
       </div>
       <div class="insights-right">
@@ -721,9 +704,9 @@
         <div class="brands-section">
           <div class="brands-header-row"><h3>Brands Detected</h3></div>
           <div class="brands-detected-grid">
-            <div class="brand-card-det" id="bdet_0" onclick="toggleBrand(0)"><div class="brand-check">✓</div><div class="brand-num">1</div><div class="brand-name-det">Brand_1</div><div class="brand-ta-det">Oncology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>8,960</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div></div></div>
-            <div class="brand-card-det" id="bdet_1" onclick="toggleBrand(1)"><div class="brand-check">✓</div><div class="brand-num">2</div><div class="brand-name-det">Brand_2</div><div class="brand-ta-det">Cardiology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>9,856</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div></div></div>
-            <div class="brand-card-det" id="bdet_2" onclick="toggleBrand(2)"><div class="brand-check">✓</div><div class="brand-num">3</div><div class="brand-name-det">Brand_3</div><div class="brand-ta-det">Neurology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>5,248</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div></div></div>
+            <div class="brand-card-det" id="bdet_0" onclick="toggleBrand(0)"><div class="brand-check">✓</div><div class="brand-num">1</div><div class="brand-name-det">Brand_1</div><div class="brand-ta-det">Oncology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>8,960</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Grow market share by 5% in target segment" onclick="event.stopPropagation()" oninput="detectedBrands[0].objective=this.value"></div></div>
+            <div class="brand-card-det" id="bdet_1" onclick="toggleBrand(1)"><div class="brand-check">✓</div><div class="brand-num">2</div><div class="brand-name-det">Brand_2</div><div class="brand-ta-det">Cardiology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>9,856</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Defend share against generic erosion" onclick="event.stopPropagation()" oninput="detectedBrands[1].objective=this.value"></div></div>
+            <div class="brand-card-det" id="bdet_2" onclick="toggleBrand(2)"><div class="brand-check">✓</div><div class="brand-num">3</div><div class="brand-name-det">Brand_3</div><div class="brand-ta-det">Neurology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>5,248</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Accelerate new-patient starts in launch year" onclick="event.stopPropagation()" oninput="detectedBrands[2].objective=this.value"></div></div>
           </div>
           <div class="add-brands-bar">
             <span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span>
@@ -737,9 +720,9 @@
 
 <script>
   const detectedBrands = [
-    { name:'Brand_1', ta:'Oncology', compType:'Branded' },
-    { name:'Brand_2', ta:'Cardiology', compType:'Generic' },
-    { name:'Brand_3', ta:'Neurology', compType:'Branded' },
+    { name:'Brand_1', ta:'Oncology', compType:'Branded', objective:'' },
+    { name:'Brand_2', ta:'Cardiology', compType:'Generic', objective:'' },
+    { name:'Brand_3', ta:'Neurology', compType:'Branded', objective:'' },
   ];
   let selectedBrands = new Set();
   let addedBrands = [];
@@ -977,23 +960,26 @@
       {label:'Channel name alignment with Customer data', status:'fail', detail:'"DTC_TV" not found in Customer file'},
       {label:'Missing values in Values column', status:'warn', detail:'3 rows have empty Values'},
     ],
-    response:[
-      {label:'Brand column present', status:'pass'},
-      {label:'Channel column present', status:'pass'},
-      {label:'Alpha values positive numeric', status:'pass'},
-      {label:'Beta values positive numeric', status:'pass'},
-      {label:'Brand names match Customer data', status:'pass'},
-    ],
   };
-  const fileNames = { customer:'HCP_DB_1.csv', mapping:'Mapping_File.csv', financial:'Financials.csv', response:'Response_Curve.csv' };
+  const fileNames = { customer:'HCP_DB_1.csv', mapping:'Mapping_File.csv', financial:'Financials.csv' };
 
-  function simulateUpload(type) {
+  const uploadedFiles = { customer:[], mapping:[], financial:[] };
+
+  function handleFiles(type, fileList) {
+    if(!fileList || !fileList.length) return;
+    const names = Array.from(fileList).map(f=>f.name);
+    uploadedFiles[type] = uploadedFiles[type].concat(names);
+    runQC(type);
+  }
+
+  function runQC(type) {
     const qcEl = document.getElementById('qc_'+type);
     const filesEl = document.getElementById('files_'+type);
     const card = document.getElementById('uc_'+type);
     const checks = qcChecks[type];
     const hasFail = checks.some(c=>c.status==='fail');
     const hasWarn = checks.some(c=>c.status==='warn');
+    const names = uploadedFiles[type];
 
     qcEl.style.display='block';
     qcEl.innerHTML=`<div class="qc-panel"><div class="qc-panel-header">⟳ Running QC checks…</div></div>`;
@@ -1013,26 +999,39 @@
         card.classList.remove('has-file');
         filesEl.innerHTML='';
         const failCount = checks.filter(c=>c.status==='fail').length;
-        showToast(`${fileNames[type]}: ${failCount} QC check${failCount>1?'s':''} failed — fix the file and re-upload`, 'error', 6000);
+        showToast(`${failCount} QC check${failCount>1?'s':''} failed — fix the file${names.length>1?'s':''} and re-upload`, 'error', 6000);
       } else {
         card.classList.remove('has-error');
         card.classList.add('has-file');
-        filesEl.innerHTML=`<div class="file-count" style="margin-top:8px;">Uploaded: <span>1</span></div><div class="file-item"><span class="file-name">${fileNames[type]}</span><span class="file-ok">✓</span></div>`;
+        const fileItems = names.map((n,i)=>`<div class="file-item"><span class="file-name">${n}</span><span style="display:flex;align-items:center;gap:6px;"><span class="file-ok">✓</span><span class="file-remove" onclick="event.stopPropagation();removeFile('${type}',${i})" title="Remove">✕</span></span></div>`).join('');
+        filesEl.innerHTML=`<div class="file-count">Uploaded: <span>${names.length}</span></div>${fileItems}`;
         if(hasWarn) {
           const warnCount = checks.filter(c=>c.status==='warn').length;
-          showToast(`${fileNames[type]} uploaded with ${warnCount} warning${warnCount>1?'s':''}`, 'warn', 5000);
+          showToast(`${names.length} file${names.length>1?'s':''} uploaded with ${warnCount} warning${warnCount>1?'s':''}`, 'warn', 5000);
         } else {
-          showToast(`${fileNames[type]} uploaded successfully`, 'success', 3000);
+          showToast(`${names.length} file${names.length>1?'s':''} uploaded successfully`, 'success', 3000);
         }
       }
     }, 900);
+  }
+
+  function removeFile(type, idx) {
+    uploadedFiles[type].splice(idx,1);
+    if(uploadedFiles[type].length) {
+      runQC(type);
+    } else {
+      const card = document.getElementById('uc_'+type);
+      card.classList.remove('has-file','has-error');
+      document.getElementById('files_'+type).innerHTML='';
+      document.getElementById('qc_'+type).style.display='none';
+    }
   }
 
   /* ─ Config tabs ─ */
   function switchConfigTab(btn, tabId) {
     document.querySelectorAll('.config-tab-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    ['cfg_customer','cfg_mapping','cfg_financial','cfg_response'].forEach(id=>{ document.getElementById(id).style.display=id===tabId?'block':'none'; });
+    ['cfg_customer','cfg_mapping','cfg_financial'].forEach(id=>{ document.getElementById(id).style.display=id===tabId?'block':'none'; });
   }
 
   /* ─ Brand selection ─ */
@@ -1058,15 +1057,33 @@
   }
 
   /* ─ Chat ─ */
+  const aiResponses = [
+    "Based on your uploaded data, I found relevant patterns related to that. Let me know if you'd like me to break it down by brand or by channel.",
+    "Looking at the data you've uploaded, I can pull that out for you — could you confirm which time period or brand you'd like this scoped to?",
+    "That pattern shows up across your customer and financial files. I can summarize the trend or flag any anomalies if that would help.",
+  ];
+  let aiResponseIdx = 0;
   function sendChat() {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
     if(!msg) return;
+    const empty = document.getElementById('chatEmpty');
+    if(empty) empty.remove();
     const body = document.getElementById('chatBody');
-    body.innerHTML+=`<div class="chat-msg" style="border-left-color:var(--teal-dark);background:var(--teal-light);"><div class="msg-time">Just now</div><div style="color:var(--teal-dark);font-weight:500;">${msg}</div></div>`;
-    input.value='';
-    setTimeout(()=>{ body.innerHTML+=`<div class="chat-msg rec"><div class="msg-time">Just now</div><span class="chat-tag rec">Response</span><div>Based on your data, I found relevant patterns. Explore the insight tiles for more detail.</div></div>`; body.scrollTop=body.scrollHeight; }, 600);
-    body.scrollTop=body.scrollHeight;
+    const time = 'Just now';
+    body.innerHTML += `<div class="chat-row user"><div class="chat-bubble user"><div class="msg-time">${time}</div><div>${msg.replace(/</g,'&lt;')}</div></div></div>`;
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+    const typingId = 'typing_'+Date.now();
+    body.innerHTML += `<div class="chat-row ai" id="${typingId}"><div class="chat-bubble ai"><div class="chat-typing"><span></span><span></span><span></span></div></div></div>`;
+    body.scrollTop = body.scrollHeight;
+    setTimeout(()=>{
+      const typingEl = document.getElementById(typingId);
+      const reply = aiResponses[aiResponseIdx % aiResponses.length];
+      aiResponseIdx++;
+      if(typingEl) typingEl.outerHTML = `<div class="chat-row ai"><div class="chat-bubble ai"><div class="msg-time">Just now</div><div>${reply}</div></div></div>`;
+      body.scrollTop = body.scrollHeight;
+    }, 900);
   }
 
   /* ─ Toast ─ */

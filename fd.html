@@ -209,24 +209,74 @@
   .config-panel-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; overflow-x: auto; }
   .config-tab-btn { font-size: 12px; font-weight: 500; color: var(--text-light); padding: 5px 12px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; white-space: nowrap; background: none; }
   .config-tab-btn.active { color: var(--teal-dark); border-color: var(--teal-mid); background: var(--teal-light); }
-  .config-file-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg); font-size: 12px; }
+  .config-file-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg); font-size: 12px; flex-wrap: wrap; gap: 10px; }
   .config-file-row .file-label { font-weight: 600; color: var(--text-dark); }
   .config-meta { display: flex; align-items: center; gap: 16px; }
-  .meta-select { background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 4px 10px; font-size: 11px; color: var(--text-dark); cursor: pointer; }
+  .config-file-select-wrap { display: flex; align-items: center; gap: 8px; }
+  .config-file-select-wrap label { font-size: 10px; color: var(--text-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .config-file-select { border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 12px; color: var(--text-dark); background: var(--white); cursor: pointer; font-family: inherit; }
+  .config-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: var(--white); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+  .col-select-summary { font-size: 11px; color: var(--text-light); }
+  .col-select-summary strong { color: var(--teal-dark); }
+  .btn-run-qc { background: var(--teal); color: white; border: none; border-radius: 7px; padding: 7px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .btn-run-qc:hover { background: var(--teal-dark); }
+  .cfg-checkbox { accent-color: var(--teal); width: 15px; height: 15px; cursor: pointer; }
+  .cfg-checkbox:disabled { cursor: not-allowed; opacity: 0.65; }
+  .locked-tag { font-size: 9px; font-weight: 700; color: var(--teal-dark); background: var(--teal-light); border-radius: 6px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; }
+  .cfg-alias-input, .cfg-desc-input { width: 100%; border: 0.5px solid var(--border); border-radius: 5px; padding: 5px 7px; font-size: 12px; color: var(--text-dark); background: #fffde8; font-family: inherit; }
+  .cfg-alias-input:focus, .cfg-desc-input:focus { outline: 1.5px solid var(--teal); }
   .config-table { width: 100%; border-collapse: collapse; }
   .config-table thead th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
   .config-table tbody tr { border-bottom: 1px solid var(--border); }
+  .config-table tbody tr.col-deselected { opacity: 0.45; }
   .config-table tbody td { padding: 10px 12px; font-size: 12px; color: var(--text-dark); }
   .config-table tbody tr:hover td { background: var(--bg); }
-  .col-check { color: var(--teal); }
-  .col-alias { display: flex; align-items: center; gap: 4px; }
-  .col-alias .edit-icon { font-size: 10px; color: var(--teal); cursor: pointer; }
-  .col-type-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500; background: var(--teal-light); color: var(--teal-dark); }
-  .col-type-badge.id { background: #ede9fe; color: #5b21b6; }
-  .col-type-badge.date { background: #fef9c3; color: #854d0e; }
-  .seg-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500; background: var(--bg); color: var(--text-mid); border: 1px solid var(--border); cursor: pointer; }
-  .col-desc { color: var(--text-light); font-size: 11px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .config-bottom-bar { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+
+  /* QC panel on main config screen */
+  .cfg-status-banner { margin: 14px 20px 0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .cfg-status-banner.pass { background: var(--green-light); color: var(--green); border: 1px solid #6ee7b7; }
+  .cfg-status-banner.fail { background: #fee2e2; color: var(--red); border: 1px solid #fca5a5; }
+  .cfgqc-panel { margin: 12px 20px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .cfgqc-panel-header { padding: 10px 14px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; background: var(--white); border-bottom: 1px solid var(--border); }
+  .cfgqc-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 12px; gap: 12px; }
+  .cfgqc-row:last-child { border-bottom: none; }
+  .cfgqc-row.clickable { cursor: pointer; }
+  .cfgqc-row.clickable:hover { background: var(--teal-light); }
+  .cfgqc-label { color: var(--text-mid); display: flex; flex-direction: column; }
+  .cfgqc-label .cfgqc-detail { font-size: 10.5px; color: var(--text-light); margin-top: 1px; }
+  .cfgqc-badge { font-size: 10px; padding: 2px 9px; border-radius: 8px; font-weight: 700; white-space: nowrap; }
+  .cfgqc-badge.pass { background: var(--green-light); color: var(--green); }
+  .cfgqc-badge.fail { background: #fee2e2; color: var(--red); }
+  .cfgqc-badge.edited { background: #ede9fe; color: #5b21b6; }
+
+  /* QC Fix modal */
+  .qcfix-modal .modal-box { width: 920px; max-width: 95vw; }
+  .qcfix-success-banner { background: var(--green-light); border: 1px solid #6ee7b7; color: var(--green); font-size: 12.5px; font-weight: 600; padding: 9px 14px; border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .qcfix-layout { display: grid; grid-template-columns: 230px 1fr; gap: 16px; }
+  .qcfix-list { display: flex; flex-direction: column; gap: 6px; max-height: 420px; overflow-y: auto; }
+  .qcfix-item { padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 11.5px; cursor: pointer; background: var(--white); transition: all 0.15s; display: flex; flex-direction: column; }
+  .qcfix-item:hover { border-color: var(--teal-mid); }
+  .qcfix-item.fail { border-color: #fca5a5; background: #fff5f5; }
+  .qcfix-item.edited { border-color: #c4b5fd; background: #f5f3ff; }
+  .qcfix-item.pass { opacity: 0.6; cursor: default; }
+  .qcfix-item-label { font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+  .qcfix-item-detail { color: var(--text-light); font-size: 10.5px; }
+  .qcfix-item-status { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 5px; }
+  .qcfix-item.fail .qcfix-item-status { color: var(--red); }
+  .qcfix-item.edited .qcfix-item-status { color: #6d28d9; }
+  .qcfix-item.pass .qcfix-item-status { color: var(--green); }
+  .qcfix-table-wrap { max-height: 420px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+  .qcfix-table { border-collapse: collapse; font-size: 11.5px; width: 100%; }
+  .qcfix-table th { position: sticky; top: 0; background: var(--bg); padding: 8px 10px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-light); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .qcfix-table td { padding: 4px 6px; border-bottom: 1px solid var(--border); }
+  .qcfix-cell-input { width: 100%; min-width: 90px; border: 1.5px solid transparent; border-radius: 5px; padding: 5px 7px; font-size: 11.5px; font-family: inherit; background: transparent; color: var(--text-dark); }
+  .qcfix-cell-input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .qcfix-cell-input.cell-fail { background: #fee2e2; border-color: #fca5a5; }
+  .qcfix-cell-input.cell-edited { background: #ede9fe; border-color: #c4b5fd; }
+  .qcfix-cell-input.cell-focus { box-shadow: 0 0 0 3px rgba(26,148,148,0.35); }
+  .btn-rerun-qc { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-rerun-qc:disabled { background: var(--border); color: var(--text-light); cursor: not-allowed; }
 
   /* ═══ INSIGHTS ═══ */
   .insights-layout { display: grid; grid-template-columns: 380px 1fr; gap: 20px; height: calc(100vh - 160px); }
@@ -697,62 +747,38 @@
     </div>
     <div class="config-panel">
       <div class="config-panel-header">
-        <button class="config-tab-btn active" onclick="switchConfigTab(this,'cfg_customer')">Customer Data</button>
-        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_mapping')">Mapping</button>
-        <button class="config-tab-btn" onclick="switchConfigTab(this,'cfg_financial')">Financial</button>
+        <button class="config-tab-btn active" onclick="switchConfigTab(this,'customer')">Customer Data</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'financial')">Financial</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'mapping')">Mapping</button>
+        <button class="config-tab-btn" onclick="switchConfigTab(this,'response')">Response Curve</button>
       </div>
-      <div id="cfg_customer">
-        <div class="config-file-row">
-          <span class="file-label">HCP_DB_1.csv</span>
-          <div class="config-meta">
-            <span style="font-size:11px;color:var(--text-light)">Level: <strong style="color:var(--text-dark)">HCP</strong></span>
-            <span style="font-size:11px;color:var(--text-light)">Granularity:</span>
-            <select class="meta-select"><option>Monthly</option><option>Weekly</option></select>
-          </div>
-        </div>
-        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
-          <table class="config-table">
-            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Priority Segment</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><span class="col-check">✔</span></td><td>HCP</td><td><div class="col-alias">HCP <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Unique HCP identifier</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Timeframe_Month</td><td><div class="col-alias">Timeframe Month <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge date">Date Range</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Monthly timeframe</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>EHR_IMPR</td><td><div class="col-alias">EHR IMPR <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Activity</span></td><td><span class="seg-badge">Target_Tiers ▾</span></td><td><span class="col-desc">EHR impressions count</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>EMAIL_SENT</td><td><div class="col-alias">Email Sent <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Activity</span></td><td><span class="seg-badge">Target_Tiers ▾</span></td><td><span class="col-desc">Emails sent</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Sales_m_Account</td><td><div class="col-alias">Sales Monthly <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Sales</span></td><td><span style="font-size:11px;color:var(--text-light)">N/A</span></td><td><span class="col-desc">Monthly sales value</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="cfg_mapping" style="display:none;">
-        <div class="config-file-row"><span class="file-label">Mapping_File.csv</span></div>
-        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
-          <table class="config-table">
-            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><span class="col-check">✔</span></td><td>FromType</td><td><div class="col-alias">From Type <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Source entity type</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>ToType</td><td><div class="col-alias">To Type <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Target entity type</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>ValueFrom</td><td><div class="col-alias">Value From <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Value</span></td><td><span class="col-desc">Source value</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>ValueTo</td><td><div class="col-alias">Value To <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge">Value</span></td><td><span class="col-desc">Target value</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="cfg_financial" style="display:none;">
-        <div class="config-file-row"><span class="file-label">Financials.csv</span><div class="config-meta"><span style="font-size:11px;color:var(--text-light)">Currency: <strong style="color:var(--text-dark)">USD</strong></span></div></div>
-        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
-          <table class="config-table">
-            <thead><tr><th style="width:30px"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><span class="col-check">✔</span></td><td>Channel</td><td><div class="col-alias">Channel <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Channel name</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Brand</td><td><div class="col-alias">Brand <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge id">ID</span></td><td><span class="col-desc">Brand identifier</span></td></tr>
-              <tr><td><span class="col-check">✔</span></td><td>Values</td><td><div class="col-alias">Spend Value <span class="edit-icon">✎</span></div></td><td><span class="col-type-badge" style="background:#dcfce7;color:#166534;">Numeric</span></td><td><span class="col-desc">Budget spend value</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <div id="cfgPane_customer" class="cfg-pane"></div>
+      <div id="cfgPane_financial" class="cfg-pane" style="display:none;"></div>
+      <div id="cfgPane_mapping" class="cfg-pane" style="display:none;"></div>
+      <div id="cfgPane_response" class="cfg-pane" style="display:none;"></div>
       <div class="config-bottom-bar">
         <button class="btn-teal" onclick="goTo('s4')">Proceed to Data Insights →</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: QC FIX ═══════════ -->
+<div class="modal-overlay qcfix-modal" id="qcFixModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="qcFixModalTitle">Fix Data Issues</h3>
+      <button class="modal-close" onclick="closeQCFixModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="qcFixSuccessBanner"></div>
+      <div class="qcfix-layout">
+        <div class="qcfix-list" id="qcFixList"></div>
+        <div class="qcfix-table-wrap" id="qcFixTableWrap"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-rerun-qc" id="qcRerunBtn" disabled onclick="rerunQC()">Rerun QC Checks</button>
     </div>
   </div>
 </div>
@@ -831,6 +857,7 @@
     document.getElementById(id).classList.add('active');
     window.scrollTo(0,0);
     if(id==='s1b') renderBrandsGrid();
+    if(id==='s3') ensureConfigBuilt();
   }
 
   function openAddBrandSidebar() {
@@ -1100,16 +1127,17 @@
 
   function handleMasterFiles(type, fileList) {
     if(!fileList || !fileList.length) return;
-    const names = Array.from(fileList).map(f=>f.name);
+    const filesArr = Array.from(fileList);
     const state = uploadState[type].master;
-    names.forEach(n => state.files.push({ name:n, done:false }));
+    filesArr.forEach(f => state.files.push({ name:f.name, done:false, fileObj:f }));
+    configBuilt = false; // uploaded files changed — rebuild Data Configuration next time it's opened
     renderMasterFileList(type);
     setTimeout(() => {
       state.files.forEach(f => { if(!f.done) f.done = true; });
       state.done = true;
       renderMasterFileList(type);
       markCustomerMasterComplete();
-      showToast(`${names.length} file${names.length>1?'s':''} uploaded successfully`, 'success');
+      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} uploaded successfully`, 'success');
     }, 800);
   }
 
@@ -1126,6 +1154,7 @@
     event.stopPropagation();
     const state = uploadState[type].master;
     state.files.splice(idx,1);
+    configBuilt = false; // uploaded files changed — rebuild Data Configuration next time it's opened
     if(!state.files.length) {
       state.done = false;
       document.getElementById('status_customer_master').innerHTML = '';
@@ -1207,20 +1236,21 @@
     if(!fileList || !fileList.length) return;
     const cfg = dataTypeConfig[type];
     const state = getBrandStage(type);
-    const names = Array.from(fileList).map(f=>f.name);
-    names.forEach(n => state.files.push({ name:n, done:false, brands:[] }));
+    const filesArr = Array.from(fileList);
+    filesArr.forEach(f => state.files.push({ name:f.name, done:false, brands:[], fileObj:f }));
+    configBuilt = false; // these files may feed Data Configuration (incl. Response Curve tab)
     renderSecondaryFileList(type);
     setTimeout(() => {
-      names.forEach(n => {
-        const entry = state.files.find(f => f.name===n && !f.done);
-        const matched = detectBrandsFromFile(n, cfg.brands, state.detected);
+      filesArr.forEach(f => {
+        const entry = state.files.find(x => x.name===f.name && !x.done);
+        const matched = detectBrandsFromFile(f.name, cfg.brands, state.detected);
         matched.forEach(b => state.detected.add(b));
         if(entry) { entry.done = true; entry.brands = matched; }
       });
       renderSecondaryFileList(type);
       renderBrandTicks(type);
       if(state.detected.size >= cfg.brands.length) markBrandModalComplete(type);
-      showToast(`${names.length} file${names.length>1?'s':''} scanned for brand data`, 'success');
+      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned for brand data`, 'success');
     }, 1000);
   }
 
@@ -1237,6 +1267,7 @@
   function removeSecondaryFile(type, idx) {
     event.stopPropagation();
     getBrandStage(type).files.splice(idx,1);
+    configBuilt = false;
     renderSecondaryFileList(type);
   }
 
@@ -1251,11 +1282,395 @@
     setupDropZone(document.getElementById('secondaryDropZone'), files => handleSecondaryFiles(currentModalType, files));
   });
 
-  /* ─ Config tabs ─ */
-  function switchConfigTab(btn, tabId) {
+  /* ═══════════ DATA CONFIGURATION (multi-file, column selection, QC) ═══════════ */
+  const CONFIG_TYPES = ['customer','financial','mapping','response'];
+  let configBuilt = false;
+  const configData = { customer:{ files:[] }, financial:{ files:[] }, mapping:{ files:[] }, response:{ files:[] } };
+  const activeConfigFileIdx = { customer:0, financial:0, mapping:0, response:0 };
+
+  function switchConfigTab(btn, type) {
     document.querySelectorAll('.config-tab-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    ['cfg_customer','cfg_mapping','cfg_financial'].forEach(id=>{ document.getElementById(id).style.display=id===tabId?'block':'none'; });
+    CONFIG_TYPES.forEach(t=>{ document.getElementById('cfgPane_'+t).style.display = t===type ? 'block' : 'none'; });
+  }
+
+  async function ensureConfigBuilt() {
+    if(configBuilt) return;
+    CONFIG_TYPES.forEach(t=>{
+      const pane = document.getElementById('cfgPane_'+t);
+      if(pane) pane.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-light);font-size:12px;">⟳ Analyzing uploaded file(s)…</div>';
+    });
+    configBuilt = true;
+    await buildConfigData();
+    CONFIG_TYPES.forEach(t => renderConfigTab(t));
+  }
+
+  function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  }
+
+  function parseCSV(text) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+    if(!lines.length) return { headers:[], rows:[] };
+    const splitLine = l => l.split(',').map(c => c.trim().replace(/^"|"$/g,''));
+    const headers = splitLine(lines[0]);
+    const rows = lines.slice(1, 51).map(splitLine); // cap preview at 50 rows
+    return { headers, rows };
+  }
+
+  function titleCase(s) {
+    return String(s).replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function inferColumnType(name, rows, colIdx) {
+    const n = name.toLowerCase();
+    if(/date|month|week|period|time/.test(n)) return 'Date Range';
+    if(/\bid\b|\bhcp\b|\baccount\b|\bcustomer\b|\bchannel\b|\bbrand\b|\bfromtype\b|\btotype\b/.test(n)) return 'ID';
+    const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
+    const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
+    if(vals.length && numericCount / vals.length > 0.7) {
+      if(/sales|revenue/.test(n)) return 'Sales';
+      if(/spend|cost|budget|value/.test(n)) return 'Numeric';
+      return 'Activity';
+    }
+    return 'Text';
+  }
+
+  function mockDataFor(type) {
+    if(type === 'customer') return {
+      headers: ['HCP','Timeframe_Month','EHR_IMPR','EMAIL_SENT','Sales_m_Account'],
+      rows: [
+        ['HCP001','2025-01','120','30','15000'],
+        ['HCP002','2025-01','95','22','12000'],
+        ['HCP003','2025-01','','18','9000'],
+        ['HCP001','2025-02','110,5','28','16000'],
+        ['HCP002','2025-02','88','20','11500']
+      ]
+    };
+    if(type === 'financial') return {
+      headers: ['Channel','Brand','Values'],
+      rows: [
+        ['Detailing','Brand_1','48,000'],
+        ['DTC_TV','Brand_2','35000'],
+        ['Email','Brand_3','$17000'],
+        ['Detailing','Brand_2','',]
+      ]
+    };
+    if(type === 'mapping') return {
+      headers: ['FromType','ToType','ValueFrom','ValueTo'],
+      rows: [
+        ['Channel','Segment','Detailing','Tier1'],
+        ['Channel','Segment','Email','Tier2'],
+        ['Segment','Channel','','Detailing']
+      ]
+    };
+    if(type === 'response') return {
+      headers: ['Brand','Channel','Spend_Level','Response_Value'],
+      rows: [
+        ['Brand_1','Detailing','10000','420'],
+        ['Brand_1','Detailing','20000','710'],
+        ['Brand_2','Email','5000',''],
+        ['Brand_3','DTC_TV','15,000','980']
+      ]
+    };
+    return { headers:[], rows:[] };
+  }
+
+  function defaultFileName(type) {
+    return { customer:'HCP_DB_1.csv', financial:'Financials.csv', mapping:'Mapping_File.csv', response:'Response_Curve_Data.csv' }[type];
+  }
+
+  // Columns that are structurally required for the file to be usable — pre-selected and locked (cannot be unchecked)
+  function isLockedColumnType(t) {
+    return t === 'ID' || t === 'Date Range';
+  }
+
+  async function buildFileEntry(type, name, fileObj) {
+    let headers = [], rows = [];
+    if(fileObj) {
+      try {
+        const text = await readFileAsText(fileObj);
+        const parsed = parseCSV(text);
+        headers = parsed.headers; rows = parsed.rows;
+      } catch(e) { /* fall back to mock below */ }
+    }
+    if(!headers.length) {
+      const mock = mockDataFor(type);
+      headers = mock.headers; rows = mock.rows;
+    }
+    const columns = headers.map((h,i) => {
+      const t = inferColumnType(h, rows, i);
+      return { name: h, alias: titleCase(h), type: t, desc: '', selected: true, locked: isLockedColumnType(t) };
+    });
+    const meta = type === 'financial' ? { currency:'USD' } : {};
+    return { name: name || defaultFileName(type), meta, columns, rows, qc: { status:'idle', checks:[] } };
+  }
+
+  // Where a given config tab's uploaded files actually live in uploadState
+  function getUploadedFilesFor(type) {
+    if(type === 'response') return (uploadState.customer.secondary.files || []).filter(f => f.fileObj);
+    return (uploadState[type].master.files || []).filter(f => f.fileObj);
+  }
+
+  async function buildConfigData() {
+    for(const type of CONFIG_TYPES) {
+      const uploaded = getUploadedFilesFor(type);
+      let entries = [];
+      if(uploaded.length) {
+        for(const f of uploaded) entries.push(await buildFileEntry(type, f.name, f.fileObj));
+      } else {
+        entries = [ await buildFileEntry(type, defaultFileName(type), null) ];
+      }
+      configData[type].files = entries;
+      activeConfigFileIdx[type] = 0;
+    }
+  }
+
+  function switchConfigFile(type, val) {
+    activeConfigFileIdx[type] = parseInt(val, 10);
+    renderConfigTab(type);
+  }
+
+  function toggleColumnSelected(type, idx, ci, checked) {
+    const col = configData[type].files[idx].columns[ci];
+    if(col.locked) return; // required column — cannot be unchecked
+    col.selected = checked;
+    renderConfigTab(type);
+  }
+  function toggleAllColumns(type, idx, checked) {
+    configData[type].files[idx].columns.forEach(c => { if(!c.locked) c.selected = checked; });
+    renderConfigTab(type);
+  }
+
+  function renderConfigTab(type) {
+    const pane = document.getElementById('cfgPane_'+type);
+    if(!pane) return;
+    const files = configData[type].files;
+    const idx = activeConfigFileIdx[type];
+    const file = files[idx];
+
+    const fileSelectHtml = files.length > 1
+      ? `<div class="config-file-select-wrap"><label>File</label><select class="config-file-select" onchange="switchConfigFile('${type}', this.value)">${files.map((f,i)=>`<option value="${i}" ${i===idx?'selected':''}>${f.name}</option>`).join('')}</select></div>`
+      : `<span class="file-label">${file.name}</span>`;
+
+    const metaHtml = type === 'financial'
+      ? `<div class="config-meta"><span style="font-size:11px;color:var(--text-light)">Currency: <strong style="color:var(--text-dark)">${file.meta.currency}</strong></span></div>`
+      : '';
+
+    const selectedCount = file.columns.filter(c => c.selected).length;
+    const allSelected = selectedCount === file.columns.length;
+
+    const rowsHtml = file.columns.map((c,ci) => `
+      <tr class="${c.selected ? '' : 'col-deselected'}">
+        <td><input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} ${c.locked?'disabled title="Required column — always included"':''} onchange="toggleColumnSelected('${type}',${idx},${ci},this.checked)"></td>
+        <td>${c.name}${c.locked?' <span class="locked-tag">Required</span>':''}</td>
+        <td><input class="cfg-alias-input" value="${c.alias}" oninput="configData.${type}.files[${idx}].columns[${ci}].alias=this.value"></td>
+        <td><input class="cfg-desc-input" value="${c.desc}" placeholder="Add description" oninput="configData.${type}.files[${idx}].columns[${ci}].desc=this.value"></td>
+      </tr>`).join('');
+
+    pane.innerHTML = `
+      <div class="config-file-row">${fileSelectHtml}${metaHtml}</div>
+      <div class="config-toolbar">
+        <span class="col-select-summary"><strong>${selectedCount}</strong> of ${file.columns.length} columns selected</span>
+        <button class="btn-run-qc" onclick="runFileQC('${type}',${idx})">▶ Run QC Checks</button>
+      </div>
+      <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+        <table class="config-table">
+          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${type}',${idx},this.checked)" title="Select/deselect all optional columns"></th><th>Name</th><th>Alias</th><th>Description</th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+      <div id="cfgQCArea_${type}"></div>
+    `;
+    renderQCPanel(type, idx);
+  }
+
+  /* ─ QC checks (generic — driven by selected columns' inferred type) ─ */
+  function runChecksFor(file) {
+    const checks = [];
+    const selectedCols = file.columns.filter(c => c.selected);
+    const rows = file.rows;
+
+    selectedCols.forEach(col => {
+      const ci = file.columns.indexOf(col);
+      const missing = [];
+      rows.forEach((r,ri) => { if(r[ci] === undefined || String(r[ci]).trim() === '') missing.push(ri); });
+      if(missing.length) {
+        checks.push({ id:`missing_${ci}`, label:`Missing values in "${col.alias}"`, status:'fail',
+          detail:`${missing.length} row(s) with empty values`, cells: missing.map(ri => ({r:ri, c:ci})) });
+      }
+      if(['Numeric','Sales','Activity'].includes(col.type)) {
+        const bad = [];
+        rows.forEach((r,ri) => { const v = r[ci]; if(v && /[,$]/.test(v)) bad.push(ri); });
+        if(bad.length) {
+          checks.push({ id:`numfmt_${ci}`, label:`Non-numeric characters in "${col.alias}"`, status:'fail',
+            detail:`${bad.length} row(s) contain commas or currency symbols`, cells: bad.map(ri => ({r:ri, c:ci})) });
+        }
+      }
+    });
+
+    if(!checks.length) {
+      checks.push({ id:'allgood', label:`${selectedCols.length} selected column(s) validated`, status:'pass', detail:'No issues found', cells:[] });
+    }
+    return checks;
+  }
+
+  function runFileQC(type, idx) {
+    const file = configData[type].files[idx];
+    const selectedCols = file.columns.filter(c => c.selected);
+    if(!selectedCols.length) { showToast('Select at least one column to run QC checks', 'warn'); return; }
+    file.qc.status = 'running';
+    renderQCPanel(type, idx);
+    setTimeout(() => {
+      const checks = runChecksFor(file);
+      file.qc.checks = checks;
+      file.qc.status = checks.some(c => c.status === 'fail') ? 'fail' : 'pass';
+      renderQCPanel(type, idx);
+      if(file.qc.status === 'pass') showToast(`All QC checks passed successfully for ${file.name}`, 'success');
+      else showToast(`${checks.filter(c=>c.status==='fail').length} QC check(s) failed for ${file.name}`, 'error');
+    }, 700);
+  }
+
+  function renderQCPanel(type, idx) {
+    const area = document.getElementById(`cfgQCArea_${type}`);
+    if(!area) return;
+    const file = configData[type].files[idx];
+    if(file.qc.status === 'idle') { area.innerHTML = ''; return; }
+    if(file.qc.status === 'running') { area.innerHTML = `<div class="cfgqc-panel"><div class="cfgqc-panel-header">⟳ Running QC checks…</div></div>`; return; }
+
+    const checks = file.qc.checks;
+    const hasFail = checks.some(c => c.status === 'fail');
+    const rowsHtml = checks.map(c => {
+      const clickable = c.status === 'fail';
+      return `<div class="cfgqc-row ${clickable?'clickable':''}" ${clickable?`onclick="openQCFixModal('${type}',${idx})"`:''}>
+        <div class="cfgqc-label">${c.label}${c.detail?`<span class="cfgqc-detail">${c.detail}</span>`:''}</div>
+        <span class="cfgqc-badge ${c.status}">${c.status==='pass'?'Pass':c.status==='edited'?'Edited':'Fail — click to fix'}</span>
+      </div>`;
+    }).join('');
+    const bannerHtml = hasFail
+      ? `<div class="cfg-status-banner fail">⚠ ${checks.filter(c=>c.status==='fail').length} QC check(s) failed for ${file.name} — click a failed check below to fix it</div>`
+      : `<div class="cfg-status-banner pass">✓ All QC checks passed successfully for ${file.name}</div>`;
+    area.innerHTML = `${bannerHtml}<div class="cfgqc-panel"><div class="cfgqc-panel-header">${hasFail?'⚠':'✓'} QC Checks — ${file.name}</div>${rowsHtml}</div>`;
+  }
+
+  /* ─ QC Fix modal ─ */
+  let qcFixCtx = null;
+
+  function getFixFile() {
+    return configData[qcFixCtx.type].files[qcFixCtx.idx];
+  }
+
+  function openQCFixModal(type, idx) {
+    qcFixCtx = { type, idx };
+    const file = configData[type].files[idx];
+    document.getElementById('qcFixModalTitle').textContent = `Fix Data Issues — ${file.name}`;
+    document.getElementById('qcFixSuccessBanner').innerHTML = '';
+    renderQCFixList();
+    renderQCFixTable();
+    updateRerunButtonState();
+    document.getElementById('qcFixModalOverlay').classList.add('open');
+  }
+  function closeQCFixModal() {
+    document.getElementById('qcFixModalOverlay').classList.remove('open');
+    qcFixCtx = null;
+  }
+
+  function renderQCFixList() {
+    const file = getFixFile();
+    const el = document.getElementById('qcFixList');
+    el.innerHTML = file.qc.checks.map((c,i) => `
+      <div class="qcfix-item ${c.status}" ${c.status==='fail'?`onclick="focusQCCell(${i})"`:''}>
+        <span class="qcfix-item-label">${c.label}</span>
+        ${c.detail?`<span class="qcfix-item-detail">${c.detail}</span>`:''}
+        <span class="qcfix-item-status">${c.status==='fail'?'Fail — click to locate':c.status==='edited'?'Edited — pending rerun':'Pass'}</span>
+      </div>`).join('');
+  }
+
+  function renderQCFixTable() {
+    const file = getFixFile();
+    const wrap = document.getElementById('qcFixTableWrap');
+    const cols = file.columns.filter(c => c.selected);
+    const colIndexes = cols.map(c => file.columns.indexOf(c));
+    const headerHtml = `<tr>${cols.map(c => `<th>${c.alias}</th>`).join('')}</tr>`;
+    const bodyHtml = file.rows.map((r,ri) => `<tr>${colIndexes.map(ci => {
+      const val = (r[ci] ?? '').toString().replace(/"/g,'&quot;');
+      return `<td><input class="qcfix-cell-input" id="qcCell_${ri}_${ci}" value="${val}" oninput="updateQCCell(${ri},${ci},this.value)"></td>`;
+    }).join('')}</tr>`).join('');
+    wrap.innerHTML = `<table class="qcfix-table"><thead>${headerHtml}</thead><tbody>${bodyHtml}</tbody></table>`;
+    refreshCellStyles();
+  }
+
+  function refreshCellStyles() {
+    const file = getFixFile();
+    document.querySelectorAll('#qcFixTableWrap .qcfix-cell-input').forEach(inp => {
+      inp.classList.remove('cell-fail','cell-edited');
+    });
+    file.qc.checks.forEach(chk => {
+      if(chk.status === 'fail' || chk.status === 'edited') {
+        chk.cells.forEach(cell => {
+          const inp = document.getElementById(`qcCell_${cell.r}_${cell.c}`);
+          if(inp) inp.classList.add(chk.status === 'fail' ? 'cell-fail' : 'cell-edited');
+        });
+      }
+    });
+  }
+
+  function focusQCCell(checkIdx) {
+    const file = getFixFile();
+    const chk = file.qc.checks[checkIdx];
+    if(!chk || !chk.cells.length) return;
+    const { r, c } = chk.cells[0];
+    const input = document.getElementById(`qcCell_${r}_${c}`);
+    if(input) {
+      input.scrollIntoView({ behavior:'smooth', block:'center' });
+      input.classList.add('cell-focus');
+      input.focus();
+      setTimeout(() => input.classList.remove('cell-focus'), 1200);
+    }
+  }
+
+  function updateQCCell(r, c, value) {
+    const file = getFixFile();
+    file.rows[r][c] = value;
+    file.qc.checks.forEach(chk => {
+      if(chk.status === 'fail' && chk.cells.some(cell => cell.r === r && cell.c === c)) {
+        chk.status = 'edited';
+      }
+    });
+    renderQCFixList();
+    refreshCellStyles();
+    updateRerunButtonState();
+  }
+
+  function updateRerunButtonState() {
+    const file = getFixFile();
+    const stillFailing = file.qc.checks.some(c => c.status === 'fail');
+    document.getElementById('qcRerunBtn').disabled = stillFailing;
+  }
+
+  function rerunQC() {
+    const { type, idx } = qcFixCtx;
+    const file = configData[type].files[idx];
+    const newChecks = runChecksFor(file);
+    file.qc.checks = newChecks;
+    file.qc.status = newChecks.some(c => c.status === 'fail') ? 'fail' : 'pass';
+    renderQCFixList();
+    renderQCFixTable();
+    updateRerunButtonState();
+    renderQCPanel(type, idx);
+
+    if(file.qc.status === 'pass') {
+      document.getElementById('qcFixSuccessBanner').innerHTML = `<div class="qcfix-success-banner">✓ All QC checks passed successfully</div>`;
+      showToast('All QC checks passed successfully', 'success');
+    } else {
+      document.getElementById('qcFixSuccessBanner').innerHTML = '';
+      showToast(`${newChecks.filter(c=>c.status==='fail').length} QC check(s) still failing`, 'error');
+    }
   }
 
   /* ─ Brand selection ─ */

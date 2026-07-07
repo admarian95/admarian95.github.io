@@ -1,0 +1,2911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning Flow</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #1a9494;
+    --teal-light: #e6f4f4;
+    --teal-mid: #9fd4d4;
+    --teal-dark: #0d6e6e;
+    --text-dark: #1a2332;
+    --text-mid: #4b5768;
+    --text-light: #8b95a2;
+    --border: #e2e8f0;
+    --bg: #f7f9fc;
+    --white: #ffffff;
+    --green: #10b981;
+    --green-light: #d1fae5;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+    --radius: 12px;
+  }
+  html, body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #eef2f7; height: 100%; overflow: hidden; color: var(--text-dark); }
+  .screen { display: none; position: fixed; inset: 0; flex-direction: column; overflow-y: auto; background: var(--white); }
+  .screen.active { display: flex; }
+
+  /* ═══ SCREEN 1: ALL PROJECTS ═══ */
+  #s1 { border: 2px solid var(--teal); }
+  .allproj-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .allproj-header h1 { font-size: 17px; font-weight: 600; color: var(--text-dark); }
+  .allproj-icons { display: flex; gap: 8px; }
+  .icon-btn { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 14px; }
+  .allproj-body { flex: 1; padding: 24px; background: var(--bg); position: relative; overflow-y: auto; }
+  .proj-cards-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .proj-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; width: 300px; box-shadow: var(--shadow-sm); cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; position: relative; }
+  .proj-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .proj-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .proj-title { font-size: 14px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 6px; }
+  .proj-info-dot { width: 14px; height: 14px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); flex-shrink: 0; }
+  .proj-actions { display: flex; align-items: center; gap: 6px; }
+  .btn-configure { background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .btn-configure:hover { background: var(--teal-mid); }
+  .proj-kebab { color: var(--text-light); cursor: pointer; font-size: 16px; padding: 2px 4px; }
+  .proj-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .proj-meta-item label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
+  .proj-meta-item span { font-size: 13px; color: var(--text-dark); font-weight: 500; }
+  .proj-fav-label { font-size: 10px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .proj-fav-empty { font-size: 12px; color: var(--text-light); font-style: italic; }
+  .allproj-wave { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; background: radial-gradient(ellipse 120% 80% at 40% 130%, rgba(26,148,148,0.06) 0%, transparent 70%); pointer-events: none; }
+  .fab-btn { position: fixed; bottom: 32px; right: 32px; width: 46px; height: 46px; background: var(--teal); border-radius: 50%; border: none; cursor: pointer; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(26,148,148,0.35); transition: background 0.2s; z-index: 10; }
+  .fab-btn:hover { background: var(--teal-dark); }
+
+  /* ═══ SCREEN 1B: BRANDS PAGE ═══ */
+  #s1b {}
+  .brands-topnav { display: flex; align-items: center; gap: 28px; padding: 0 24px; border-bottom: 1px solid var(--border); height: 50px; }
+  .brands-topnav-tab { font-size: 14px; font-weight: 500; color: var(--text-light); cursor: pointer; padding: 4px 0; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 6px; }
+  .brands-topnav-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .brands-topnav-tab .tab-icon { font-size: 14px; }
+  .brands-subtab-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 1px solid var(--border); }
+  .brands-subtabs { display: flex; gap: 4px; }
+  .brands-subtab { font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: var(--text-mid); }
+  .brands-subtab.active { background: var(--teal); color: white; border-radius: 6px; }
+  .brands-toolbar { display: flex; gap: 8px; }
+  .brands-body { flex: 1; padding: 20px 24px; background: var(--bg); position: relative; overflow-y: auto; }
+  .brands-cards-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .brand-card-b { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 20px 18px; width: 280px; box-shadow: var(--shadow-sm); position: relative; }
+  .brand-card-b-toprow { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .brand-card-b-left { display: flex; flex-direction: column; gap: 6px; }
+  .brand-card-b-name { font-size: 14px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 5px; }
+  .brand-info-dot { width: 14px; height: 14px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); flex-shrink: 0; }
+  .brand-pending-badge { font-size: 10px; font-weight: 600; color: var(--orange); background: var(--orange-light); border: 1px solid #fcd34d; border-radius: 5px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px; width: fit-content; }
+  .brand-card-b-right { display: flex; align-items: center; gap: 4px; }
+  .kebab-btn { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 16px; padding: 2px 5px; }
+  .kebab-menu { display: none; position: absolute; right: 14px; top: 44px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 50; min-width: 130px; overflow: hidden; }
+  .kebab-menu.open { display: block; }
+  .kebab-item { padding: 9px 14px; font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .kebab-item:hover { background: var(--bg); }
+  .kebab-item.danger { color: var(--red); }
+  .brand-card-b-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .brand-meta-col { display: flex; flex-direction: column; gap: 2px; }
+  .brand-meta-col label { font-size: 11px; color: var(--text-light); }
+  .brand-meta-col span { font-size: 13px; color: var(--text-dark); font-weight: 500; }
+  .brands-wave { position: absolute; bottom: 0; left: 0; right: 0; height: 220px; background: radial-gradient(ellipse 120% 80% at 40% 130%, rgba(26,148,148,0.05) 0%, transparent 70%); pointer-events: none; }
+
+  /* ═══ ADD BRAND SIDEBAR ═══ */
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; }
+  .sidebar-overlay.open { display: block; }
+  .add-brand-sidebar { position: fixed; right: 0; top: 0; bottom: 0; width: 700px; background: var(--white); z-index: 201; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+  .add-brand-sidebar.open { transform: translateX(0); }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: var(--teal-dark); flex-shrink: 0; }
+  .sidebar-header h3 { font-size: 17px; font-weight: 600; color: white; }
+  .sidebar-close { background: none; border: none; font-size: 22px; cursor: pointer; color: rgba(255,255,255,0.8); line-height: 1; }
+  .sidebar-close:hover { color: white; }
+  .sidebar-inner { display: flex; flex: 1; overflow: hidden; }
+  .sidebar-vtabs { display: flex; flex-direction: column; width: 44px; background: var(--teal-dark); flex-shrink: 0; }
+  .sidebar-vtab { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); cursor: pointer; padding: 18px 12px; transition: color 0.15s, background 0.15s; text-align: center; white-space: nowrap; border: none; background-color: transparent; }
+  .sidebar-vtab.active { color: var(--teal-dark); background: var(--white); }
+  .sidebar-vtab:not(.active):hover { color: rgba(255,255,255,0.85); }
+  .sidebar-content { flex: 1; overflow-y: auto; background: var(--white); }
+  .sidebar-pane { display: none; padding: 28px 28px 20px; }
+  .sidebar-pane.active { display: block; }
+  .sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; flex-shrink: 0; background: var(--white); }
+  .btn-teal { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+  .form-section-title { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 22px; }
+  .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .form-field2 label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-mid); margin-bottom: 7px; }
+  .form-field2 label .req { color: var(--red); }
+  .form-field2 input, .form-field2 select, .form-field2 textarea { width: 100%; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--text-dark); background: #f8fafc; transition: border-color 0.15s; font-family: inherit; }
+  .form-field2 input:focus, .form-field2 select:focus, .form-field2 textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .form-field2 input::placeholder, .form-field2 textarea::placeholder { color: #b0bac6; }
+  .form-field2 select { color: var(--text-mid); }
+  .form-field2 textarea { resize: vertical; min-height: 80px; }
+  .info-icon { width: 15px; height: 15px; border: 1px solid var(--text-light); border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; color: var(--text-light); cursor: help; flex-shrink: 0; }
+
+  /* ═══ STEPPER ═══ */
+  .stepper-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; justify-content: flex-end; }
+  .stepper { display: flex; align-items: center; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); font-weight: 500; }
+  .step.active { color: var(--teal-dark); }
+  .step.done { color: var(--teal-dark); }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; background: var(--white); color: var(--text-light); }
+  .step.active .step-num { border-color: var(--teal); background: var(--teal); color: white; }
+  .step.done .step-num { border-color: var(--teal); background: var(--teal); color: white; }
+  .step-sep { width: 40px; height: 1px; background: var(--border); margin: 0 4px; }
+  .step-sep.done { background: var(--teal); }
+
+  /* ═══ MAIN AREA ═══ */
+  .main-area { flex: 1; padding: 28px 32px; background: var(--bg); overflow-y: auto; }
+  .page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .back-btn { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 14px; }
+  .page-header h2 { font-size: 18px; font-weight: 600; color: var(--text-dark); }
+
+  /* ═══ UPLOAD ═══ */
+  .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .upload-card { background: var(--white); border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 18px; min-height: 300px; display: flex; flex-direction: column; transition: border-color 0.2s; }
+  .upload-rules { font-size: 11px; color: var(--text-mid); line-height: 1.7; flex: 1; }
+  .upload-rules li { margin-left: 14px; margin-bottom: 2px; }
+  .upload-rules .hl { color: var(--teal-dark); }
+  .file-count { font-size: 11px; color: var(--text-light); margin-top: 10px; margin-bottom: 6px; }
+  .file-count span { color: var(--teal); font-weight: 600; }
+  .file-item { display: flex; align-items: center; justify-content: space-between; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 6px 10px; margin-bottom: 5px; font-size: 11px; }
+  .file-item .file-name { color: var(--teal-dark); font-weight: 500; }
+  .file-item .file-ok { color: var(--green); font-size: 13px; }
+  .file-remove { color: var(--text-light); font-size: 11px; cursor: pointer; }
+  .file-remove:hover { color: var(--red); }
+  .continue-row { display: flex; justify-content: flex-end; margin-top: 20px; }
+  .btn-teal-outline { background: var(--white); border: 1px solid var(--border); border-radius: 7px; padding: 9px 24px; font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.2s; }
+  .btn-teal-outline:hover { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal); }
+
+  /* ═══ UPLOAD CARDS (2-tier: master + response curve) ═══ */
+  .upload-card { min-height: unset; }
+  .upload-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .upload-card-icon { font-size: 20px; }
+  .upload-card-title { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+  .upload-option-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; background: var(--white); }
+  .upload-option-row:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .upload-option-row.disabled { opacity: 0.5; cursor: not-allowed; background: var(--bg); pointer-events: none; }
+  .upload-option-row.complete { border-color: #6ee7b7; background: var(--green-light); }
+  .upload-option-row.complete:hover { background: var(--green-light); }
+  .upload-option-icon { font-size: 18px; flex-shrink: 0; width: 26px; text-align: center; }
+  .upload-option-text { flex: 1; min-width: 0; }
+  .upload-option-title { font-size: 12.5px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .upload-option-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+  .optional-tag { font-size: 9px; font-weight: 700; color: var(--text-light); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .upload-option-status { flex-shrink: 0; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+  .status-check { color: var(--green); font-size: 17px; font-weight: 700; }
+
+  /* ═══ MODAL (master / response-curve upload) ═══ */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 300; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: var(--white); border-radius: var(--radius); width: 540px; max-width: 92vw; max-height: 86vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--teal-dark); flex-shrink: 0; }
+  .modal-header h3 { font-size: 15px; font-weight: 600; color: white; }
+  .modal-close { background: none; border: none; font-size: 20px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; }
+  .modal-close:hover { color: white; }
+  .modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+  .modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; flex-shrink: 0; }
+  .modal-dropzone { border: 1.5px dashed var(--teal-mid); border-radius: 10px; padding: 28px 16px; text-align: center; cursor: pointer; background: var(--teal-light); transition: background 0.15s, border-color 0.15s; }
+  .modal-dropzone.dragover { background: #d0eeee; border-color: var(--teal); }
+  .modal-dropzone .upload-icon { font-size: 26px; margin-bottom: 6px; }
+  .modal-dropzone .upload-title { font-size: 13px; font-weight: 600; color: var(--teal-dark); margin-bottom: 4px; }
+  .modal-dropzone .upload-drop-hint { font-size: 11px; color: var(--text-light); }
+  .template-btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .template-btn-row .btn-teal-outline { flex: 1; min-width: 190px; font-size: 12px; padding: 9px 14px; }
+  .modal-file-list { margin-top: 14px; }
+  .modal-empty-hint { font-size: 12px; color: var(--text-light); text-align: center; padding: 10px 0; }
+  .modal-section-label { font-size: 11px; font-weight: 700; color: var(--text-mid); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .modal-spinner { width: 12px; height: 12px; border: 2px solid var(--teal-mid); border-top-color: var(--teal); border-radius: 50%; display: inline-block; animation: modalSpin 0.7s linear infinite; }
+  @keyframes modalSpin { to { transform: rotate(360deg); } }
+
+  /* ═══ BRAND TICK LIST (circular numbered items) ═══ */
+  .brand-tick-list { display: flex; flex-direction: column; gap: 8px; }
+  .brand-tick-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); transition: all 0.25s; }
+  .brand-tick-item.ticked { border-color: #6ee7b7; background: var(--green-light); }
+  .brand-tick-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-mid); background: var(--white); flex-shrink: 0; transition: all 0.25s; }
+  .brand-tick-item.ticked .brand-tick-circle { border-color: var(--green); background: var(--green); color: white; }
+  .brand-tick-name { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+
+  /* ═══ CONFIG ═══ */
+  .config-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  .config-panel-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; overflow-x: auto; }
+  .config-tab-btn { font-size: 12px; font-weight: 500; color: var(--text-light); padding: 5px 12px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; white-space: nowrap; background: none; }
+  .config-tab-btn.active { color: var(--teal-dark); border-color: var(--teal-mid); background: var(--teal-light); }
+  .config-file-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .config-file-row .file-label { font-weight: 600; color: var(--text-dark); }
+  .config-meta { display: flex; align-items: center; gap: 16px; }
+  .config-file-select-wrap { display: flex; align-items: center; gap: 8px; }
+  .config-file-select-wrap label { font-size: 10px; color: var(--text-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .config-file-select { border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 12px; color: var(--text-dark); background: var(--white); cursor: pointer; font-family: inherit; }
+  .config-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: var(--white); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+  .col-select-summary { font-size: 11px; color: var(--text-light); }
+  .col-select-summary strong { color: var(--teal-dark); }
+  .btn-run-qc { background: var(--teal); color: white; border: none; border-radius: 7px; padding: 7px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .btn-run-qc:hover { background: var(--teal-dark); }
+  .cfg-checkbox { accent-color: var(--teal); width: 15px; height: 15px; cursor: pointer; }
+  .cfg-checkbox:disabled { cursor: not-allowed; opacity: 0.65; }
+  .locked-tag { font-size: 9px; font-weight: 700; color: var(--teal-dark); background: var(--teal-light); border-radius: 6px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; }
+  .cfg-alias-input, .cfg-desc-input { width: 100%; border: 0.5px solid var(--border); border-radius: 5px; padding: 5px 7px; font-size: 12px; color: var(--text-dark); background: #fffde8; font-family: inherit; }
+  .cfg-alias-input:focus, .cfg-desc-input:focus { outline: 1.5px solid var(--teal); }
+  .config-table { width: 100%; border-collapse: collapse; }
+  .config-table thead th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .config-table tbody tr { border-bottom: 1px solid var(--border); }
+  .config-table tbody tr.col-deselected { opacity: 0.45; }
+  .config-table tbody td { padding: 10px 12px; font-size: 12px; color: var(--text-dark); }
+  .config-table tbody tr:hover td { background: var(--bg); }
+  .config-bottom-bar { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+
+  /* QC panel on main config screen */
+  .cfg-status-banner { margin: 14px 20px 0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .cfg-status-banner.pass { background: var(--green-light); color: var(--green); border: 1px solid #6ee7b7; }
+  .cfg-status-banner.fail { background: #fee2e2; color: var(--red); border: 1px solid #fca5a5; }
+  .cfgqc-panel { margin: 12px 20px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .cfgqc-panel-header { padding: 10px 14px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; background: var(--white); border-bottom: 1px solid var(--border); }
+  .cfgqc-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 12px; gap: 12px; }
+  .cfgqc-row:last-child { border-bottom: none; }
+  .cfgqc-row.clickable { cursor: pointer; }
+  .cfgqc-row.clickable:hover { background: var(--teal-light); }
+  .cfgqc-label { color: var(--text-mid); display: flex; flex-direction: column; }
+  .cfgqc-label .cfgqc-detail { font-size: 10.5px; color: var(--text-light); margin-top: 1px; }
+  .cfgqc-badge { font-size: 10px; padding: 2px 9px; border-radius: 8px; font-weight: 700; white-space: nowrap; }
+  .cfgqc-badge.pass { background: var(--green-light); color: var(--green); }
+  .cfgqc-badge.fail { background: #fee2e2; color: var(--red); }
+  .cfgqc-badge.edited { background: #ede9fe; color: #5b21b6; }
+
+  /* QC Fix modal */
+  .qcfix-modal .modal-box { width: 920px; max-width: 95vw; }
+  .qcfix-success-banner { background: var(--green-light); border: 1px solid #6ee7b7; color: var(--green); font-size: 12.5px; font-weight: 600; padding: 9px 14px; border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .qcfix-layout { display: grid; grid-template-columns: 230px 1fr; gap: 16px; }
+  .qcfix-list { display: flex; flex-direction: column; gap: 6px; max-height: 420px; overflow-y: auto; }
+  .qcfix-item { padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 11.5px; cursor: pointer; background: var(--white); transition: all 0.15s; display: flex; flex-direction: column; }
+  .qcfix-item:hover { border-color: var(--teal-mid); }
+  .qcfix-item.fail { border-color: #fca5a5; background: #fff5f5; }
+  .qcfix-item.edited { border-color: #c4b5fd; background: #f5f3ff; }
+  .qcfix-item.pass { opacity: 0.6; cursor: default; }
+  .qcfix-item-label { font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+  .qcfix-item-detail { color: var(--text-light); font-size: 10.5px; }
+  .qcfix-item-status { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 5px; }
+  .qcfix-item.fail .qcfix-item-status { color: var(--red); }
+  .qcfix-item.edited .qcfix-item-status { color: #6d28d9; }
+  .qcfix-item.pass .qcfix-item-status { color: var(--green); }
+  .qcfix-table-wrap { max-height: 420px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+  .qcfix-table { border-collapse: collapse; font-size: 11.5px; width: 100%; }
+  .qcfix-table th { position: sticky; top: 0; background: var(--bg); padding: 8px 10px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-light); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .qcfix-table td { padding: 4px 6px; border-bottom: 1px solid var(--border); }
+  .qcfix-cell-input { width: 100%; min-width: 90px; border: 1.5px solid transparent; border-radius: 5px; padding: 5px 7px; font-size: 11.5px; font-family: inherit; background: transparent; color: var(--text-dark); }
+  .qcfix-cell-input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .qcfix-cell-input.cell-fail { background: #fee2e2; border-color: #fca5a5; }
+  .qcfix-cell-input.cell-edited { background: #ede9fe; border-color: #c4b5fd; }
+  .qcfix-cell-input.cell-focus { box-shadow: 0 0 0 3px rgba(26,148,148,0.35); }
+  .btn-rerun-qc { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-rerun-qc:disabled { background: var(--border); color: var(--text-light); cursor: not-allowed; }
+
+  /* ═══ INSIGHTS ═══ */
+  .insights-layout { display: grid; grid-template-columns: 380px 1fr; gap: 20px; height: calc(100vh - 160px); }
+  .chatbot-panel { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .chatbot-header { padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--teal-dark); color: white; }
+  .chatbot-header h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .chatbot-header p { font-size: 11px; opacity: 0.85; }
+  .chatbot-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-empty { font-size: 12px; color: var(--text-light); line-height: 1.7; text-align: center; margin: auto; padding: 0 10px; }
+  .chat-row { display: flex; }
+  .chat-row.user { justify-content: flex-end; }
+  .chat-row.ai { justify-content: flex-start; }
+  .chat-bubble { max-width: 85%; padding: 9px 13px; border-radius: 14px; font-size: 12.5px; line-height: 1.55; }
+  .chat-bubble .msg-time { font-size: 9px; opacity: 0.7; margin-bottom: 3px; }
+  .chat-bubble.user { background: var(--teal); color: white; border-bottom-right-radius: 4px; }
+  .chat-bubble.user .msg-time { color: rgba(255,255,255,0.75); }
+  .chat-bubble.ai { background: var(--bg); color: var(--text-dark); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .chat-typing { display: flex; gap: 3px; padding: 2px 0; }
+  .chat-typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--text-light); animation: chatTyping 1s infinite ease-in-out; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes chatTyping { 0%,80%,100%{transform:scale(0.6);opacity:0.4;} 40%{transform:scale(1);opacity:1;} }
+  .chatbot-input-row { padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .chatbot-input-row input { flex: 1; border: 1px solid var(--border); border-radius: 999px; padding: 10px 16px; font-size: 12.5px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
+  .chatbot-input-row input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .chatbot-send-btn { background: var(--teal); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; font-size: 14px; cursor: pointer; font-weight: 500; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .chatbot-send-btn:hover { background: var(--teal-dark); }
+  .insights-right { overflow-y: auto; }
+  .insights-tiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .insight-tile { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
+  .tile-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .tile-title { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+  .tile-chevron { width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; color: var(--text-light); }
+  .tile-body { font-size: 11.5px; color: var(--text-mid); line-height: 1.7; }
+  .tile-body ul { padding-left: 14px; }
+  .tile-body li { margin-bottom: 4px; }
+  .tile-body strong { color: var(--text-dark); }
+  .tile-chip { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin-right: 4px; margin-top: 6px; }
+  .chip-green { background: var(--green-light); color: var(--green); }
+  .chip-orange { background: #fffbeb; color: #92400e; }
+  .chip-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .chip-purple { background: #ede9fe; color: #5b21b6; }
+  .brands-section { margin-top: 20px; }
+  .brands-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .brands-header-row h3 { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+  .brands-detected-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .brand-card-det { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; position: relative; user-select: none; }
+  .brand-card-det:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
+  .brand-card-det.selected { border-color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 3px rgba(26,148,148,0.15); }
+  .brand-card-det .brand-check { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all 0.15s; }
+  .brand-card-det.selected .brand-check { background: var(--teal); border-color: var(--teal); color: white; }
+  .brand-num { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--teal-dark); margin-bottom: 8px; }
+  .brand-name-det { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+  .brand-ta-det { font-size: 11px; color: var(--text-mid); margin-bottom: 8px; }
+  .brand-meta-row { display: flex; flex-direction: column; gap: 4px; }
+  .brand-meta-item { font-size: 11px; color: var(--text-mid); display: flex; justify-content: space-between; }
+  .brand-meta-item strong { color: var(--text-dark); }
+  .add-brands-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0 0; }
+  .brand-objective-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .brand-objective-row label { font-size: 10px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
+  .brand-objective-input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; font-size: 11.5px; color: var(--text-dark); background: var(--bg); font-family: inherit; }
+  .brand-objective-input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .brand-objective-input::placeholder { color: #b0bac6; }
+  .selected-count { font-size: 12px; color: var(--text-mid); }
+  .selected-count strong { color: var(--teal-dark); }
+  .btn-add-brands { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; opacity: 0.35; pointer-events: none; }
+  .btn-add-brands.enabled { opacity: 1; pointer-events: auto; }
+  .btn-add-brands.enabled:hover { background: var(--teal-dark); }
+
+  /* ═══ TOAST ═══ */
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 16px 12px 18px; border-radius: 10px; font-size: 13px; z-index: 999; transition: transform 0.32s cubic-bezier(0.34,1.3,0.64,1); min-width: 300px; max-width: 480px; box-shadow: var(--shadow-lg); display: flex; align-items: flex-start; gap: 10px; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .toast.error { background: #991b1b; border-left: 4px solid #ef4444; }
+  .toast.success { background: #065f46; border-left: 4px solid #10b981; }
+  .toast.warn { background: #78350f; border-left: 4px solid #f59e0b; }
+  .toast-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .toast-body { flex: 1; line-height: 1.5; }
+  .toast-title { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .toast-sub { font-size: 11px; opacity: 0.85; }
+  .toast-dismiss { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 16px; cursor: pointer; flex-shrink: 0; line-height: 1; padding: 0; margin-top: 1px; }
+  .toast-dismiss:hover { color: white; }
+
+  @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } }
+
+  /* ═══ FINANCIAL ASSUMPTIONS GRID ═══ */
+  .fin-forecast-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .fin-fc-chip { display: flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; user-select: none; }
+  .fin-fc-chip.active { border: 1.5px solid var(--teal); background: var(--teal-light); font-weight: 500; color: var(--text-dark); }
+  .fin-fc-chip:not(.active) { border: 1px solid var(--border); background: var(--bg); color: var(--text-mid); }
+  .fin-fc-chip .fav-star { background: none; border: none; cursor: pointer; font-size: 15px; padding: 0; line-height: 1; }
+  .fin-fc-chip .fav-star.on { color: var(--teal); }
+  .fin-fc-chip .fav-star.off { color: #ccc; }
+  .fin-fc-chip .chip-kebab { color: #ccc; font-size: 16px; line-height: 1; }
+  .btn-add-forecast { background: none; border: none; color: var(--teal); cursor: pointer; font-size: 13px; font-weight: 500; padding: 6px 4px; }
+  .fin-carryover { font-size: 12px; color: var(--text-light); margin-bottom: 14px; }
+  .fin-carryover strong { color: var(--text-dark); }
+  .fin-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+  .fin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .fin-table thead th { padding: 9px 12px; text-align: center; background: var(--bg); font-weight: 600; color: var(--text-light); font-size: 11px; border-bottom: 1px solid var(--border); }
+  .fin-table thead th:first-child { text-align: left; min-width: 180px; }
+  .fin-table tbody tr { border-bottom: 1px solid var(--border); }
+  .fin-table tbody tr:last-child { border-bottom: none; }
+  .fin-table tbody td { padding: 7px 8px; background: #fff; }
+  .fin-table tbody td:first-child { padding: 7px 12px; color: var(--text-dark); font-weight: 500; }
+  .fin-table tbody tr.hl-row td:first-child { color: var(--teal-dark); }
+  .fin-table tbody tr.hl-row td { background: #fdfcf0; }
+  .fin-cell-input { width: 100%; padding: 5px 8px; border-radius: 5px; border: 0.5px solid var(--border); font-size: 12px; text-align: right; color: var(--text-dark); background: #fffde8; font-family: inherit; }
+  .fin-cell-input:not(.hl) { background: var(--bg); }
+  .fin-cell-input:focus { outline: 1.5px solid var(--teal); }
+
+  /* ═══ CUSTOMERS GRID ═══ */
+  .cust-type-row { margin-bottom: 16px; max-width: 320px; }
+  .cust-type-row label { font-size: 12px; color: var(--text-mid); font-weight: 500; display: block; margin-bottom: 6px; }
+  .cust-type-select-wrap { position: relative; }
+  .cust-type-select { width: 100%; padding: 9px 32px 9px 12px; border-radius: 8px; border: 1.5px solid var(--teal); background: #fff; font-size: 13px; color: var(--text-dark); appearance: none; cursor: pointer; font-family: inherit; }
+  .cust-type-select:focus { outline: none; }
+  .cust-type-arrow { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); color: var(--teal); pointer-events: none; font-size: 12px; }
+  .cust-table-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .cust-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .cust-table thead th { padding: 9px 12px; text-align: left; background: var(--bg); font-weight: 600; color: var(--text-light); font-size: 11px; border-bottom: 1px solid var(--border); }
+  .cust-table tbody tr { border-bottom: 1px solid var(--border); }
+  .cust-table tbody tr:last-child { border-bottom: none; }
+  .cust-table tbody td { padding: 7px 10px; background: #fff; }
+  .cust-table tbody tr:nth-child(even) td { background: #fafaf8; }
+  .cust-alias-input { width: 100%; padding: 5px 8px; border-radius: 5px; border: 0.5px solid var(--border); font-size: 12px; text-align: center; background: #fffde8; color: var(--text-dark); font-family: inherit; }
+  .cust-alias-input:focus { outline: 1.5px solid var(--teal); }
+  .cust-type-sel { width: 100%; padding: 5px 24px 5px 8px; border-radius: 5px; border: 0.5px solid var(--border); background: #fff; font-size: 12px; color: var(--text-dark); appearance: none; cursor: pointer; font-family: inherit; }
+  .cust-type-sel:focus { outline: 1.5px solid var(--teal); }
+  .cust-td-type { position: relative; }
+  .cust-td-type::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--teal); pointer-events: none; font-size: 11px; }
+  .cust-cb { accent-color: var(--teal); }
+
+  /* ═══ BRAND CARD STATUS ═══ */
+  .brand-completed-badge { font-size: 10px; font-weight: 600; color: var(--green); background: var(--green-light); border: 1px solid #6ee7b7; border-radius: 5px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px; width: fit-content; }
+
+  /* ═══ CONFIG TABS: disabled state + AI badge ═══ */
+  .config-tab-btn.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .config-tab-btn .tab-lock { font-size: 10px; margin-left: 3px; }
+  .ai-badge { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: linear-gradient(135deg,#8b5cf6,#6366f1); color: white; font-size: 8px; font-weight: 700; margin-left: 5px; cursor: default; flex-shrink: 0; vertical-align: middle; }
+  .cfg-inline-flex { display: flex; align-items: center; gap: 4px; }
+  .req-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--teal-dark); background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 1px 6px; margin-left: 6px; }
+  .locked-input { background: var(--bg) !important; color: var(--text-mid) !important; cursor: not-allowed; }
+
+  /* ═══ BRANDS CONFIG TAB ═══ */
+  .brandcfg-table { width: 100%; border-collapse: collapse; }
+  .brandcfg-table thead th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .brandcfg-table tbody tr { border-bottom: 1px solid var(--border); }
+  .brandcfg-table tbody tr.brand-inactive { opacity: 1; }
+  .brandcfg-table tbody tr.brand-inactive td { color: var(--text-light); }
+  .brandcfg-table tbody tr.brand-inactive .cfg-alias-input,
+  .brandcfg-table tbody tr.brand-inactive .cfg-desc-input { background: var(--bg); color: var(--text-light); border-color: var(--border); }
+  .brandcfg-table tbody tr.brand-inactive td:nth-child(2) { text-decoration: line-through; text-decoration-color: var(--text-light); }
+  .brandcfg-table tbody td { padding: 10px 12px; font-size: 12px; color: var(--text-dark); vertical-align: middle; }
+  .brand-toggle { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+  .brand-toggle input { opacity: 0; width: 0; height: 0; }
+  .brand-toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 999px; transition: 0.2s; }
+  .brand-toggle-slider::before { content: ''; position: absolute; width: 14px; height: 14px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; }
+  .brand-toggle input:checked + .brand-toggle-slider { background: var(--teal); }
+  .brand-toggle input:checked + .brand-toggle-slider::before { transform: translateX(16px); }
+  .brandcfg-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--white); }
+  .btn-add-brand-cfg { background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid); padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-confirm-brands { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  .btn-confirm-brands.done { background: var(--green); }
+
+  /* ═══ CUSTOMER DATA SUBTABS ═══ */
+  .subtab-row { display: flex; gap: 6px; padding: 12px 20px 0; }
+  .subtab-btn { font-size: 12px; font-weight: 600; color: var(--text-mid); background: var(--bg); border: 1px solid var(--border); padding: 7px 14px; border-radius: 7px 7px 0 0; cursor: pointer; border-bottom: none; }
+  .subtab-btn.active { color: var(--teal-dark); background: var(--white); border-color: var(--teal-mid); position: relative; top: 1px; }
+
+  /* ═══ UPLOAD-ANOTHER ROW ═══ */
+  .upload-more-row { padding: 10px 20px; border-top: 1px dashed var(--border); background: var(--bg); }
+  .btn-upload-more { background: none; border: 1px dashed var(--teal-mid); color: var(--teal-dark); font-size: 11.5px; font-weight: 600; padding: 7px 12px; border-radius: 7px; cursor: pointer; }
+  .btn-upload-more:hover { background: var(--teal-light); }
+  .source-file-tag { font-size: 9px; color: var(--text-light); font-weight: 500; margin-left: 6px; }
+
+  /* ═══ VALIDATE BUTTON ═══ */
+  .btn-validate { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; opacity: 0.4; pointer-events: none; transition: opacity 0.15s; }
+  .btn-validate.enabled { opacity: 1; pointer-events: auto; }
+  .btn-validate.enabled:hover { background: var(--teal-dark); }
+  .validate-hint { font-size: 11px; color: var(--text-light); margin-right: auto; }
+
+  /* ═══ QC SUMMARY MODAL ═══ */
+  .qcsum-modal .modal-box { width: 620px; }
+  .qcsum-cats { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+  .qcsum-cat { border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); }
+  .qcsum-cat.pass { background: var(--green-light); border-color: #6ee7b7; }
+  .qcsum-cat.warning { background: var(--orange-light); border-color: #fde68a; }
+  .qcsum-cat.fail { background: #fee2e2; border-color: #fca5a5; }
+  .qcsum-cat-left { display: flex; align-items: center; gap: 10px; }
+  .qcsum-cat-icon { font-size: 18px; }
+  .qcsum-cat-title { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+  .qcsum-cat-sub { font-size: 11px; color: var(--text-mid); margin-top: 1px; }
+  .qcsum-cat-count { font-size: 20px; font-weight: 800; color: var(--text-dark); }
+  .qcsum-filelist { font-size: 10.5px; color: var(--text-mid); margin-top: 6px; padding-left: 28px; }
+  .qcsum-footer-note { font-size: 11.5px; color: var(--text-light); margin-top: 12px; text-align: center; }
+
+  /* ═══ REMEDIATE MODAL ═══ */
+  .remediate-modal .modal-box { width: 960px; max-width: 96vw; }
+  .remediate-tabs { display: flex; gap: 6px; padding: 0 22px; border-bottom: 1px solid var(--border); overflow-x: auto; flex-shrink: 0; background: var(--bg); }
+  .remediate-tab { font-size: 12px; font-weight: 600; color: var(--text-mid); padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .remediate-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .remediate-tab .rtab-badge { background: #fee2e2; color: var(--red); font-size: 9px; font-weight: 700; border-radius: 8px; padding: 1px 6px; }
+  .remediate-tab.tab-clear .rtab-badge { background: var(--green-light); color: var(--green); }
+
+  /* ═══ ACCORDION (Data Insights) ═══ */
+  .acc-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; background: var(--white); }
+  .acc-header:hover { background: var(--bg); }
+  .acc-title { font-size: 13.5px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+  .acc-subtitle { font-size: 11px; color: var(--text-light); font-weight: 400; margin-left: 4px; }
+  .acc-chevron { font-size: 11px; color: var(--text-light); transition: transform 0.2s; }
+  .acc-section.collapsed .acc-chevron { transform: rotate(-90deg); }
+  .acc-body { padding: 0 18px 18px; }
+  .acc-section.collapsed .acc-body { display: none; }
+  .acc-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .acc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 13px; }
+  .acc-card-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+  .acc-card ul { padding-left: 14px; font-size: 11.5px; color: var(--text-mid); line-height: 1.65; }
+  .acc-card li { margin-bottom: 3px; }
+  .acc-card li strong { color: var(--text-dark); }
+  .acc-ai-note { display: flex; align-items: flex-start; gap: 6px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 8px 10px; font-size: 11px; color: #5b21b6; margin-top: 10px; line-height: 1.5; }
+
+  /* ═══ DEEP DIVE ═══ */
+  .deepdive-brand-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .deepdive-brand-tab { font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; border: 1.5px solid var(--border); color: var(--text-mid); background: var(--white); }
+  .deepdive-brand-tab.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .deepdive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+  /* ═══ AI STAR BADGE (replaces text "AI" pill) ═══ */
+  .ai-badge { background: none; width: auto; height: auto; border-radius: 0; font-size: 12px; color: #8b5cf6; }
+
+  /* ═══ ADD BRAND MODAL ═══ */
+  .add-brand-modal .modal-box { width: 460px; }
+  .abm-field { margin-bottom: 14px; }
+  .abm-field label { font-size: 12px; font-weight: 600; color: var(--text-mid); display: block; margin-bottom: 6px; }
+  .abm-field input, .abm-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; font-size: 13px; color: var(--text-dark); font-family: inherit; }
+  .abm-field textarea { min-height: 70px; resize: vertical; }
+  .abm-field input:focus, .abm-field textarea:focus { outline: none; border-color: var(--teal); }
+  .abm-toggle-row { display: flex; align-items: center; gap: 10px; }
+  .abm-toggle-row span { font-size: 12.5px; color: var(--text-mid); }
+
+  /* ═══ RESPONSE CURVE BY BRAND (config screen) ═══ */
+  .respcurve-brand-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; background: var(--white); }
+  .respcurve-brand-card.empty { background: var(--bg); border-style: dashed; }
+  .respcurve-brand-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+  .respcurve-empty-msg { font-size: 12px; color: var(--text-mid); line-height: 1.6; margin-bottom: 10px; }
+  .respcurve-file-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+  .respcurve-file-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-dark); background: var(--bg); border-radius: 6px; padding: 7px 10px; }
+  .respcurve-level-tag { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--teal-dark); background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 1px 7px; }
+  .respcurve-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; }
+  .respcurve-kpi-row { display: flex; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
+  .respcurve-kpi { font-size: 11px; color: var(--text-light); }
+  .respcurve-kpi strong { display: block; font-size: 14px; color: var(--text-dark); }
+
+  /* ═══ DATA INSIGHTS — Portfolio Overview (image-based restructure) ═══ */
+  .pf-header-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+  .pf-header-row h3 { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+  .pf-header-row .pf-daterange { font-size: 12px; color: var(--text-light); }
+  .pf-stats-row { display: flex; gap: 36px; margin-bottom: 18px; flex-wrap: wrap; }
+  .pf-stat label { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); margin-bottom: 4px; }
+  .pf-stat span { font-size: 18px; font-weight: 700; color: var(--text-dark); }
+  .pf-brand-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pf-brand-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; background: var(--bg); }
+  .pf-brand-card-name { font-size: 13px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
+  .pf-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .pf-brand-card-sub { font-size: 11px; color: var(--text-light); margin-bottom: 10px; }
+  .pf-brand-metric-row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-top: 1px solid var(--border); }
+  .pf-brand-metric-row span:first-child { color: var(--text-light); }
+  .pf-brand-metric-row span:last-child { font-weight: 600; color: var(--text-dark); }
+
+  .cbo-section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--text-light); text-transform: uppercase; margin: 20px 0 10px; }
+  .cbo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .cbo-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; background: var(--white); }
+  .cbo-card-title { font-size: 12.5px; font-weight: 700; color: var(--text-dark); display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .cbo-card-title .cbo-title-sub { font-size: 10.5px; font-weight: 500; color: var(--text-light); }
+  .tier-mix-row { margin-bottom: 10px; }
+  .tier-mix-row-head { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-mid); margin-bottom: 4px; }
+  .tier-mix-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--border); }
+  .tier-mix-seg-h { background: #1e40af; }
+  .tier-mix-seg-m { background: #3b82f6; }
+  .tier-mix-seg-l { background: #bfdbfe; }
+  .tier-legend { display: flex; gap: 14px; font-size: 10.5px; color: var(--text-mid); margin-top: 8px; }
+  .tier-legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .tier-legend .sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .dq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .dq-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--white); }
+  .dq-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .dq-card-head span:first-child { font-size: 11px; color: var(--text-light); }
+  .dq-pill { font-size: 9.5px; font-weight: 700; border-radius: 8px; padding: 2px 8px; }
+  .dq-pill.flag { background: #fffbeb; color: #92400e; }
+  .dq-pill.clean { background: var(--green-light); color: var(--green); }
+  .dq-pill.review { background: #dbeafe; color: #1e40af; }
+  .dq-card-value { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+  .dq-card-sub { font-size: 10.5px; color: var(--text-light); }
+
+  .ai-insights-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+  .ai-insight-row { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+  .ai-insight-dots { display: flex; gap: 3px; margin-top: 4px; flex-shrink: 0; }
+  .ai-insight-dots span { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+  /* ═══ BRAND TABS + SKELETON DEEP DIVE (Data Insights) ═══ */
+  .insights-brand-tabs-row { display: flex; align-items: center; justify-content: space-between; margin: 22px 0 12px; }
+  .insights-brand-tabs-row h3 { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+  .insights-brand-pill-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .ins-pill-tab { font-size: 12.5px; font-weight: 600; padding: 8px 18px; border-radius: 999px; cursor: pointer; border: 1.5px solid var(--border); color: var(--text-mid); background: var(--white); display: flex; align-items: center; gap: 6px; }
+  .ins-pill-tab .pf-dot { width: 8px; height: 8px; }
+  .ins-pill-tab.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .ins-pill-tab.active .pf-dot { filter: brightness(0) invert(1); }
+
+  .skeleton-block { background: linear-gradient(90deg, #eef1f5 25%, #e4e8ee 37%, #eef1f5 63%); background-size: 400% 100%; animation: skeletonShimmer 1.3s ease-in-out infinite; border-radius: 8px; }
+  @keyframes skeletonShimmer { 0%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+  .skeleton-kpi-row { display: flex; gap: 12px; margin-bottom: 14px; }
+  .skeleton-kpi-row .skeleton-block { height: 56px; flex: 1; }
+  .skeleton-chart { height: 160px; margin-bottom: 14px; }
+  .skeleton-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .skeleton-grid .skeleton-block { height: 130px; }
+
+  .dd-kpi-row { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+  .dd-kpi { flex: 1; min-width: 130px; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; background: var(--bg); }
+  .dd-kpi label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-light); margin-bottom: 4px; }
+  .dd-kpi .dd-kpi-val { font-size: 16px; font-weight: 700; color: var(--text-dark); }
+  .dd-kpi .dd-kpi-sub { font-size: 10.5px; margin-top: 2px; }
+  .dd-kpi .dd-kpi-sub.pos { color: var(--green); }
+  .dd-kpi .dd-kpi-sub.neg { color: var(--red); }
+  .dd-chart-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; background: var(--white); margin-bottom: 12px; }
+  .dd-chart-card-title { font-size: 12.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .dd-chart-card-title .sub { font-size: 10.5px; font-weight: 500; color: var(--text-light); }
+  .cm-bar-row { margin-bottom: 8px; }
+  .cm-bar-head { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-mid); margin-bottom: 3px; }
+  .cm-bar-track { height: 7px; border-radius: 4px; background: var(--bg); overflow: hidden; }
+  .cm-bar-fill { height: 100%; background: var(--teal); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon"></span>
+  <div class="toast-body"><div class="toast-title" id="toastTitle"></div><div class="toast-sub" id="toastSub"></div></div>
+  <button class="toast-dismiss" onclick="dismissToast()">×</button>
+</div>
+
+<!-- ═══════════ SCREEN 1: ALL PROJECTS ═══════════ -->
+<div id="s1" class="screen active">
+  <div class="allproj-header">
+    <h1>All Projects</h1>
+    <div class="allproj-icons">
+      <button class="icon-btn" title="Sort">⇅</button>
+      <button class="icon-btn" title="Filter">⊟</button>
+      <button class="icon-btn" title="Search">🔍</button>
+    </div>
+  </div>
+  <div class="allproj-body">
+    <div class="proj-cards-row">
+      <div class="proj-card">
+        <div class="proj-card-header">
+          <div class="proj-title">
+            Tanay test
+            <span class="proj-info-dot">i</span>
+          </div>
+          <div class="proj-actions">
+            <button class="btn-configure" onclick="event.stopPropagation(); goTo('s2')">⚙ Configure Inputs</button>
+            <span class="proj-kebab">⋮</span>
+          </div>
+        </div>
+        <div class="proj-meta">
+          <div class="proj-meta-item">
+            <label>Planning Scope:</label>
+            <span>2025 – 2027</span>
+          </div>
+          <div class="proj-meta-item">
+            <label># of Scenarios</label>
+            <span>2</span>
+          </div>
+        </div>
+        <div class="proj-fav-label">Favorite Scenarios (0):</div>
+        <div class="proj-fav-empty">No favorite scenarios</div>
+      </div>
+    </div>
+    <div class="allproj-wave"></div>
+  </div>
+  <button class="fab-btn" title="New Project">+</button>
+</div>
+
+<!-- ═══════════ SCREEN 1B: BRANDS PAGE ═══════════ -->
+<div id="s1b" class="screen">
+  <!-- Top nav -->
+  <div class="brands-topnav">
+    <div class="brands-topnav-tab active"><span class="tab-icon">📋</span> Brands</div>
+    <div class="brands-topnav-tab"><span class="tab-icon">👥</span> Teams</div>
+  </div>
+  <!-- Sub-tabs + toolbar -->
+  <div class="brands-subtab-row">
+    <div class="brands-subtabs">
+      <button class="brands-subtab active">Brands</button>
+      <button class="brands-subtab">Reporting Groups</button>
+    </div>
+    <div class="brands-toolbar">
+      <button class="icon-btn" title="Sort">⇅</button>
+      <button class="icon-btn" title="Filter">⊟</button>
+      <button class="icon-btn" title="Search">🔍</button>
+    </div>
+  </div>
+  <!-- Body -->
+  <div class="brands-body">
+    <div class="brands-cards-row" id="brandsGrid"></div>
+    <div class="brands-wave"></div>
+  </div>
+  <button class="fab-btn" onclick="openAddBrandSidebar()" title="Add Brand">+</button>
+</div>
+
+<!-- ═══════════ ADD BRAND SIDEBAR ═══════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeAddBrandSidebar()"></div>
+<div class="add-brand-sidebar" id="addBrandSidebar">
+  <div class="sidebar-header">
+    <h3 id="sidebarTitle">Add Brand</h3>
+    <button class="sidebar-close" onclick="closeAddBrandSidebar()">✕</button>
+  </div>
+  <div class="sidebar-inner">
+    <!-- Vertical tabs -->
+    <div class="sidebar-vtabs">
+      <button class="sidebar-vtab active" id="vtab_brandinfo" onclick="switchSidebarTab('brandinfo')">Brand Info</button>
+      <button class="sidebar-vtab" id="vtab_financial" onclick="switchSidebarTab('financial')">Financial Assumptions</button>
+      <button class="sidebar-vtab" id="vtab_customers" onclick="switchSidebarTab('customers')">Customers</button>
+    </div>
+    <!-- Content -->
+    <div class="sidebar-content">
+      <!-- Brand Info pane -->
+      <div class="sidebar-pane active" id="spane_brandinfo">
+        <div class="form-section-title">Add Brand Information</div>
+        <div class="form-grid2">
+          <div class="form-field2">
+            <label>Brand Name <span class="req">*</span> <span class="info-icon">i</span></label>
+            <input type="text" id="sb_brandName" placeholder="Enter Brand Name here">
+          </div>
+          <div class="form-field2">
+            <label>Therapeutic Area <span class="info-icon">i</span></label>
+            <input type="text" id="sb_ta" placeholder="Enter Therapeutic Area">
+          </div>
+          <div class="form-field2">
+            <label>Years in Market <span class="info-icon">i</span></label>
+            <input type="number" id="sb_years" placeholder="Enter years">
+          </div>
+          <div class="form-field2">
+            <label>Competition Type <span class="info-icon">i</span></label>
+            <select id="sb_compType">
+              <option value="">Select competition type</option>
+              <option>Branded</option>
+              <option>Generic</option>
+              <option>OTC</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field2">
+          <label>Brand Description <span class="info-icon">i</span></label>
+          <textarea id="sb_desc" placeholder="Enter brand description"></textarea>
+        </div>
+      </div>
+      <!-- Financial Assumptions pane -->
+      <div class="sidebar-pane" id="spane_financial">
+        <div class="form-section-title">Financial Assumptions</div>
+        <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Enter Forecast Name:</p>
+        <div class="fin-forecast-row" id="finForecastRow"></div>
+        <div class="fin-carryover">Carryover Window: <strong>1 year</strong></div>
+        <div class="fin-table-wrap">
+          <table class="fin-table" id="finTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>2025</th><th>2026</th><th>2027</th><th>2028</th>
+              </tr>
+            </thead>
+            <tbody id="finTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Customers pane -->
+      <div class="sidebar-pane" id="spane_customers">
+        <div class="form-section-title">Customers</div>
+        <div class="cust-type-row">
+          <label>Customer Type <span class="info-icon">i</span></label>
+          <div class="cust-type-select-wrap">
+            <select class="cust-type-select" id="sb_customerType">
+              <option>HCP</option><option>Patient</option><option>Payer</option><option>Provider</option><option>Other</option>
+            </select>
+            <span class="cust-type-arrow">&#9662;</span>
+          </div>
+        </div>
+        <div class="cust-table-wrap">
+          <table class="cust-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"><input type="checkbox" class="cust-cb" id="custSelectAll" onchange="toggleAllCustRows(this)"></th>
+                <th>Column &#8593;</th>
+                <th style="text-align:center;">Alias Name</th>
+                <th style="text-align:center;">Column Type</th>
+              </tr>
+            </thead>
+            <tbody id="custTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <button class="btn-teal" id="sidebarSaveBtn" onclick="saveBrandFromSidebar()">Save &amp; Add Financials</button>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN 2: DATA UPLOAD ═══════════ -->
+<div id="s2" class="screen">
+  <div class="stepper-bar">
+    <div class="stepper">
+      <div class="step active"><div class="step-num">1</div> Data Upload</div>
+      <div class="step-sep"></div>
+      <div class="step"><div class="step-num">2</div> Data Configuration</div>
+      <div class="step-sep"></div>
+      <div class="step"><div class="step-num">3</div> Data Insights</div>
+    </div>
+  </div>
+  <div class="main-area">
+    <div class="page-header">
+      <button class="back-btn" onclick="goTo('s1')">←</button>
+      <h2>Data Upload</h2>
+    </div>
+    <div class="upload-grid">
+      <!-- Customer Data -->
+      <div class="upload-card" id="uc_customer">
+        <div class="upload-card-header">
+          <div class="upload-card-icon">👥</div>
+          <div class="upload-card-title">Customer Data</div>
+        </div>
+        <div class="upload-option-row" id="row_customer_master" onclick="openMasterModal('customer')">
+          <div class="upload-option-icon">📤</div>
+          <div class="upload-option-text">
+            <div class="upload-option-title">Customer Master Upload</div>
+            <div class="upload-option-sub">CSV, weekly/monthly, multiple files allowed</div>
+          </div>
+          <div class="upload-option-status" id="status_customer_master"></div>
+        </div>
+        <div class="upload-option-row disabled" id="row_customer_secondary" onclick="openBrandModal('customer')">
+          <div class="upload-option-icon">📈</div>
+          <div class="upload-option-text">
+            <div class="upload-option-title">Response Curve Upload <span class="optional-tag">Optional</span></div>
+            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+          </div>
+          <div class="upload-option-status" id="status_customer_secondary"></div>
+        </div>
+        <ul class="upload-rules">
+          <li>Unique at Customer/Geography level</li>
+          <li>Mandatory: one ID and one Date Range column</li>
+          <li>At least one Sales or Activity column required</li>
+        </ul>
+      </div>
+      <!-- Financial Data -->
+      <div class="upload-card" id="uc_financial">
+        <div class="upload-card-header">
+          <div class="upload-card-icon">💲</div>
+          <div class="upload-card-title">Financial Data</div>
+        </div>
+        <div class="upload-option-row disabled" id="row_financial_master" onclick="openBrandModal('financial')">
+          <div class="upload-option-icon">📤</div>
+          <div class="upload-option-text">
+            <div class="upload-option-title">Financial Master Upload</div>
+            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+          </div>
+          <div class="upload-option-status" id="status_financial_master"></div>
+        </div>
+        <ul class="upload-rules">
+          <li>No commas in numeric values</li>
+          <li>Currency units must be consistent</li>
+          <li>Channel names must match Customer data</li>
+        </ul>
+      </div>
+      <!-- Mapping File -->
+      <div class="upload-card" id="uc_mapping">
+        <div class="upload-card-header">
+          <div class="upload-card-icon">🗺</div>
+          <div class="upload-card-title">Mapping File</div>
+        </div>
+        <div class="upload-option-row disabled" id="row_mapping_master" onclick="openBrandModal('mapping')">
+          <div class="upload-option-icon">📤</div>
+          <div class="upload-option-text">
+            <div class="upload-option-title">Mapping Master Upload</div>
+            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+          </div>
+          <div class="upload-option-status" id="status_mapping_master"></div>
+        </div>
+        <ul class="upload-rules">
+          <li>Required: FromType, ToType, ValueTo, ValueFrom</li>
+          <li>Weights column optional</li>
+          <li>Cyclic mapping not allowed</li>
+        </ul>
+      </div>
+    </div>
+    <div class="continue-row">
+      <button class="btn-teal" onclick="goTo('s3')">Continue to Data Configuration →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: MASTER UPLOAD (Customer only) ═══════════ -->
+<div class="modal-overlay" id="masterModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="masterModalTitle">Master Upload</h3>
+      <button class="modal-close" onclick="closeMasterModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-dropzone" id="masterDropZone" onclick="document.getElementById('masterFileInput').click()">
+        <input type="file" id="masterFileInput" multiple accept=".csv" style="display:none" onchange="handleMasterFiles(currentModalType, this.files)">
+        <div class="upload-icon">📤</div>
+        <div class="upload-title">Drag &amp; drop files here</div>
+        <div class="upload-drop-hint">or click to browse — CSV, single or multiple files</div>
+      </div>
+      <div class="template-btn-row" id="masterTemplateBtns"></div>
+      <div class="modal-file-list" id="masterFileList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal" onclick="closeMasterModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: BRAND-DETECT UPLOAD (Response Curve / Financial / Mapping) ═══════════ -->
+<div class="modal-overlay" id="secondaryModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="secondaryModalTitle">Response Curve Upload</h3>
+      <button class="modal-close" onclick="closeSecondaryModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">Identified Brands</div>
+      <div class="brand-tick-list" id="brandTickList"></div>
+      <div class="modal-dropzone" id="secondaryDropZone" onclick="document.getElementById('secondaryFileInput').click()" style="margin-top:18px;">
+        <input type="file" id="secondaryFileInput" multiple accept=".csv" style="display:none" onchange="handleSecondaryFiles(currentModalType, this.files)">
+        <div class="upload-icon">📦</div>
+        <div class="upload-title">Drag &amp; drop bulk file(s) here</div>
+        <div class="upload-drop-hint">Multiple bulk files supported — brands are detected automatically</div>
+      </div>
+      <div class="modal-file-list" id="secondaryFileList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal" onclick="closeSecondaryModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════ SCREEN 3: DATA CONFIGURATION ═══════════ -->
+<div id="s3" class="screen">
+  <div class="stepper-bar">
+    <div class="stepper">
+      <div class="step done"><div class="step-num">✓</div> Data Upload</div>
+      <div class="step-sep done"></div>
+      <div class="step active"><div class="step-num">2</div> Data Configuration</div>
+      <div class="step-sep"></div>
+      <div class="step"><div class="step-num">3</div> Data Insights</div>
+    </div>
+  </div>
+  <div class="main-area">
+    <div class="page-header">
+      <button class="back-btn" onclick="goTo('s2')">←</button>
+      <h2>Data Configuration</h2>
+    </div>
+    <div class="config-panel">
+      <div class="config-panel-header">
+        <button class="config-tab-btn active" id="cfgTabBtn_brands" onclick="switchConfigTab(this,'brands')">Brands</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_customer" onclick="switchConfigTab(this,'customer')">Customer Data</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_financial" onclick="switchConfigTab(this,'financial')">Financial Data</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_mapping" onclick="switchConfigTab(this,'mapping')">Mapping</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_response" onclick="switchConfigTab(this,'response')">Response Curves</button>
+      </div>
+      <div id="cfgPane_brands" class="cfg-pane"></div>
+      <div id="cfgPane_customer" class="cfg-pane" style="display:none;"></div>
+      <div id="cfgPane_financial" class="cfg-pane" style="display:none;"></div>
+      <div id="cfgPane_mapping" class="cfg-pane" style="display:none;"></div>
+      <div id="cfgPane_response" class="cfg-pane" style="display:none;"></div>
+      <div class="config-bottom-bar">
+        <span class="validate-hint" id="validateHint">Work through each tab in order, then validate to continue</span>
+        <button class="btn-validate" id="btnValidate" onclick="startValidation()">Validate &amp; Proceed to Insights →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: ADD BRAND (Data Configuration → Brands tab) ═══════════ -->
+<div class="modal-overlay add-brand-modal" id="addBrandCfgModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Add Brand</h3>
+      <button class="modal-close" onclick="closeAddBrandCfgModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="abm-field">
+        <label>Brand Name <span class="req">*</span></label>
+        <input type="text" id="abm_name" placeholder="Enter brand name">
+      </div>
+      <div class="abm-field">
+        <label>Description</label>
+        <textarea id="abm_desc" placeholder="Enter a short brand description"></textarea>
+      </div>
+      <div class="abm-field abm-toggle-row">
+        <label class="brand-toggle">
+          <input type="checkbox" id="abm_active" checked>
+          <span class="brand-toggle-slider"></span>
+        </label>
+        <span>Include this brand in the project</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal" onclick="submitAddBrandCfg()">Save Brand</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: CONFIG-SCREEN BRAND-DETECT UPLOAD (Financial / Response Curve) ═══════════ -->
+<div class="modal-overlay" id="cfgBrandModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="cfgBrandModalTitle">Upload Data</h3>
+      <button class="modal-close" onclick="closeCfgBrandModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">Identified Brands</div>
+      <div class="brand-tick-list" id="cfgBrandTickList"></div>
+      <div class="modal-dropzone" id="cfgBrandDropZone" onclick="document.getElementById('cfgBrandFileInput').click()" style="margin-top:18px;">
+        <input type="file" id="cfgBrandFileInput" multiple accept=".csv" style="display:none" onchange="handleCfgBrandFiles(this.files)">
+        <div class="upload-icon">📦</div>
+        <div class="upload-title">Drag &amp; drop bulk file(s) here</div>
+        <div class="upload-drop-hint">Multiple bulk files supported — brands are detected automatically</div>
+      </div>
+      <div class="modal-file-list" id="cfgBrandFileList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal" onclick="closeCfgBrandModal()">Done</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="uploadMoreModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="uploadMoreModalTitle">Upload Additional Data</h3>
+      <button class="modal-close" onclick="closeUploadMoreModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-dropzone" id="uploadMoreDropZone" onclick="document.getElementById('uploadMoreFileInput').click()">
+        <input type="file" id="uploadMoreFileInput" multiple accept=".csv" style="display:none" onchange="handleUploadMoreFiles(this.files)">
+        <div class="upload-icon">📤</div>
+        <div class="upload-title">Drag &amp; drop files here</div>
+        <div class="upload-drop-hint">or click to browse — CSV, single or multiple files</div>
+      </div>
+      <div class="modal-file-list" id="uploadMoreFileList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal" onclick="closeUploadMoreModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: QC SUMMARY ═══════════ -->
+<div class="modal-overlay qcsum-modal" id="qcSummaryModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>QC Check Summary</h3>
+      <button class="modal-close" onclick="closeQCSummaryModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="qcsum-cats" id="qcSummaryCats"></div>
+      <div class="qcsum-footer-note" id="qcSummaryNote"></div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;" id="qcSummaryFooter"></div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: REMEDIATE (tabbed, multi-file) ═══════════ -->
+<div class="modal-overlay remediate-modal" id="qcFixModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="qcFixModalTitle">Remediate Data Issues</h3>
+      <button class="modal-close" onclick="closeQCFixModal()">×</button>
+    </div>
+    <div class="remediate-tabs" id="remediateTabs"></div>
+    <div class="modal-body">
+      <div id="qcFixSuccessBanner"></div>
+      <div class="qcfix-layout">
+        <div class="qcfix-list" id="qcFixList"></div>
+        <div class="qcfix-table-wrap" id="qcFixTableWrap"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-rerun-qc" id="qcRerunBtn" disabled onclick="rerunQC()">Rerun QC Checks</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN 4: DATA INSIGHTS ═══════════ -->
+<div id="s4" class="screen">
+  <div class="stepper-bar">
+    <div class="stepper">
+      <div class="step done"><div class="step-num">✓</div> Data Upload</div>
+      <div class="step-sep done"></div>
+      <div class="step done"><div class="step-num">✓</div> Data Configuration</div>
+      <div class="step-sep done"></div>
+      <div class="step active"><div class="step-num">3</div> Data Insights</div>
+    </div>
+  </div>
+  <div class="main-area" style="padding-bottom:40px;">
+    <div class="page-header">
+      <button class="back-btn" onclick="goTo('s3')">←</button>
+      <div>
+        <h2>Data Insights</h2>
+        <p style="font-size:12px;color:var(--text-light);margin-top:3px;">AI analysis of your uploaded data — select brands to add to your project</p>
+      </div>
+    </div>
+    <div class="insights-layout">
+      <div class="chatbot-panel">
+        <div class="chatbot-header">
+          <h4>🤖 AI Assistant</h4>
+          <p>Ask questions about your data</p>
+        </div>
+        <div class="chatbot-body" id="chatBody">
+          <div class="chat-empty" id="chatEmpty">Ask a question about your uploaded data to get started — e.g. "What were peak sales in 2024?" or "Which channel drove the most reach?"</div>
+        </div>
+        <div class="chatbot-input-row">
+          <input type="text" id="chatInput" placeholder="Ask about your data..." onkeydown="if(event.key==='Enter')sendChat()">
+          <button class="chatbot-send-btn" onclick="sendChat()" title="Send">➤</button>
+        </div>
+      </div>
+      <div class="insights-right">
+        <div id="insightsAccordion"></div>
+        <div class="brands-section">
+          <div class="brands-header-row"><h3>Brands Detected</h3></div>
+          <div class="brands-detected-grid">
+            <div class="brand-card-det" id="bdet_0" onclick="toggleBrand(0)"><div class="brand-check">✓</div><div class="brand-num">1</div><div class="brand-name-det">Brand_1</div><div class="brand-ta-det">Oncology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>8,960</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Grow market share by 5% in target segment" onclick="event.stopPropagation()" oninput="detectedBrands[0].objective=this.value"></div></div>
+            <div class="brand-card-det" id="bdet_1" onclick="toggleBrand(1)"><div class="brand-check">✓</div><div class="brand-num">2</div><div class="brand-name-det">Brand_2</div><div class="brand-ta-det">Cardiology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>9,856</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Defend share against generic erosion" onclick="event.stopPropagation()" oninput="detectedBrands[1].objective=this.value"></div></div>
+            <div class="brand-card-det" id="bdet_2" onclick="toggleBrand(2)"><div class="brand-check">✓</div><div class="brand-num">3</div><div class="brand-name-det">Brand_3</div><div class="brand-ta-det">Neurology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>5,248</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Accelerate new-patient starts in launch year" onclick="event.stopPropagation()" oninput="detectedBrands[2].objective=this.value"></div></div>
+          </div>
+          <div class="add-brands-bar">
+            <span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span>
+            <button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrands()">Add Brand(s)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const detectedBrands = [
+    { name:'Brand_1', ta:'Oncology', compType:'Branded', objective:'' },
+    { name:'Brand_2', ta:'Cardiology', compType:'Generic', objective:'' },
+    { name:'Brand_3', ta:'Neurology', compType:'Branded', objective:'' },
+  ];
+  let selectedBrands = new Set();
+  let addedBrands = [];
+  let editingIndex = null;
+
+  function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+    if(id==='s1b') renderBrandsGrid();
+    if(id==='s3') ensureConfigBuilt();
+    if(id==='s4') renderInsightsAccordion();
+  }
+
+  function openAddBrandSidebar() {
+    document.getElementById('sidebarOverlay').classList.add('open');
+    document.getElementById('addBrandSidebar').classList.add('open');
+    switchSidebarTab('brandinfo');
+  }
+  function closeAddBrandSidebar() {
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.getElementById('addBrandSidebar').classList.remove('open');
+    editingIndex = null;
+    document.getElementById('sidebarTitle').textContent = 'Add Brand';
+    document.getElementById('sidebarSaveBtn').textContent = 'Save & Add Financials';
+    ['sb_brandName','sb_ta','sb_years','sb_desc'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    document.getElementById('sb_compType').value = '';
+  }
+  function switchSidebarTab(tab) {
+    ['brandinfo','financial','customers'].forEach(t => {
+      document.getElementById('vtab_'+t).classList.toggle('active', t===tab);
+      document.getElementById('spane_'+t).classList.toggle('active', t===tab);
+    });
+    const btn = document.getElementById('sidebarSaveBtn');
+    if(tab === 'brandinfo') btn.textContent = 'Save & Add Financials';
+    else if(tab === 'financial') btn.textContent = 'Save & Add Customer';
+    else btn.textContent = 'Save Changes';
+  }
+  function saveBrandFromSidebar() {
+    const name = document.getElementById('sb_brandName').value.trim();
+    if(!name) { showToast('Brand name is required', 'error', 3500); return; }
+    const activeTab = ['brandinfo','financial','customers'].find(t => document.getElementById('spane_'+t).classList.contains('active'));
+    const updated = {
+      name,
+      ta: document.getElementById('sb_ta').value || '—',
+      years: document.getElementById('sb_years').value || '',
+      compType: document.getElementById('sb_compType').value,
+      desc: document.getElementById('sb_desc').value,
+      completed: activeTab === 'customers',
+    };
+    if(editingIndex !== null) {
+      if(activeTab === 'customers') updated.completed = true;
+      addedBrands[editingIndex] = {...addedBrands[editingIndex], ...updated};
+      closeAddBrandSidebar();
+      renderBrandsGrid();
+      showToast(`${name} updated successfully`, 'success', 3000);
+    } else {
+      addedBrands.push(updated);
+      if(activeTab === 'financial') {
+        switchSidebarTab('customers');
+        return;
+      }
+      closeAddBrandSidebar();
+      renderBrandsGrid();
+      showToast(`${name} added successfully`, 'success', 3000);
+    }
+    if(activeTab === 'customers') {
+      closeAddBrandSidebar();
+      renderBrandsGrid();
+      showToast(`${name} saved — status updated to Completed`, 'success', 3500);
+    }
+  }
+
+  /* ─ Brands grid (s1b) ─ */
+  function renderBrandsGrid() {
+    const grid = document.getElementById('brandsGrid');
+    if(!addedBrands.length) {
+      grid.innerHTML = '<p style="font-size:13px;color:var(--text-light);padding:8px 0;">No brands added yet. Click + to add a brand.</p>';
+      return;
+    }
+    grid.innerHTML = addedBrands.map((b, i) => `
+      <div class="brand-card-b">
+        <div class="brand-card-b-toprow">
+          <div class="brand-card-b-left">
+            <div class="brand-card-b-name">${b.name} <span class="brand-info-dot">i</span></div>
+          </div>
+          <div class="brand-card-b-right" style="display:flex;align-items:center;gap:6px;">
+            ${b.completed
+              ? '<span class="brand-completed-badge">&#10003; Completed</span>'
+              : '<span class="brand-pending-badge">&#9888; Pending</span>'}
+            <button class="kebab-btn" onclick="toggleKebab(event,${i})">&#8942;</button>
+          </div>
+        </div>
+        <div class="kebab-menu" id="kebab_${i}">
+          <div class="kebab-item" onclick="editBrand(${i})">&#9998; Edit</div>
+          <div class="kebab-item danger" onclick="deleteBrand(${i})">&#128465; Delete</div>
+        </div>
+        <div class="brand-card-b-meta">
+          <div class="brand-meta-col"><label>Therapeutic Area</label><span>${b.ta||'&#8212;'}</span></div>
+          <div class="brand-meta-col"><label>Customer Type</label><span style="color:var(--text-light);font-style:italic;font-size:12px;">&#8212;</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleKebab(e, i) {
+    e.stopPropagation();
+    document.querySelectorAll('.kebab-menu').forEach((m,j)=>{ if(j!==i) m.classList.remove('open'); });
+    document.getElementById('kebab_'+i).classList.toggle('open');
+  }
+  function deleteBrand(i) { addedBrands.splice(i,1); renderBrandsGrid(); showToast('Brand deleted','success'); }
+
+  function editBrand(i) {
+    document.querySelectorAll('.kebab-menu').forEach(m=>m.classList.remove('open'));
+    editingIndex = i;
+    const b = addedBrands[i];
+    document.getElementById('sb_brandName').value = b.name || '';
+    document.getElementById('sb_ta').value = b.ta === '—' ? '' : (b.ta || '');
+    document.getElementById('sb_years').value = b.years || '';
+    document.getElementById('sb_compType').value = b.compType || '';
+    document.getElementById('sb_desc').value = b.desc || '';
+    document.getElementById('sidebarTitle').textContent = 'Edit Brand';
+    document.getElementById('sidebarSaveBtn').textContent = 'Save Changes';
+    openAddBrandSidebar();
+  }
+
+  document.addEventListener('click', ()=> document.querySelectorAll('.kebab-menu').forEach(m=>m.classList.remove('open')));
+
+  /* ─ Financial assumptions grid ─ */
+  const finData = {
+    forecast1: {
+      'Total Forecast ($)':        { 2025:'4,200,000', 2026:'4,850,000', 2027:'5,600,000', 2028:'6,300,000' },
+      'COGS (%)':                  { 2025:'32', 2026:'31', 2027:'30', 2028:'29' },
+      'Gross to Net (%)':          { 2025:'18', 2026:'17', 2027:'17', 2028:'16' },
+      'Non SF Impact (%)':         { 2025:'5',  2026:'5',  2027:'4',  2028:'4'  },
+      'Carryover Rate (%)':        { 2025:'12', 2026:'11', 2027:'10', 2028:'10' },
+      'Prior Period Carryover ($)':{ 2025:'210,000', 2026:'240,000', 2027:'270,000', 2028:'300,000' }
+    },
+    forecast2: {
+      'Total Forecast ($)':        { 2025:'3,800,000', 2026:'4,400,000', 2027:'5,100,000', 2028:'5,900,000' },
+      'COGS (%)':                  { 2025:'34', 2026:'33', 2027:'32', 2028:'31' },
+      'Gross to Net (%)':          { 2025:'20', 2026:'19', 2027:'18', 2028:'17' },
+      'Non SF Impact (%)':         { 2025:'6',  2026:'6',  2027:'5',  2028:'5'  },
+      'Carryover Rate (%)':        { 2025:'14', 2026:'13', 2027:'12', 2028:'11' },
+      'Prior Period Carryover ($)':{ 2025:'190,000', 2026:'220,000', 2027:'250,000', 2028:'280,000' }
+    }
+  };
+  const finMetrics = Object.keys(finData.forecast1);
+  const finHighlighted = ['Total Forecast ($)','COGS (%)','Gross to Net (%)','Non SF Impact (%)','Carryover Rate (%)'];
+  const finYears = [2025,2026,2027,2028];
+  let activeForecast = 'forecast1';
+  let favForecast = 'forecast1';
+
+  function renderFinGrid() {
+    const row = document.getElementById('finForecastRow');
+    if(!row) return;
+    row.innerHTML = ['forecast1','forecast2'].map(fc =>
+      '<div class="fin-fc-chip ' + (fc===activeForecast?'active':'') + '" onclick="switchFinForecast(\'' + fc + '\')">' +
+        '<span>' + fc + '</span>' +
+        '<button class="fav-star ' + (fc===favForecast?'on':'off') + '" onclick="event.stopPropagation();setFinFav(\'' + fc + '\')" title="Set as primary">' + (fc===favForecast?'&#9733;':'&#9734;') + '</button>' +
+        '<span class="chip-kebab">&#8942;</span>' +
+      '</div>'
+    ).join('') + '<button class="btn-add-forecast">+ Financial Assumptions</button>';
+    const tbody = document.getElementById('finTbody');
+    if(!tbody) return;
+    tbody.innerHTML = finMetrics.map(function(metric) {
+      const isHl = finHighlighted.includes(metric);
+      return '<tr class="' + (isHl?'hl-row':'') + '">' +
+        '<td>' + metric + '</td>' +
+        finYears.map(function(y) {
+          return '<td><input class="fin-cell-input ' + (isHl?'hl':'') + '" value="' + (finData[activeForecast][metric][y]||'') + '" oninput="finData[activeForecast][' + "'" + metric + "'" + '][' + y + ']=this.value"></td>';
+        }).join('') +
+      '</tr>';
+    }).join('');
+  }
+  function switchFinForecast(fc) { activeForecast = fc; renderFinGrid(); }
+  function setFinFav(fc) { favForecast = fc; renderFinGrid(); }
+
+  /* ─ Customers grid ─ */
+  const custRows = [
+    { col:'Metric', alias:'Metric', type:'Text' },
+    { col:'',       alias:'',       type:'' },
+    { col:'2025',   alias:'2025',   type:'Numeric' },
+    { col:'2026',   alias:'2026',   type:'Numeric' },
+    { col:'2027',   alias:'2027',   type:'Numeric' },
+    { col:'2028',   alias:'2028',   type:'Numeric' },
+    { col:'2029',   alias:'2029',   type:'Numeric' }
+  ];
+  const custColTypes = ['Text','Numeric','Percentage','Currency','Date'];
+
+  function renderCustGrid() {
+    const tbody = document.getElementById('custTbody');
+    if(!tbody) return;
+    tbody.innerHTML = custRows.map(function(r, i) {
+      return '<tr>' +
+        '<td style="text-align:center;"><input type="checkbox" class="cust-cb" id="custrow_' + i + '" onchange="updateCustSelectAll()"></td>' +
+        '<td style="font-weight:' + (r.col==='Metric'?'600':'400') + ';color:var(--text-dark);">' + r.col + '</td>' +
+        '<td><input class="cust-alias-input" value="' + r.alias + '" oninput="custRows[' + i + '].alias=this.value"></td>' +
+        '<td class="cust-td-type"><select class="cust-type-sel" onchange="custRows[' + i + '].type=this.value">' +
+          '<option value="">Select column type</option>' +
+          custColTypes.map(function(t){ return '<option value="' + t + '"' + (r.type===t?' selected':'') + '>' + t + '</option>'; }).join('') +
+        '</select></td>' +
+      '</tr>';
+    }).join('');
+  }
+  function toggleAllCustRows(master) {
+    custRows.forEach(function(_,i){ var cb=document.getElementById('custrow_'+i); if(cb) cb.checked=master.checked; });
+  }
+  function updateCustSelectAll() {
+    var all = custRows.every(function(_,i){ var cb=document.getElementById('custrow_'+i); return cb&&cb.checked; });
+    var sa=document.getElementById('custSelectAll'); if(sa) sa.checked=all;
+  }
+
+  /* ─ Patch openAddBrandSidebar to init grids ─ */
+  var _origOpenSidebar = openAddBrandSidebar;
+  openAddBrandSidebar = function() { _origOpenSidebar(); setTimeout(function(){ renderFinGrid(); renderCustGrid(); }, 50); };
+
+  /* ─ Upload config per data type ─ */
+  const dataTypeConfig = {
+    customer: {
+      masterLabel: 'Customer Master Upload',
+      templates: ['Customer Data Template', 'Segment Data Template'],
+      brands: ['Brand_1', 'Brand_2', 'Brand_3']
+    },
+    financial: {
+      brands: ['Brand_1', 'Brand_2', 'Brand_3']
+    },
+    mapping: {
+      brands: ['Brand_1', 'Brand_2', 'Brand_3']
+    }
+  };
+
+  // Which upload stage (within uploadState[type]) is the "brand-detect" modal for each type,
+  // and what its modal title / row+status ids are.
+  const brandModalConfig = {
+    customer:  { stage:'secondary', label:'Response Curve Upload',    rowId:'row_customer_secondary',  statusId:'status_customer_secondary' },
+    financial: { stage:'master',    label:'Financial Master Upload',  rowId:'row_financial_master',    statusId:'status_financial_master' },
+    mapping:   { stage:'master',    label:'Mapping Master Upload',    rowId:'row_mapping_master',      statusId:'status_mapping_master' }
+  };
+
+  const uploadState = {
+    customer: { master: { done:false, files:[] }, secondary: { done:false, files:[], detected:new Set() }, secondaryEnabled:false },
+    financial: { master: { done:false, files:[], detected:new Set() }, masterEnabled:false },
+    mapping: { master: { done:false, files:[], detected:new Set() }, masterEnabled:false }
+  };
+
+  function isBrandModalEnabled(type) {
+    return type === 'customer' ? uploadState.customer.secondaryEnabled : uploadState[type].masterEnabled;
+  }
+  function getBrandStage(type) {
+    return uploadState[type][brandModalConfig[type].stage];
+  }
+
+  let currentModalType = null;
+
+  /* ─ Drag & drop helpers ─ */
+  function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+  function setupDropZone(el, onDrop) {
+    ['dragenter','dragover','dragleave','drop'].forEach(evt => el.addEventListener(evt, preventDefaults, false));
+    ['dragenter','dragover'].forEach(evt => el.addEventListener(evt, () => el.classList.add('dragover')));
+    ['dragleave','drop'].forEach(evt => el.addEventListener(evt, () => el.classList.remove('dragover')));
+    el.addEventListener('drop', e => onDrop(e.dataTransfer.files));
+  }
+
+  /* ─ Master upload modal (Customer only — template downloads + plain file upload) ─ */
+  function openMasterModal(type) {
+    currentModalType = type;
+    const cfg = dataTypeConfig[type];
+    document.getElementById('masterModalTitle').textContent = cfg.masterLabel;
+    document.getElementById('masterTemplateBtns').innerHTML = cfg.templates.map((t,i) =>
+      `<button class="btn-teal-outline" onclick="downloadTemplate('${type}',${i})">⬇ Download ${t}</button>`
+    ).join('');
+    renderMasterFileList(type);
+    document.getElementById('masterModalOverlay').classList.add('open');
+  }
+  function closeMasterModal() {
+    document.getElementById('masterModalOverlay').classList.remove('open');
+  }
+
+  function handleMasterFiles(type, fileList) {
+    if(!fileList || !fileList.length) return;
+    const filesArr = Array.from(fileList);
+    const state = uploadState[type].master;
+    filesArr.forEach(f => state.files.push({ name:f.name, done:false, fileObj:f }));
+    configBuilt = false; // uploaded files changed — rebuild Data Configuration next time it's opened
+    renderMasterFileList(type);
+    setTimeout(() => {
+      state.files.forEach(f => { if(!f.done) f.done = true; });
+      state.done = true;
+      renderMasterFileList(type);
+      markCustomerMasterComplete();
+      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} uploaded successfully`, 'success');
+    }, 800);
+  }
+
+  function renderMasterFileList(type) {
+    const state = uploadState[type].master;
+    const el = document.getElementById('masterFileList');
+    if(!state.files.length) { el.innerHTML = '<div class="modal-empty-hint">No files uploaded yet</div>'; return; }
+    el.innerHTML = `<div class="file-count">Uploaded: <span>${state.files.length}</span></div>` + state.files.map((f,i) =>
+      `<div class="file-item"><span class="file-name">${f.name}</span><span style="display:flex;align-items:center;gap:6px;">${f.done?'<span class="file-ok">✓</span>':'<span class="modal-spinner"></span>'}<span class="file-remove" onclick="removeMasterFile('${type}',${i})" title="Remove">✕</span></span></div>`
+    ).join('');
+  }
+
+  function removeMasterFile(type, idx) {
+    event.stopPropagation();
+    const state = uploadState[type].master;
+    state.files.splice(idx,1);
+    configBuilt = false; // uploaded files changed — rebuild Data Configuration next time it's opened
+    if(!state.files.length) {
+      state.done = false;
+      document.getElementById('status_customer_master').innerHTML = '';
+      document.getElementById('row_customer_master').classList.remove('complete');
+      // re-lock dependents since customer master data was removed
+      uploadState.customer.secondaryEnabled = false;
+      uploadState.financial.masterEnabled = false;
+      uploadState.mapping.masterEnabled = false;
+      document.getElementById('row_customer_secondary').classList.add('disabled');
+      document.getElementById('row_financial_master').classList.add('disabled');
+      document.getElementById('row_mapping_master').classList.add('disabled');
+    }
+    renderMasterFileList(type);
+  }
+
+  // Customer Master Upload completing unlocks: Response Curve Upload (customer),
+  // and Financial / Mapping master uploads (both gated on customer data being present).
+  function markCustomerMasterComplete() {
+    document.getElementById('status_customer_master').innerHTML = '<span class="status-check">✓</span>';
+    document.getElementById('row_customer_master').classList.add('complete');
+
+    document.getElementById('row_customer_secondary').classList.remove('disabled');
+    uploadState.customer.secondaryEnabled = true;
+
+    document.getElementById('row_financial_master').classList.remove('disabled');
+    uploadState.financial.masterEnabled = true;
+
+    document.getElementById('row_mapping_master').classList.remove('disabled');
+    uploadState.mapping.masterEnabled = true;
+  }
+
+  function downloadTemplate(type, idx) {
+    event.stopPropagation();
+    const cfg = dataTypeConfig[type];
+    const name = cfg.templates[idx];
+    const blob = new Blob([`${name}\n`], { type:'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name.replace(/\s+/g,'_') + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    showToast(`Downloading ${name}…`, '');
+  }
+
+  /* ─ Brand-detect upload modal (Response Curve for Customer; Master upload for Financial & Mapping) ─ */
+  function openBrandModal(type) {
+    if(!isBrandModalEnabled(type)) return;
+    currentModalType = type;
+    document.getElementById('secondaryModalTitle').textContent = brandModalConfig[type].label;
+    renderBrandTicks(type);
+    renderSecondaryFileList(type);
+    document.getElementById('secondaryModalOverlay').classList.add('open');
+  }
+  function closeSecondaryModal() {
+    document.getElementById('secondaryModalOverlay').classList.remove('open');
+  }
+
+  function renderBrandTicks(type) {
+    const cfg = dataTypeConfig[type];
+    const detected = getBrandStage(type).detected;
+    document.getElementById('brandTickList').innerHTML = cfg.brands.map((b,i) => {
+      const isTicked = detected.has(b);
+      return `<div class="brand-tick-item ${isTicked?'ticked':''}"><div class="brand-tick-circle">${isTicked?'✓':(i+1)}</div><div class="brand-tick-name">${b}</div></div>`;
+    }).join('');
+  }
+
+  function detectBrandsFromFile(filename, brands, alreadyDetected) {
+    const remaining = brands.filter(b => !alreadyDetected.has(b));
+    if(!remaining.length) return [];
+    let hash = 0;
+    for(let i=0;i<filename.length;i++) hash += filename.charCodeAt(i);
+    const count = Math.min(remaining.length, (hash % 2) + 1);
+    const picked = [];
+    for(let i=0;i<count;i++) picked.push(remaining[(hash+i) % remaining.length]);
+    return [...new Set(picked)];
+  }
+
+  function handleSecondaryFiles(type, fileList) {
+    if(!fileList || !fileList.length) return;
+    const cfg = dataTypeConfig[type];
+    const state = getBrandStage(type);
+    const filesArr = Array.from(fileList);
+    filesArr.forEach(f => state.files.push({ name:f.name, done:false, brands:[], fileObj:f }));
+    configBuilt = false; // these files may feed Data Configuration (incl. Response Curve tab)
+    renderSecondaryFileList(type);
+    setTimeout(() => {
+      filesArr.forEach(f => {
+        const entry = state.files.find(x => x.name===f.name && !x.done);
+        const matched = detectBrandsFromFile(f.name, cfg.brands, state.detected);
+        matched.forEach(b => state.detected.add(b));
+        if(entry) { entry.done = true; entry.brands = matched; }
+      });
+      renderSecondaryFileList(type);
+      renderBrandTicks(type);
+      if(state.detected.size >= cfg.brands.length) markBrandModalComplete(type);
+      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned for brand data`, 'success');
+    }, 1000);
+  }
+
+  function renderSecondaryFileList(type) {
+    const state = getBrandStage(type);
+    const el = document.getElementById('secondaryFileList');
+    if(!state.files.length) { el.innerHTML = '<div class="modal-empty-hint">No files uploaded yet</div>'; return; }
+    el.innerHTML = `<div class="file-count">Uploaded: <span>${state.files.length}</span></div>` + state.files.map((f,i) => {
+      const brandTag = f.brands && f.brands.length ? ` <span style="color:var(--text-light);">(${f.brands.join(', ')})</span>` : '';
+      return `<div class="file-item"><span class="file-name">${f.name}${brandTag}</span><span style="display:flex;align-items:center;gap:6px;">${f.done?'<span class="file-ok">✓</span>':'<span class="modal-spinner"></span>'}<span class="file-remove" onclick="removeSecondaryFile('${type}',${i})" title="Remove">✕</span></span></div>`;
+    }).join('');
+  }
+
+  function removeSecondaryFile(type, idx) {
+    event.stopPropagation();
+    getBrandStage(type).files.splice(idx,1);
+    configBuilt = false;
+    renderSecondaryFileList(type);
+  }
+
+  function markBrandModalComplete(type) {
+    const cfg = brandModalConfig[type];
+    document.getElementById(cfg.statusId).innerHTML = '<span class="status-check">✓</span>';
+    document.getElementById(cfg.rowId).classList.add('complete');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setupDropZone(document.getElementById('masterDropZone'), files => handleMasterFiles(currentModalType, files));
+    setupDropZone(document.getElementById('secondaryDropZone'), files => handleSecondaryFiles(currentModalType, files));
+  });
+
+  /* ═══════════ DATA CONFIGURATION (Brands + multi-file union columns + QC) ═══════════ */
+  const CONFIG_TYPES = ['customer','financial','mapping','response'];
+  const COLUMN_TYPES = ['ID','Date Range','Select type','Activity']; // per spec — column type dropdown restricted to these
+  const TAB_ORDER = ['brands','customer','financial','mapping','response'];
+  let configBuilt = false;
+  let brandsConfirmed = false;
+  let validationComplete = false;
+  const tabUnlocked = { brands:true, customer:false, financial:false, mapping:false, response:false };
+  const visitedConfigTabs = new Set(['brands']);
+
+  // Brands tab (Data Configuration) — distinct list of brands considered for this project
+  let configBrands = [
+    { name:'Brand_1', alias:'Brand One', desc:'Oncology brand detected from uploaded customer data.', active:true, aiGenerated:true, isNew:false },
+    { name:'Brand_2', alias:'Brand Two', desc:'Cardiology brand detected from uploaded customer data.', active:true, aiGenerated:true, isNew:false },
+    { name:'Brand_3', alias:'Brand Three', desc:'Neurology brand detected from uploaded customer data.', active:true, aiGenerated:true, isNew:false },
+  ];
+
+  // configData: customer split into two subtabs; financial/mapping are single union tables; response is grouped by brand
+  const configData = {
+    customer: { customerLevel: { files:[], columns:[] }, segmentLevel: { files:[], columns:[] } },
+    financial: { files:[], columns:[] },
+    mapping: { files:[], columns:[] },
+    response: { byBrand: {} }
+  };
+  let activeCustomerSubtab = 'customerLevel';
+
+  function renderBrandsTab() {
+    const pane = document.getElementById('cfgPane_brands');
+    if(!pane) return;
+    const allActive = configBrands.every(b => b.active);
+    const rows = configBrands.map((b,i) => `
+      <tr class="${b.active?'':'brand-inactive'}">
+        <td style="text-align:center;">
+          <input type="checkbox" class="cfg-checkbox" ${b.active?'checked':''} onchange="toggleConfigBrandActive(${i}, this.checked)">
+        </td>
+        <td style="font-weight:600;">${b.name}${b.isNew?' <span class="req-tag" style="color:var(--teal-dark);">New</span>':''}</td>
+        <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${b.alias}" oninput="configBrands[${i}].alias=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
+        <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${b.desc}" oninput="configBrands[${i}].desc=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
+      </tr>`).join('');
+
+    pane.innerHTML = `
+      <div class="brandcfg-toolbar">
+        <span style="font-size:12px;color:var(--text-mid);">Review the brands detected from your uploaded data. Uncheck any brand you don't want to include in this project.</span>
+        <button class="btn-add-brand-cfg" onclick="openAddBrandCfgModal()">+ Add Brand</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="brandcfg-table">
+          <thead><tr>
+            <th style="width:34px;"><input type="checkbox" class="cfg-checkbox" ${allActive?'checked':''} onchange="toggleAllBrands(this.checked)" title="Select/deselect all brands"></th>
+            <th>Brand Name</th><th>Alias</th><th>Description</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div class="config-toolbar" style="justify-content:flex-end;">
+        <button class="btn-confirm-brands ${brandsConfirmed?'done':''}" id="btnConfirmBrands" onclick="confirmBrandsConfig()">${brandsConfirmed ? '✓ Brands Confirmed — Customer Data →' : 'Customer Data →'}</button>
+      </div>
+    `;
+  }
+
+  function toggleAllBrands(state) {
+    configBrands.forEach(b => b.active = state);
+    renderBrandsTab();
+    updateValidateButtonState();
+  }
+
+  function toggleConfigBrandActive(i, checked) {
+    configBrands[i].active = checked;
+    renderBrandsTab();
+    updateValidateButtonState();
+  }
+
+  /* ─ Add Brand modal ─ */
+  function openAddBrandCfgModal() {
+    document.getElementById('abm_name').value = '';
+    document.getElementById('abm_desc').value = '';
+    document.getElementById('abm_active').checked = true;
+    document.getElementById('addBrandCfgModalOverlay').classList.add('open');
+  }
+  function closeAddBrandCfgModal() {
+    document.getElementById('addBrandCfgModalOverlay').classList.remove('open');
+  }
+  function submitAddBrandCfg() {
+    const name = document.getElementById('abm_name').value.trim();
+    if(!name) { showToast('Brand name is required', 'error'); return; }
+    const desc = document.getElementById('abm_desc').value.trim();
+    const active = document.getElementById('abm_active').checked;
+    configBrands.push({ name, alias:name, desc: desc || `${name} — added manually.`, active, aiGenerated:false, isNew:true });
+    configData.response.byBrand[name] = []; // new brand starts with no response curve data
+    // Add new brand to all data type brand lists so it shows in upload dialog boxes
+    ['customer','financial','mapping'].forEach(type => {
+      if(dataTypeConfig[type] && dataTypeConfig[type].brands && !dataTypeConfig[type].brands.includes(name)) {
+        dataTypeConfig[type].brands.push(name);
+      }
+    });
+    closeAddBrandCfgModal();
+    renderBrandsTab();
+    goTo('s2');
+    showToast(`"${name}" added — upload Customer, Response Curve, Financial & Mapping data for this brand`, 'success', 5500);
+  }
+
+  function confirmBrandsConfig() {
+    brandsConfirmed = true;
+    tabUnlocked.customer = true;
+    renderBrandsTab();
+    refreshTabLockUI();
+    showToast('Brands confirmed', 'success');
+    switchConfigTabProgrammatic('customer');
+  }
+
+  function refreshTabLockUI() {
+    TAB_ORDER.forEach(t => {
+      const btn = document.getElementById('cfgTabBtn_'+t);
+      if(btn) btn.classList.toggle('locked', !tabUnlocked[t]);
+    });
+  }
+  function unlockNextTab(type) {
+    const idx = TAB_ORDER.indexOf(type);
+    const next = TAB_ORDER[idx+1];
+    if(next) tabUnlocked[next] = true;
+    refreshTabLockUI();
+  }
+  function switchConfigTabProgrammatic(type) {
+    const btn = document.getElementById('cfgTabBtn_'+type);
+    if(btn) switchConfigTab(btn, type);
+  }
+
+  function switchConfigTab(btn, type) {
+    if(!tabUnlocked[type]) { showToast('Complete the previous step to unlock this tab', 'warn'); return; }
+    document.querySelectorAll('.config-tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    ['brands', ...CONFIG_TYPES].forEach(t=>{ const p = document.getElementById('cfgPane_'+t); if(p) p.style.display = t===type ? 'block' : 'none'; });
+    visitedConfigTabs.add(type);
+    unlockNextTab(type);
+    updateValidateButtonState();
+  }
+
+  async function ensureConfigBuilt() {
+    renderBrandsTab();
+    refreshTabLockUI();
+    if(configBuilt) return;
+    CONFIG_TYPES.forEach(t=>{
+      const pane = document.getElementById('cfgPane_'+t);
+      if(pane) pane.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-light);font-size:12px;">⟳ Analyzing uploaded file(s)…</div>';
+    });
+    configBuilt = true;
+    await buildConfigData();
+    renderConfigTab('customer'); renderConfigTab('financial'); renderConfigTab('mapping'); renderConfigTab('response');
+    updateValidateButtonState();
+  }
+
+  function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  }
+
+  function parseCSV(text) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length);
+    if(!lines.length) return { headers:[], rows:[] };
+    const splitLine = l => l.split(',').map(c => c.trim().replace(/^"|"$/g,''));
+    const headers = splitLine(lines[0]);
+    const rows = lines.slice(1, 51).map(splitLine); // cap preview at 50 rows
+    return { headers, rows };
+  }
+
+  function titleCase(s) {
+    return String(s).replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // Column type restricted to: ID, Date Range, Select type, Activity (per screenshot reference)
+  function inferColumnType(name, rows, colIdx) {
+    const n = name.toLowerCase();
+    if(/date|month|week|period|time|year/.test(n)) return 'Date Range';
+    if(/\bid\b|\bhcp\b|\baccount\b|\bcustomer\b|\bchannel\b|\bbrand\b|\bfromtype\b|\btotype\b|from_type|to_type|segment|tier|quintile|abc|cust_type|customer_type/.test(n)) return 'Select type';
+    const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
+    const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
+    if(vals.length && numericCount / vals.length > 0.7) return 'Activity';
+    return 'Select type';
+  }
+
+  // Which column names are structurally required ("R") per file type — locked, cannot be edited or deselected
+  const REQUIRED_COLUMNS = {
+    customerLevel: ['id','customer_type','time period','time_period','brand'],
+    segmentLevel: ['brand','customer_count','cust_type','time period','time_period'],
+    financial: ['brand','customer type','customer_type','year','total forecast ($)','total_forecast'],
+    mapping: ['from_type','to_type','value_from','value_to']
+  };
+  function isRequiredColumn(group, name) {
+    const n = String(name).toLowerCase().trim();
+    return (REQUIRED_COLUMNS[group] || []).some(req => n === req || n.replace(/[\s_]/g,'') === req.replace(/[\s_]/g,''));
+  }
+
+  function mockDataFor(key) {
+    if(key === 'customerLevel') return {
+      headers: ['ID','Customer_type','Time_Period','Brand','Segment_Tier','Sales_NRx','Activity_F2F','Sales_Market_share','Activity_Calls'],
+      rows: [
+        ['HCP_01','HCP','2025','Lexorin','H','1000','10','0','0'],
+        ['HCP_02','HCP','2025','Lexorin','M','$1,200','10','0','0'],
+        ['HCP_03','HCP','2025','Lexorin','L','1000','10','0','0'],
+        ['HCO_01','Account','2025','Lexorin','H','1000','10','0','0'],
+        ['HCO_04','Account','2025','Demodryl','H','0','0','1000','10']
+      ]
+    };
+    if(key === 'segmentLevel') return {
+      headers: ['Brand','Segment_Tier','Segment_Quintile','Segment_ABC','Customer_count','Cust_type','Time_Period','Sales_NRx','Activity_F2F','Sales_Market_share','Activity_Calls'],
+      rows: [
+        ['Lexorin','H','-','-','1301','HCP','2025','1000','10','0','0'],
+        ['Polair','H','5','-','1057','HCP','2025','0','0','1000','10'],
+        ['Demodryl','-','5','A','1446','HCP','2025','1000','10','0','0']
+      ]
+    };
+    if(key === 'financial') return {
+      headers: ['Brand','Customer_type','Year','Total_Forecast_$','COGS_pct','Gross_to_Net_pct','Non_SF_Impact_pct','Carryover_Rate_pct','Prior_Period_Carryover_$'],
+      rows: [
+        ['Lexorin','HCP','2026','$100','10','88','45','0','0'],
+        ['Lexorin','HCP','2027','100','10','88','37','67','0'],
+        ['Polair','HCP','2026','100','10','88','45','0','0']
+      ]
+    };
+    if(key === 'mapping') return {
+      headers: ['From_type','To_type','Value_from','Value_to','Weight'],
+      rows: [
+        ['HCP','Account','HCP_01','HCO_01','1'],
+        ['HCP','Account','HCP_02','HCO_01','1'],
+        ['HCP','Account','HCP_04','HCO_02','1']
+      ]
+    };
+    return { headers:[], rows:[] };
+  }
+
+  function defaultFileName(key) {
+    return {
+      customerLevel:'Customer_Level_Data_1.csv', segmentLevel:'Segment_Level_Data_1.csv',
+      financial:'Financial_Data_1.csv', mapping:'Mapping_File_1.csv'
+    }[key];
+  }
+
+  async function buildFileEntry(group, name, fileObj) {
+    let headers = [], rows = [];
+    if(fileObj) {
+      try {
+        const text = await readFileAsText(fileObj);
+        const parsed = parseCSV(text);
+        headers = parsed.headers; rows = parsed.rows;
+      } catch(e) { /* fall back to mock below */ }
+    }
+    if(!headers.length) {
+      const mock = mockDataFor(group);
+      headers = mock.headers; rows = mock.rows;
+    }
+    return { name: name || defaultFileName(group), headers, rows };
+  }
+
+  // Where a given config group's uploaded files live in uploadState
+  function getUploadedFilesFor(group) {
+    if(group === 'customerLevel') return (uploadState.customer.master.files || []).filter(f => f.fileObj);
+    if(group === 'segmentLevel') return []; // segment data comes only via "Upload New Segment Data"
+    return (uploadState[group].master.files || []).filter(f => f.fileObj);
+  }
+
+  // Build the union of columns across every file uploaded for a group, merging by column name
+  function buildUnionColumns(group, files) {
+    const map = new Map(); // name -> column entry
+    files.forEach(file => {
+      file.headers.forEach((h, ci) => {
+        const key = h.toLowerCase().trim();
+        if(!map.has(key)) {
+          const type = inferColumnType(h, file.rows, ci);
+          const required = isRequiredColumn(group, h);
+          map.set(key, { name:h, alias:titleCase(h), type, desc:'', selected:true, locked:required });
+        }
+      });
+    });
+    return [...map.values()];
+  }
+
+  async function buildConfigData() {
+    for(const key of ['customerLevel','segmentLevel']) {
+      const uploaded = getUploadedFilesFor(key);
+      let files = [];
+      if(uploaded.length) { for(const f of uploaded) files.push(await buildFileEntry(key, f.name, f.fileObj)); }
+      else { files = [ await buildFileEntry(key, defaultFileName(key), null) ]; }
+      configData.customer[key].files = files;
+      configData.customer[key].columns = buildUnionColumns(key, files);
+    }
+    for(const type of ['financial','mapping']) {
+      const uploaded = getUploadedFilesFor(type);
+      let files = [];
+      if(uploaded.length) { for(const f of uploaded) files.push(await buildFileEntry(type, f.name, f.fileObj)); }
+      else { files = [ await buildFileEntry(type, defaultFileName(type), null) ]; }
+      configData[type].files = files;
+      configData[type].columns = buildUnionColumns(type, files);
+    }
+    buildResponseByBrand();
+  }
+
+  // Response Curve data — grouped by brand, HCP/HCO level files (per spec: show the exact files uploaded, not a metadata table)
+  // Response curve files have wide schemas: Centile, Customer_Type, Customers, activity_0, response_0, activity_1, response_1, ... activity_24, response_24
+  const RC_PAIRS = 25; // 25 pairs → 50 activity/response columns + 3 meta = 53 total
+  function rcHeaders() {
+    const h = ['Centile','Customer_Type','Customers'];
+    for(let i = 0; i < RC_PAIRS; i++) { h.push(`activity_${i}`, `response_${i}`); }
+    return h;
+  }
+  function rcColumns() {
+    const cols = [
+      { name:'Centile', alias:'Centile', type:'Select type', selected:true, locked:true },
+      { name:'Customer_Type', alias:'Customer Type', type:'Select type', selected:true, locked:true },
+      { name:'Customers', alias:'Customers', type:'Activity', selected:true, locked:true },
+    ];
+    for(let i = 0; i < RC_PAIRS; i++) {
+      cols.push({ name:`activity_${i}`, alias:`Activity ${i}`, type:'Activity', selected:true, locked:false });
+      cols.push({ name:`response_${i}`, alias:`Response ${i}`, type:'Activity', selected:true, locked:false });
+    }
+    return cols;
+  }
+
+  function buildResponseByBrand() {
+    configBrands.forEach(b => {
+      if(configData.response.byBrand[b.name] !== undefined) return;
+      if(b.isNew) { configData.response.byBrand[b.name] = []; return; }
+      configData.response.byBrand[b.name] = [
+        { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCP', b.name==='Brand_1'||b.name==='Brand_2') },
+        { name:`${b.name}_HCO_Response_Curve.csv`, level:'HCO', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCO', false) },
+      ];
+    });
+  }
+  function mockResponseRows(brand, level, injectError) {
+    const segments = level === 'HCP'
+      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18']
+      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5'];
+    const custType = level === 'HCP' ? 'HCP' : 'Account';
+    return segments.map((seg, si) => {
+      const row = [`OCS_${brand}_${seg}`, custType, si === 0 ? 1 : Math.floor(2 + si * 1.3)];
+      for(let i = 0; i < RC_PAIRS; i++) {
+        const act = (i * 2).toFixed(2);
+        const k = 0.04 + si * 0.006;
+        const sat = 5000 + si * 3000;
+        const resp = (sat * (1 - Math.exp(-k * i * 2))).toFixed(2);
+        // Inject one error: first HCP file, first segment, activity_12
+        if(injectError && si === 0 && i === 12) {
+          row.push('$24.00', resp);
+        } else {
+          row.push(act, resp);
+        }
+      }
+      return row;
+    });
+  }
+
+  function toggleColumnSelected(path, ci, checked) {
+    const col = getColumnsFor(path)[ci];
+    if(col.locked) return; // required column — cannot be unchecked
+    col.selected = checked;
+    renderConfigTabForPath(path);
+  }
+  function toggleAllColumns(path, checked) {
+    getColumnsFor(path).forEach(c => { if(!c.locked) c.selected = checked; });
+    renderConfigTabForPath(path);
+  }
+  function getColumnsFor(path) {
+    return path === 'customerLevel' || path === 'segmentLevel' ? configData.customer[path].columns : configData[path].columns;
+  }
+  function getFilesFor(path) {
+    return path === 'customerLevel' || path === 'segmentLevel' ? configData.customer[path].files : configData[path].files;
+  }
+  function renderConfigTabForPath(path) {
+    if(path === 'customerLevel' || path === 'segmentLevel') renderConfigTab('customer');
+    else renderConfigTab(path);
+  }
+
+  function switchCustomerSubtab(sub) {
+    activeCustomerSubtab = sub;
+    renderConfigTab('customer');
+  }
+
+  function columnRowsHtml(path) {
+    const cols = getColumnsFor(path);
+    return cols.map((c,ci) => `
+      <tr class="${c.selected ? '' : 'col-deselected'}">
+        <td>
+          <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} ${c.locked?'disabled title="Required column — always included"':''} onchange="toggleColumnSelected('${path}',${ci},this.checked)">
+        </td>
+        <td>${c.name}${c.locked?'<span class="req-tag">Required</span>':''}</td>
+        <td><input class="cfg-alias-input ${c.locked?'locked-input':''}" value="${c.alias}" ${c.locked?'disabled':''} oninput="getColumnsFor('${path}')[${ci}].alias=this.value"></td>
+        <td>
+          <select class="cfg-alias-input ${c.locked?'locked-input':''}" ${c.locked?'disabled':''} onchange="getColumnsFor('${path}')[${ci}].type=this.value">
+            ${COLUMN_TYPES.map(t=>`<option value="${t}" ${c.type===t?'selected':''}>${t}</option>`).join('')}
+          </select>
+        </td>
+        <td><input class="cfg-desc-input" value="${c.desc}" placeholder="Add description" oninput="getColumnsFor('${path}')[${ci}].desc=this.value"></td>
+      </tr>`).join('');
+  }
+
+  function columnTableHtml(path) {
+    const cols = getColumnsFor(path);
+    const selectedCount = cols.filter(c => c.selected).length;
+    const allSelected = selectedCount === cols.length;
+    const fileCount = getFilesFor(path).length;
+    return `
+      <div class="config-toolbar">
+        <span class="col-select-summary"><strong>${selectedCount}</strong> of ${cols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
+      </div>
+      <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+        <table class="config-table">
+          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${path}',this.checked)" title="Select/deselect all optional columns"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
+          <tbody>${columnRowsHtml(path)}</tbody>
+        </table>
+      </div>`;
+  }
+
+  function renderConfigTab(type) {
+    const pane = document.getElementById('cfgPane_'+type);
+    if(!pane) return;
+
+    if(type === 'customer') {
+      pane.innerHTML = `
+        <div class="subtab-row">
+          <button class="subtab-btn ${activeCustomerSubtab==='customerLevel'?'active':''}" onclick="switchCustomerSubtab('customerLevel')">Customer Level Data</button>
+          <button class="subtab-btn ${activeCustomerSubtab==='segmentLevel'?'active':''}" onclick="switchCustomerSubtab('segmentLevel')">Segment Level Data</button>
+        </div>
+        <div>${columnTableHtml(activeCustomerSubtab)}</div>
+        <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
+          <button class="btn-confirm-brands" onclick="tabUnlocked.financial=true;refreshTabLockUI();switchConfigTabProgrammatic('financial');">Financial Data →</button>
+        </div>`;
+      return;
+    }
+
+    if(type === 'mapping') {
+      pane.innerHTML = `
+        <div>${columnTableHtml('mapping')}</div>
+        <div class="upload-more-row">
+          <button class="btn-upload-more" onclick="openCfgBrandModal('mapping')">+ Upload New Mapping Data</button>
+        </div>
+        <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
+          <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
+        </div>`;
+      return;
+    }
+
+    if(type === 'financial') {
+      pane.innerHTML = `
+        <div>${columnTableHtml('financial')}</div>
+        <div class="upload-more-row">
+          <button class="btn-upload-more" onclick="openCfgBrandModal('financial')">+ Upload New Financial Data</button>
+        </div>
+        <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
+          <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>
+        </div>`;
+      return;
+    }
+
+    if(type === 'response') {
+      pane.innerHTML = validationComplete ? renderResponseCurveCharts() : renderResponseCurveFiles();
+      return;
+    }
+  }
+
+  /* ─ Response Curve tab — shows data tables with HCP/Account tabs per brand ─ */
+  /* ─ Per-brand level tab state ─ */
+  const rcBrandLevelTab = {};
+  function getRcLevel(brandName) { return rcBrandLevelTab[brandName] || 'hcp'; }
+  function setRcLevel(brandName, level) { rcBrandLevelTab[brandName] = level; renderConfigTab('response'); }
+
+  function generateResponseTableData(brand, level) {
+    if(level === 'hcp') {
+      const segments = ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18'];
+      return segments.map(seg => ({
+        centile: `OCS_${brand}_${seg}`,
+        custType: 'HCP',
+        activity: 'F2F CALLS',
+        customers: 1,
+        values: [0.00, 2.00, 4.00, 6.00, 8.00, 10.00, 12.00, 14.00, 16.00]
+      }));
+    } else {
+      const segments = ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4'];
+      return segments.map(seg => ({
+        centile: `OCS_${brand}_${seg}`,
+        custType: 'Account',
+        activity: 'F2F CALLS',
+        customers: Math.floor(3 + (seg.charCodeAt(seg.length-1) % 12)),
+        values: [0.00, 3.00, 7.00, 12.00, 18.00, 24.00, 30.00, 36.00, 42.00]
+      }));
+    }
+  }
+
+  function renderResponseCurveFiles() {
+    const activityHeaders = Array.from({length:9}, (_,i) => `activity_${i*2}`);
+
+    const brandCards = configBrands.filter(b=>b.active).map(b => {
+      const level = getRcLevel(b.name);
+      const data = generateResponseTableData(b.name, level);
+      const files = configData.response.byBrand[b.name] || [];
+      const hasUploadedData = files.length > 0 || !b.isNew;
+
+      const tableRows = data.map(row => `
+        <tr>
+          <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
+          <td>${row.custType}</td>
+          <td>${row.activity}</td>
+          <td style="text-align:center;">${row.customers}</td>
+          ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
+        </tr>`).join('');
+
+      const levelBtnStyle = (active) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${active?'var(--teal)':'var(--bg)'};color:${active?'white':'var(--text-mid)'};`;
+
+      return `<div class="respcurve-brand-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name}</div>
+            ${!hasUploadedData ? '<span style="font-size:9.5px;font-weight:700;color:var(--orange);background:var(--orange-light);border:1px solid #fcd34d;border-radius:5px;padding:2px 8px;">Default data — upload to override</span>' : '<span style="font-size:9.5px;font-weight:700;color:var(--teal-dark);background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:5px;padding:2px 8px;">✓ Uploaded</span>'}
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:11px;color:var(--text-light);">Period: <strong style="color:var(--text-dark);">2027</strong></span>
+            <span style="font-size:11px;color:var(--text-light);">Segments: <strong style="color:var(--text-dark);">Centiles</strong></span>
+            <span style="font-size:11px;color:var(--text-light);">Forecast: <strong style="color:var(--text-dark);">Base</strong></span>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:10px;">
+          <button onclick="setRcLevel('${b.name}','hcp')" style="${levelBtnStyle(level==='hcp')}">HCP</button>
+          <button onclick="setRcLevel('${b.name}','account')" style="${levelBtnStyle(level==='account')}">Account</button>
+        </div>
+        <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
+          <table class="config-table" style="font-size:11.5px;">
+            <thead><tr>
+              <th>Centile</th><th>Customer Type</th><th>Activity</th><th style="text-align:center;">Customers</th>
+              ${activityHeaders.map(h => `<th style="text-align:right;">${h}</th>`).join('')}
+            </tr></thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${data.length} centile segments · ${level==='hcp'?'HCP':'Account'} level data</div>
+      </div>`;
+    }).join('');
+
+    return `<div style="padding:14px 20px 0;">
+      ${brandCards}
+      <div class="upload-more-row" style="margin-top:4px;">
+        <button class="btn-upload-more" onclick="openCfgBrandModal('response')">+ Upload New Response Curve</button>
+      </div>
+    </div>`;
+  }
+
+  /* ─ Upload-another modal (opens on the config screen itself; pre-populated with existing files) ─ */
+  let uploadMoreTarget = null;
+  function openUploadMoreModal(path) {
+    uploadMoreTarget = path;
+    const labels = { customerLevel:'Upload Another Customer Data', segmentLevel:'Upload New Segment Data', mapping:'Upload New Mapping Data' };
+    document.getElementById('uploadMoreModalTitle').textContent = labels[path] || 'Upload Additional Data';
+    renderUploadMoreFileList();
+    document.getElementById('uploadMoreModalOverlay').classList.add('open');
+  }
+  function renderUploadMoreFileList() {
+    const existing = getFilesFor(uploadMoreTarget);
+    const el = document.getElementById('uploadMoreFileList');
+    if(!existing.length) { el.innerHTML = '<div class="modal-empty-hint">No files uploaded yet</div>'; return; }
+    el.innerHTML = `<div class="file-count">Already uploaded: <span>${existing.length}</span></div>` + existing.map(f => `<div class="file-item"><span class="file-name">${f.name}</span><span class="file-ok">✓</span></div>`).join('');
+  }
+  function closeUploadMoreModal() {
+    document.getElementById('uploadMoreModalOverlay').classList.remove('open');
+    renderConfigTabForPath(uploadMoreTarget);
+    updateValidateButtonState();
+  }
+  async function handleUploadMoreFiles(fileList) {
+    if(!fileList || !fileList.length) return;
+    const filesArr = Array.from(fileList);
+    for(const f of filesArr) {
+      const entry = await buildFileEntry(uploadMoreTarget, f.name, f);
+      const files = getFilesFor(uploadMoreTarget);
+      files.push(entry);
+      const newCols = buildUnionColumns(uploadMoreTarget, files);
+      if(uploadMoreTarget === 'customerLevel' || uploadMoreTarget === 'segmentLevel') {
+        configData.customer[uploadMoreTarget].columns = newCols;
+      } else {
+        configData[uploadMoreTarget].columns = newCols;
+      }
+    }
+    renderUploadMoreFileList();
+    showToast(`${filesArr.length} file(s) added — column list updated`, 'success');
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    const dz = document.getElementById('uploadMoreDropZone');
+    if(dz) setupDropZone(dz, files => handleUploadMoreFiles(files));
+  });
+
+  /* ─ Config-screen brand-detect modal (Financial / Response Curve) — mirrors the Data Upload screen's brand-detect modal ─ */
+  let cfgBrandModalCtx = { kind:null, brandName:null, detected:new Set() };
+  function openCfgBrandModal(kind, brandName) {
+    cfgBrandModalCtx = { kind, brandName: brandName || null, detected:new Set() };
+    const titles = {
+      financial: 'Financial Data Upload',
+      mapping: 'Mapping Data Upload',
+      response: brandName ? `Response Curve Upload — ${brandName}` : 'Response Curve Upload'
+    };
+    document.getElementById('cfgBrandModalTitle').textContent = titles[kind] || 'Upload Data';
+    renderCfgBrandTicks();
+    renderCfgBrandFileList();
+    document.getElementById('cfgBrandModalOverlay').classList.add('open');
+  }
+  function closeCfgBrandModal() {
+    document.getElementById('cfgBrandModalOverlay').classList.remove('open');
+    if(cfgBrandModalCtx.kind === 'financial') renderConfigTab('financial');
+    if(cfgBrandModalCtx.kind === 'mapping') renderConfigTab('mapping');
+    if(cfgBrandModalCtx.kind === 'response') renderConfigTab('response');
+    updateValidateButtonState();
+  }
+  function renderCfgBrandTicks() {
+    const brands = configBrands.map(b=>b.name);
+    document.getElementById('cfgBrandTickList').innerHTML = brands.map((name,i) => {
+      const isTarget = cfgBrandModalCtx.kind === 'response' && name === cfgBrandModalCtx.brandName;
+      const isTicked = cfgBrandModalCtx.detected.has(name) || isTarget;
+      return `<div class="brand-tick-item ${isTicked?'ticked':''}"><div class="brand-tick-circle">${isTicked?'✓':(i+1)}</div><div class="brand-tick-name">${name}</div></div>`;
+    }).join('');
+  }
+  function renderCfgBrandFileList() {
+    const el = document.getElementById('cfgBrandFileList');
+    let files = [];
+    if(cfgBrandModalCtx.kind === 'financial') files = configData.financial.files.map(f=>({name:f.name, done:true}));
+    else if(cfgBrandModalCtx.kind === 'mapping') files = configData.mapping.files.map(f=>({name:f.name, done:true}));
+    else if(cfgBrandModalCtx.brandName) files = (configData.response.byBrand[cfgBrandModalCtx.brandName] || []).map(f=>({name:f.name, done:true, level:f.level}));
+    else {
+      // Bulk response curve — show all files across all brands
+      Object.keys(configData.response.byBrand).forEach(brand => {
+        (configData.response.byBrand[brand] || []).forEach(f => files.push({name:f.name, done:true, level:f.level, brand}));
+      });
+    }
+    if(!files.length) { el.innerHTML = '<div class="modal-empty-hint">No files uploaded yet</div>'; return; }
+    el.innerHTML = `<div class="file-count">Already uploaded: <span>${files.length}</span></div>` + files.map(f =>
+      `<div class="file-item"><span class="file-name">${f.level?`<span class="respcurve-level-tag" style="margin-right:6px;">${f.level}</span>`:''}${f.brand?`<span style="font-size:10px;color:var(--text-light);margin-right:4px;">[${f.brand}]</span>`:''}${f.name}</span><span class="file-ok">✓</span></div>`
+    ).join('');
+  }
+  async function handleCfgBrandFiles(fileList) {
+    if(!fileList || !fileList.length) return;
+    const filesArr = Array.from(fileList);
+    const brandNames = configBrands.map(b=>b.name);
+    for(const f of filesArr) {
+      if(cfgBrandModalCtx.kind === 'financial') {
+        const matched = detectBrandsFromFile(f.name, brandNames, cfgBrandModalCtx.detected);
+        matched.forEach(b => cfgBrandModalCtx.detected.add(b));
+        const entry = await buildFileEntry('financial', f.name, f);
+        configData.financial.files.push(entry);
+        configData.financial.columns = buildUnionColumns('financial', configData.financial.files);
+      } else if(cfgBrandModalCtx.kind === 'mapping') {
+        const matched = detectBrandsFromFile(f.name, brandNames, cfgBrandModalCtx.detected);
+        matched.forEach(b => cfgBrandModalCtx.detected.add(b));
+        const entry = await buildFileEntry('mapping', f.name, f);
+        configData.mapping.files.push(entry);
+        configData.mapping.columns = buildUnionColumns('mapping', configData.mapping.files);
+      } else {
+        // Response curve — detect brand from filename or use explicit brand
+        let brand = cfgBrandModalCtx.brandName;
+        if(!brand) {
+          const matched = detectBrandsFromFile(f.name, brandNames, cfgBrandModalCtx.detected);
+          matched.forEach(b => cfgBrandModalCtx.detected.add(b));
+          brand = matched[0] || brandNames[0];
+        }
+        const level = /hco|account/i.test(f.name) ? 'HCO' : 'HCP';
+        const entry = { name:f.name, level, rows: mockResponseRows(brand, level) };
+        if(!configData.response.byBrand[brand]) configData.response.byBrand[brand] = [];
+        configData.response.byBrand[brand].push(entry);
+      }
+    }
+    renderCfgBrandTicks();
+    renderCfgBrandFileList();
+    showToast(`${filesArr.length} file(s) uploaded successfully`, 'success');
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    const dz = document.getElementById('cfgBrandDropZone');
+    if(dz) setupDropZone(dz, files => handleCfgBrandFiles(files));
+  });
+
+  /* ─ Validate & proceed button gating (tabs unlock sequentially; validate enables once the last tab is reached) ─ */
+  function updateValidateButtonState() {
+    const btn = document.getElementById('btnValidate');
+    const hint = document.getElementById('validateHint');
+    if(!btn || validationComplete) return;
+    const ready = visitedConfigTabs.has('response');
+    btn.classList.toggle('enabled', ready);
+    if(hint) hint.textContent = ready ? 'All data configured — ready to validate' : 'Work through each tab in order, then validate to continue';
+  }
+
+  /* ═══════════ QC — run across every file, all types, at once ═══════════ */
+  function getAllFileRefs() {
+    const refs = [];
+    ['customerLevel','segmentLevel'].forEach(g => configData.customer[g].files.forEach((f,i) => refs.push({ group:g, idx:i, file:f, columns:configData.customer[g].columns })));
+    ['financial','mapping'].forEach(g => configData[g].files.forEach((f,i) => refs.push({ group:g, idx:i, file:f, columns:configData[g].columns })));
+    Object.keys(configData.response.byBrand).forEach(brand => {
+      (configData.response.byBrand[brand] || []).forEach((f,i) => {
+        // Use file's own headers if present, otherwise fall back to wide RC schema
+        if(!f.headers) f.headers = rcHeaders();
+        refs.push({ group:'response', idx:i, brand, file:f, columns: rcColumns() });
+      });
+    });
+    return refs;
+  }
+  function groupLabel(g) {
+    return { customerLevel:'Customer Level Data', segmentLevel:'Segment Level Data', financial:'Financial Data', mapping:'Mapping File', response:'Response Curve Data' }[g] || g;
+  }
+
+  function runChecksFor(ref) {
+    const { file, columns } = ref;
+    const checks = [];
+    const rows = file.rows;
+    const selectedCols = columns.filter(c => c.selected);
+    selectedCols.forEach(col => {
+      const ci = file.headers.findIndex(h => h.toLowerCase().trim() === col.name.toLowerCase().trim());
+      if(ci === -1) return; // this file doesn't contain that unioned column
+      const missing = [];
+      rows.forEach((r,ri) => { if(r[ci] === undefined || String(r[ci]).trim() === '') missing.push(ri); });
+      if(missing.length) {
+        const pct = missing.length / rows.length;
+        checks.push({ id:`missing_${ci}`, label:`Missing values in "${col.alias}"`,
+          status: pct >= 0.3 ? 'fail' : 'warning',
+          detail:`${missing.length} of ${rows.length} row(s) with empty values`, cells: missing.map(ri => ({r:ri, c:ci})) });
+      }
+      if(col.type === 'Activity') {
+        const bad = [];
+        rows.forEach((r,ri) => { const v = r[ci]; if(v && /[,$]/.test(v)) bad.push(ri); });
+        if(bad.length) {
+          checks.push({ id:`numfmt_${ci}`, label:`Non-numeric characters in "${col.alias}"`, status:'fail',
+            detail:`${bad.length} row(s) contain commas or currency symbols`, cells: bad.map(ri => ({r:ri, c:ci})) });
+        }
+      }
+    });
+    if(!checks.length) {
+      checks.push({ id:'allgood', label:`${selectedCols.length} selected column(s) validated`, status:'pass', detail:'No issues found', cells:[] });
+    }
+    return checks;
+  }
+
+  let qcRunResults = []; // [{ group, idx, file, columns, checks, status }]
+
+  function startValidation() {
+    if(!document.getElementById('btnValidate').classList.contains('enabled')) return;
+    const refs = getAllFileRefs();
+    qcRunResults = refs.map(ref => {
+      const checks = runChecksFor(ref);
+      const status = checks.some(c=>c.status==='fail') ? 'fail' : (checks.some(c=>c.status==='warning') ? 'warning' : 'pass');
+      return { ...ref, checks, status };
+    });
+    renderQCSummary();
+  }
+
+  function renderQCSummary() {
+    const passed = qcRunResults.filter(r=>r.status==='pass');
+    const warned = qcRunResults.filter(r=>r.status==='warning');
+    const failed = qcRunResults.filter(r=>r.status==='fail');
+
+    const catHtml = (list, kind, icon, title) => `
+      <div class="qcsum-cat ${kind}">
+        <div class="qcsum-cat-left">
+          <span class="qcsum-cat-icon">${icon}</span>
+          <div>
+            <div class="qcsum-cat-title">${title}</div>
+            <div class="qcsum-cat-sub">${list.length} file(s)${list.length?': '+list.map(r=>`${r.file.name} (${groupLabel(r.group)})`).join(', '):''}</div>
+          </div>
+        </div>
+        <div class="qcsum-cat-count">${list.length}</div>
+      </div>`;
+
+    document.getElementById('qcSummaryCats').innerHTML =
+      catHtml(passed,'pass','✓','Passed') +
+      catHtml(warned,'warning','⚠','Warning') +
+      catHtml(failed,'fail','✕','Failed');
+
+    const needsFix = failed.length > 0;
+    document.getElementById('qcSummaryNote').textContent = needsFix
+      ? 'Resolve failed checks before proceeding.'
+      : (warned.length ? 'No blocking issues — you can remediate warnings or proceed directly.' : 'All checks passed successfully.');
+
+    const footer = document.getElementById('qcSummaryFooter');
+    footer.innerHTML = '';
+    if(needsFix || warned.length) {
+      const btn = document.createElement('button');
+      btn.className = 'btn-teal-outline';
+      btn.textContent = '🛠 Remediate Issues';
+      btn.onclick = openRemediateModal;
+      footer.appendChild(btn);
+    }
+    const proceedBtn = document.createElement('button');
+    proceedBtn.className = 'btn-teal';
+    proceedBtn.textContent = needsFix ? 'Resolve Failures to Continue' : 'View Response Curves & Proceed →';
+    proceedBtn.disabled = needsFix;
+    if(needsFix) proceedBtn.style.opacity = '0.4';
+    proceedBtn.onclick = () => { closeQCSummaryModal(); completeValidation(); };
+    footer.appendChild(proceedBtn);
+
+    document.getElementById('qcSummaryModalOverlay').classList.add('open');
+  }
+  function closeQCSummaryModal() { document.getElementById('qcSummaryModalOverlay').classList.remove('open'); }
+
+  /* ─ Validation complete: land on Response Curves tab with charts, swap CTA to "Go to Insights" ─ */
+  function completeValidation() {
+    validationComplete = true;
+    switchConfigTabProgrammatic('response');
+    renderConfigTab('response');
+    const btn = document.getElementById('btnValidate');
+    btn.textContent = 'Go to Insights →';
+    btn.classList.add('enabled');
+    btn.onclick = () => goTo('s4');
+    document.getElementById('validateHint').textContent = '✓ All QC checks passed — your data is validated and ready';
+    showToast('All quality checks passed — response curves are ready to view', 'success', 4500);
+  }
+
+  /* ═══════════ Response Curve charts (post-validation view) ═══════════ */
+  const rcSegmentColors = ['#14b8a6','#22c55e','#3b82f6','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899','#10b981','#f97316','#6366f1','#84cc16','#0ea5e9','#a855f7','#64748b'];
+
+  /* ─ Per-brand chart level tab state ─ */
+  const rcChartLevelTab = {};
+  function getChartLevel(brandName) { return rcChartLevelTab[brandName] || 'hcp'; }
+  function setChartLevel(brandName, level) { rcChartLevelTab[brandName] = level; renderConfigTab('response'); }
+
+  function renderResponseCurveCharts() {
+    const successBanner = `
+      <div style="background:linear-gradient(135deg,#d1fae5,#ecfdf5);border:1px solid #6ee7b7;border-radius:10px;padding:20px 24px;margin:14px 20px 18px;display:flex;align-items:center;gap:14px;">
+        <span style="font-size:32px;">🎉</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#065f46;margin-bottom:3px;">All Quality Checks Passed</div>
+          <div style="font-size:12px;color:#047857;">Your data is validated and ready. Review response curves below, then proceed to insights.</div>
+        </div>
+      </div>`;
+
+    const brandCharts = configBrands.filter(b=>b.active).map(b => {
+      const chartLevel = getChartLevel(b.name);
+      const isHcp = chartLevel === 'hcp';
+      const segments = isHcp
+        ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
+        : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
+      const w = 660, h = 260, pad = 50;
+      const maxX = 50, maxY = isHcp ? 152000 : 80000;
+
+      let paths = '';
+      let legendHtml = '';
+      segments.forEach((seg, si) => {
+        const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
+        const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
+        const color = rcSegmentColors[si % rcSegmentColors.length];
+        let d = '';
+        for(let x = 0; x <= maxX; x++) {
+          const y = sat * (1 - Math.exp(-k * x));
+          const px = pad + (x/maxX)*(w-2*pad);
+          const py = (h-pad) - (y/maxY)*(h-2*pad);
+          d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+        }
+        paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
+        legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${b.name}_${seg}</span>`;
+      });
+
+      let gridLines = '';
+      for(let i=0;i<=6;i++) {
+        const y = (h-pad)-(i/6)*(h-2*pad);
+        gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
+        gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
+      }
+      for(let i=0;i<=10;i++) {
+        const x = pad+(i/10)*(w-2*pad);
+        gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
+      }
+
+      const cBtnStyle = (on) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${on?'var(--teal)':'var(--bg)'};color:${on?'white':'var(--text-mid)'};`;
+
+      return `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name} — Response Curve</div>
+          <div style="display:flex;gap:4px;">
+            <button onclick="setChartLevel('${b.name}','hcp')" style="${cBtnStyle(isHcp)}">HCP</button>
+            <button onclick="setChartLevel('${b.name}','account')" style="${cBtnStyle(!isHcp)}">Account</button>
+          </div>
+        </div>
+        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
+          ${gridLines}
+          <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
+          <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
+          ${paths}
+        </svg>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
+      </div>`;
+    }).join('');
+
+    return successBanner + brandCharts;
+  }
+
+
+  let remediateActiveIdx = null;
+  function openRemediateModal() {
+    closeQCSummaryModal();
+    const problemRefs = qcRunResults.filter(r => r.status === 'fail' || r.status === 'warning');
+    if(!problemRefs.length) { showToast('Nothing to remediate','success'); return; }
+    remediateActiveIdx = qcRunResults.indexOf(problemRefs[0]);
+    renderRemediateTabs();
+    renderQCFixList();
+    renderQCFixTable();
+    updateRerunButtonState();
+    document.getElementById('qcFixModalOverlay').classList.add('open');
+  }
+  function closeQCFixModal() {
+    document.getElementById('qcFixModalOverlay').classList.remove('open');
+  }
+  function renderRemediateTabs() {
+    const problemRefs = qcRunResults.map((r,i)=>({r,i})).filter(x => x.r.status === 'fail' || x.r.status === 'warning');
+    document.getElementById('remediateTabs').innerHTML = problemRefs.map(({r,i}) => {
+      const stillFailing = r.checks.some(c=>c.status==='fail');
+      return `<div class="remediate-tab ${i===remediateActiveIdx?'active':''} ${stillFailing?'':'tab-clear'}" onclick="switchRemediateTab(${i})">
+        ${r.file.name} <span class="source-file-tag" style="margin:0;">(${groupLabel(r.group)})</span>
+        <span class="rtab-badge">${stillFailing ? r.checks.filter(c=>c.status==='fail').length+' fail' : '✓'}</span>
+      </div>`;
+    }).join('');
+  }
+  function switchRemediateTab(i) {
+    remediateActiveIdx = i;
+    document.getElementById('qcFixSuccessBanner').innerHTML = '';
+    renderRemediateTabs();
+    renderQCFixList();
+    renderQCFixTable();
+    updateRerunButtonState();
+  }
+
+  function getFixRef() { return qcRunResults[remediateActiveIdx]; }
+
+  function renderQCFixList() {
+    const ref = getFixRef();
+    const el = document.getElementById('qcFixList');
+    document.getElementById('qcFixModalTitle').textContent = `Remediate Data Issues — ${ref.file.name}`;
+    el.innerHTML = ref.checks.map((c,i) => `
+      <div class="qcfix-item ${c.status}" ${c.status==='fail'?`onclick="focusQCCell(${i})"`:''}>
+        <span class="qcfix-item-label">${c.label}</span>
+        ${c.detail?`<span class="qcfix-item-detail">${c.detail}</span>`:''}
+        <span class="qcfix-item-status">${c.status==='fail'?'Fail — click to locate':c.status==='edited'?'Edited — pending rerun':c.status==='warning'?'Warning':'Pass'}</span>
+      </div>`).join('');
+  }
+
+  function renderQCFixTable() {
+    const ref = getFixRef();
+    const wrap = document.getElementById('qcFixTableWrap');
+    const cols = ref.columns.filter(c => c.selected);
+    const colIndexes = cols.map(c => ref.file.headers.findIndex(h => h.toLowerCase().trim() === c.name.toLowerCase().trim()));
+    const headerHtml = `<tr>${cols.map(c => `<th>${c.alias}</th>`).join('')}</tr>`;
+    const bodyHtml = ref.file.rows.map((r,ri) => `<tr>${colIndexes.map((ci,cidx) => {
+      if(ci === -1) return `<td><input class="qcfix-cell-input" disabled value="—"></td>`;
+      const val = (r[ci] ?? '').toString().replace(/"/g,'&quot;');
+      return `<td><input class="qcfix-cell-input" id="qcCell_${ri}_${ci}" value="${val}" oninput="updateQCCell(${ri},${ci},this.value)"></td>`;
+    }).join('')}</tr>`).join('');
+    wrap.innerHTML = `<table class="qcfix-table"><thead>${headerHtml}</thead><tbody>${bodyHtml}</tbody></table>`;
+    refreshCellStyles();
+  }
+
+  function refreshCellStyles() {
+    const ref = getFixRef();
+    document.querySelectorAll('#qcFixTableWrap .qcfix-cell-input').forEach(inp => {
+      inp.classList.remove('cell-fail','cell-edited');
+    });
+    ref.checks.forEach(chk => {
+      if(chk.status === 'fail' || chk.status === 'edited') {
+        chk.cells.forEach(cell => {
+          const inp = document.getElementById(`qcCell_${cell.r}_${cell.c}`);
+          if(inp) inp.classList.add(chk.status === 'fail' ? 'cell-fail' : 'cell-edited');
+        });
+      }
+    });
+  }
+
+  function focusQCCell(checkIdx) {
+    const ref = getFixRef();
+    const chk = ref.checks[checkIdx];
+    if(!chk || !chk.cells.length) return;
+    const { r, c } = chk.cells[0];
+    const input = document.getElementById(`qcCell_${r}_${c}`);
+    if(input) {
+      input.scrollIntoView({ behavior:'smooth', block:'center' });
+      input.classList.add('cell-focus');
+      input.focus();
+      setTimeout(() => input.classList.remove('cell-focus'), 1200);
+    }
+  }
+
+  function updateQCCell(r, c, value) {
+    const ref = getFixRef();
+    ref.file.rows[r][c] = value;
+    ref.checks.forEach(chk => {
+      if(chk.status === 'fail' && chk.cells.some(cell => cell.r === r && cell.c === c)) {
+        chk.status = 'edited';
+      }
+    });
+    renderQCFixList();
+    refreshCellStyles();
+    updateRerunButtonState();
+  }
+
+  function updateRerunButtonState() {
+    const ref = getFixRef();
+    const stillFailing = ref.checks.some(c => c.status === 'fail');
+    document.getElementById('qcRerunBtn').disabled = stillFailing;
+  }
+
+  function rerunQC() {
+    const ref = getFixRef();
+    const newChecks = runChecksFor(ref);
+    ref.checks = newChecks;
+    ref.status = newChecks.some(c => c.status === 'fail') ? 'fail' : (newChecks.some(c=>c.status==='warning') ? 'warning' : 'pass');
+    renderQCFixList();
+    renderQCFixTable();
+    updateRerunButtonState();
+    renderRemediateTabs();
+
+    if(ref.status !== 'fail') {
+      document.getElementById('qcFixSuccessBanner').innerHTML = `<div class="qcfix-success-banner">✓ All QC checks passed for ${ref.file.name}</div>`;
+    } else {
+      document.getElementById('qcFixSuccessBanner').innerHTML = '';
+      showToast(`${newChecks.filter(c=>c.status==='fail').length} QC check(s) still failing`, 'error');
+      return;
+    }
+
+    // Check if ALL files across the entire run are now clear
+    const stillHasFails = qcRunResults.some(r => r.status === 'fail');
+    if(!stillHasFails) {
+      // Brief pause so user sees the final green banner, then auto-close and proceed
+      showToast('All QC issues resolved — validation complete', 'success', 4000);
+      setTimeout(() => {
+        closeQCFixModal();
+        completeValidation();
+      }, 1200);
+    } else {
+      // Auto-advance to next failing file tab
+      const nextFail = qcRunResults.findIndex(r => r.status === 'fail');
+      if(nextFail !== -1 && nextFail !== remediateActiveIdx) {
+        showToast(`${ref.file.name} fixed — moving to next file with issues`, 'success');
+        setTimeout(() => switchRemediateTab(nextFail), 600);
+      }
+    }
+  }
+
+
+  /* ═══════════ DATA INSIGHTS — restructured per portfolio overview / overlap / deep-dive mockups ═══════════ */
+  const brandColors = { Brand_1:'#3b82f6', Brand_2:'#10b981', Brand_3:'#f59e0b' };
+  const brandPortfolio = {
+    Brand_1: { ta:'Oncology', compType:'Branded', years:3, reach:8960, budget:'$48M', budgetPct:48, topChannel:'Detailing', tierMix:{h:34,m:41,l:25} },
+    Brand_2: { ta:'Cardiology', compType:'Generic', years:5, reach:9856, budget:'$35M', budgetPct:35, topChannel:'DTC TV', tierMix:{h:22,m:46,l:32} },
+    Brand_3: { ta:'Neurology', compType:'Branded', years:2, reach:5248, budget:'$17M', budgetPct:17, topChannel:'EHR IMPR', tierMix:{h:29,m:38,l:33} },
+  };
+  const brandDeepDive = {
+    Brand_1: {
+      peakSales:1614, peakMonth:"Apr '24", postPeak:-7.2, postPeakMonth:"May '24", lifecycle:'Mature', curvePos:78,
+      months:["Mar'24",'Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',"Jan'25",'Feb','Mar'],
+      sales:[1460,1614,1470,1510,1500,1447,1500,1545,1522,1568,1483,1515,1500],
+      channelMix:[{name:'Detailing',pct:48},{name:'DTC TV',pct:18},{name:'EHR IMPR',pct:14},{name:'Doximity',pct:10},{name:'Display',pct:7},{name:'F2F',pct:3}],
+      curveK:0.55,
+      ai: 'Brand_1\'s response curve sits at 78% saturation, a log-diminishing shape with marginal return around 22% of peak — reallocating 5–8% of spend from Detailing toward Email could lift incremental response.'
+    },
+    Brand_2: {
+      peakSales:1210, peakMonth:"Jun '24", postPeak:-4.1, postPeakMonth:"Jul '24", lifecycle:'Mature', curvePos:64,
+      months:["Mar'24",'Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',"Jan'25",'Feb','Mar'],
+      sales:[1080,1120,1160,1210,1160,1140,1155,1130,1108,1090,1075,1060,1050],
+      channelMix:[{name:'DTC TV',pct:41},{name:'Digital',pct:19},{name:'Detailing',pct:17},{name:'EHR IMPR',pct:12},{name:'Email',pct:7},{name:'F2F',pct:4}],
+      curveK:0.4,
+      ai: 'Brand_2 is defending share against generic erosion — DTC TV is near saturation while digital channels still have significant unused headroom for incremental budget.'
+    },
+    Brand_3: {
+      peakSales:640, peakMonth:"Dec '24", postPeak:3.2, postPeakMonth:"Jan '25", lifecycle:'Launch', curvePos:48,
+      months:["Mar'24",'Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',"Jan'25",'Feb','Mar'],
+      sales:[280,310,335,360,390,410,440,470,520,640,660,655,670],
+      channelMix:[{name:'EHR IMPR',pct:34},{name:'Detailing',pct:26},{name:'Doximity',pct:18},{name:'DTC TV',pct:12},{name:'Display',pct:6},{name:'F2F',pct:4}],
+      curveK:0.22,
+      ai: 'Brand_3\'s curve is pre-inflection at 48%, projected to be roughly 2.3× more efficient than Brand_1 per dollar spent — the data supports scaling investment before optimizing channel mix.'
+    }
+  };
+  let insightsActiveBrandTab = null;
+  let insightsSkeletonPhase = false;
+
+  function areaChartSVG(values, months, color, w, h) {
+    const pad = 26;
+    const min = Math.min(...values), max = Math.max(...values);
+    const range = (max - min) || 1;
+    const stepX = (w - 2*pad) / (values.length - 1);
+    const pts = values.map((v,i) => {
+      const x = pad + i*stepX;
+      const y = (h - pad) - ((v - min) / range) * (h - 2*pad);
+      return [x,y];
+    });
+    const linePath = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${h-pad} L${pts[0][0].toFixed(1)},${h-pad} Z`;
+    const labels = months.map((m,i) => `<text x="${pts[i][0].toFixed(1)}" y="${h-6}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>`).join('');
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
+      <path d="${areaPath}" fill="${color}22" stroke="none"/>
+      <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2"/>
+      ${labels}
+    </svg>`;
+  }
+  function responseCurveSVG(k, curvePos, color, w, h) {
+    const pad = 24; const steps = 40; let d = '';
+    const yAt = x => 1 - Math.exp(-k * x * 4);
+    for(let i=0;i<=steps;i++) {
+      const x = i/steps;
+      const y = yAt(x);
+      const px = pad + x*(w-2*pad), py = (h-pad) - y*(h-2*pad);
+      d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+    }
+    const mx = curvePos/100, my = yAt(mx);
+    const mpx = pad + mx*(w-2*pad), mpy = (h-pad) - my*(h-2*pad);
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
+      <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+      <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+      <path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2"/>
+      <circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="4" fill="${color}"/>
+      <text x="${mpx.toFixed(1)}" y="${(mpy-10).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}%</text>
+    </svg>`;
+  }
+
+  function renderPortfolioOverview() {
+    const brands = Object.keys(brandPortfolio);
+    return `
+      <div class="pf-header-row"><h3>Brand portfolio overview</h3><span class="pf-daterange">Mar '24 — Mar '25</span></div>
+      <div class="pf-stats-row">
+        <div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div>
+        <div class="pf-stat"><label>Total Spend</label><span>$100M</span></div>
+        <div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div>
+        <div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div>
+      </div>
+      <div class="pf-brand-cards">
+        ${brands.map(name => { const b = brandPortfolio[name]; return `
+          <div class="pf-brand-card">
+            <div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div>
+            <div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div>
+            <div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div>
+            <div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div>
+            <div class="pf-brand-metric-row"><span>Top</span><span>${b.topChannel}</span></div>
+          </div>`; }).join('')}
+      </div>`;
+  }
+
+  function renderCrossBrandOverlap() {
+    const brands = Object.keys(brandPortfolio);
+    const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `
+      <div class="tier-mix-row">
+        <div class="tier-mix-row-head"><span>${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div>
+        <div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div>
+      </div>`; }).join('');
+
+    return `
+      <div class="cbo-section-label">Cross-brand overlap</div>
+      <div class="cbo-grid">
+        <div class="cbo-card">
+          <div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div>
+          <svg viewBox="0 0 280 190" style="width:100%;height:170px;">
+            <circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/>
+            <circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/>
+            <circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/>
+            <text x="80" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text>
+            <text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text>
+            <text x="120" y="178" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text>
+            <text x="128" y="80" font-size="12" font-weight="700" fill="var(--text-dark)">72%</text>
+            <text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text>
+            <text x="150" y="118" font-size="9" fill="var(--text-light)"></text>
+            <text x="152" y="105" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text>
+          </svg>
+        </div>
+        <div class="cbo-card">
+          <div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H / M / L across brands</span></div>
+          ${tierRows}
+          <div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div>
+        </div>
+      </div>
+      <div class="cbo-section-label">Data quality</div>
+      <div class="dq-grid">
+        <div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div>
+        <div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div>
+        <div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div>
+      </div>`;
+  }
+
+  function renderAutoInsightsList() {
+    const items = [
+      { dots:['Brand_1','Brand_2'], text:'Brand_1 and Brand_2 share the highest overlap (72%) with matched High + Medium tier concentration — suggests a shared targeting strategy.' },
+      { dots:['Brand_1','Brand_2','Brand_3'], text:'34% of unique HCPs (4,243) are reached by all three brands — consistent with deliberate portfolio cross-promotion.' },
+      { dots:['Brand_1'], text:'Brand_1\'s curve sits at 78% saturation, fitting a log-diminishing shape — marginal return is roughly 22% of peak.' },
+      { dots:['Brand_3'], text:'Brand_3\'s curve is pre-inflection at 48% — projected to be about 2.3× more efficient than Brand_1 per dollar spent.' },
+      { dots:['Brand_1'], text:'Brand_1\'s year-3 forecast dips 54% versus year 2 — a loss-of-exclusivity signal despite being tagged "Mature".' },
+      { dots:['Brand_3'], text:'Brand_3\'s year-1 forecast is null — planning scope treats year 2 as the effective launch year.' },
+      { dots:['Brand_1','Brand_2'], text:'A year-4 carryover was detected for Brand_1 and Brand_2 (rates of 0.72 and 0.68) — used for terminal-value calculation.' },
+    ];
+    return `
+      <div class="cbo-section-label">Auto-detected insights</div>
+      <div class="ai-insights-list">
+        ${items.map(it => `
+          <div class="ai-insight-row">
+            <div class="ai-insight-dots">${it.dots.map(n=>`<span style="background:${brandColors[n]}"></span>`).join('')}</div>
+            <div>${it.text}</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  function selectInsightsBrandTab(name) {
+    insightsActiveBrandTab = insightsActiveBrandTab === name ? null : name;
+    if(insightsActiveBrandTab) {
+      insightsSkeletonPhase = true;
+      renderInsightsAccordion();
+      setTimeout(() => { insightsSkeletonPhase = false; renderInsightsAccordion(); }, 550);
+    } else {
+      renderInsightsAccordion();
+    }
+  }
+
+  function renderBrandTabsSection() {
+    const brands = Object.keys(brandPortfolio);
+    const tabsHtml = brands.map(name => `
+      <div class="ins-pill-tab ${insightsActiveBrandTab===name?'active':''}" onclick="selectInsightsBrandTab('${name}')">
+        <span class="pf-dot" style="background:${brandColors[name]}"></span>${name}
+      </div>`).join('');
+
+    let bodyHtml = '';
+    if(insightsActiveBrandTab) {
+      if(insightsSkeletonPhase) {
+        bodyHtml = `
+          <div class="acc-section">
+            <div class="acc-body" style="padding-top:16px;">
+              <div class="skeleton-kpi-row"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+              <div class="skeleton-block skeleton-chart"></div>
+              <div class="skeleton-grid"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
+            </div>
+          </div>`;
+      } else {
+        const dd = brandDeepDive[insightsActiveBrandTab];
+        const color = brandColors[insightsActiveBrandTab];
+        bodyHtml = `
+          <div class="acc-section">
+            <div class="acc-header" style="cursor:default;">
+              <div class="acc-title"><span class="pf-dot" style="background:${color}"></span>${insightsActiveBrandTab} — Deep Dive <span class="acc-subtitle">Sales, Channel Mix &amp; Response Curve</span></div>
+            </div>
+            <div class="acc-body">
+              <div class="dd-kpi-row">
+                <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+                <div class="dd-kpi"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub">${dd.postPeakMonth}</div></div>
+                <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${brandPortfolio[insightsActiveBrandTab].years} yrs in market</div></div>
+                <div class="dd-kpi"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
+              </div>
+              <div class="dd-chart-card">
+                <div class="dd-chart-card-title">Sales trend · ${insightsActiveBrandTab} <span class="sub">Monthly, indexed $</span></div>
+                ${areaChartSVG(dd.sales, dd.months, color, 640, 170)}
+              </div>
+              <div class="deepdive-grid" style="grid-template-columns:1fr 1fr;">
+                <div class="dd-chart-card">
+                  <div class="dd-chart-card-title">Channel mix</div>
+                  ${dd.channelMix.map(c=>`<div class="cm-bar-row"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%</span></div><div class="cm-bar-track"><div class="cm-bar-fill" style="width:${c.pct}%;background:${color};"></div></div></div>`).join('')}
+                </div>
+                <div class="dd-chart-card">
+                  <div class="dd-chart-card-title">Response curve <span class="sub">Activity → revenue</span></div>
+                  ${responseCurveSVG(dd.curveK, dd.curvePos, color, 300, 160)}
+                </div>
+              </div>
+              <div class="acc-ai-note">✨ <span><strong>AI-generated insight:</strong> ${dd.ai}</span></div>
+            </div>
+          </div>`;
+      }
+    }
+
+    return `
+      <div class="insights-brand-tabs-row"><h3>Brands Detected — click to view insights</h3></div>
+      <div class="insights-brand-pill-tabs">${tabsHtml}</div>
+      ${bodyHtml}`;
+  }
+
+  function renderInsightsAccordion() {
+    const el = document.getElementById('insightsAccordion');
+    if(!el) return;
+    el.innerHTML = renderPortfolioOverview() + renderCrossBrandOverlap() + renderAutoInsightsList() + renderBrandTabsSection();
+  }
+
+  /* ─ Brand selection ─ */
+  /* ─ Brand selection ─ */
+  function toggleBrand(i) {
+    selectedBrands.has(i) ? selectedBrands.delete(i) : selectedBrands.add(i);
+    document.getElementById('bdet_'+i).classList.toggle('selected', selectedBrands.has(i));
+    const cnt = selectedBrands.size;
+    document.getElementById('selCount').innerHTML=`<strong>${cnt}</strong> brand(s) selected`;
+    document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt>0);
+  }
+
+  function addSelectedBrands() {
+    selectedBrands.forEach(i=>{
+      const b = detectedBrands[i];
+      if(!addedBrands.find(x=>x.name===b.name)) addedBrands.push({...b});
+    });
+    selectedBrands.clear();
+    document.querySelectorAll('.brand-card-det').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('selCount').innerHTML='<strong>0</strong> brand(s) selected';
+    document.getElementById('addBrandsBtn').classList.remove('enabled');
+    goTo('s1b');
+    showToast('Brands added successfully','success');
+  }
+
+  /* ─ Chat ─ */
+  const aiResponses = [
+    "Based on your uploaded data, I found relevant patterns related to that. Let me know if you'd like me to break it down by brand or by channel.",
+    "Looking at the data you've uploaded, I can pull that out for you — could you confirm which time period or brand you'd like this scoped to?",
+    "That pattern shows up across your customer and financial files. I can summarize the trend or flag any anomalies if that would help.",
+  ];
+  let aiResponseIdx = 0;
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if(!msg) return;
+    const empty = document.getElementById('chatEmpty');
+    if(empty) empty.remove();
+    const body = document.getElementById('chatBody');
+    const time = 'Just now';
+    body.innerHTML += `<div class="chat-row user"><div class="chat-bubble user"><div class="msg-time">${time}</div><div>${msg.replace(/</g,'&lt;')}</div></div></div>`;
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+    const typingId = 'typing_'+Date.now();
+    body.innerHTML += `<div class="chat-row ai" id="${typingId}"><div class="chat-bubble ai"><div class="chat-typing"><span></span><span></span><span></span></div></div></div>`;
+    body.scrollTop = body.scrollHeight;
+    setTimeout(()=>{
+      const typingEl = document.getElementById(typingId);
+      const reply = aiResponses[aiResponseIdx % aiResponses.length];
+      aiResponseIdx++;
+      if(typingEl) typingEl.outerHTML = `<div class="chat-row ai"><div class="chat-bubble ai"><div class="msg-time">Just now</div><div>${reply}</div></div></div>`;
+      body.scrollTop = body.scrollHeight;
+    }, 900);
+  }
+
+  /* ─ Toast ─ */
+  let tt;
+  function showToast(msg, type, duration) {
+    const t = document.getElementById('toast');
+    const icons = { error:'✕', success:'✓', warn:'⚠', '':'ℹ' };
+    const titles = { error:'QC Failed', success:'Success', warn:'Uploaded with warnings', '':'Notice' };
+    document.getElementById('toastIcon').textContent = icons[type]||'ℹ';
+    document.getElementById('toastTitle').textContent = titles[type]||'Notice';
+    document.getElementById('toastSub').textContent = msg;
+    t.className = 'toast show' + (type ? ' '+type : '');
+    clearTimeout(tt);
+    tt = setTimeout(()=>t.classList.remove('show'), duration||3500);
+  }
+  function dismissToast() {
+    clearTimeout(tt);
+    document.getElementById('toast').classList.remove('show');
+  }
+</script>
+</body>
+</html>

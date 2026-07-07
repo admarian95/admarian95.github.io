@@ -233,6 +233,14 @@
   .config-table tbody tr:hover td { background: var(--bg); }
   .config-bottom-bar { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
 
+  /* Brand Mapping column styles */
+  .cfg-brand-mapping-select { width: 100%; border: 1px solid var(--teal-mid); border-radius: 5px; padding: 5px 24px 5px 8px; font-size: 11.5px; color: var(--text-dark); background: var(--white); cursor: pointer; font-family: inherit; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231a9494'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
+  .cfg-brand-mapping-select:focus { outline: 1.5px solid var(--teal); }
+  .brand-mapping-na { font-size: 11px; color: var(--text-light); font-style: italic; }
+  .brand-mapping-detected { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--teal-dark); background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 6px; padding: 4px 10px; white-space: nowrap; }
+  .brand-mapping-detected-name { line-height: 1; }
+  .brand-mapping-detected-icon { display: inline-flex; align-items: center; color: var(--teal); flex-shrink: 0; line-height: 0; }
+
   /* QC panel on main config screen */
   .cfg-status-banner { margin: 14px 20px 0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
   .cfg-status-banner.pass { background: var(--green-light); color: var(--green); border: 1px solid #6ee7b7; }
@@ -1568,7 +1576,7 @@
 
   /* ═══════════ DATA CONFIGURATION (Brands + multi-file union columns + QC) ═══════════ */
   const CONFIG_TYPES = ['customer','financial','mapping','response'];
-  const COLUMN_TYPES = ['ID','Date Range','Select type','Activity']; // per spec — column type dropdown restricted to these
+  const COLUMN_TYPES = ['ID','Date Range','Select type','Sales','Activity']; // per spec — column type dropdown restricted to these
   const TAB_ORDER = ['brands','customer','financial','mapping','response'];
   let configBuilt = false;
   let brandsConfirmed = false;
@@ -1663,8 +1671,7 @@
     });
     closeAddBrandCfgModal();
     renderBrandsTab();
-    goTo('s2');
-    showToast(`"${name}" added — upload Customer, Response Curve, Financial & Mapping data for this brand`, 'success', 5500);
+    showToast(`"${name}" added to the project`, 'success', 3500);
   }
 
   function confirmBrandsConfig() {
@@ -1746,7 +1753,10 @@
     if(/\bid\b|\bhcp\b|\baccount\b|\bcustomer\b|\bchannel\b|\bbrand\b|\bfromtype\b|\btotype\b|from_type|to_type|segment|tier|quintile|abc|cust_type|customer_type/.test(n)) return 'Select type';
     const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
     const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
-    if(vals.length && numericCount / vals.length > 0.7) return 'Activity';
+    if(vals.length && numericCount / vals.length > 0.7) {
+      if(/sales|revenue|nrx|trx|share|market_share|forecast/i.test(n)) return 'Sales';
+      return 'Activity';
+    }
     return 'Select type';
   }
 
@@ -1767,7 +1777,7 @@
       headers: ['ID','Customer_type','Time_Period','Brand','Segment_Tier','Sales_NRx','Activity_F2F','Sales_Market_share','Activity_Calls'],
       rows: [
         ['HCP_01','HCP','2025','Lexorin','H','1000','10','0','0'],
-        ['HCP_02','HCP','2025','Lexorin','M','1000','10','0','0'],
+        ['HCP_02','HCP','2025','Lexorin','M','$1,200','10','0','0'],
         ['HCP_03','HCP','2025','Lexorin','L','1000','10','0','0'],
         ['HCO_01','Account','2025','Lexorin','H','1000','10','0','0'],
         ['HCO_04','Account','2025','Demodryl','H','0','0','1000','10']
@@ -1784,7 +1794,7 @@
     if(key === 'financial') return {
       headers: ['Brand','Customer_type','Year','Total_Forecast_$','COGS_pct','Gross_to_Net_pct','Non_SF_Impact_pct','Carryover_Rate_pct','Prior_Period_Carryover_$'],
       rows: [
-        ['Lexorin','HCP','2026','100','10','88','45','0','0'],
+        ['Lexorin','HCP','2026','$100','10','88','45','0','0'],
         ['Lexorin','HCP','2027','100','10','88','37','67','0'],
         ['Polair','HCP','2026','100','10','88','45','0','0']
       ]
@@ -1839,11 +1849,73 @@
         if(!map.has(key)) {
           const type = inferColumnType(h, file.rows, ci);
           const required = isRequiredColumn(group, h);
-          map.set(key, { name:h, alias:titleCase(h), type, desc:'', selected:true, locked:required });
+          map.set(key, { name:h, alias:titleCase(h), type, desc:'', selected:true, locked:required, brandMapping:'' });
         }
       });
     });
-    return [...map.values()];
+    const columns = [...map.values()];
+    if(group === 'customerLevel') {
+      autoFillBrandMapping(columns, files);
+    }
+    return columns;
+  }
+
+  // Auto-detect a single brand per eligible column for customer-level data
+  function autoFillBrandMapping(columns, files) {
+    const activeBrands = configBrands.filter(b => b.active).map(b => b.name);
+    if(!activeBrands.length) return;
+
+    // Collect unique brand values from the data's Brand column
+    const dataBrands = new Set();
+    files.forEach(file => {
+      const brandColIdx = file.headers.findIndex(h => /^brand$/i.test(h.trim()));
+      if(brandColIdx === -1) return;
+      file.rows.forEach(row => {
+        if(row[brandColIdx] && String(row[brandColIdx]).trim()) dataBrands.add(String(row[brandColIdx]).trim());
+      });
+    });
+
+    // Build a mapping from data-brand → config-brand (by name match or by position)
+    const dataBrandArr = [...dataBrands];
+    const brandLookup = new Map();
+    dataBrandArr.forEach((db, i) => {
+      // Try exact or partial match against active configBrands
+      const match = activeBrands.find(ab => ab.toLowerCase() === db.toLowerCase())
+                 || activeBrands.find(ab => ab.toLowerCase().includes(db.toLowerCase()) || db.toLowerCase().includes(ab.toLowerCase()));
+      brandLookup.set(db, match || activeBrands[i % activeBrands.length]);
+    });
+
+    // For each eligible column, find which data-brand's rows have the most non-zero values
+    columns.forEach(col => {
+      if(!needsBrandMapping('customerLevel', col)) return;
+      if(col.brandMapping) return;
+
+      // Try to find the dominant brand for this column from the data
+      let assigned = null;
+      files.forEach(file => {
+        const brandColIdx = file.headers.findIndex(h => /^brand$/i.test(h.trim()));
+        const colIdx = file.headers.findIndex(h => h.toLowerCase().trim() === col.name.toLowerCase().trim());
+        if(brandColIdx === -1 || colIdx === -1) return;
+
+        // Count non-empty/non-zero values per brand
+        const brandCounts = {};
+        file.rows.forEach(row => {
+          const b = String(row[brandColIdx] || '').trim();
+          const v = String(row[colIdx] || '').trim().replace(/[$,]/g, '');
+          if(b && v && v !== '0' && v !== '0.00') {
+            brandCounts[b] = (brandCounts[b] || 0) + 1;
+          }
+        });
+        // Pick brand with most non-zero values
+        let best = null, bestCount = 0;
+        for(const [b, count] of Object.entries(brandCounts)) {
+          if(count > bestCount) { best = b; bestCount = count; }
+        }
+        if(best && brandLookup.has(best)) assigned = brandLookup.get(best);
+      });
+
+      col.brandMapping = assigned || activeBrands[0];
+    });
   }
 
   async function buildConfigData() {
@@ -1867,19 +1939,57 @@
   }
 
   // Response Curve data — grouped by brand, HCP/HCO level files (per spec: show the exact files uploaded, not a metadata table)
+  // Response curve files have wide schemas: Centile, Customer_Type, Customers, activity_0, response_0, activity_1, response_1, ... activity_24, response_24
+  const RC_PAIRS = 25; // 25 pairs → 50 activity/response columns + 3 meta = 53 total
+  function rcHeaders() {
+    const h = ['Centile','Customer_Type','Customers'];
+    for(let i = 0; i < RC_PAIRS; i++) { h.push(`activity_${i}`, `response_${i}`); }
+    return h;
+  }
+  function rcColumns() {
+    const cols = [
+      { name:'Centile', alias:'Centile', type:'Select type', selected:true, locked:true },
+      { name:'Customer_Type', alias:'Customer Type', type:'Select type', selected:true, locked:true },
+      { name:'Customers', alias:'Customers', type:'Activity', selected:true, locked:true },
+    ];
+    for(let i = 0; i < RC_PAIRS; i++) {
+      cols.push({ name:`activity_${i}`, alias:`Activity ${i}`, type:'Activity', selected:true, locked:false });
+      cols.push({ name:`response_${i}`, alias:`Response ${i}`, type:'Activity', selected:true, locked:false });
+    }
+    return cols;
+  }
+
   function buildResponseByBrand() {
     configBrands.forEach(b => {
-      if(configData.response.byBrand[b.name] !== undefined) return; // already has files (e.g. re-entry)
+      if(configData.response.byBrand[b.name] !== undefined) return;
       if(b.isNew) { configData.response.byBrand[b.name] = []; return; }
       configData.response.byBrand[b.name] = [
-        { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', rows: mockResponseRows(b.name,'HCP') },
-        { name:`${b.name}_HCO_Response_Curve.csv`, level:'HCO', rows: mockResponseRows(b.name,'HCO') },
+        { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCP', b.name==='Brand_1'||b.name==='Brand_2') },
+        { name:`${b.name}_HCO_Response_Curve.csv`, level:'HCO', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCO', false) },
       ];
     });
   }
-  function mockResponseRows(brand, level) {
-    const base = level === 'HCP' ? 400 : 900;
-    return [10000,20000,30000,40000,50000].map((spend,i) => [brand, level, spend, Math.round(base * (1 - Math.exp(-0.00004*spend)) )]);
+  function mockResponseRows(brand, level, injectError) {
+    const segments = level === 'HCP'
+      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18']
+      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5'];
+    const custType = level === 'HCP' ? 'HCP' : 'Account';
+    return segments.map((seg, si) => {
+      const row = [`OCS_${brand}_${seg}`, custType, si === 0 ? 1 : Math.floor(2 + si * 1.3)];
+      for(let i = 0; i < RC_PAIRS; i++) {
+        const act = (i * 2).toFixed(2);
+        const k = 0.04 + si * 0.006;
+        const sat = 5000 + si * 3000;
+        const resp = (sat * (1 - Math.exp(-k * i * 2))).toFixed(2);
+        // Inject one error: first HCP file, first segment, activity_12
+        if(injectError && si === 0 && i === 12) {
+          row.push('$24.00', resp);
+        } else {
+          row.push(act, resp);
+        }
+      }
+      return row;
+    });
   }
 
   function toggleColumnSelected(path, ci, checked) {
@@ -1910,7 +2020,36 @@
 
   function columnRowsHtml(path) {
     const cols = getColumnsFor(path);
-    return cols.map((c,ci) => `
+    const isCustomerTab = (path === 'customerLevel' || path === 'segmentLevel');
+    const activeBrands = configBrands.filter(b => b.active).map(b => b.name);
+    return cols.map((c,ci) => {
+      // Hide "Brand" column row from customer data config tables
+      if(isCustomerTab && /^brand$/i.test(c.name.trim())) return '';
+
+      let brandMappingCell = '';
+      if(isCustomerTab) {
+        const showMapping = needsBrandMapping(path, c);
+        if(showMapping) {
+          if(path === 'customerLevel') {
+            // Customer Level: single auto-detected brand from checked brands in Brands tab
+            const detected = c.brandMapping || activeBrands[0] || '—';
+            brandMappingCell = `<td><span class="brand-mapping-detected"><span class="brand-mapping-detected-name">${detected}</span><span class="brand-mapping-detected-icon" title="Auto-detected from uploaded data">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 12.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z" fill="currentColor" opacity=".25"/><path d="M4.5 8.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span></span></td>`;
+          } else {
+            // Segment Level: manual dropdown
+            brandMappingCell = `<td>
+              <select class="cfg-brand-mapping-select" onchange="getColumnsFor('${path}')[${ci}].brandMapping=this.value">
+                <option value="">Select brand…</option>
+                ${activeBrands.map(b => `<option value="${b}" ${c.brandMapping===b?'selected':''}>${b}</option>`).join('')}
+              </select>
+            </td>`;
+          }
+        } else {
+          brandMappingCell = `<td><span class="brand-mapping-na">—</span></td>`;
+        }
+      }
+      return `
       <tr class="${c.selected ? '' : 'col-deselected'}">
         <td>
           <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} ${c.locked?'disabled title="Required column — always included"':''} onchange="toggleColumnSelected('${path}',${ci},this.checked)">
@@ -1922,22 +2061,44 @@
             ${COLUMN_TYPES.map(t=>`<option value="${t}" ${c.type===t?'selected':''}>${t}</option>`).join('')}
           </select>
         </td>
+        ${brandMappingCell}
         <td><input class="cfg-desc-input" value="${c.desc}" placeholder="Add description" oninput="getColumnsFor('${path}')[${ci}].desc=this.value"></td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
+  }
+
+  // Determines which columns show the Brand Mapping dropdown
+  function needsBrandMapping(path, col) {
+    // Sales and Activity columns always get brand mapping on both tabs
+    if(col.type === 'Sales' || col.type === 'Activity') return true;
+    const n = col.name.toLowerCase().replace(/[\s_]/g,'');
+    if(path === 'customerLevel') {
+      // Customer Level: also show for Segment_Tier
+      return /^segmenttier$/.test(n);
+    }
+    if(path === 'segmentLevel') {
+      // Segment Level: also show for Segment_Tier, Segment_Quintile, Segment_ABC, Customer_count
+      return /^segmenttier$|^segmentquintile$|^segmentabc$|^customercount$/.test(n);
+    }
+    return false;
   }
 
   function columnTableHtml(path) {
     const cols = getColumnsFor(path);
-    const selectedCount = cols.filter(c => c.selected).length;
-    const allSelected = selectedCount === cols.length;
+    const isCustomerTab = (path === 'customerLevel' || path === 'segmentLevel');
+    // Exclude hidden Brand row from counts for customer tabs
+    const visibleCols = isCustomerTab ? cols.filter(c => !/^brand$/i.test(c.name.trim())) : cols;
+    const selectedCount = visibleCols.filter(c => c.selected).length;
+    const allSelected = selectedCount === visibleCols.length;
     const fileCount = getFilesFor(path).length;
+    const brandMappingHeader = isCustomerTab ? '<th>Brand Mapping</th>' : '';
     return `
       <div class="config-toolbar">
-        <span class="col-select-summary"><strong>${selectedCount}</strong> of ${cols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
+        <span class="col-select-summary"><strong>${selectedCount}</strong> of ${visibleCols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
       </div>
       <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
         <table class="config-table">
-          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${path}',this.checked)" title="Select/deselect all optional columns"></th><th>Name</th><th>Alias</th><th>Column Type</th><th>Description</th></tr></thead>
+          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${path}',this.checked)" title="Select/deselect all optional columns"></th><th>Name</th><th>Alias</th><th>Column Type</th>${brandMappingHeader}<th>Description</th></tr></thead>
           <tbody>${columnRowsHtml(path)}</tbody>
         </table>
       </div>`;
@@ -2219,15 +2380,12 @@
     ['customerLevel','segmentLevel'].forEach(g => configData.customer[g].files.forEach((f,i) => refs.push({ group:g, idx:i, file:f, columns:configData.customer[g].columns })));
     ['financial','mapping'].forEach(g => configData[g].files.forEach((f,i) => refs.push({ group:g, idx:i, file:f, columns:configData[g].columns })));
     Object.keys(configData.response.byBrand).forEach(brand => {
-      (configData.response.byBrand[brand] || []).forEach((f,i) => refs.push({ group:'response', idx:i, brand, file:f, columns: f.headers ? [] : [
-        { name:'Brand', alias:'Brand', type:'Select type', selected:true, locked:true },
-        { name:'Level', alias:'Level', type:'Select type', selected:true, locked:true },
-        { name:'Spend_Level', alias:'Spend Level', type:'Activity', selected:true, locked:false },
-        { name:'Response_Value', alias:'Response Value', type:'Activity', selected:true, locked:false },
-      ] }));
+      (configData.response.byBrand[brand] || []).forEach((f,i) => {
+        // Use file's own headers if present, otherwise fall back to wide RC schema
+        if(!f.headers) f.headers = rcHeaders();
+        refs.push({ group:'response', idx:i, brand, file:f, columns: rcColumns() });
+      });
     });
-    // response files use a fixed positional schema [Brand, Level, Spend, Response] — give them matching headers for QC
-    refs.forEach(r => { if(r.group === 'response' && !r.file.headers) r.file.headers = ['Brand','Level','Spend_Level','Response_Value']; });
     return refs;
   }
   function groupLabel(g) {
@@ -2540,17 +2698,29 @@
     renderRemediateTabs();
 
     if(ref.status !== 'fail') {
-      document.getElementById('qcFixSuccessBanner').innerHTML = `<div class="qcfix-success-banner">✓ All QC checks passed successfully for ${ref.file.name}</div>`;
-      showToast('All QC checks passed successfully', 'success');
+      document.getElementById('qcFixSuccessBanner').innerHTML = `<div class="qcfix-success-banner">✓ All QC checks passed for ${ref.file.name}</div>`;
     } else {
       document.getElementById('qcFixSuccessBanner').innerHTML = '';
       showToast(`${newChecks.filter(c=>c.status==='fail').length} QC check(s) still failing`, 'error');
+      return;
     }
 
+    // Check if ALL files across the entire run are now clear
     const stillHasFails = qcRunResults.some(r => r.status === 'fail');
     if(!stillHasFails) {
-      showToast('All QC issues resolved — proceeding to Data Insights', 'success');
-      setTimeout(() => { closeQCFixModal(); completeValidation(); }, 900);
+      // Brief pause so user sees the final green banner, then auto-close and proceed
+      showToast('All QC issues resolved — validation complete', 'success', 4000);
+      setTimeout(() => {
+        closeQCFixModal();
+        completeValidation();
+      }, 1200);
+    } else {
+      // Auto-advance to next failing file tab
+      const nextFail = qcRunResults.findIndex(r => r.status === 'fail');
+      if(nextFail !== -1 && nextFail !== remediateActiveIdx) {
+        showToast(`${ref.file.name} fixed — moving to next file with issues`, 'success');
+        setTimeout(() => switchRemediateTab(nextFail), 600);
+      }
     }
   }
 

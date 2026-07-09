@@ -667,6 +667,73 @@
   .dd-section-body { padding: 16px; }
   .dd-ai-summary { display: flex; align-items: flex-start; gap: 8px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #5b21b6; line-height: 1.55; margin-top: 12px; }
   .dd-ai-summary .ai-icon { flex-shrink: 0; font-size: 14px; }
+
+  /* ═══ INTERACTIVE DEEP DIVE ═══ */
+  .dd-modal-body { padding: 22px; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
+  .dd-section { margin-bottom: 20px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s; }
+  .dd-section:hover { box-shadow: var(--shadow-sm); }
+  .dd-section:last-of-type { margin-bottom: 0; }
+  .dd-section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text-dark); cursor: pointer; user-select: none; transition: background 0.15s; }
+  .dd-section-header:hover { background: #eef2f7; }
+  .dd-section-chevron { font-size: 10px; color: var(--text-light); transition: transform 0.3s ease; }
+  .dd-section.dd-collapsed .dd-section-chevron { transform: rotate(-90deg); }
+  .dd-section-body { padding: 16px; max-height: 800px; overflow: hidden; opacity: 1; transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease; }
+  .dd-section.dd-collapsed .dd-section-body { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+  /* Interactive chart container */
+  .dd-chart-interactive { position: relative; }
+  .dd-chart-interactive svg { display: block; }
+
+  /* Hover data points on sales chart */
+  .dd-chart-interactive .data-dot { opacity: 0; transition: opacity 0.15s, r 0.15s; cursor: pointer; }
+  .dd-chart-interactive:hover .data-dot { opacity: 0.4; }
+  .dd-chart-interactive .data-dot:hover { opacity: 1 !important; }
+
+  /* Tooltip */
+  .dd-tooltip { position: absolute; background: #1e293b; color: white; font-size: 11px; padding: 6px 10px; border-radius: 6px; pointer-events: none; z-index: 10; white-space: nowrap; box-shadow: var(--shadow-md); opacity: 0; transition: opacity 0.15s; line-height: 1.5; }
+  .dd-tooltip.visible { opacity: 1; }
+  .dd-tooltip .tt-label { font-weight: 400; opacity: 0.75; }
+  .dd-tooltip .tt-value { font-weight: 700; font-size: 13px; }
+  .dd-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #1e293b; }
+
+  /* Crosshair line */
+  .dd-crosshair { stroke: var(--text-light); stroke-width: 1; stroke-dasharray: 3,3; opacity: 0; transition: opacity 0.15s; }
+
+  /* Animated channel bars */
+  .cm-bar-fill-animated { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.25,0.8,0.25,1); }
+  .cm-bar-interactive { cursor: pointer; border-radius: 6px; padding: 6px 8px; margin: 0 -8px 8px; transition: background 0.15s; }
+  .cm-bar-interactive:hover { background: var(--bg); }
+  .cm-bar-interactive:hover .cm-bar-head span:first-child { color: var(--text-dark); font-weight: 600; }
+  .cm-bar-pct-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 6px; opacity: 0; transition: opacity 0.2s; }
+  .cm-bar-interactive:hover .cm-bar-pct-badge { opacity: 1; }
+
+  /* Response curve hover tracker */
+  .rc-tracker-line { stroke-width: 1; stroke-dasharray: 3,3; opacity: 0; transition: opacity 0.1s; }
+  .rc-tracker-dot { opacity: 0; transition: opacity 0.1s; }
+  .rc-hover-zone { fill: transparent; cursor: crosshair; }
+
+  /* KPI animation */
+  .dd-kpi-val-anim { display: inline-block; }
+  @keyframes kpiPop { 0% { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  .dd-kpi.animate-in .dd-kpi-val { animation: kpiPop 0.4s ease-out forwards; }
+  .dd-kpi.animate-in:nth-child(2) .dd-kpi-val { animation-delay: 0.08s; }
+  .dd-kpi.animate-in:nth-child(3) .dd-kpi-val { animation-delay: 0.16s; }
+  .dd-kpi.animate-in:nth-child(4) .dd-kpi-val { animation-delay: 0.24s; }
+
+  /* Modal footer */
+  .dd-modal-footer { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-top: 1px solid var(--border); background: var(--bg); flex-shrink: 0; }
+  .dd-modal-footer-info { font-size: 12px; color: var(--text-mid); }
+  .dd-modal-footer-info strong { color: var(--text-dark); }
+  .dd-select-brand-btn { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .dd-select-brand-btn:hover { background: var(--teal-dark); }
+  .dd-select-brand-btn:active { transform: scale(0.97); }
+  .dd-select-brand-btn.selected-state { background: var(--green); pointer-events: none; }
+
+  /* Section mini-nav tabs */
+  .dd-nav-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+  .dd-nav-tab { font-size: 11.5px; font-weight: 600; padding: 6px 14px; border-radius: 999px; cursor: pointer; border: 1.5px solid var(--border); color: var(--text-mid); background: var(--white); transition: all 0.2s; }
+  .dd-nav-tab:hover { border-color: var(--teal-mid); color: var(--teal-dark); }
+  .dd-nav-tab.active { border-color: var(--teal); background: var(--teal); color: white; }
 </style>
 </head>
 <body>
@@ -1139,6 +1206,10 @@
       <button class="dd-modal-close" onclick="closeDeepDive()">×</button>
     </div>
     <div class="dd-modal-body" id="ddModalBody"></div>
+    <div class="dd-modal-footer">
+      <div class="dd-modal-footer-info" id="ddFooterInfo"></div>
+      <button class="dd-select-brand-btn" id="ddSelectBtn" onclick="selectBrandFromModal()">Select this Brand</button>
+    </div>
   </div>
 </div>
 
@@ -2138,7 +2209,7 @@
     const selectedCount = visibleCols.filter(c => c.selected).length;
     const allSelected = selectedCount === visibleCols.length;
     const fileCount = getFilesFor(path).length;
-    const brandMappingHeader = isCustomerTab ? '<th>Brand Tagging</th>' : '';
+    const brandMappingHeader = isCustomerTab ? '<th>Brand Mapping</th>' : '';
     return `
       <div class="config-toolbar">
         <span class="col-select-summary"><strong>${selectedCount}</strong> of ${visibleCols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
@@ -2172,6 +2243,7 @@
       pane.innerHTML = `
         <div>${columnTableHtml('mapping')}</div>
         <div class="upload-more-row">
+          <button class="btn-upload-more" onclick="openCfgBrandModal('mapping')">+ Upload New Mapping Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
@@ -2183,6 +2255,7 @@
       pane.innerHTML = `
         <div>${columnTableHtml('financial')}</div>
         <div class="upload-more-row">
+          <button class="btn-upload-more" onclick="openCfgBrandModal('financial')">+ Upload New Financial Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>
@@ -2276,6 +2349,7 @@
     return `<div style="padding:14px 20px 0;">
       ${brandCards}
       <div class="upload-more-row" style="margin-top:4px;">
+        <button class="btn-upload-more" onclick="openCfgBrandModal('response')">+ Upload New Response Curve</button>
       </div>
     </div>`;
   }
@@ -2821,7 +2895,7 @@
     'A year-4 carryover was detected for Brand_1 and Brand_2 (rates of 0.72 and 0.68) — used for terminal-value calculation.',
   ];
 
-  function areaChartSVG(values, months, color, w, h) {
+  function areaChartSVG(values, months, color, w, h, chartId) {
     const pad = 26;
     const min = Math.min(...values), max = Math.max(...values);
     const range = (max - min) || 1;
@@ -2830,16 +2904,135 @@
     const linePath = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
     const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${h-pad} L${pts[0][0].toFixed(1)},${h-pad} Z`;
     const labels = months.map((m,i) => `<text x="${pts[i][0].toFixed(1)}" y="${h-6}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>`).join('');
-    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;"><path d="${areaPath}" fill="${color}22" stroke="none"/><path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2"/>${labels}</svg>`;
+    const gridLines = [0.25,0.5,0.75].map(f => {
+      const y = (h - pad) - f * (h - 2*pad);
+      const val = Math.round(min + f * range);
+      return `<line x1="${pad}" y1="${y.toFixed(1)}" x2="${w-pad}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <text x="${pad-4}" y="${(y+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">$${val}</text>`;
+    }).join('');
+    const dots = pts.map((p,i) => `<circle class="data-dot" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="5" fill="${color}" stroke="white" stroke-width="2"
+      onmouseenter="showChartTooltip(event,'${chartId}','${months[i]}','$${values[i].toLocaleString()}',${p[0].toFixed(1)},${p[1].toFixed(1)})"
+      onmouseleave="hideChartTooltip('${chartId}')"/>`).join('');
+    const crosshair = `<line class="dd-crosshair" id="${chartId}_cross" x1="0" y1="${pad}" x2="0" y2="${h-pad}"/>`;
+    return `<div class="dd-chart-interactive" id="${chartId}_wrap">
+      <div class="dd-tooltip" id="${chartId}_tt"></div>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
+        ${gridLines}
+        <path d="${areaPath}" fill="${color}15" stroke="none"/>
+        <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
+        ${crosshair}${dots}${labels}
+      </svg>
+    </div>`;
   }
 
-  function responseCurveSVG(k, curvePos, color, w, h) {
+  function responseCurveSVG(k, curvePos, color, w, h, chartId) {
     const pad = 24; const steps = 40; let d = '';
     const yAt = x => 1 - Math.exp(-k * x * 4);
     for(let i=0;i<=steps;i++) { const x = i/steps, y = yAt(x); const px = pad + x*(w-2*pad), py = (h-pad) - y*(h-2*pad); d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' '; }
     const mx = curvePos/100, my = yAt(mx);
     const mpx = pad + mx*(w-2*pad), mpy = (h-pad) - my*(h-2*pad);
-    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;"><line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2"/><circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="4" fill="${color}"/><text x="${mpx.toFixed(1)}" y="${(mpy-10).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}%</text></svg>`;
+    const gridLines = [0.25,0.5,0.75].map(f => {
+      const y = (h - pad) - f * (h - 2*pad);
+      return `<line x1="${pad}" y1="${y.toFixed(1)}" x2="${w-pad}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
+              <text x="${pad-4}" y="${(y+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">${Math.round(f*100)}%</text>`;
+    }).join('');
+    return `<div class="dd-chart-interactive" id="${chartId}_wrap">
+      <div class="dd-tooltip" id="${chartId}_tt"></div>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;" id="${chartId}_svg">
+        ${gridLines}
+        <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
+        <text x="${(w/2)}" y="${h-2}" font-size="8" fill="var(--text-light)" text-anchor="middle">Investment →</text>
+        <text x="8" y="${(h/2)}" font-size="8" fill="var(--text-light)" text-anchor="middle" transform="rotate(-90,8,${(h/2)})">Return →</text>
+        <path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
+        <line class="rc-tracker-line" id="${chartId}_vline" x1="0" y1="${pad}" x2="0" y2="${h-pad}" stroke="${color}"/>
+        <line class="rc-tracker-line" id="${chartId}_hline" x1="${pad}" y1="0" x2="${w-pad}" y2="0" stroke="${color}"/>
+        <circle class="rc-tracker-dot" id="${chartId}_tdot" cx="0" cy="0" r="4" fill="${color}" stroke="white" stroke-width="2"/>
+        <circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="5.5" fill="${color}" stroke="white" stroke-width="2.5"/>
+        <text x="${mpx.toFixed(1)}" y="${(mpy-12).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}% current</text>
+        <rect class="rc-hover-zone" x="${pad}" y="${pad}" width="${w-2*pad}" height="${h-2*pad}"
+          onmousemove="trackResponseCurve(event,'${chartId}',${k},${pad},${w},${h},'${color}')"
+          onmouseleave="hideRCTracker('${chartId}')"/>
+      </svg>
+    </div>`;
+  }
+
+  /* ═══ CHART INTERACTION HELPERS ═══ */
+  function showChartTooltip(evt, chartId, label, value, cx, cy) {
+    const wrap = document.getElementById(chartId+'_wrap');
+    const tt = document.getElementById(chartId+'_tt');
+    const svg = wrap.querySelector('svg');
+    const rect = svg.getBoundingClientRect();
+    const svgW = parseFloat(svg.getAttribute('viewBox').split(' ')[2]);
+    const scale = rect.width / svgW;
+    const x = cx * scale;
+    const y = cy * scale;
+    tt.innerHTML = `<div class="tt-label">${label}</div><div class="tt-value">${value}</div>`;
+    tt.style.left = (x - tt.offsetWidth/2) + 'px';
+    tt.style.top = (y - tt.offsetHeight - 12) + 'px';
+    tt.classList.add('visible');
+    const cross = document.getElementById(chartId+'_cross');
+    if(cross) { cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.style.opacity = '0.5'; }
+  }
+
+  function hideChartTooltip(chartId) {
+    const tt = document.getElementById(chartId+'_tt');
+    if(tt) tt.classList.remove('visible');
+    const cross = document.getElementById(chartId+'_cross');
+    if(cross) cross.style.opacity = '0';
+  }
+
+  function trackResponseCurve(evt, chartId, k, pad, w, h, color) {
+    const svg = document.getElementById(chartId+'_svg');
+    const rect = svg.getBoundingClientRect();
+    const svgW = w, svgH = h;
+    const mouseX = (evt.clientX - rect.left) / rect.width * svgW;
+    const x01 = Math.max(0, Math.min(1, (mouseX - pad) / (svgW - 2*pad)));
+    const yAt = x => 1 - Math.exp(-k * x * 4);
+    const yVal = yAt(x01);
+    const px = pad + x01 * (svgW - 2*pad);
+    const py = (svgH - pad) - yVal * (svgH - 2*pad);
+    const vline = document.getElementById(chartId+'_vline');
+    const hline = document.getElementById(chartId+'_hline');
+    const tdot = document.getElementById(chartId+'_tdot');
+    vline.setAttribute('x1',px); vline.setAttribute('x2',px); vline.style.opacity='0.5';
+    hline.setAttribute('y1',py); hline.setAttribute('y2',py); hline.style.opacity='0.5';
+    tdot.setAttribute('cx',px); tdot.setAttribute('cy',py); tdot.style.opacity='1';
+    const wrap = document.getElementById(chartId+'_wrap');
+    const tt = document.getElementById(chartId+'_tt');
+    const scale = rect.width / svgW;
+    tt.innerHTML = `<div class="tt-label">Spend: ${Math.round(x01*100)}%</div><div class="tt-value">Return: ${Math.round(yVal*100)}%</div>`;
+    tt.style.left = (px * scale - tt.offsetWidth/2) + 'px';
+    tt.style.top = (py * scale - tt.offsetHeight - 14) + 'px';
+    tt.classList.add('visible');
+  }
+
+  function hideRCTracker(chartId) {
+    ['_vline','_hline','_tdot'].forEach(s => { const el = document.getElementById(chartId+s); if(el) el.style.opacity='0'; });
+    const tt = document.getElementById(chartId+'_tt'); if(tt) tt.classList.remove('visible');
+  }
+
+  function toggleDDSection(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('dd-collapsed');
+    if(id === 'dd_channel' && !el.classList.contains('dd-collapsed')) animateChannelBars('dd_channel_body');
+  }
+
+  function scrollToSection(sectionId) {
+    const el = document.getElementById(sectionId);
+    if(!el) return;
+    if(el.classList.contains('dd-collapsed')) {
+      el.classList.remove('dd-collapsed');
+      if(sectionId === 'dd_channel') animateChannelBars('dd_channel_body');
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function animateChannelBars(sectionId) {
+    setTimeout(() => {
+      const bars = document.querySelectorAll(`#${sectionId} .cm-bar-fill-animated`);
+      bars.forEach(bar => { const target = bar.dataset.width; bar.style.width = target; });
+    }, 80);
   }
 
   /* ═══ ACCORDION RENDERS ═══ */
@@ -2891,26 +3084,110 @@
     showToast('Brands added successfully', 'success');
   }
 
-  /* ═══ DEEP DIVE MODAL ═══ */
+  /* ═══ DEEP DIVE MODAL (INTERACTIVE) ═══ */
+  let currentDeepDiveBrand = null;
+
   function openDeepDive(name) {
+    currentDeepDiveBrand = name;
     const dd = brandDeepDive[name];
     const b = brandPortfolio[name];
     const color = brandColors[name];
+    const brandIdx = Object.keys(brandPortfolio).indexOf(name);
+    const isSelected = selectedBrands.has(brandIdx);
+
     document.getElementById('ddModalTitle').innerHTML = `<span class="pf-dot" style="background:${color};width:10px;height:10px;"></span> ${name} — Deep Dive`;
+    document.getElementById('ddFooterInfo').innerHTML = `<strong>${name}</strong> · ${b.ta} · ${b.compType} · ${b.budget} budget`;
+
+    const selBtn = document.getElementById('ddSelectBtn');
+    if(isSelected) { selBtn.textContent = '✓ Brand Selected'; selBtn.className = 'dd-select-brand-btn selected-state'; }
+    else { selBtn.textContent = 'Select this Brand'; selBtn.className = 'dd-select-brand-btn'; }
+
     document.getElementById('ddModalBody').innerHTML = `
-      <div class="dd-kpi-row">
-        <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
-        <div class="dd-kpi"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub">${dd.postPeakMonth}</div></div>
-        <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
-        <div class="dd-kpi"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
+      <div class="dd-nav-tabs">
+        <div class="dd-nav-tab active" onclick="scrollToSection('dd_sales')">📈 Sales</div>
+        <div class="dd-nav-tab" onclick="scrollToSection('dd_channel')">📊 Channels</div>
+        <div class="dd-nav-tab" onclick="scrollToSection('dd_curve')">📉 Curve</div>
       </div>
-      <div class="dd-section"><div class="dd-section-header">📈 Sales Trend <span style="font-size:11px;font-weight:400;color:var(--text-light);">Monthly, indexed $</span></div><div class="dd-section-body">${areaChartSVG(dd.sales, dd.months, color, 740, 170)}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.salesAI}</div></div></div></div>
-      <div class="dd-section"><div class="dd-section-header">📊 Channel Mix</div><div class="dd-section-body">${dd.channelMix.map(c => `<div class="cm-bar-row"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%</span></div><div class="cm-bar-track"><div class="cm-bar-fill" style="width:${c.pct}%;background:${color};"></div></div></div>`).join('')}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.channelAI}</div></div></div></div>
-      <div class="dd-section"><div class="dd-section-header">📉 Response Curve <span style="font-size:11px;font-weight:400;color:var(--text-light);">Activity → Revenue</span></div><div class="dd-section-body">${responseCurveSVG(dd.curveK, dd.curvePos, color, 740, 180)}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.curveAI}</div></div></div></div>`;
+
+      <div class="dd-kpi-row">
+        <div class="dd-kpi animate-in"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+        <div class="dd-kpi animate-in"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub ${dd.postPeak>0?'pos':'neg'}">${dd.postPeakMonth}</div></div>
+        <div class="dd-kpi animate-in"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
+        <div class="dd-kpi animate-in"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
+      </div>
+
+      <div class="dd-section" id="dd_sales">
+        <div class="dd-section-header" onclick="toggleDDSection('dd_sales')">
+          📈 Sales Trend
+          <span class="dd-section-chevron">▼</span>
+        </div>
+        <div class="dd-section-body">
+          ${areaChartSVG(dd.sales, dd.months, color, 740, 180, 'sales_chart')}
+          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.salesAI}</div></div>
+        </div>
+      </div>
+
+      <div class="dd-section dd-collapsed" id="dd_channel">
+        <div class="dd-section-header" onclick="toggleDDSection('dd_channel')">
+          📊 Channel Mix
+          <span class="dd-section-chevron">▼</span>
+        </div>
+        <div class="dd-section-body" id="dd_channel_body">
+          ${dd.channelMix.map((c,ci) => `<div class="cm-bar-interactive"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%<span class="cm-bar-pct-badge" style="background:${color}22;color:${color};">$${Math.round(parseInt(b.budget.replace(/[^0-9]/g,''))*c.pct/100)}M</span></span></div><div class="cm-bar-track"><div class="cm-bar-fill-animated" data-width="${c.pct}%" style="width:0%;background:${color};"></div></div></div>`).join('')}
+          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.channelAI}</div></div>
+        </div>
+      </div>
+
+      <div class="dd-section dd-collapsed" id="dd_curve">
+        <div class="dd-section-header" onclick="toggleDDSection('dd_curve')">
+          📉 Response Curve
+          <span class="dd-section-chevron">▼</span>
+        </div>
+        <div class="dd-section-body">
+          ${responseCurveSVG(dd.curveK, dd.curvePos, color, 740, 200, 'rc_chart')}
+          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.curveAI}</div></div>
+        </div>
+      </div>`;
+
     document.getElementById('deepDiveModal').classList.add('open');
+    animateChannelBars('dd_channel_body');
+    setupNavTabHighlight();
   }
 
-  function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); }
+  function setupNavTabHighlight() {
+    const body = document.getElementById('ddModalBody');
+    if(!body) return;
+    body.addEventListener('scroll', () => {
+      const tabs = body.querySelectorAll('.dd-nav-tab');
+      const sections = ['dd_sales','dd_channel','dd_curve'];
+      let activeIdx = 0;
+      sections.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if(el && el.getBoundingClientRect().top < body.getBoundingClientRect().top + 120) activeIdx = i;
+      });
+      tabs.forEach((t,i) => t.classList.toggle('active', i === activeIdx));
+    });
+  }
+
+  function selectBrandFromModal() {
+    if(!currentDeepDiveBrand) return;
+    const brandIdx = Object.keys(brandPortfolio).indexOf(currentDeepDiveBrand);
+    if(brandIdx === -1) return;
+    if(!selectedBrands.has(brandIdx)) {
+      selectedBrands.add(brandIdx);
+      const card = document.getElementById('pf_'+brandIdx);
+      if(card) card.classList.add('selected');
+      const cnt = selectedBrands.size;
+      document.getElementById('selCount').innerHTML = `<strong>${cnt}</strong> brand(s) selected`;
+      document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt > 0);
+    }
+    const btn = document.getElementById('ddSelectBtn');
+    btn.textContent = '✓ Brand Selected';
+    btn.className = 'dd-select-brand-btn selected-state';
+    showToast(`${currentDeepDiveBrand} selected`, 'success', 2000);
+  }
+
+  function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); currentDeepDiveBrand = null; }
 
   /* ─ toggleBrand kept for backward compat ─ */
   function toggleBrand(i) { selectBrand(i); }

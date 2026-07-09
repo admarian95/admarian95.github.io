@@ -499,7 +499,7 @@
   .acc-chevron { font-size: 11px; color: var(--text-light); transition: transform 0.2s; }
   .acc-section.collapsed .acc-chevron { transform: rotate(-90deg); }
   .acc-body { padding: 0 18px 18px; }
-  .acc-section.collapsed .acc-body { display: none; }
+  .acc-section.collapsed .acc-body { /* animated via max-height in new styles */ }
   .acc-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .acc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 13px; }
   .acc-card-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
@@ -617,6 +617,56 @@
   .cm-bar-head { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-mid); margin-bottom: 3px; }
   .cm-bar-track { height: 7px; border-radius: 4px; background: var(--bg); overflow: hidden; }
   .cm-bar-fill { height: 100%; background: var(--teal); border-radius: 4px; }
+
+  /* ═══ NEW: AUTO INSIGHTS STYLING ═══ */
+  .ai-insights-list { display: flex; flex-direction: column; gap: 12px; }
+  .ai-insight-row { display: flex; align-items: flex-start; gap: 12px; font-size: 12.5px; color: var(--text-mid); line-height: 1.65; padding: 12px 16px; background: var(--white); border-radius: 10px; border: 1px solid var(--border); border-left: 3px solid var(--teal); transition: box-shadow 0.2s, border-color 0.2s; }
+  .ai-insight-row:hover { box-shadow: var(--shadow-sm); border-color: var(--teal-mid); border-left-color: var(--teal); }
+  .ai-insight-num { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .ai-insight-text { flex: 1; }
+  .ai-insight-text strong { color: var(--text-dark); }
+
+  /* ═══ NEW: ANIMATED ACCORDION ═══ */
+  .acc-body { max-height: 3000px; overflow: hidden; opacity: 1; transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease; }
+  .acc-section.collapsed .acc-body { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+  .acc-chevron { transition: transform 0.3s ease; }
+
+  /* ═══ NEW: IMPROVED CBO CARDS ═══ */
+  .cbo-card { transition: border-color 0.2s, box-shadow 0.2s; }
+  .cbo-card:hover { border-color: var(--teal-mid); box-shadow: 0 2px 12px rgba(26,148,148,0.12); }
+  .dq-card { transition: border-color 0.2s, box-shadow 0.2s; }
+  .dq-card:hover { border-color: var(--teal-mid); box-shadow: 0 2px 12px rgba(26,148,148,0.12); }
+
+  /* ═══ NEW: BRAND CARD ACTIONS + OBJECTIVE ═══ */
+  .pf-brand-card { position: relative; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .pf-brand-card:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
+  .pf-brand-card.selected { border-color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 3px rgba(26,148,148,0.15); }
+  .pf-brand-actions { display: flex; align-items: center; gap: 8px; position: absolute; top: 12px; right: 12px; }
+  .pf-brand-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all 0.15s; cursor: pointer; }
+  .pf-brand-card.selected .pf-brand-check { background: var(--teal); border-color: var(--teal); color: white; }
+  .pf-view-btn { font-size: 10px; font-weight: 600; color: var(--teal-dark); background: var(--white); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 3px 8px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .pf-view-btn:hover { background: var(--teal-light); }
+  .pf-brand-objective { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); }
+  .pf-brand-objective label { font-size: 9.5px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
+  .pf-brand-objective input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 11px; color: var(--text-dark); background: var(--white); font-family: inherit; transition: border-color 0.15s; }
+  .pf-brand-objective input:focus { outline: none; border-color: var(--teal); }
+  .pf-brand-objective input::placeholder { color: #b0bac6; }
+
+  /* ═══ NEW: DEEP DIVE MODAL ═══ */
+  .dd-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 300; align-items: center; justify-content: center; }
+  .dd-modal-overlay.open { display: flex; }
+  .dd-modal-box { background: var(--white); border-radius: var(--radius); width: 820px; max-width: 94vw; max-height: 88vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .dd-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--teal-dark); flex-shrink: 0; }
+  .dd-modal-header h3 { font-size: 15px; font-weight: 600; color: white; display: flex; align-items: center; gap: 8px; }
+  .dd-modal-close { background: none; border: none; font-size: 20px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; }
+  .dd-modal-close:hover { color: white; }
+  .dd-modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+  .dd-section { margin-bottom: 20px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .dd-section:last-child { margin-bottom: 0; }
+  .dd-section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text-dark); }
+  .dd-section-body { padding: 16px; }
+  .dd-ai-summary { display: flex; align-items: flex-start; gap: 8px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #5b21b6; line-height: 1.55; margin-top: 12px; }
+  .dd-ai-summary .ai-icon { flex-shrink: 0; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -1081,6 +1131,17 @@
   </div>
 </div>
 
+<!-- ═══════════ DEEP DIVE MODAL ═══════════ -->
+<div class="dd-modal-overlay" id="deepDiveModal" onclick="if(event.target===this)closeDeepDive()">
+  <div class="dd-modal-box">
+    <div class="dd-modal-header">
+      <h3 id="ddModalTitle">Brand — Deep Dive</h3>
+      <button class="dd-modal-close" onclick="closeDeepDive()">×</button>
+    </div>
+    <div class="dd-modal-body" id="ddModalBody"></div>
+  </div>
+</div>
+
 <!-- ═══════════ SCREEN 4: DATA INSIGHTS ═══════════ -->
 <div id="s4" class="screen">
   <div class="stepper-bar">
@@ -1114,21 +1175,7 @@
           <button class="chatbot-send-btn" onclick="sendChat()" title="Send">➤</button>
         </div>
       </div>
-      <div class="insights-right">
-        <div id="insightsAccordion"></div>
-        <div class="brands-section">
-          <div class="brands-header-row"><h3>Brands Detected</h3></div>
-          <div class="brands-detected-grid">
-            <div class="brand-card-det" id="bdet_0" onclick="toggleBrand(0)"><div class="brand-check">✓</div><div class="brand-num">1</div><div class="brand-name-det">Brand_1</div><div class="brand-ta-det">Oncology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>3 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>8,960</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>Detailing</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$48M (48%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Grow market share by 5% in target segment" onclick="event.stopPropagation()" oninput="detectedBrands[0].objective=this.value"></div></div>
-            <div class="brand-card-det" id="bdet_1" onclick="toggleBrand(1)"><div class="brand-check">✓</div><div class="brand-num">2</div><div class="brand-name-det">Brand_2</div><div class="brand-ta-det">Cardiology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Generic</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>5 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>9,856</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>DTC TV</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$35M (35%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Defend share against generic erosion" onclick="event.stopPropagation()" oninput="detectedBrands[1].objective=this.value"></div></div>
-            <div class="brand-card-det" id="bdet_2" onclick="toggleBrand(2)"><div class="brand-check">✓</div><div class="brand-num">3</div><div class="brand-name-det">Brand_3</div><div class="brand-ta-det">Neurology</div><div class="brand-meta-row"><div class="brand-meta-item"><span>Competition Type</span><strong>Branded</strong></div><div class="brand-meta-item"><span>Years in Market</span><strong>2 yrs</strong></div><div class="brand-meta-item"><span>HCP Reach</span><strong>5,248</strong></div><div class="brand-meta-item"><span>Top Channel</span><strong>EHR IMPR</strong></div><div class="brand-meta-item"><span>Budget Share</span><strong>$17M (17%)</strong></div></div><div class="brand-objective-row"><label>Brand Objective</label><input type="text" class="brand-objective-input" placeholder="e.g. Accelerate new-patient starts in launch year" onclick="event.stopPropagation()" oninput="detectedBrands[2].objective=this.value"></div></div>
-          </div>
-          <div class="add-brands-bar">
-            <span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span>
-            <button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrands()">Add Brand(s)</button>
-          </div>
-        </div>
-      </div>
+      <div class="insights-right" id="insightsRight"></div>
     </div>
   </div>
 </div>
@@ -1149,7 +1196,7 @@
     window.scrollTo(0,0);
     if(id==='s1b') renderBrandsGrid();
     if(id==='s3') ensureConfigBuilt();
-    if(id==='s4') renderInsightsAccordion();
+    if(id==='s4') renderInsightsPanel();
   }
 
   function openAddBrandSidebar() {
@@ -2091,7 +2138,7 @@
     const selectedCount = visibleCols.filter(c => c.selected).length;
     const allSelected = selectedCount === visibleCols.length;
     const fileCount = getFilesFor(path).length;
-    const brandMappingHeader = isCustomerTab ? '<th>Brand Mapping</th>' : '';
+    const brandMappingHeader = isCustomerTab ? '<th>Brand Tagging</th>' : '';
     return `
       <div class="config-toolbar">
         <span class="col-select-summary"><strong>${selectedCount}</strong> of ${visibleCols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
@@ -2125,7 +2172,6 @@
       pane.innerHTML = `
         <div>${columnTableHtml('mapping')}</div>
         <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('mapping')">+ Upload New Mapping Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
@@ -2137,7 +2183,6 @@
       pane.innerHTML = `
         <div>${columnTableHtml('financial')}</div>
         <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('financial')">+ Upload New Financial Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>
@@ -2231,7 +2276,6 @@
     return `<div style="padding:14px 20px 0;">
       ${brandCards}
       <div class="upload-more-row" style="margin-top:4px;">
-        <button class="btn-upload-more" onclick="openCfgBrandModal('response')">+ Upload New Response Curve</button>
       </div>
     </div>`;
   }
@@ -2727,11 +2771,13 @@
 
   /* ═══════════ DATA INSIGHTS — restructured per portfolio overview / overlap / deep-dive mockups ═══════════ */
   const brandColors = { Brand_1:'#3b82f6', Brand_2:'#10b981', Brand_3:'#f59e0b' };
+
   const brandPortfolio = {
     Brand_1: { ta:'Oncology', compType:'Branded', years:3, reach:8960, budget:'$48M', budgetPct:48, topChannel:'Detailing', tierMix:{h:34,m:41,l:25} },
     Brand_2: { ta:'Cardiology', compType:'Generic', years:5, reach:9856, budget:'$35M', budgetPct:35, topChannel:'DTC TV', tierMix:{h:22,m:46,l:32} },
     Brand_3: { ta:'Neurology', compType:'Branded', years:2, reach:5248, budget:'$17M', budgetPct:17, topChannel:'EHR IMPR', tierMix:{h:29,m:38,l:33} },
   };
+
   const brandDeepDive = {
     Brand_1: {
       peakSales:1614, peakMonth:"Apr '24", postPeak:-7.2, postPeakMonth:"May '24", lifecycle:'Mature', curvePos:78,
@@ -2739,7 +2785,9 @@
       sales:[1460,1614,1470,1510,1500,1447,1500,1545,1522,1568,1483,1515,1500],
       channelMix:[{name:'Detailing',pct:48},{name:'DTC TV',pct:18},{name:'EHR IMPR',pct:14},{name:'Doximity',pct:10},{name:'Display',pct:7},{name:'F2F',pct:3}],
       curveK:0.55,
-      ai: 'Brand_1\'s response curve sits at 78% saturation, a log-diminishing shape with marginal return around 22% of peak — reallocating 5–8% of spend from Detailing toward Email could lift incremental response.'
+      salesAI: "Brand_1 peaked at $1,614 in Apr '24 and has since stabilized around $1,500, indicating a mature product entering a plateau phase. The 7.2% post-peak decline was seasonal rather than structural.",
+      channelAI: 'Detailing dominates at 48% of channel mix — a disproportionately high share. Reallocating 5–8% of spend toward Email or EHR IMPR could improve overall efficiency.',
+      curveAI: "The response curve sits at 78% saturation with a log-diminishing shape. Marginal return is approximately 22% of peak — budget is better redirected to under-saturated brands."
     },
     Brand_2: {
       peakSales:1210, peakMonth:"Jun '24", postPeak:-4.1, postPeakMonth:"Jul '24", lifecycle:'Mature', curvePos:64,
@@ -2747,7 +2795,9 @@
       sales:[1080,1120,1160,1210,1160,1140,1155,1130,1108,1090,1075,1060,1050],
       channelMix:[{name:'DTC TV',pct:41},{name:'Digital',pct:19},{name:'Detailing',pct:17},{name:'EHR IMPR',pct:12},{name:'Email',pct:7},{name:'F2F',pct:4}],
       curveK:0.4,
-      ai: 'Brand_2 is defending share against generic erosion — DTC TV is near saturation while digital channels still have significant unused headroom for incremental budget.'
+      salesAI: "Brand_2 shows a consistent downward trajectory post-peak (Jun '24), declining ~13% over 9 months — consistent with generic erosion pressure.",
+      channelAI: 'DTC TV accounts for 41% of spend and is approaching saturation. Digital channels at 19% still have significant unused headroom.',
+      curveAI: 'At 64% saturation, Brand_2 still has meaningful headroom on the response curve — this is the most efficient brand for marginal dollar reallocation.'
     },
     Brand_3: {
       peakSales:640, peakMonth:"Dec '24", postPeak:3.2, postPeakMonth:"Jan '25", lifecycle:'Launch', curvePos:48,
@@ -2755,232 +2805,115 @@
       sales:[280,310,335,360,390,410,440,470,520,640,660,655,670],
       channelMix:[{name:'EHR IMPR',pct:34},{name:'Detailing',pct:26},{name:'Doximity',pct:18},{name:'DTC TV',pct:12},{name:'Display',pct:6},{name:'F2F',pct:4}],
       curveK:0.22,
-      ai: 'Brand_3\'s curve is pre-inflection at 48%, projected to be roughly 2.3× more efficient than Brand_1 per dollar spent — the data supports scaling investment before optimizing channel mix.'
+      salesAI: "Brand_3 is on a strong upward trajectory with 139% growth over 12 months — a textbook launch curve. Overall momentum remains positive and consistent.",
+      channelAI: 'EHR IMPR leads at 34% which is well-suited for a launch-phase brand. The channel mix is well-diversified — no single channel is over-indexed.',
+      curveAI: "At 48% saturation (pre-inflection), Brand_3 is projected to be roughly 2.3× more efficient than Brand_1 per dollar spent. The data supports scaling investment now."
     }
   };
-  let insightsActiveBrandTab = null;
-  let insightsSkeletonPhase = false;
+
+  const autoInsights = [
+    'Brand_1 and Brand_2 share the highest overlap (72%) with matched High + Medium tier concentration — suggests a shared targeting strategy.',
+    '34% of unique HCPs (4,243) are reached by all three brands — consistent with deliberate portfolio cross-promotion.',
+    "Brand_1's curve sits at 78% saturation, fitting a log-diminishing shape — marginal return is roughly 22% of peak.",
+    "Brand_3's curve is pre-inflection at 48% — projected to be about 2.3× more efficient than Brand_1 per dollar spent.",
+    "Brand_1's year-3 forecast dips 54% versus year 2 — a loss-of-exclusivity signal despite being tagged \"Mature\".",
+    "Brand_3's year-1 forecast is null — planning scope treats year 2 as the effective launch year.",
+    'A year-4 carryover was detected for Brand_1 and Brand_2 (rates of 0.72 and 0.68) — used for terminal-value calculation.',
+  ];
 
   function areaChartSVG(values, months, color, w, h) {
     const pad = 26;
     const min = Math.min(...values), max = Math.max(...values);
     const range = (max - min) || 1;
     const stepX = (w - 2*pad) / (values.length - 1);
-    const pts = values.map((v,i) => {
-      const x = pad + i*stepX;
-      const y = (h - pad) - ((v - min) / range) * (h - 2*pad);
-      return [x,y];
-    });
+    const pts = values.map((v,i) => { const x = pad + i*stepX; const y = (h - pad) - ((v - min) / range) * (h - 2*pad); return [x,y]; });
     const linePath = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
     const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${h-pad} L${pts[0][0].toFixed(1)},${h-pad} Z`;
     const labels = months.map((m,i) => `<text x="${pts[i][0].toFixed(1)}" y="${h-6}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>`).join('');
-    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
-      <path d="${areaPath}" fill="${color}22" stroke="none"/>
-      <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2"/>
-      ${labels}
-    </svg>`;
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;"><path d="${areaPath}" fill="${color}22" stroke="none"/><path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2"/>${labels}</svg>`;
   }
+
   function responseCurveSVG(k, curvePos, color, w, h) {
     const pad = 24; const steps = 40; let d = '';
     const yAt = x => 1 - Math.exp(-k * x * 4);
-    for(let i=0;i<=steps;i++) {
-      const x = i/steps;
-      const y = yAt(x);
-      const px = pad + x*(w-2*pad), py = (h-pad) - y*(h-2*pad);
-      d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
-    }
+    for(let i=0;i<=steps;i++) { const x = i/steps, y = yAt(x); const px = pad + x*(w-2*pad), py = (h-pad) - y*(h-2*pad); d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' '; }
     const mx = curvePos/100, my = yAt(mx);
     const mpx = pad + mx*(w-2*pad), mpy = (h-pad) - my*(h-2*pad);
-    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
-      <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
-      <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
-      <path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2"/>
-      <circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="4" fill="${color}"/>
-      <text x="${mpx.toFixed(1)}" y="${(mpy-10).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}%</text>
-    </svg>`;
+    return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;"><line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2"/><circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="4" fill="${color}"/><text x="${mpx.toFixed(1)}" y="${(mpy-10).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}%</text></svg>`;
   }
 
-  function renderPortfolioOverview() {
+  /* ═══ ACCORDION RENDERS ═══ */
+  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); }
+
+  function renderAutoInsightsAccordion() {
+    return `<div class="acc-section" id="acc_insights"><div class="acc-header" onclick="toggleAccordion('acc_insights')"><div class="acc-title">Auto Detected Insights <span class="acc-subtitle">${autoInsights.length} insights found</span></div><span class="acc-chevron">▼</span></div><div class="acc-body"><div class="ai-insights-list">${autoInsights.map((text, i) => `<div class="ai-insight-row"><div class="ai-insight-num">${i+1}</div><div class="ai-insight-text">${text}</div></div>`).join('')}</div></div></div>`;
+  }
+
+  function renderOverlapAccordion() {
     const brands = Object.keys(brandPortfolio);
-    return `
-      <div class="pf-header-row"><h3>Brand portfolio overview</h3><span class="pf-daterange">Mar '24 — Mar '25</span></div>
-      <div class="pf-stats-row">
-        <div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div>
-        <div class="pf-stat"><label>Total Spend</label><span>$100M</span></div>
-        <div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div>
-        <div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div>
-      </div>
-      <div class="pf-brand-cards">
-        ${brands.map(name => { const b = brandPortfolio[name]; return `
-          <div class="pf-brand-card">
-            <div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div>
-            <div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div>
-            <div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div>
-            <div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div>
-            <div class="pf-brand-metric-row"><span>Top</span><span>${b.topChannel}</span></div>
-          </div>`; }).join('')}
-      </div>`;
+    const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `<div class="tier-mix-row"><div class="tier-mix-row-head"><span>${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div><div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div></div>`; }).join('');
+    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div><div class="acc-body" style="padding-top:6px;"><div class="cbo-section-label" style="margin-top:0;">HCP Overlap &amp; Tier Mix</div><div class="cbo-grid"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div><svg viewBox="0 0 280 190" style="width:100%;height:170px;"><circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="80" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text><text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text><text x="120" y="178" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text><text x="128" y="80" font-size="12" font-weight="700" fill="var(--text-dark)">72%</text><text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="152" y="105" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text></svg></div><div class="cbo-card"><div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H / M / L across brands</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div><div class="dd-ai-summary" style="margin-top:0;margin-bottom:18px;"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> Brand_1 and Brand_2 have the highest HCP overlap at 72%, with strong High + Medium tier alignment. Brand_3 has moderate overlap indicating an emerging but distinct audience.</div></div><div class="cbo-section-label">Data Quality</div><div class="dq-grid"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div><div class="dd-ai-summary" style="margin-top:14px;"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> Data is largely clean with no duplicate records. 8 columns have missing values flagged. 142 HCPs show outlier sales and should be reviewed before insight generation.</div></div></div></div>`;
   }
 
-  function renderCrossBrandOverlap() {
+  function renderBrandsAccordion() {
     const brands = Object.keys(brandPortfolio);
-    const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `
-      <div class="tier-mix-row">
-        <div class="tier-mix-row-head"><span>${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div>
-        <div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div>
-      </div>`; }).join('');
-
-    return `
-      <div class="cbo-section-label">Cross-brand overlap</div>
-      <div class="cbo-grid">
-        <div class="cbo-card">
-          <div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div>
-          <svg viewBox="0 0 280 190" style="width:100%;height:170px;">
-            <circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/>
-            <circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/>
-            <circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/>
-            <text x="80" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text>
-            <text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text>
-            <text x="120" y="178" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text>
-            <text x="128" y="80" font-size="12" font-weight="700" fill="var(--text-dark)">72%</text>
-            <text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text>
-            <text x="150" y="118" font-size="9" fill="var(--text-light)"></text>
-            <text x="152" y="105" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text>
-          </svg>
-        </div>
-        <div class="cbo-card">
-          <div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H / M / L across brands</span></div>
-          ${tierRows}
-          <div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div>
-        </div>
-      </div>
-      <div class="cbo-section-label">Data quality</div>
-      <div class="dq-grid">
-        <div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div>
-        <div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div>
-        <div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div>
-      </div>`;
+    const placeholders = { Brand_1:'e.g. Grow market share by 5% in target segment', Brand_2:'e.g. Defend share against generic erosion', Brand_3:'e.g. Accelerate new-patient starts in launch year' };
+    return `<div class="acc-section collapsed" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div><div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Total Spend</label><span>$100M</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name, i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrands()">Add Brand(s)</button></div></div></div>`;
   }
 
-  function renderAutoInsightsList() {
-    const items = [
-      { dots:['Brand_1','Brand_2'], text:'Brand_1 and Brand_2 share the highest overlap (72%) with matched High + Medium tier concentration — suggests a shared targeting strategy.' },
-      { dots:['Brand_1','Brand_2','Brand_3'], text:'34% of unique HCPs (4,243) are reached by all three brands — consistent with deliberate portfolio cross-promotion.' },
-      { dots:['Brand_1'], text:'Brand_1\'s curve sits at 78% saturation, fitting a log-diminishing shape — marginal return is roughly 22% of peak.' },
-      { dots:['Brand_3'], text:'Brand_3\'s curve is pre-inflection at 48% — projected to be about 2.3× more efficient than Brand_1 per dollar spent.' },
-      { dots:['Brand_1'], text:'Brand_1\'s year-3 forecast dips 54% versus year 2 — a loss-of-exclusivity signal despite being tagged "Mature".' },
-      { dots:['Brand_3'], text:'Brand_3\'s year-1 forecast is null — planning scope treats year 2 as the effective launch year.' },
-      { dots:['Brand_1','Brand_2'], text:'A year-4 carryover was detected for Brand_1 and Brand_2 (rates of 0.72 and 0.68) — used for terminal-value calculation.' },
-    ];
-    return `
-      <div class="cbo-section-label">Auto-detected insights</div>
-      <div class="ai-insights-list">
-        ${items.map(it => `
-          <div class="ai-insight-row">
-            <div class="ai-insight-dots">${it.dots.map(n=>`<span style="background:${brandColors[n]}"></span>`).join('')}</div>
-            <div>${it.text}</div>
-          </div>`).join('')}
-      </div>`;
-  }
-
-  function selectInsightsBrandTab(name) {
-    insightsActiveBrandTab = insightsActiveBrandTab === name ? null : name;
-    if(insightsActiveBrandTab) {
-      insightsSkeletonPhase = true;
-      renderInsightsAccordion();
-      setTimeout(() => { insightsSkeletonPhase = false; renderInsightsAccordion(); }, 550);
-    } else {
-      renderInsightsAccordion();
-    }
-  }
-
-  function renderBrandTabsSection() {
-    const brands = Object.keys(brandPortfolio);
-    const tabsHtml = brands.map(name => `
-      <div class="ins-pill-tab ${insightsActiveBrandTab===name?'active':''}" onclick="selectInsightsBrandTab('${name}')">
-        <span class="pf-dot" style="background:${brandColors[name]}"></span>${name}
-      </div>`).join('');
-
-    let bodyHtml = '';
-    if(insightsActiveBrandTab) {
-      if(insightsSkeletonPhase) {
-        bodyHtml = `
-          <div class="acc-section">
-            <div class="acc-body" style="padding-top:16px;">
-              <div class="skeleton-kpi-row"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
-              <div class="skeleton-block skeleton-chart"></div>
-              <div class="skeleton-grid"><div class="skeleton-block"></div><div class="skeleton-block"></div><div class="skeleton-block"></div></div>
-            </div>
-          </div>`;
-      } else {
-        const dd = brandDeepDive[insightsActiveBrandTab];
-        const color = brandColors[insightsActiveBrandTab];
-        bodyHtml = `
-          <div class="acc-section">
-            <div class="acc-header" style="cursor:default;">
-              <div class="acc-title"><span class="pf-dot" style="background:${color}"></span>${insightsActiveBrandTab} — Deep Dive <span class="acc-subtitle">Sales, Channel Mix &amp; Response Curve</span></div>
-            </div>
-            <div class="acc-body">
-              <div class="dd-kpi-row">
-                <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
-                <div class="dd-kpi"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub">${dd.postPeakMonth}</div></div>
-                <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${brandPortfolio[insightsActiveBrandTab].years} yrs in market</div></div>
-                <div class="dd-kpi"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
-              </div>
-              <div class="dd-chart-card">
-                <div class="dd-chart-card-title">Sales trend · ${insightsActiveBrandTab} <span class="sub">Monthly, indexed $</span></div>
-                ${areaChartSVG(dd.sales, dd.months, color, 640, 170)}
-              </div>
-              <div class="deepdive-grid" style="grid-template-columns:1fr 1fr;">
-                <div class="dd-chart-card">
-                  <div class="dd-chart-card-title">Channel mix</div>
-                  ${dd.channelMix.map(c=>`<div class="cm-bar-row"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%</span></div><div class="cm-bar-track"><div class="cm-bar-fill" style="width:${c.pct}%;background:${color};"></div></div></div>`).join('')}
-                </div>
-                <div class="dd-chart-card">
-                  <div class="dd-chart-card-title">Response curve <span class="sub">Activity → revenue</span></div>
-                  ${responseCurveSVG(dd.curveK, dd.curvePos, color, 300, 160)}
-                </div>
-              </div>
-              <div class="acc-ai-note">✨ <span><strong>AI-generated insight:</strong> ${dd.ai}</span></div>
-            </div>
-          </div>`;
-      }
-    }
-
-    return `
-      <div class="insights-brand-tabs-row"><h3>Brands Detected — click to view insights</h3></div>
-      <div class="insights-brand-pill-tabs">${tabsHtml}</div>
-      ${bodyHtml}`;
-  }
-
-  function renderInsightsAccordion() {
-    const el = document.getElementById('insightsAccordion');
+  function renderInsightsPanel() {
+    const el = document.getElementById('insightsRight');
     if(!el) return;
-    el.innerHTML = renderPortfolioOverview() + renderCrossBrandOverlap() + renderAutoInsightsList() + renderBrandTabsSection();
+    el.innerHTML = renderAutoInsightsAccordion() + renderOverlapAccordion() + renderBrandsAccordion();
   }
 
-  /* ─ Brand selection ─ */
-  /* ─ Brand selection ─ */
-  function toggleBrand(i) {
+  /* ═══ BRAND SELECTION ═══ */
+  function selectBrand(i) {
     selectedBrands.has(i) ? selectedBrands.delete(i) : selectedBrands.add(i);
-    document.getElementById('bdet_'+i).classList.toggle('selected', selectedBrands.has(i));
+    document.getElementById('pf_'+i).classList.toggle('selected', selectedBrands.has(i));
     const cnt = selectedBrands.size;
-    document.getElementById('selCount').innerHTML=`<strong>${cnt}</strong> brand(s) selected`;
-    document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt>0);
+    document.getElementById('selCount').innerHTML = `<strong>${cnt}</strong> brand(s) selected`;
+    document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt > 0);
   }
 
   function addSelectedBrands() {
-    selectedBrands.forEach(i=>{
-      const b = detectedBrands[i];
-      if(!addedBrands.find(x=>x.name===b.name)) addedBrands.push({...b});
+    selectedBrands.forEach(i => {
+      const brands = Object.keys(brandPortfolio);
+      const name = brands[i];
+      const b = brandPortfolio[name];
+      if(!addedBrands.find(x => x.name === name)) addedBrands.push({ name, ta: b.ta, compType: b.compType, objective: '' });
     });
     selectedBrands.clear();
-    document.querySelectorAll('.brand-card-det').forEach(c=>c.classList.remove('selected'));
-    document.getElementById('selCount').innerHTML='<strong>0</strong> brand(s) selected';
+    document.querySelectorAll('.pf-brand-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('selCount').innerHTML = '<strong>0</strong> brand(s) selected';
     document.getElementById('addBrandsBtn').classList.remove('enabled');
     goTo('s1b');
-    showToast('Brands added successfully','success');
+    showToast('Brands added successfully', 'success');
   }
+
+  /* ═══ DEEP DIVE MODAL ═══ */
+  function openDeepDive(name) {
+    const dd = brandDeepDive[name];
+    const b = brandPortfolio[name];
+    const color = brandColors[name];
+    document.getElementById('ddModalTitle').innerHTML = `<span class="pf-dot" style="background:${color};width:10px;height:10px;"></span> ${name} — Deep Dive`;
+    document.getElementById('ddModalBody').innerHTML = `
+      <div class="dd-kpi-row">
+        <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+        <div class="dd-kpi"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub">${dd.postPeakMonth}</div></div>
+        <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
+        <div class="dd-kpi"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
+      </div>
+      <div class="dd-section"><div class="dd-section-header">📈 Sales Trend <span style="font-size:11px;font-weight:400;color:var(--text-light);">Monthly, indexed $</span></div><div class="dd-section-body">${areaChartSVG(dd.sales, dd.months, color, 740, 170)}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.salesAI}</div></div></div></div>
+      <div class="dd-section"><div class="dd-section-header">📊 Channel Mix</div><div class="dd-section-body">${dd.channelMix.map(c => `<div class="cm-bar-row"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%</span></div><div class="cm-bar-track"><div class="cm-bar-fill" style="width:${c.pct}%;background:${color};"></div></div></div>`).join('')}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.channelAI}</div></div></div></div>
+      <div class="dd-section"><div class="dd-section-header">📉 Response Curve <span style="font-size:11px;font-weight:400;color:var(--text-light);">Activity → Revenue</span></div><div class="dd-section-body">${responseCurveSVG(dd.curveK, dd.curvePos, color, 740, 180)}<div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.curveAI}</div></div></div></div>`;
+    document.getElementById('deepDiveModal').classList.add('open');
+  }
+
+  function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); }
+
+  /* ─ toggleBrand kept for backward compat ─ */
+  function toggleBrand(i) { selectBrand(i); }
 
   /* ─ Chat ─ */
   const aiResponses = [

@@ -708,9 +708,75 @@
     .acc-tabs { overflow-x: auto; }
   }
 
+  /* ═══ ARTIFACTS SIDEBAR ═══ */
+  .artifacts-sidebar { position: fixed; top: 0; right: 0; width: 520px; height: 100vh; background: var(--white); z-index: 250; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -4px 0 24px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
+  .artifacts-sidebar.open { transform: translateX(0); }
+  .artifacts-sidebar.pinned { transform: translateX(0); }
+  .artifacts-sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--teal-dark); color: white; flex-shrink: 0; }
+  .artifacts-sidebar-header h4 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .artifacts-sidebar-header .artifact-count { font-size: 11px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 999px; font-weight: 500; }
+  .sidebar-header-actions { display: flex; align-items: center; gap: 6px; }
+  .sidebar-pin-btn, .sidebar-close-btn { background: none; border: none; color: rgba(255,255,255,0.8); font-size: 16px; cursor: pointer; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: all 0.15s; }
+  .sidebar-pin-btn:hover, .sidebar-close-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+  .sidebar-pin-btn.pinned { color: #fbbf24; background: rgba(255,255,255,0.15); }
+  .sidebar-tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .sidebar-tab { flex: 1; padding: 10px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; color: var(--text-light); border-bottom: 2px solid transparent; transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; }
+  .sidebar-tab:hover { color: var(--text-mid); }
+  .sidebar-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .sidebar-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .sidebar-artifact-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.2s; background: var(--white); }
+  .sidebar-artifact-item:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-sm); background: var(--bg); }
+  .sidebar-artifact-item.active { border-color: var(--teal); background: var(--teal-light); }
+  .sidebar-artifact-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--teal-light), var(--teal-mid)); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .sidebar-artifact-info { flex: 1; min-width: 0; }
+  .sidebar-artifact-title { font-size: 12.5px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sidebar-artifact-desc { font-size: 10.5px; color: var(--text-light); line-height: 1.4; }
+  .sidebar-artifact-time { font-size: 9px; color: var(--text-light); margin-top: 3px; }
+  .sidebar-empty { text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 12px; line-height: 1.7; }
+  .sidebar-detail { flex: 1; overflow-y: auto; padding: 16px; display: none; flex-direction: column; gap: 14px; }
+  .sidebar-detail.active { display: flex; }
+  .sidebar-detail-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .sidebar-detail-back { background: none; border: 1px solid var(--border); border-radius: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; color: var(--text-mid); transition: all 0.15s; }
+  .sidebar-detail-back:hover { background: var(--bg); border-color: var(--teal-mid); }
+  .sidebar-detail-title { font-size: 14px; font-weight: 700; color: var(--text-dark); flex: 1; }
+  .sidebar-visual-frame { border: 1px solid var(--border); border-radius: 10px; padding: 16px; background: var(--bg); min-height: 200px; }
+  .sidebar-visual-frame svg { width: 100%; height: auto; }
+  .sidebar-visual-ai { display: flex; align-items: flex-start; gap: 8px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #5b21b6; line-height: 1.55; }
+  .sidebar-visual-ai .ai-icon { flex-shrink: 0; font-size: 14px; }
+  .chat-artifact-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 6px 12px; background: linear-gradient(135deg, var(--teal-light), #d5f0f0); border: 1px solid var(--teal-mid); border-radius: 8px; font-size: 11.5px; font-weight: 600; color: var(--teal-dark); cursor: pointer; transition: all 0.2s; }
+  .chat-artifact-link:hover { background: var(--teal-light); border-color: var(--teal); box-shadow: var(--shadow-sm); }
+  .chat-artifact-link .artifact-link-icon { font-size: 14px; }
+  @keyframes artifactPulse { 0%{box-shadow: 0 0 0 0 rgba(26,148,148,0.3);} 70%{box-shadow: 0 0 0 8px rgba(26,148,148,0);} 100%{box-shadow: 0 0 0 0 rgba(26,148,148,0);} }
+  .chat-artifact-link.new { animation: artifactPulse 1.5s ease-out 1; }
+  .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.15); z-index: 240; }
+  .sidebar-backdrop.visible { display: block; }
+
 </style>
 </head>
 <body>
+
+<!-- ═══ ARTIFACTS SIDEBAR ═══ -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+<div class="artifacts-sidebar" id="artifactsSidebar">
+  <div class="artifacts-sidebar-header">
+    <h4>📊 Insights <span class="artifact-count" id="artifactCount">0</span></h4>
+    <div class="sidebar-header-actions">
+      <button class="sidebar-pin-btn" id="sidebarPinBtn" onclick="togglePinSidebar()" title="Pin sidebar">📌</button>
+      <button class="sidebar-close-btn" onclick="closeSidebar()" title="Close">×</button>
+    </div>
+  </div>
+  <div class="sidebar-tabs">
+    <button class="sidebar-tab active" onclick="switchSidebarTab('list',this)">All Artifacts</button>
+    <button class="sidebar-tab" onclick="switchSidebarTab('detail',this)">Current View</button>
+  </div>
+  <div class="sidebar-list" id="sidebarList">
+    <div class="sidebar-empty" id="sidebarEmpty">
+      <div style="font-size:28px;margin-bottom:8px;">📊</div>
+      No artifacts yet.<br>Ask a data question in the chat to generate visuals.
+    </div>
+  </div>
+  <div class="sidebar-detail" id="sidebarDetail"></div>
+</div>
 
 <div class="toast" id="toast">
   <span class="toast-icon" id="toastIcon"></span>
@@ -1213,7 +1279,7 @@
           <div class="chat-empty" id="chatEmpty">Ask a question about your uploaded data to get started — e.g. "What were peak sales in 2024?" or "Which channel drove the most reach?"</div>
         </div>
         <div class="chatbot-input-row">
-          <input type="text" id="chatInput" placeholder="Ask about your data..." onkeydown="if(event.key==='Enter')sendChat()">
+          <input type="text" id="chatInput" placeholder="Type show me the sales trend to generate artifacts..." onkeydown="if(event.key==='Enter')sendChat()">
           <button class="chatbot-send-btn" onclick="sendChat()" title="Send">➤</button>
         </div>
       </div>
@@ -2962,13 +3028,66 @@
   function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); }
   document.addEventListener('click', function(e) { if(e.target && e.target.id === 'deepDiveModal') closeDeepDive(); });
 
-  /* ═══ CHAT ═══ */
-  const aiResponses = [
+  /* ═══ ARTIFACTS STORE ═══ */
+  const artifactsStore = [];
+  let sidebarPinned = false;
+  let currentArtifactIdx = -1;
+
+  const visualResponses = [
+    {
+      trigger: /peak|sales|trend|revenue|monthly/i,
+      title: 'Sales Trend Analysis',
+      desc: 'Monthly sales trend across brands with peak identification',
+      icon: '📈',
+      aiText: "Sales analysis shows Brand_1 peaked at $1,614 in Apr '24 and has stabilized. Brand_3 shows the strongest growth trajectory at 139% over 12 months.",
+      getVisual: () => areaChartSVG(brandDeepDive.Brand_1.sales, brandDeepDive.Brand_1.months, '#3b82f6', 470, 180),
+      textReply: "I've analyzed the sales trend across your brands. Brand_1 peaked at $1,614 in Apr '24 and has since plateaued. Brand_3 shows the strongest upward trajectory. I've generated a visual for you."
+    },
+    {
+      trigger: /channel|mix|spend|allocation|detailing|dtc/i,
+      title: 'Channel Mix Breakdown',
+      desc: 'Investment distribution across marketing channels by brand',
+      icon: '📊',
+      aiText: 'Channel analysis reveals Detailing dominates Brand_1 at 48%, while DTC TV leads Brand_2 at 41%. Brand_3 has the most balanced distribution with EHR IMPR at 34%.',
+      getVisual: () => channelMixHTML(brandDeepDive.Brand_1.channelMix, '#3b82f6'),
+      textReply: "Here's the channel mix breakdown. Detailing dominates Brand_1 at 48% — disproportionately high given its lifecycle stage. I've created a visual artifact with the full breakdown."
+    },
+    {
+      trigger: /curve|saturation|response|roi|efficiency|return/i,
+      title: 'Response Curve Position',
+      desc: 'Spend efficiency and saturation analysis per brand',
+      icon: '📉',
+      aiText: 'Brand_1 sits at 78% saturation (log-diminishing), Brand_2 at 64% (some headroom), and Brand_3 at 48% (pre-inflection, highest efficiency per dollar).',
+      getVisual: () => responseCurveSVG(0.55, 78, '#3b82f6', 470, 180),
+      textReply: "I've mapped the response curves. Brand_1 is at 78% saturation with diminishing returns. Brand_3 at 48% is pre-inflection and ~2.3× more efficient per dollar. Check the visual for details."
+    },
+    {
+      trigger: /overlap|hcp|shared|venn|cross.?brand|audience/i,
+      title: 'HCP Overlap Analysis',
+      desc: 'Cross-brand audience overlap and shared targeting',
+      icon: '🔗',
+      aiText: 'Brand_1 and Brand_2 share the highest overlap at 72%. 34% of all unique HCPs (4,243) are reached by all three brands.',
+      getVisual: () => `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"><circle cx="105" cy="80" r="58" fill="${brandColors.Brand_1}30" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><circle cx="175" cy="80" r="58" fill="${brandColors.Brand_2}30" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><circle cx="140" cy="130" r="58" fill="${brandColors.Brand_3}30" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="75" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_1</text><text x="180" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_2</text><text x="115" y="185" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_3</text><text x="126" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="138" y="115" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="153" y="97" font-size="11" font-weight="700" fill="var(--text-dark)">58%</text></svg>`,
+      textReply: "I've mapped the HCP overlap across your portfolio. Brand_1 and Brand_2 share 72% of their audience, with 34% tri-brand overlap. Visual is ready for review."
+    },
+    {
+      trigger: /brand.?3|launch|neuro|growth|new/i,
+      title: 'Brand_3 Launch Performance',
+      desc: 'Growth trajectory and efficiency metrics for the launch brand',
+      icon: '🚀',
+      aiText: "Brand_3 shows 139% growth over 12 months with consistent gains. At 48% curve saturation, every marginal dollar is ~2.3× more efficient than Brand_1.",
+      getVisual: () => areaChartSVG(brandDeepDive.Brand_3.sales, brandDeepDive.Brand_3.months, '#f59e0b', 470, 180),
+      textReply: "Brand_3 is your strongest growth story — 139% over 12 months on a textbook launch curve. At 48% saturation, it's the most efficient brand for incremental spend."
+    }
+  ];
+
+  const genericChatResponses = [
     "Based on your uploaded data, I found relevant patterns. Let me know if you'd like a breakdown by brand or channel.",
     "Looking at the data, I can pull that out — could you confirm which time period or brand?",
     "That pattern shows up across your files. I can summarize the trend or flag anomalies.",
   ];
-  let aiResponseIdx = 0;
+  let genericChatIdx = 0;
+
   function sendChat() {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
@@ -2982,13 +3101,81 @@
     const typingId = 'typing_'+Date.now();
     body.innerHTML += `<div class="chat-row ai" id="${typingId}"><div class="chat-bubble ai"><div class="chat-typing"><span></span><span></span><span></span></div></div></div>`;
     body.scrollTop = body.scrollHeight;
+    const matched = visualResponses.find(v => v.trigger.test(msg));
     setTimeout(() => {
       const typingEl = document.getElementById(typingId);
-      const reply = aiResponses[aiResponseIdx % aiResponses.length];
-      aiResponseIdx++;
-      if(typingEl) typingEl.outerHTML = `<div class="chat-row ai"><div class="chat-bubble ai"><div class="msg-time">Just now</div><div>${reply}</div></div></div>`;
+      if(!typingEl) return;
+      if(matched) {
+        const artifactIdx = addArtifact(matched);
+        typingEl.outerHTML = `<div class="chat-row ai"><div class="chat-bubble ai"><div class="msg-time">Just now</div><div>${matched.textReply}</div><div class="chat-artifact-link new" onclick="openArtifact(${artifactIdx})"><span class="artifact-link-icon">${matched.icon}</span><span>${matched.title} — click to view</span></div></div></div>`;
+      } else {
+        const reply = genericChatResponses[genericChatIdx % genericChatResponses.length];
+        genericChatIdx++;
+        typingEl.outerHTML = `<div class="chat-row ai"><div class="chat-bubble ai"><div class="msg-time">Just now</div><div>${reply}</div></div></div>`;
+      }
       body.scrollTop = body.scrollHeight;
-    }, 900);
+    }, 1100);
+  }
+
+  /* ═══ ARTIFACT MANAGEMENT ═══ */
+  function addArtifact(visual) {
+    const idx = artifactsStore.length;
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    artifactsStore.push({ title: visual.title, desc: visual.desc, icon: visual.icon, aiText: visual.aiText, visual: visual.getVisual(), time: timeStr });
+    updateArtifactCount();
+    renderArtifactList();
+    return idx;
+  }
+  function updateArtifactCount() { document.getElementById('artifactCount').textContent = artifactsStore.length; }
+  function renderArtifactList() {
+    const list = document.getElementById('sidebarList');
+    const emptyEl = document.getElementById('sidebarEmpty');
+    if(emptyEl) emptyEl.style.display = artifactsStore.length ? 'none' : 'block';
+    let html = '';
+    artifactsStore.forEach((a, i) => {
+      html += `<div class="sidebar-artifact-item ${currentArtifactIdx===i?'active':''}" onclick="openArtifact(${i})"><div class="sidebar-artifact-icon">${a.icon}</div><div class="sidebar-artifact-info"><div class="sidebar-artifact-title">${a.title}</div><div class="sidebar-artifact-desc">${a.desc}</div><div class="sidebar-artifact-time">${a.time}</div></div></div>`;
+    });
+    const existingEmpty = list.querySelector('.sidebar-empty');
+    list.innerHTML = html;
+    if(existingEmpty) list.appendChild(existingEmpty);
+  }
+  function openArtifact(idx) {
+    currentArtifactIdx = idx;
+    const a = artifactsStore[idx];
+    if(!a) return;
+    document.getElementById('sidebarDetail').innerHTML = `<div class="sidebar-detail-header"><button class="sidebar-detail-back" onclick="showArtifactList()">←</button><div class="sidebar-detail-title">${a.icon} ${a.title}</div></div><div class="sidebar-visual-frame">${a.visual}</div><div class="sidebar-visual-ai"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${a.aiText}</div></div>`;
+    switchSidebarTab('detail');
+    openSidebar();
+    renderArtifactList();
+  }
+  function showArtifactList() { currentArtifactIdx = -1; switchSidebarTab('list'); renderArtifactList(); }
+
+  /* ═══ SIDEBAR CONTROLS ═══ */
+  function openSidebar() {
+    document.getElementById('artifactsSidebar').classList.add('open');
+    if(!sidebarPinned) document.getElementById('sidebarBackdrop').classList.add('visible');
+  }
+  function closeSidebar() {
+    if(sidebarPinned) return;
+    document.getElementById('artifactsSidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('visible');
+  }
+  function togglePinSidebar() {
+    sidebarPinned = !sidebarPinned;
+    const btn = document.getElementById('sidebarPinBtn');
+    const sidebar = document.getElementById('artifactsSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    btn.classList.toggle('pinned', sidebarPinned);
+    if(sidebarPinned) { sidebar.classList.add('pinned'); backdrop.classList.remove('visible'); }
+    else { sidebar.classList.remove('pinned'); if(sidebar.classList.contains('open')) backdrop.classList.add('visible'); }
+  }
+  function switchSidebarTab(tab) {
+    const list = document.getElementById('sidebarList');
+    const detail = document.getElementById('sidebarDetail');
+    const tabs = document.querySelectorAll('.sidebar-tab');
+    if(tab === 'list') { list.style.display = 'flex'; detail.classList.remove('active'); tabs[0].classList.add('active'); tabs[1].classList.remove('active'); }
+    else { list.style.display = 'none'; detail.classList.add('active'); tabs[1].classList.add('active'); tabs[0].classList.remove('active'); }
   }
 
   /* ═══ TOAST ═══ */

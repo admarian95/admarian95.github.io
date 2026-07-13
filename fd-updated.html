@@ -539,6 +539,23 @@
   .respcurve-kpi-row { display: flex; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
   .respcurve-kpi { font-size: 11px; color: var(--text-light); }
   .respcurve-kpi strong { display: block; font-size: 14px; color: var(--text-dark); }
+  .rc-file-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 14px; overflow-x: auto; }
+  .rc-file-tab { padding: 8px 14px; font-size: 11.5px; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; user-select: none; background: none; border-top: none; border-left: none; border-right: none; transition: color 0.15s, border-color 0.15s; display: flex; align-items: center; gap: 6px; }
+  .rc-file-tab:hover { color: var(--text-mid); background: var(--bg); }
+  .rc-file-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .rc-file-tab .rc-file-icon { font-size: 13px; opacity: 0.6; }
+  .rc-file-tab.active .rc-file-icon { opacity: 1; }
+  .rc-controls-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .rc-control { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-light); }
+  .rc-control label { font-weight: 600; color: var(--text-mid); }
+  .rc-control select { font-size: 11.5px; padding: 4px 24px 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); color: var(--text-dark); font-weight: 600; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234b5768'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; min-width: 80px; }
+  .rc-control select:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(26,148,148,0.15); }
+  .rc-segment-static { font-size: 11.5px; font-weight: 600; color: var(--text-dark); background: var(--bg); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); display: inline-block; }
+  .rc-level-pills { display: inline-flex; gap: 0; border: 1.5px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .rc-level-pill { font-size: 11.5px; font-weight: 600; padding: 5px 16px; cursor: pointer; border: none; background: var(--white); color: var(--text-light); transition: all 0.15s; }
+  .rc-level-pill:not(:last-child) { border-right: 1.5px solid var(--border); }
+  .rc-level-pill.active { background: var(--teal); color: white; }
+  .rc-level-pill:not(.active):hover { background: var(--bg); color: var(--text-mid); }
 
   /* ═══ DATA INSIGHTS — Portfolio Overview (image-based restructure) ═══ */
   .pf-header-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
@@ -659,6 +676,22 @@
   .venn-group:hover { opacity: 0.75; }
   .venn-tooltip { transition: opacity 0.15s; pointer-events: none; }
   .venn-group:hover .venn-tooltip { opacity: 1 !important; }
+  .venn-brand-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .venn-brand-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--white); color: var(--text-mid); transition: all 0.15s; user-select: none; }
+  .venn-brand-chip:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .venn-brand-chip.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .venn-brand-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .venn-brand-chip.active .chip-dot { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.6); }
+  .venn-brand-chip .chip-check { font-size: 9px; margin-left: 2px; }
+  .overlap-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11.5px; margin-top: 10px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .overlap-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 7px 10px; text-align: center; border-bottom: 1px solid var(--border); }
+  .overlap-table td { padding: 7px 10px; text-align: center; color: var(--text-dark); border-bottom: 1px solid var(--border); }
+  .overlap-table tr:last-child td { border-bottom: none; }
+  .overlap-table td:first-child { text-align: left; font-weight: 600; background: var(--bg); color: var(--text-mid); }
+  .overlap-table .ov-val { font-weight: 700; color: var(--teal-dark); }
+  .overlap-table .ov-self { color: var(--text-light); font-weight: 500; }
+  .venn-select-hint { font-size: 10.5px; color: var(--text-light); margin-bottom: 6px; }
+  .venn-min-hint { font-size: 11px; color: var(--orange); text-align: center; padding: 24px 12px; }
   .dq-card { transition: transform 0.15s, box-shadow 0.15s, border-color 0.2s; cursor: default; }
   .dq-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
   .cbo-card svg, .dd-section-body svg, .acc-split-right svg, .chart-container svg { width: 100%; height: auto; }
@@ -2310,6 +2343,42 @@
   function getRcLevel(brandName) { return rcBrandLevelTab[brandName] || 'hcp'; }
   function setRcLevel(brandName, level) { rcBrandLevelTab[brandName] = level; renderConfigTab('response'); }
 
+  /* ─ RC file-tab + period + segment state ─ */
+  let rcActiveBrandIdx = 0;
+  let rcSelectedPeriod = '2027';
+  let rcSelectedSegment = 'Centile';
+  const rcPeriodOptions = ['2025','2026','2027','2028'];
+  const rcSegmentTypeOptions = ['Centile','Decile','Tier','Quintile'];
+  /* ─ Per-brand HCP/Account level state ─ */
+  const rcBrandLevelState = {};
+  function getRcBrandLevel(brandName) { return rcBrandLevelState[brandName] || 'HCP'; }
+  function setRcBrandLevel(brandName, level) { rcBrandLevelState[brandName] = level; renderConfigTab('response'); }
+  function setRcBrandTab(idx) { rcActiveBrandIdx = idx; renderConfigTab('response'); }
+  function setRcPeriod(val) { rcSelectedPeriod = val; renderConfigTab('response'); }
+  function setRcSegment(val) { rcSelectedSegment = val; renderConfigTab('response'); }
+
+  /* ─ Build brand-grouped RC file list ─ */
+  function getRcBrandFiles() {
+    return configBrands.filter(b => b.active && !b.isNew).map(b => ({
+      brand: b.name,
+      hcpFile: `${b.name}_HCP_Response_Curve.csv`,
+      hcoFile: `${b.name}_HCO_Response_Curve.csv`
+    }));
+  }
+
+  /* ─ Extract unique segment types from segments like OCS_Brand_1_PCP_55 → [PCP, ENDO] ─ */
+  function getSegmentTypes(data, brandName) {
+    const types = new Set();
+    const pfx = 'OCS_' + brandName + '_';
+    data.forEach(row => {
+      const rest = row.centile.startsWith(pfx) ? row.centile.slice(pfx.length) : row.centile;
+      // Strip trailing _digits or trailing digits to get the type root
+      const segType = rest.replace(/_?\d+$/, '');
+      types.add(segType);
+    });
+    return Array.from(types);
+  }
+
   function generateResponseTableData(brand, level) {
     if(level === 'hcp') {
       const segments = ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18'];
@@ -2333,41 +2402,76 @@
   }
 
   function renderResponseCurveFiles() {
+    const brandFiles = getRcBrandFiles();
+    if (!brandFiles.length) return '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
+    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
+    const active = brandFiles[rcActiveBrandIdx];
+    const level = getRcBrandLevel(active.brand);
+    const isHcp = level === 'HCP';
+    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
+
+    // File name tabs (one per brand, shows active file name)
+    const fileTabs = brandFiles.map((bf, i) => {
+      const lvl = getRcBrandLevel(bf.brand);
+      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
+      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
+    }).join('');
+
+    // Generate table data
+    const data = generateResponseTableData(active.brand, isHcp ? 'hcp' : 'account');
+    const segmentTypes = getSegmentTypes(data, active.brand);
+    const isMultiSegment = segmentTypes.length > 1;
+
+    // Filter data by selected segment type
+    let filteredData = data;
+    if (rcSelectedSegment !== rcSegmentTypeOptions[0]) {
+      // When segment type changes, map affects display but we use all data for demo
+      // In production this would filter by actual segment type classification
+    }
+
+    // Segment control: dropdown (always, with Centile/Decile/Tier/Quintile), or static string if only one type
+    let segmentControl;
+    if (isMultiSegment) {
+      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
+      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
+    } else {
+      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
+    }
+
+    // Period dropdown
+    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
+
+    // HCP / Account pills
+    const levelPills = `<div class="rc-level-pills">
+      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
+      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
+    </div>`;
+
     const activityHeaders = Array.from({length:9}, (_,i) => `activity_${i*2}`);
+    const tableRows = filteredData.map(row => `
+      <tr>
+        <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
+        <td>${row.custType}</td>
+        <td>${row.activity}</td>
+        <td style="text-align:center;">${row.customers}</td>
+        ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
+      </tr>`).join('');
 
-    const brandCards = configBrands.filter(b=>b.active).map(b => {
-      const level = getRcLevel(b.name);
-      const data = generateResponseTableData(b.name, level);
-      const files = configData.response.byBrand[b.name] || [];
-      const hasUploadedData = files.length > 0 || !b.isNew;
-
-      const tableRows = data.map(row => `
-        <tr>
-          <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
-          <td>${row.custType}</td>
-          <td>${row.activity}</td>
-          <td style="text-align:center;">${row.customers}</td>
-          ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
-        </tr>`).join('');
-
-      const levelBtnStyle = (active) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${active?'var(--teal)':'var(--bg)'};color:${active?'white':'var(--text-mid)'};`;
-
-      return `<div class="respcurve-brand-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    return `<div style="padding:14px 20px 0;">
+      <div class="rc-file-tabs">${fileTabs}</div>
+      <div class="respcurve-brand-card" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name}</div>
-            ${!hasUploadedData ? '<span style="font-size:9.5px;font-weight:700;color:var(--orange);background:var(--orange-light);border:1px solid #fcd34d;border-radius:5px;padding:2px 8px;">Default data — upload to override</span>' : '<span style="font-size:9.5px;font-weight:700;color:var(--teal-dark);background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:5px;padding:2px 8px;">✓ Uploaded</span>'}
+            <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand}</div>
+            ${levelPills}
           </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:11px;color:var(--text-light);">Period: <strong style="color:var(--text-dark);">2027</strong></span>
-            <span style="font-size:11px;color:var(--text-light);">Segments: <strong style="color:var(--text-dark);">Centiles</strong></span>
-            <span style="font-size:11px;color:var(--text-light);">Forecast: <strong style="color:var(--text-dark);">Base</strong></span>
+          <div class="rc-controls-row" style="margin-bottom:0;">
+            <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
+            <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
+            <div class="rc-control"><label>Forecast:</label><span class="rc-segment-static">Base</span></div>
           </div>
         </div>
-        <div style="display:flex;gap:4px;margin-bottom:10px;">
-          <button onclick="setRcLevel('${b.name}','hcp')" style="${levelBtnStyle(level==='hcp')}">HCP</button>
-          <button onclick="setRcLevel('${b.name}','account')" style="${levelBtnStyle(level==='account')}">Account</button>
-        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
         <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
           <table class="config-table" style="font-size:11.5px;">
             <thead><tr>
@@ -2377,13 +2481,7 @@
             <tbody>${tableRows}</tbody>
           </table>
         </div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${data.length} centile segments · ${level==='hcp'?'HCP':'Account'} level data</div>
-      </div>`;
-    }).join('');
-
-    return `<div style="padding:14px 20px 0;">
-      ${brandCards}
-      <div class="upload-more-row" style="margin-top:4px;">
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${filteredData.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
       </div>
     </div>`;
   }
@@ -2667,64 +2765,103 @@
         </div>
       </div>`;
 
-    const brandCharts = configBrands.filter(b=>b.active).map(b => {
-      const chartLevel = getChartLevel(b.name);
-      const isHcp = chartLevel === 'hcp';
-      const segments = isHcp
-        ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
-        : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
-      const w = 660, h = 260, pad = 50;
-      const maxX = 50, maxY = isHcp ? 152000 : 80000;
+    const brandFiles = getRcBrandFiles();
+    if (!brandFiles.length) return successBanner + '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
+    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
+    const active = brandFiles[rcActiveBrandIdx];
+    const level = getRcBrandLevel(active.brand);
+    const isHcp = level === 'HCP';
+    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
 
-      let paths = '';
-      let legendHtml = '';
-      segments.forEach((seg, si) => {
-        const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
-        const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
-        const color = rcSegmentColors[si % rcSegmentColors.length];
-        let d = '';
-        for(let x = 0; x <= maxX; x++) {
-          const y = sat * (1 - Math.exp(-k * x));
-          const px = pad + (x/maxX)*(w-2*pad);
-          const py = (h-pad) - (y/maxY)*(h-2*pad);
-          d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
-        }
-        paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
-        legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${b.name}_${seg}</span>`;
-      });
-
-      let gridLines = '';
-      for(let i=0;i<=6;i++) {
-        const y = (h-pad)-(i/6)*(h-2*pad);
-        gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
-        gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
-      }
-      for(let i=0;i<=10;i++) {
-        const x = pad+(i/10)*(w-2*pad);
-        gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
-      }
-
-      const cBtnStyle = (on) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${on?'var(--teal)':'var(--bg)'};color:${on?'white':'var(--text-mid)'};`;
-
-      return `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-          <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name} — Response Curve</div>
-          <div style="display:flex;gap:4px;">
-            <button onclick="setChartLevel('${b.name}','hcp')" style="${cBtnStyle(isHcp)}">HCP</button>
-            <button onclick="setChartLevel('${b.name}','account')" style="${cBtnStyle(!isHcp)}">Account</button>
-          </div>
-        </div>
-        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
-          ${gridLines}
-          <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
-          <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
-          ${paths}
-        </svg>
-        <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
-      </div>`;
+    // File name tabs (one per brand)
+    const fileTabs = brandFiles.map((bf, i) => {
+      const lvl = getRcBrandLevel(bf.brand);
+      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
+      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
     }).join('');
 
-    return successBanner + brandCharts;
+    const segments = isHcp
+      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
+      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
+
+    // Extract unique segment prefixes
+    const segTypeSet = new Set();
+    segments.forEach(seg => { segTypeSet.add(seg.replace(/_?\d+$/, '')); });
+    const segTypes = Array.from(segTypeSet);
+    const isMultiSegment = segTypes.length > 1;
+
+    // Segment control: dropdown with Centile/Decile/Tier/Quintile (no "All"), or static string if single type
+    let segmentControl;
+    if (isMultiSegment) {
+      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
+      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
+    } else {
+      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
+    }
+
+    // Period dropdown
+    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
+
+    // HCP / Account pills
+    const levelPills = `<div class="rc-level-pills">
+      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
+      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
+    </div>`;
+
+    const w = 660, h = 260, pad = 50;
+    const maxX = 50, maxY = isHcp ? 152000 : 80000;
+
+    let paths = '';
+    let legendHtml = '';
+    segments.forEach((seg, si) => {
+      const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
+      const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
+      const color = rcSegmentColors[si % rcSegmentColors.length];
+      let d = '';
+      for(let x = 0; x <= maxX; x++) {
+        const y = sat * (1 - Math.exp(-k * x));
+        const px = pad + (x/maxX)*(w-2*pad);
+        const py = (h-pad) - (y/maxY)*(h-2*pad);
+        d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+      }
+      paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
+      legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${active.brand}_${seg}</span>`;
+    });
+
+    let gridLines = '';
+    for(let i=0;i<=6;i++) {
+      const y = (h-pad)-(i/6)*(h-2*pad);
+      gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
+      gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
+    }
+    for(let i=0;i<=10;i++) {
+      const x = pad+(i/10)*(w-2*pad);
+      gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
+    }
+
+    const chartCard = `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand} — Response Curve</div>
+          ${levelPills}
+        </div>
+        <div class="rc-controls-row" style="margin-bottom:0;">
+          <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
+          <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
+        ${gridLines}
+        <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
+        <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
+        ${paths}
+      </svg>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${segments.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
+    </div>`;
+
+    return successBanner + `<div style="margin:0 20px;"><div class="rc-file-tabs">${fileTabs}</div></div>` + chartCard;
   }
 
 
@@ -2918,7 +3055,22 @@
     }
   };
 
-  /* ═══ INTERACTIVE CHART HELPERS ═══ */
+  /* ═══ OVERLAP DATA ═══ */
+  const overlapData = {
+    'Brand_1|Brand_2': { pct: 72, hcps: 6451 },
+    'Brand_1|Brand_3': { pct: 45, hcps: 4032 },
+    'Brand_2|Brand_3': { pct: 58, hcps: 3044 },
+    'Brand_1|Brand_2|Brand_3': { pct: 34, hcps: 4243 }
+  };
+  function getOverlap(a, b) {
+    const key = [a, b].sort().join('|');
+    return overlapData[key] || { pct: 0, hcps: 0 };
+  }
+  function getTriOverlap(a, b, c) {
+    const key = [a, b, c].sort().join('|');
+    return overlapData[key] || { pct: 0, hcps: 0 };
+  }
+  let vennSelectedBrands = new Set(['Brand_1', 'Brand_2', 'Brand_3']);
   let _chartId = 0;
   function areaChartSVG(values, months, color, w, h) {
     const id = 'ac_' + (_chartId++);
@@ -2959,7 +3111,7 @@
     const brands = Object.keys(brandPortfolio);
     const placeholders = { Brand_1:'e.g. Grow market share by 5%', Brand_2:'e.g. Defend share against generic erosion', Brand_3:'e.g. Accelerate new-patient starts' };
     const summaryHTML = `<div class="acc-summary"><ul><li><strong>${brands.length} brands</strong> detected across ${brands.map(n=>brandPortfolio[n].ta).filter((v,i,a)=>a.indexOf(v)===i).length} therapeutic areas with combined budget of $100M</li><li><strong>12,480 unique HCPs</strong> reached, 4,243 multi-brand overlap</li><li>Brand_3 (Launch) shows strongest growth at <strong>139% over 12 months</strong></li></ul></div>`;
-    return `<div class="acc-section" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Total Spend</label><span>$100M</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name,i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrandsNew()">Add Brand(s)</button></div></div></div>`;
+    return `<div class="acc-section" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name,i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrandsNew()">Add Brand(s)</button></div></div></div>`;
   }
 
   /* ═══ OVERLAP ACCORDION (with tabs) ═══ */
@@ -2967,19 +3119,144 @@
     const brands = Object.keys(brandPortfolio);
     const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `<div class="tier-mix-row" style="cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.15s;" onmouseenter="this.style.background='var(--bg)';this.querySelector('.tier-detail').style.maxHeight='28px';this.querySelector('.tier-detail').style.opacity='1';" onmouseleave="this.style.background='transparent';this.querySelector('.tier-detail').style.maxHeight='0';this.querySelector('.tier-detail').style.opacity='0';"><div class="tier-mix-row-head"><span style="font-weight:600;">${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div><div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div><div class="tier-detail" style="max-height:0;opacity:0;overflow:hidden;transition:max-height 0.2s ease,opacity 0.15s ease;font-size:10px;color:var(--text-light);padding-top:2px;">High ${t.h}% · Med ${t.m}% · Low ${t.l}%</div></div>`; }).join('');
     const summaryHTML = `<div class="acc-summary"><ul><li><strong>Brand_1 &amp; Brand_2 highest overlap at 72%</strong> — shared targeting strategy</li><li><strong>34% tri-brand overlap</strong> (4,243 HCPs) — deliberate cross-promotion</li><li>Data quality: <strong>0 duplicates</strong>, 8 cols missing values, <strong>142 outlier HCPs</strong></li></ul></div>`;
-    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-tabs" id="overlapTabs"><button class="acc-tab active" onclick="switchOverlapTab(0,event)">HCP Overlap</button><button class="acc-tab" onclick="switchOverlapTab(1,event)">Segment Mix</button><button class="acc-tab" onclick="switchOverlapTab(2,event)">Data Quality</button></div><div class="acc-body" style="padding-top:14px;"><div class="acc-tab-panel active" id="ot_0"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>High Overlap:</strong> Brand_1 and Brand_2 share 72% HCP overlap with strong High+Medium tier alignment.</div><div class="ai-bullet"><strong>Tri-Brand:</strong> 34% of HCPs (4,243) reached by all three brands.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div><svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;"><g class="venn-group"><circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><text x="75" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text><g class="venn-tooltip" opacity="0"><rect x="30" y="90" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="80" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">8,960 HCPs · $48M</text></g></g><g class="venn-group"><circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text><g class="venn-tooltip" opacity="0"><rect x="150" y="90" width="105" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="202" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">9,856 HCPs · $35M</text></g></g><g class="venn-group"><circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="120" y="188" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text><g class="venn-tooltip" opacity="0"><rect x="90" y="145" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="140" y="160" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">5,248 HCPs · $17M</text></g></g><text x="128" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="155" y="100" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text></svg></div></div></div></div><div class="acc-tab-panel" id="ot_1"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 highest High-tier (34%), Brand_2 leans Medium (46%).</div><div class="ai-bullet"><strong>Emerging:</strong> Brand_3 balanced (29/38/33), distinct audience segment.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H/M/L</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div></div></div><div class="acc-tab-panel" id="ot_2"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Clean:</strong> No duplicates. Customer × Brand × Period uniqueness maintained.</div><div class="ai-bullet"><strong>Flags:</strong> 8 cols missing values. 142 outlier HCPs (&gt;3× tier avg).</div></div><div class="acc-split-right"><div class="dq-grid" style="grid-template-columns:1fr;"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div></div></div></div></div></div>`;
+    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-tabs" id="overlapTabs"><button class="acc-tab active" onclick="switchOverlapTab(0,event)">HCP Overlap</button><button class="acc-tab" onclick="switchOverlapTab(1,event)">Segment Mix</button><button class="acc-tab" onclick="switchOverlapTab(2,event)">Data Quality</button></div><div class="acc-body" style="padding-top:14px;"><div class="acc-tab-panel active" id="ot_0"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>High Overlap:</strong> Brand_1 and Brand_2 share 72% HCP overlap with strong High+Medium tier alignment.</div><div class="ai-bullet"><strong>Tri-Brand:</strong> 34% of HCPs (4,243) reached by all three brands.</div><div class="ai-bullet"><strong>Brand_1 &amp; Brand_3:</strong> 45% overlap — moderate cross-promotion with Neurology launch.</div><div class="ai-bullet"><strong>Brand_2 &amp; Brand_3:</strong> 58% overlap — shared patient-type affinity in specialty care.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">Select brands to compare</span></div><div class="venn-brand-selector" id="vennBrandSelector"></div><div id="vennContainer"></div><div id="overlapTableContainer"></div></div></div></div></div><div class="acc-tab-panel" id="ot_1"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 highest High-tier (34%), Brand_2 leans Medium (46%).</div><div class="ai-bullet"><strong>Emerging:</strong> Brand_3 balanced (29/38/33), distinct audience segment.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">Segment mix <span class="cbo-title-sub">H/M/L</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div></div></div><div class="acc-tab-panel" id="ot_2"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Clean:</strong> No duplicates. Customer × Brand × Period uniqueness maintained.</div><div class="ai-bullet"><strong>Flags:</strong> 8 cols missing values. 142 outlier HCPs (&gt;3× tier avg).</div></div><div class="acc-split-right"><div class="dq-grid" style="grid-template-columns:1fr;"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div></div></div></div></div></div>`;
   }
 
   function switchOverlapTab(idx, event) { event.stopPropagation(); document.querySelectorAll('#overlapTabs .acc-tab').forEach((t,i) => t.classList.toggle('active', i===idx)); document.querySelectorAll('[id^="ot_"]').forEach((p,i) => p.classList.toggle('active', i===idx)); }
+
+  /* ═══ VENN DIAGRAM — dynamic brand selector + correct overlap rendering ═══ */
+  function renderVennBrandSelector() {
+    const el = document.getElementById('vennBrandSelector');
+    if (!el) return;
+    const brands = Object.keys(brandPortfolio);
+    el.innerHTML = brands.map(name => {
+      const active = vennSelectedBrands.has(name);
+      return `<div class="venn-brand-chip ${active ? 'active' : ''}" onclick="toggleVennBrand('${name}')"><span class="chip-dot" style="background:${brandColors[name]}"></span>${name}${active ? '<span class="chip-check">✓</span>' : ''}</div>`;
+    }).join('');
+    renderVennDiagram();
+    renderOverlapTable();
+  }
+
+  function toggleVennBrand(name) {
+    if (vennSelectedBrands.has(name)) {
+      if (vennSelectedBrands.size <= 2) return; // minimum 2 brands
+      vennSelectedBrands.delete(name);
+    } else {
+      vennSelectedBrands.add(name);
+    }
+    renderVennBrandSelector();
+  }
+
+  function renderVennDiagram() {
+    const container = document.getElementById('vennContainer');
+    if (!container) return;
+    const sel = Array.from(vennSelectedBrands);
+
+    if (sel.length < 2) {
+      container.innerHTML = '<div class="venn-min-hint">Select at least 2 brands to see overlap</div>';
+      return;
+    }
+
+    if (sel.length === 2) {
+      const [a, b] = sel;
+      const ov = getOverlap(a, b);
+      container.innerHTML = `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">
+        <g class="venn-group"><circle cx="100" cy="80" r="62" fill="${brandColors[a]}22" stroke="${brandColors[a]}" stroke-width="1.5"/>
+          <text x="62" y="40" font-size="11" font-weight="600" fill="var(--text-dark)">${a}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="26" y="86" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="76" y="101" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[a].reach.toLocaleString()} HCPs · ${brandPortfolio[a].budget}</text></g></g>
+        <g class="venn-group"><circle cx="180" cy="80" r="62" fill="${brandColors[b]}22" stroke="${brandColors[b]}" stroke-width="1.5"/>
+          <text x="188" y="40" font-size="11" font-weight="600" fill="var(--text-dark)">${b}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="155" y="86" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="205" y="101" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[b].reach.toLocaleString()} HCPs · ${brandPortfolio[b].budget}</text></g></g>
+        <text x="140" y="76" font-size="14" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ov.pct}%</text>
+        <text x="140" y="92" font-size="9" fill="var(--text-light)" text-anchor="middle">${ov.hcps.toLocaleString()} HCPs</text>
+      </svg>`;
+      return;
+    }
+
+    if (sel.length >= 3) {
+      // Use first 3 for the main Venn, show table for all
+      const [a, b, c] = sel;
+      const ab = getOverlap(a, b);
+      const ac = getOverlap(a, c);
+      const bc = getOverlap(b, c);
+      const abc = getTriOverlap(a, b, c);
+      container.innerHTML = `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">
+        <!-- Brand circles -->
+        <g class="venn-group"><circle cx="112" cy="82" r="64" fill="${brandColors[a]}22" stroke="${brandColors[a]}" stroke-width="1.5"/>
+          <text x="68" y="42" font-size="11" font-weight="600" fill="var(--text-dark)">${a}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="30" y="56" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="85" y="71" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[a].reach.toLocaleString()} HCPs · ${brandPortfolio[a].budget}</text></g></g>
+        <g class="venn-group"><circle cx="188" cy="82" r="64" fill="${brandColors[b]}22" stroke="${brandColors[b]}" stroke-width="1.5"/>
+          <text x="200" y="42" font-size="11" font-weight="600" fill="var(--text-dark)">${b}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="160" y="56" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="215" y="71" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[b].reach.toLocaleString()} HCPs · ${brandPortfolio[b].budget}</text></g></g>
+        <g class="venn-group"><circle cx="150" cy="144" r="64" fill="${brandColors[c]}22" stroke="${brandColors[c]}" stroke-width="1.5"/>
+          <text x="124" y="210" font-size="11" font-weight="600" fill="var(--text-dark)">${c}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="95" y="168" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="150" y="183" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[c].reach.toLocaleString()} HCPs · ${brandPortfolio[c].budget}</text></g></g>
+        <!-- A∩B overlap (top center, between circles 1 & 2) -->
+        <text x="150" y="68" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ab.pct}%</text>
+        <text x="150" y="80" font-size="8" fill="var(--text-light)" text-anchor="middle">${ab.hcps.toLocaleString()}</text>
+        <!-- A∩C overlap (lower left, between circles 1 & 3) -->
+        <text x="116" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ac.pct}%</text>
+        <text x="116" y="132" font-size="8" fill="var(--text-light)" text-anchor="middle">${ac.hcps.toLocaleString()}</text>
+        <!-- B∩C overlap (lower right, between circles 2 & 3) -->
+        <text x="184" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${bc.pct}%</text>
+        <text x="184" y="132" font-size="8" fill="var(--text-light)" text-anchor="middle">${bc.hcps.toLocaleString()}</text>
+        <!-- A∩B∩C center overlap -->
+        <rect x="127" y="90" width="46" height="24" rx="6" fill="var(--teal-dark)" opacity="0.12"/>
+        <text x="150" y="100" font-size="13" font-weight="800" fill="var(--teal-dark)" text-anchor="middle">${abc.pct}%</text>
+        <text x="150" y="112" font-size="8" fill="var(--text-mid)" text-anchor="middle">${abc.hcps.toLocaleString()} all 3</text>
+      </svg>`;
+    }
+  }
+
+  function renderOverlapTable() {
+    const container = document.getElementById('overlapTableContainer');
+    if (!container) return;
+    const sel = Array.from(vennSelectedBrands);
+    if (sel.length < 2) { container.innerHTML = ''; return; }
+
+    let html = '<table class="overlap-table"><thead><tr><th></th>';
+    sel.forEach(name => { html += `<th><span style="display:inline-flex;align-items:center;gap:4px;"><span class="chip-dot" style="background:${brandColors[name]};width:7px;height:7px;border-radius:50%;display:inline-block;"></span>${name}</span></th>`; });
+    html += '</tr></thead><tbody>';
+    sel.forEach((rowName, ri) => {
+      html += `<td>${rowName}</td>`;
+      sel.forEach((colName, ci) => {
+        if (ri === ci) {
+          html += `<td class="ov-self">—</td>`;
+        } else {
+          const ov = getOverlap(rowName, colName);
+          html += `<td class="ov-val">${ov.pct}% <span style="font-weight:400;font-size:10px;color:var(--text-light);">(${ov.hcps.toLocaleString()})</span></td>`;
+        }
+      });
+      html += '</tr>';
+    });
+    // Add tri-brand row if 3+ brands
+    if (sel.length >= 3) {
+      const triKey = sel.slice(0,3).sort().join('|');
+      const tri = overlapData[triKey];
+      if (tri) {
+        html += `<tr><td style="color:var(--teal-dark);font-weight:700;">All ${sel.slice(0,3).length}</td>`;
+        html += `<td colspan="${sel.length}" class="ov-val" style="text-align:center;">${tri.pct}% <span style="font-weight:400;font-size:10px;color:var(--text-light);">(${tri.hcps.toLocaleString()} HCPs)</span></td></tr>`;
+      }
+    }
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
 
   /* ═══ RENDER ALL INSIGHTS ═══ */
   function renderInsightsAccordion() {
     const el = document.getElementById('insightsRight');
     if(!el) return;
     el.innerHTML = renderBrandsAccordion() + renderOverlapAccordion();
+    // Initialize the Venn brand selector after DOM is ready
+    setTimeout(() => { renderVennBrandSelector(); }, 0);
   }
 
-  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); }
+  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); if (id === 'acc_overlap' && !document.getElementById(id).classList.contains('collapsed')) { setTimeout(() => { renderVennBrandSelector(); }, 10); } }
 
   /* ═══ BRAND SELECTION ═══ */
   function selectBrand(i) {
@@ -3066,9 +3343,25 @@
       title: 'HCP Overlap Analysis',
       desc: 'Cross-brand audience overlap and shared targeting',
       icon: '🔗',
-      aiText: 'Brand_1 and Brand_2 share the highest overlap at 72%. 34% of all unique HCPs (4,243) are reached by all three brands.',
-      getVisual: () => `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"><circle cx="105" cy="80" r="58" fill="${brandColors.Brand_1}30" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><circle cx="175" cy="80" r="58" fill="${brandColors.Brand_2}30" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><circle cx="140" cy="130" r="58" fill="${brandColors.Brand_3}30" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="75" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_1</text><text x="180" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_2</text><text x="115" y="185" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_3</text><text x="126" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="138" y="115" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="153" y="97" font-size="11" font-weight="700" fill="var(--text-dark)">58%</text></svg>`,
-      textReply: "I've mapped the HCP overlap across your portfolio. Brand_1 and Brand_2 share 72% of their audience, with 34% tri-brand overlap. Visual is ready for review."
+      aiText: 'Brand_1 and Brand_2 share the highest overlap at 72%. Brand_2 & Brand_3 at 58%, Brand_1 & Brand_3 at 45%. 34% of all unique HCPs (4,243) are reached by all three brands.',
+      getVisual: () => `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <circle cx="112" cy="82" r="64" fill="${brandColors.Brand_1}22" stroke="${brandColors.Brand_1}" stroke-width="1.5"/>
+        <circle cx="188" cy="82" r="64" fill="${brandColors.Brand_2}22" stroke="${brandColors.Brand_2}" stroke-width="1.5"/>
+        <circle cx="150" cy="144" r="64" fill="${brandColors.Brand_3}22" stroke="${brandColors.Brand_3}" stroke-width="1.5"/>
+        <text x="68" y="42" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_1</text>
+        <text x="200" y="42" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_2</text>
+        <text x="124" y="210" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_3</text>
+        <text x="150" y="68" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">72%</text>
+        <text x="150" y="80" font-size="6" fill="var(--text-light)" text-anchor="middle">6,451</text>
+        <text x="116" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">45%</text>
+        <text x="116" y="132" font-size="6" fill="var(--text-light)" text-anchor="middle">4,032</text>
+        <text x="184" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">58%</text>
+        <text x="184" y="132" font-size="6" fill="var(--text-light)" text-anchor="middle">3,044</text>
+        <rect x="127" y="90" width="46" height="24" rx="6" fill="var(--teal-dark)" opacity="0.12"/>
+        <text x="150" y="100" font-size="13" font-weight="800" fill="var(--teal-dark)" text-anchor="middle">34%</text>
+        <text x="150" y="112" font-size="6" fill="var(--text-mid)" text-anchor="middle">4,243 all 3</text>
+      </svg>`,
+      textReply: "I've mapped the HCP overlap across your portfolio. Brand_1 and Brand_2 share 72% overlap, Brand_2 & Brand_3 at 58%, Brand_1 & Brand_3 at 45%, with 34% tri-brand overlap (4,243 HCPs). Visual is ready for review."
     },
     {
       trigger: /brand.?3|launch|neuro|growth|new/i,

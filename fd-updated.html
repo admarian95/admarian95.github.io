@@ -499,7 +499,7 @@
   .acc-chevron { font-size: 11px; color: var(--text-light); transition: transform 0.2s; }
   .acc-section.collapsed .acc-chevron { transform: rotate(-90deg); }
   .acc-body { padding: 0 18px 18px; }
-  .acc-section.collapsed .acc-body { /* animated via max-height in new styles */ }
+  .acc-section.collapsed .acc-body { display: none; }
   .acc-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .acc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 13px; }
   .acc-card-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
@@ -618,122 +618,96 @@
   .cm-bar-track { height: 7px; border-radius: 4px; background: var(--bg); overflow: hidden; }
   .cm-bar-fill { height: 100%; background: var(--teal); border-radius: 4px; }
 
-  /* ═══ NEW: AUTO INSIGHTS STYLING ═══ */
-  .ai-insights-list { display: flex; flex-direction: column; gap: 12px; }
-  .ai-insight-row { display: flex; align-items: flex-start; gap: 12px; font-size: 12.5px; color: var(--text-mid); line-height: 1.65; padding: 12px 16px; background: var(--white); border-radius: 10px; border: 1px solid var(--border); border-left: 3px solid var(--teal); transition: box-shadow 0.2s, border-color 0.2s; }
-  .ai-insight-row:hover { box-shadow: var(--shadow-sm); border-color: var(--teal-mid); border-left-color: var(--teal); }
-  .ai-insight-num { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  .ai-insight-text { flex: 1; }
-  .ai-insight-text strong { color: var(--text-dark); }
+  /* ═══ COLLAPSED SUMMARY ═══ */
+  .acc-summary { padding: 4px 18px 14px; font-size: 12.5px; color: var(--text-mid); line-height: 1.65; }
+  .acc-section.collapsed .acc-summary { display: block; }
+  .acc-section:not(.collapsed) .acc-summary { display: none; }
+  .acc-summary ul { list-style: none; padding: 0; margin: 0; }
+  .acc-summary li { padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; }
+  .acc-summary li::before { content: '•'; color: var(--teal); font-weight: 700; flex-shrink: 0; margin-top: -1px; }
+  .acc-summary li strong { color: var(--text-dark); }
 
-  /* ═══ NEW: ANIMATED ACCORDION ═══ */
-  .acc-body { max-height: 3000px; overflow: hidden; opacity: 1; transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease; }
-  .acc-section.collapsed .acc-body { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
-  .acc-chevron { transition: transform 0.3s ease; }
+  /* ═══ EXPANDED SPLIT LAYOUT ═══ */
+  .acc-split { display: grid; grid-template-columns: 260px 1fr; gap: 18px; }
+  .acc-split-left { display: flex; flex-direction: column; gap: 10px; }
+  .acc-split-left .ai-label { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #5b21b6; margin-bottom: 2px; }
+  .acc-split-left .ai-label .ai-icon { font-size: 14px; }
+  .acc-split-left .ai-bullet { font-size: 12px; color: var(--text-mid); line-height: 1.6; padding: 8px 10px; background: #f5f3ff; border: 1px solid #ede9fe; border-radius: 8px; }
+  .acc-split-left .ai-bullet strong { color: var(--text-dark); }
+  .acc-split-right { display: flex; flex-direction: column; gap: 14px; }
 
-  /* ═══ NEW: IMPROVED CBO CARDS ═══ */
-  .cbo-card { transition: border-color 0.2s, box-shadow 0.2s; }
-  .cbo-card:hover { border-color: var(--teal-mid); box-shadow: 0 2px 12px rgba(26,148,148,0.12); }
-  .dq-card { transition: border-color 0.2s, box-shadow 0.2s; }
-  .dq-card:hover { border-color: var(--teal-mid); box-shadow: 0 2px 12px rgba(26,148,148,0.12); }
+  /* ═══ TABS INSIDE ACCORDION ═══ */
+  .acc-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin: 0 18px; }
+  .acc-section.collapsed .acc-tabs { display: none; }
+  .acc-tab { padding: 9px 16px; font-size: 12px; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; white-space: nowrap; user-select: none; background: none; border-top: none; border-left: none; border-right: none; }
+  .acc-tab:hover { color: var(--text-mid); }
+  .acc-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .acc-tab-panel { display: none; }
+  .acc-tab-panel.active { display: block; }
 
-  /* ═══ NEW: BRAND CARD ACTIONS + OBJECTIVE ═══ */
+  /* ═══ INTERACTIVE CHART STYLES ═══ */
+  .chart-container { position: relative; }
+  .chart-container svg { display: block; }
+  .chart-hover-group .chart-dot { transition: opacity 0.15s, r 0.15s; }
+  .chart-hover-group:hover .chart-dot { opacity: 1 !important; }
+  .chart-hover-group .chart-tooltip { transition: opacity 0.15s; }
+  .chart-hover-group:hover .chart-tooltip { opacity: 1 !important; }
+  .cm-interactive { display: flex; flex-direction: column; gap: 8px; }
+  .cm-bar-row-interactive { padding: 6px 8px; border-radius: 6px; transition: background 0.15s; }
+  .cm-bar-row-interactive:hover { background: var(--bg); }
+  .venn-group { cursor: pointer; transition: opacity 0.2s; }
+  .venn-group:hover { opacity: 0.75; }
+  .venn-tooltip { transition: opacity 0.15s; pointer-events: none; }
+  .venn-group:hover .venn-tooltip { opacity: 1 !important; }
+  .dq-card { transition: transform 0.15s, box-shadow 0.15s, border-color 0.2s; cursor: default; }
+  .dq-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .cbo-card svg, .dd-section-body svg, .acc-split-right svg, .chart-container svg { width: 100%; height: auto; }
+
+  /* ═══ DD MODAL ACCORDIONS ═══ */
+  .dd-acc { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .dd-acc:last-child { margin-bottom: 0; }
+  .dd-acc-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; background: var(--bg); border-bottom: 1px solid transparent; transition: background 0.15s; user-select: none; }
+  .dd-acc-header:hover { background: #eef2f7; }
+  .dd-acc.open .dd-acc-header { border-bottom-color: var(--border); background: var(--white); }
+  .dd-acc-title { font-size: 13px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+  .dd-acc-title .dd-acc-icon { font-size: 14px; }
+  .dd-acc-chevron { font-size: 10px; color: var(--text-light); transition: transform 0.25s ease; }
+  .dd-acc.open .dd-acc-chevron { transform: rotate(180deg); }
+  .dd-acc-body { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.25s ease; }
+  .dd-acc.open .dd-acc-body { max-height: 1200px; opacity: 1; }
+  .dd-acc-body-inner { padding: 16px; }
+  .dd-inline-ai { display: flex; align-items: flex-start; gap: 8px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #5b21b6; line-height: 1.6; margin-bottom: 14px; }
+  .dd-inline-ai .ai-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+  .dd-inline-ai strong { color: #3b0f7a; }
+
+  /* ═══ BRAND CARD ENHANCEMENTS ═══ */
   .pf-brand-card { position: relative; cursor: pointer; transition: all 0.2s; user-select: none; }
   .pf-brand-card:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
   .pf-brand-card.selected { border-color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 3px rgba(26,148,148,0.15); }
   .pf-brand-actions { display: flex; align-items: center; gap: 8px; position: absolute; top: 12px; right: 12px; }
-  .pf-brand-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all 0.15s; cursor: pointer; }
-  .pf-brand-card.selected .pf-brand-check { background: var(--teal); border-color: var(--teal); color: white; }
   .pf-view-btn { font-size: 10px; font-weight: 600; color: var(--teal-dark); background: var(--white); border: 1px solid var(--teal-mid); border-radius: 5px; padding: 3px 8px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
   .pf-view-btn:hover { background: var(--teal-light); }
+  .pf-brand-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all 0.15s; cursor: pointer; }
+  .pf-brand-card.selected .pf-brand-check { background: var(--teal); border-color: var(--teal); color: white; }
   .pf-brand-objective { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); }
   .pf-brand-objective label { font-size: 9.5px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
   .pf-brand-objective input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 11px; color: var(--text-dark); background: var(--white); font-family: inherit; transition: border-color 0.15s; }
   .pf-brand-objective input:focus { outline: none; border-color: var(--teal); }
-  .pf-brand-objective input::placeholder { color: #b0bac6; }
 
-  /* ═══ NEW: DEEP DIVE MODAL ═══ */
-  .dd-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 300; align-items: center; justify-content: center; }
-  .dd-modal-overlay.open { display: flex; }
-  .dd-modal-box { background: var(--white); border-radius: var(--radius); width: 820px; max-width: 94vw; max-height: 88vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); overflow: hidden; }
-  .dd-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--teal-dark); flex-shrink: 0; }
-  .dd-modal-header h3 { font-size: 15px; font-weight: 600; color: white; display: flex; align-items: center; gap: 8px; }
-  .dd-modal-close { background: none; border: none; font-size: 20px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; }
-  .dd-modal-close:hover { color: white; }
-  .dd-modal-body { padding: 22px; overflow-y: auto; flex: 1; }
-  .dd-section { margin-bottom: 20px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .dd-section:last-child { margin-bottom: 0; }
-  .dd-section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text-dark); }
-  .dd-section-body { padding: 16px; }
-  .dd-ai-summary { display: flex; align-items: flex-start; gap: 8px; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #5b21b6; line-height: 1.55; margin-top: 12px; }
-  .dd-ai-summary .ai-icon { flex-shrink: 0; font-size: 14px; }
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 900px) {
+    .acc-split { grid-template-columns: 1fr; }
+    .cbo-grid { grid-template-columns: 1fr; }
+    .dq-grid { grid-template-columns: 1fr !important; }
+    .insights-layout { grid-template-columns: 1fr; }
+    .pf-brand-cards { grid-template-columns: 1fr 1fr; }
+    .dd-kpi-row { flex-direction: column; }
+  }
+  @media (max-width: 600px) {
+    .pf-brand-cards { grid-template-columns: 1fr; }
+    .acc-tabs { overflow-x: auto; }
+  }
 
-  /* ═══ INTERACTIVE DEEP DIVE ═══ */
-  .dd-modal-body { padding: 22px; overflow-y: auto; flex: 1; scroll-behavior: smooth; }
-  .dd-section { margin-bottom: 20px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s; }
-  .dd-section:hover { box-shadow: var(--shadow-sm); }
-  .dd-section:last-of-type { margin-bottom: 0; }
-  .dd-section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text-dark); cursor: pointer; user-select: none; transition: background 0.15s; }
-  .dd-section-header:hover { background: #eef2f7; }
-  .dd-section-chevron { font-size: 10px; color: var(--text-light); transition: transform 0.3s ease; }
-  .dd-section.dd-collapsed .dd-section-chevron { transform: rotate(-90deg); }
-  .dd-section-body { padding: 16px; max-height: 800px; overflow: hidden; opacity: 1; transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease; }
-  .dd-section.dd-collapsed .dd-section-body { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
-
-  /* Interactive chart container */
-  .dd-chart-interactive { position: relative; }
-  .dd-chart-interactive svg { display: block; }
-
-  /* Hover data points on sales chart */
-  .dd-chart-interactive .data-dot { opacity: 0; transition: opacity 0.15s, r 0.15s; cursor: pointer; }
-  .dd-chart-interactive:hover .data-dot { opacity: 0.4; }
-  .dd-chart-interactive .data-dot:hover { opacity: 1 !important; }
-
-  /* Tooltip */
-  .dd-tooltip { position: absolute; background: #1e293b; color: white; font-size: 11px; padding: 6px 10px; border-radius: 6px; pointer-events: none; z-index: 10; white-space: nowrap; box-shadow: var(--shadow-md); opacity: 0; transition: opacity 0.15s; line-height: 1.5; }
-  .dd-tooltip.visible { opacity: 1; }
-  .dd-tooltip .tt-label { font-weight: 400; opacity: 0.75; }
-  .dd-tooltip .tt-value { font-weight: 700; font-size: 13px; }
-  .dd-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #1e293b; }
-
-  /* Crosshair line */
-  .dd-crosshair { stroke: var(--text-light); stroke-width: 1; stroke-dasharray: 3,3; opacity: 0; transition: opacity 0.15s; }
-
-  /* Animated channel bars */
-  .cm-bar-fill-animated { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.25,0.8,0.25,1); }
-  .cm-bar-interactive { cursor: pointer; border-radius: 6px; padding: 6px 8px; margin: 0 -8px 8px; transition: background 0.15s; }
-  .cm-bar-interactive:hover { background: var(--bg); }
-  .cm-bar-interactive:hover .cm-bar-head span:first-child { color: var(--text-dark); font-weight: 600; }
-  .cm-bar-pct-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 6px; opacity: 0; transition: opacity 0.2s; }
-  .cm-bar-interactive:hover .cm-bar-pct-badge { opacity: 1; }
-
-  /* Response curve hover tracker */
-  .rc-tracker-line { stroke-width: 1; stroke-dasharray: 3,3; opacity: 0; transition: opacity 0.1s; }
-  .rc-tracker-dot { opacity: 0; transition: opacity 0.1s; }
-  .rc-hover-zone { fill: transparent; cursor: crosshair; }
-
-  /* KPI animation */
-  .dd-kpi-val-anim { display: inline-block; }
-  @keyframes kpiPop { 0% { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-  .dd-kpi.animate-in .dd-kpi-val { animation: kpiPop 0.4s ease-out forwards; }
-  .dd-kpi.animate-in:nth-child(2) .dd-kpi-val { animation-delay: 0.08s; }
-  .dd-kpi.animate-in:nth-child(3) .dd-kpi-val { animation-delay: 0.16s; }
-  .dd-kpi.animate-in:nth-child(4) .dd-kpi-val { animation-delay: 0.24s; }
-
-  /* Modal footer */
-  .dd-modal-footer { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-top: 1px solid var(--border); background: var(--bg); flex-shrink: 0; }
-  .dd-modal-footer-info { font-size: 12px; color: var(--text-mid); }
-  .dd-modal-footer-info strong { color: var(--text-dark); }
-  .dd-select-brand-btn { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; }
-  .dd-select-brand-btn:hover { background: var(--teal-dark); }
-  .dd-select-brand-btn:active { transform: scale(0.97); }
-  .dd-select-brand-btn.selected-state { background: var(--green); pointer-events: none; }
-
-  /* Section mini-nav tabs */
-  .dd-nav-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
-  .dd-nav-tab { font-size: 11.5px; font-weight: 600; padding: 6px 14px; border-radius: 999px; cursor: pointer; border: 1.5px solid var(--border); color: var(--text-mid); background: var(--white); transition: all 0.2s; }
-  .dd-nav-tab:hover { border-color: var(--teal-mid); color: var(--teal-dark); }
-  .dd-nav-tab.active { border-color: var(--teal); background: var(--teal); color: white; }
 </style>
 </head>
 <body>
@@ -742,6 +716,18 @@
   <span class="toast-icon" id="toastIcon"></span>
   <div class="toast-body"><div class="toast-title" id="toastTitle"></div><div class="toast-sub" id="toastSub"></div></div>
   <button class="toast-dismiss" onclick="dismissToast()">×</button>
+</div>
+
+
+<!-- ═══ DEEP DIVE MODAL (enhanced) ═══ -->
+<div class="modal-overlay" id="deepDiveModal">
+  <div class="modal-box" style="width:820px;">
+    <div class="modal-header">
+      <h3 id="ddModalTitle">Brand — Deep Dive</h3>
+      <button class="modal-close" onclick="closeDeepDive()">×</button>
+    </div>
+    <div class="modal-body" id="ddModalBody"></div>
+  </div>
 </div>
 
 <!-- ═══════════ SCREEN 1: ALL PROJECTS ═══════════ -->
@@ -1198,21 +1184,6 @@
   </div>
 </div>
 
-<!-- ═══════════ DEEP DIVE MODAL ═══════════ -->
-<div class="dd-modal-overlay" id="deepDiveModal" onclick="if(event.target===this)closeDeepDive()">
-  <div class="dd-modal-box">
-    <div class="dd-modal-header">
-      <h3 id="ddModalTitle">Brand — Deep Dive</h3>
-      <button class="dd-modal-close" onclick="closeDeepDive()">×</button>
-    </div>
-    <div class="dd-modal-body" id="ddModalBody"></div>
-    <div class="dd-modal-footer">
-      <div class="dd-modal-footer-info" id="ddFooterInfo"></div>
-      <button class="dd-select-brand-btn" id="ddSelectBtn" onclick="selectBrandFromModal()">Select this Brand</button>
-    </div>
-  </div>
-</div>
-
 <!-- ═══════════ SCREEN 4: DATA INSIGHTS ═══════════ -->
 <div id="s4" class="screen">
   <div class="stepper-bar">
@@ -1267,7 +1238,7 @@
     window.scrollTo(0,0);
     if(id==='s1b') renderBrandsGrid();
     if(id==='s3') ensureConfigBuilt();
-    if(id==='s4') renderInsightsPanel();
+    if(id==='s4') renderInsightsAccordion();
   }
 
   function openAddBrandSidebar() {
@@ -2243,7 +2214,6 @@
       pane.innerHTML = `
         <div>${columnTableHtml('mapping')}</div>
         <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('mapping')">+ Upload New Mapping Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
@@ -2255,7 +2225,6 @@
       pane.innerHTML = `
         <div>${columnTableHtml('financial')}</div>
         <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('financial')">+ Upload New Financial Data</button>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>
@@ -2349,7 +2318,6 @@
     return `<div style="padding:14px 20px 0;">
       ${brandCards}
       <div class="upload-more-row" style="margin-top:4px;">
-        <button class="btn-upload-more" onclick="openCfgBrandModal('response')">+ Upload New Response Curve</button>
       </div>
     </div>`;
   }
@@ -2843,15 +2811,14 @@
   }
 
 
-  /* ═══════════ DATA INSIGHTS — restructured per portfolio overview / overlap / deep-dive mockups ═══════════ */
+  
+  /* ═══════════ DATA INSIGHTS — enhanced with interactive charts, tabs, accordions ═══════════ */
   const brandColors = { Brand_1:'#3b82f6', Brand_2:'#10b981', Brand_3:'#f59e0b' };
-
   const brandPortfolio = {
     Brand_1: { ta:'Oncology', compType:'Branded', years:3, reach:8960, budget:'$48M', budgetPct:48, topChannel:'Detailing', tierMix:{h:34,m:41,l:25} },
     Brand_2: { ta:'Cardiology', compType:'Generic', years:5, reach:9856, budget:'$35M', budgetPct:35, topChannel:'DTC TV', tierMix:{h:22,m:46,l:32} },
     Brand_3: { ta:'Neurology', compType:'Branded', years:2, reach:5248, budget:'$17M', budgetPct:17, topChannel:'EHR IMPR', tierMix:{h:29,m:38,l:33} },
   };
-
   const brandDeepDive = {
     Brand_1: {
       peakSales:1614, peakMonth:"Apr '24", postPeak:-7.2, postPeakMonth:"May '24", lifecycle:'Mature', curvePos:78,
@@ -2859,9 +2826,9 @@
       sales:[1460,1614,1470,1510,1500,1447,1500,1545,1522,1568,1483,1515,1500],
       channelMix:[{name:'Detailing',pct:48},{name:'DTC TV',pct:18},{name:'EHR IMPR',pct:14},{name:'Doximity',pct:10},{name:'Display',pct:7},{name:'F2F',pct:3}],
       curveK:0.55,
-      salesAI: "Brand_1 peaked at $1,614 in Apr '24 and has since stabilized around $1,500, indicating a mature product entering a plateau phase. The 7.2% post-peak decline was seasonal rather than structural.",
-      channelAI: 'Detailing dominates at 48% of channel mix — a disproportionately high share. Reallocating 5–8% of spend toward Email or EHR IMPR could improve overall efficiency.',
-      curveAI: "The response curve sits at 78% saturation with a log-diminishing shape. Marginal return is approximately 22% of peak — budget is better redirected to under-saturated brands."
+      salesAI: "Brand_1 peaked at $1,614 in Apr '24 and has since stabilized around $1,500, indicating a mature product entering a plateau phase.",
+      channelAI: 'Detailing dominates at 48% — a disproportionately high share. Reallocating 5–8% toward Email or EHR IMPR could improve efficiency.',
+      curveAI: 'The response curve sits at 78% saturation. Marginal return is approximately 22% of peak — budget is better redirected to under-saturated brands.'
     },
     Brand_2: {
       peakSales:1210, peakMonth:"Jun '24", postPeak:-4.1, postPeakMonth:"Jul '24", lifecycle:'Mature', curvePos:64,
@@ -2869,9 +2836,9 @@
       sales:[1080,1120,1160,1210,1160,1140,1155,1130,1108,1090,1075,1060,1050],
       channelMix:[{name:'DTC TV',pct:41},{name:'Digital',pct:19},{name:'Detailing',pct:17},{name:'EHR IMPR',pct:12},{name:'Email',pct:7},{name:'F2F',pct:4}],
       curveK:0.4,
-      salesAI: "Brand_2 shows a consistent downward trajectory post-peak (Jun '24), declining ~13% over 9 months — consistent with generic erosion pressure.",
-      channelAI: 'DTC TV accounts for 41% of spend and is approaching saturation. Digital channels at 19% still have significant unused headroom.',
-      curveAI: 'At 64% saturation, Brand_2 still has meaningful headroom on the response curve — this is the most efficient brand for marginal dollar reallocation.'
+      salesAI: "Brand_2 shows consistent downward trajectory post-peak, declining ~13% over 9 months — consistent with generic erosion pressure.",
+      channelAI: 'DTC TV at 41% is approaching saturation. Digital at 19% still has headroom — shifting 8–10% could slow erosion.',
+      curveAI: 'At 64% saturation, Brand_2 still has meaningful headroom — the most efficient brand for marginal dollar reallocation.'
     },
     Brand_3: {
       peakSales:640, peakMonth:"Dec '24", postPeak:3.2, postPeakMonth:"Jan '25", lifecycle:'Launch', curvePos:48,
@@ -2879,186 +2846,74 @@
       sales:[280,310,335,360,390,410,440,470,520,640,660,655,670],
       channelMix:[{name:'EHR IMPR',pct:34},{name:'Detailing',pct:26},{name:'Doximity',pct:18},{name:'DTC TV',pct:12},{name:'Display',pct:6},{name:'F2F',pct:4}],
       curveK:0.22,
-      salesAI: "Brand_3 is on a strong upward trajectory with 139% growth over 12 months — a textbook launch curve. Overall momentum remains positive and consistent.",
-      channelAI: 'EHR IMPR leads at 34% which is well-suited for a launch-phase brand. The channel mix is well-diversified — no single channel is over-indexed.',
-      curveAI: "At 48% saturation (pre-inflection), Brand_3 is projected to be roughly 2.3× more efficient than Brand_1 per dollar spent. The data supports scaling investment now."
+      salesAI: "Brand_3 is on a strong upward trajectory with 139% growth over 12 months — a textbook launch curve.",
+      channelAI: 'EHR IMPR leads at 34%, well-suited for a launch-phase brand. Channel mix is well-diversified — no single channel over-indexed.',
+      curveAI: 'At 48% saturation (pre-inflection), Brand_3 is projected to be ~2.3× more efficient than Brand_1 per dollar spent.'
     }
   };
 
-  const autoInsights = [
-    'Brand_1 and Brand_2 share the highest overlap (72%) with matched High + Medium tier concentration — suggests a shared targeting strategy.',
-    '34% of unique HCPs (4,243) are reached by all three brands — consistent with deliberate portfolio cross-promotion.',
-    "Brand_1's curve sits at 78% saturation, fitting a log-diminishing shape — marginal return is roughly 22% of peak.",
-    "Brand_3's curve is pre-inflection at 48% — projected to be about 2.3× more efficient than Brand_1 per dollar spent.",
-    "Brand_1's year-3 forecast dips 54% versus year 2 — a loss-of-exclusivity signal despite being tagged \"Mature\".",
-    "Brand_3's year-1 forecast is null — planning scope treats year 2 as the effective launch year.",
-    'A year-4 carryover was detected for Brand_1 and Brand_2 (rates of 0.72 and 0.68) — used for terminal-value calculation.',
-  ];
-
-  function areaChartSVG(values, months, color, w, h, chartId) {
-    const pad = 26;
+  /* ═══ INTERACTIVE CHART HELPERS ═══ */
+  let _chartId = 0;
+  function areaChartSVG(values, months, color, w, h) {
+    const id = 'ac_' + (_chartId++);
+    const pad = 30, padBot = 34;
     const min = Math.min(...values), max = Math.max(...values);
     const range = (max - min) || 1;
     const stepX = (w - 2*pad) / (values.length - 1);
-    const pts = values.map((v,i) => { const x = pad + i*stepX; const y = (h - pad) - ((v - min) / range) * (h - 2*pad); return [x,y]; });
+    const pts = values.map((v,i) => { const x = pad + i*stepX; const y = (h - padBot) - ((v - min) / range) * (h - pad - padBot); return [x,y]; });
     const linePath = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
-    const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${h-pad} L${pts[0][0].toFixed(1)},${h-pad} Z`;
-    const labels = months.map((m,i) => `<text x="${pts[i][0].toFixed(1)}" y="${h-6}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>`).join('');
-    const gridLines = [0.25,0.5,0.75].map(f => {
-      const y = (h - pad) - f * (h - 2*pad);
-      const val = Math.round(min + f * range);
-      return `<line x1="${pad}" y1="${y.toFixed(1)}" x2="${w-pad}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-              <text x="${pad-4}" y="${(y+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">$${val}</text>`;
-    }).join('');
-    const dots = pts.map((p,i) => `<circle class="data-dot" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="5" fill="${color}" stroke="white" stroke-width="2"
-      onmouseenter="showChartTooltip(event,'${chartId}','${months[i]}','$${values[i].toLocaleString()}',${p[0].toFixed(1)},${p[1].toFixed(1)})"
-      onmouseleave="hideChartTooltip('${chartId}')"/>`).join('');
-    const crosshair = `<line class="dd-crosshair" id="${chartId}_cross" x1="0" y1="${pad}" x2="0" y2="${h-pad}"/>`;
-    return `<div class="dd-chart-interactive" id="${chartId}_wrap">
-      <div class="dd-tooltip" id="${chartId}_tt"></div>
-      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">
-        ${gridLines}
-        <path d="${areaPath}" fill="${color}15" stroke="none"/>
-        <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
-        ${crosshair}${dots}${labels}
-      </svg>
-    </div>`;
+    const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${h-padBot} L${pts[0][0].toFixed(1)},${h-padBot} Z`;
+    const labels = months.map((m,i) => (i % 2 === 0 || months.length <= 7) ? `<text x="${pts[i][0].toFixed(1)}" y="${h-8}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>` : '').join('');
+    let gridLines = '';
+    for(let g=0; g<=4; g++) { const gy = (h - padBot) - (g/4) * (h - pad - padBot); const gv = min + (g/4) * range; gridLines += `<line x1="${pad}" y1="${gy.toFixed(1)}" x2="${w-pad}" y2="${gy.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/><text x="${pad-4}" y="${(gy+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">$${Math.round(gv).toLocaleString()}</text>`; }
+    const hoverPts = pts.map((p,i) => `<g class="chart-hover-group" style="cursor:pointer;"><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="14" fill="transparent"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="white" stroke="${color}" stroke-width="2" class="chart-dot" opacity="0"/><g class="chart-tooltip" opacity="0" pointer-events="none"><rect x="${(p[0]-40).toFixed(1)}" y="${(p[1]-38).toFixed(1)}" width="80" height="26" rx="6" fill="#1e293b" opacity="0.92"/><text x="${p[0].toFixed(1)}" y="${(p[1]-21).toFixed(1)}" font-size="10" font-weight="600" fill="white" text-anchor="middle">${months[i]}: $${values[i].toLocaleString()}</text></g></g>`).join('');
+    return `<div class="chart-container"><svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">${gridLines}<path d="${areaPath}" fill="${color}18" stroke="none"/><path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round"/>${labels}${hoverPts}</svg></div>`;
   }
 
-  function responseCurveSVG(k, curvePos, color, w, h, chartId) {
-    const pad = 24; const steps = 40; let d = '';
+  function responseCurveSVG(k, curvePos, color, w, h) {
+    const pad = 30; const steps = 50; let d = '';
     const yAt = x => 1 - Math.exp(-k * x * 4);
     for(let i=0;i<=steps;i++) { const x = i/steps, y = yAt(x); const px = pad + x*(w-2*pad), py = (h-pad) - y*(h-2*pad); d += (i===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' '; }
+    let gridLines = '';
+    for(let g=0; g<=4; g++) { const gy = (h-pad) - (g/4)*(h-2*pad); gridLines += `<line x1="${pad}" y1="${gy.toFixed(1)}" x2="${w-pad}" y2="${gy.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/><text x="${pad-4}" y="${(gy+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">${Math.round(g*25)}%</text>`; }
     const mx = curvePos/100, my = yAt(mx);
     const mpx = pad + mx*(w-2*pad), mpy = (h-pad) - my*(h-2*pad);
-    const gridLines = [0.25,0.5,0.75].map(f => {
-      const y = (h - pad) - f * (h - 2*pad);
-      return `<line x1="${pad}" y1="${y.toFixed(1)}" x2="${w-pad}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,4"/>
-              <text x="${pad-4}" y="${(y+3).toFixed(1)}" font-size="8" fill="var(--text-light)" text-anchor="end">${Math.round(f*100)}%</text>`;
-    }).join('');
-    return `<div class="dd-chart-interactive" id="${chartId}_wrap">
-      <div class="dd-tooltip" id="${chartId}_tt"></div>
-      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;" id="${chartId}_svg">
-        ${gridLines}
-        <line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
-        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/>
-        <text x="${(w/2)}" y="${h-2}" font-size="8" fill="var(--text-light)" text-anchor="middle">Investment →</text>
-        <text x="8" y="${(h/2)}" font-size="8" fill="var(--text-light)" text-anchor="middle" transform="rotate(-90,8,${(h/2)})">Return →</text>
-        <path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
-        <line class="rc-tracker-line" id="${chartId}_vline" x1="0" y1="${pad}" x2="0" y2="${h-pad}" stroke="${color}"/>
-        <line class="rc-tracker-line" id="${chartId}_hline" x1="${pad}" y1="0" x2="${w-pad}" y2="0" stroke="${color}"/>
-        <circle class="rc-tracker-dot" id="${chartId}_tdot" cx="0" cy="0" r="4" fill="${color}" stroke="white" stroke-width="2"/>
-        <circle cx="${mpx.toFixed(1)}" cy="${mpy.toFixed(1)}" r="5.5" fill="${color}" stroke="white" stroke-width="2.5"/>
-        <text x="${mpx.toFixed(1)}" y="${(mpy-12).toFixed(1)}" font-size="10" font-weight="700" fill="${color}" text-anchor="middle">${curvePos}% current</text>
-        <rect class="rc-hover-zone" x="${pad}" y="${pad}" width="${w-2*pad}" height="${h-2*pad}"
-          onmousemove="trackResponseCurve(event,'${chartId}',${k},${pad},${w},${h},'${color}')"
-          onmouseleave="hideRCTracker('${chartId}')"/>
-      </svg>
-    </div>`;
+    const sampleSteps = [0,10,20,30,40,50,60,70,80,90,100];
+    let samplePts = '';
+    sampleSteps.forEach(pct => { const sx = pct/100, sy = yAt(sx); const spx = pad + sx*(w-2*pad), spy = (h-pad) - sy*(h-2*pad); const isActive = pct === curvePos; samplePts += `<g class="chart-hover-group" style="cursor:pointer;"><circle cx="${spx.toFixed(1)}" cy="${spy.toFixed(1)}" r="12" fill="transparent"/><circle cx="${spx.toFixed(1)}" cy="${spy.toFixed(1)}" r="${isActive?5:3.5}" fill="${isActive?color:'white'}" stroke="${color}" stroke-width="${isActive?0:1.5}" class="chart-dot" opacity="${isActive?1:0}"/><g class="chart-tooltip" opacity="0" pointer-events="none"><rect x="${(spx-52).toFixed(1)}" y="${(spy-40).toFixed(1)}" width="104" height="28" rx="6" fill="#1e293b" opacity="0.92"/><text x="${spx.toFixed(1)}" y="${(spy-22).toFixed(1)}" font-size="10" font-weight="600" fill="white" text-anchor="middle">Spend ${pct}% → Return ${Math.round(sy*100)}%</text></g></g>`; });
+    return `<div class="chart-container"><svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">${gridLines}<line x1="${pad}" y1="${h-pad}" x2="${w-pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h-pad}" stroke="var(--border)" stroke-width="1"/><path d="${d.trim()}" fill="${color}12" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/><line x1="${mpx.toFixed(1)}" y1="${mpy.toFixed(1)}" x2="${mpx.toFixed(1)}" y2="${h-pad}" stroke="${color}" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>${samplePts}</svg></div>`;
   }
 
-  /* ═══ CHART INTERACTION HELPERS ═══ */
-  function showChartTooltip(evt, chartId, label, value, cx, cy) {
-    const wrap = document.getElementById(chartId+'_wrap');
-    const tt = document.getElementById(chartId+'_tt');
-    const svg = wrap.querySelector('svg');
-    const rect = svg.getBoundingClientRect();
-    const svgW = parseFloat(svg.getAttribute('viewBox').split(' ')[2]);
-    const scale = rect.width / svgW;
-    const x = cx * scale;
-    const y = cy * scale;
-    tt.innerHTML = `<div class="tt-label">${label}</div><div class="tt-value">${value}</div>`;
-    tt.style.left = (x - tt.offsetWidth/2) + 'px';
-    tt.style.top = (y - tt.offsetHeight - 12) + 'px';
-    tt.classList.add('visible');
-    const cross = document.getElementById(chartId+'_cross');
-    if(cross) { cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.style.opacity = '0.5'; }
+  function channelMixHTML(channels, color) {
+    return `<div class="cm-interactive">${channels.map(c => `<div class="cm-bar-row-interactive" style="cursor:pointer;" onmouseenter="this.querySelector('.cm-detail').style.maxHeight='40px';this.querySelector('.cm-detail').style.opacity='1';" onmouseleave="this.querySelector('.cm-detail').style.maxHeight='0';this.querySelector('.cm-detail').style.opacity='0';"><div class="cm-bar-head"><span>${c.name}</span><span style="font-weight:600;">${c.pct}%</span></div><div class="cm-bar-track"><div class="cm-bar-fill" style="width:${c.pct}%;background:${color};transition:width 0.6s ease;"></div></div><div class="cm-detail" style="max-height:0;opacity:0;overflow:hidden;transition:max-height 0.25s ease,opacity 0.2s ease;font-size:10.5px;color:var(--text-light);padding-top:2px;">${c.pct > 30 ? 'Dominant channel — review efficiency' : c.pct > 15 ? 'Significant contributor' : 'Low share — growth opportunity'}</div></div>`).join('')}</div>`;
   }
 
-  function hideChartTooltip(chartId) {
-    const tt = document.getElementById(chartId+'_tt');
-    if(tt) tt.classList.remove('visible');
-    const cross = document.getElementById(chartId+'_cross');
-    if(cross) cross.style.opacity = '0';
-  }
-
-  function trackResponseCurve(evt, chartId, k, pad, w, h, color) {
-    const svg = document.getElementById(chartId+'_svg');
-    const rect = svg.getBoundingClientRect();
-    const svgW = w, svgH = h;
-    const mouseX = (evt.clientX - rect.left) / rect.width * svgW;
-    const x01 = Math.max(0, Math.min(1, (mouseX - pad) / (svgW - 2*pad)));
-    const yAt = x => 1 - Math.exp(-k * x * 4);
-    const yVal = yAt(x01);
-    const px = pad + x01 * (svgW - 2*pad);
-    const py = (svgH - pad) - yVal * (svgH - 2*pad);
-    const vline = document.getElementById(chartId+'_vline');
-    const hline = document.getElementById(chartId+'_hline');
-    const tdot = document.getElementById(chartId+'_tdot');
-    vline.setAttribute('x1',px); vline.setAttribute('x2',px); vline.style.opacity='0.5';
-    hline.setAttribute('y1',py); hline.setAttribute('y2',py); hline.style.opacity='0.5';
-    tdot.setAttribute('cx',px); tdot.setAttribute('cy',py); tdot.style.opacity='1';
-    const wrap = document.getElementById(chartId+'_wrap');
-    const tt = document.getElementById(chartId+'_tt');
-    const scale = rect.width / svgW;
-    tt.innerHTML = `<div class="tt-label">Spend: ${Math.round(x01*100)}%</div><div class="tt-value">Return: ${Math.round(yVal*100)}%</div>`;
-    tt.style.left = (px * scale - tt.offsetWidth/2) + 'px';
-    tt.style.top = (py * scale - tt.offsetHeight - 14) + 'px';
-    tt.classList.add('visible');
-  }
-
-  function hideRCTracker(chartId) {
-    ['_vline','_hline','_tdot'].forEach(s => { const el = document.getElementById(chartId+s); if(el) el.style.opacity='0'; });
-    const tt = document.getElementById(chartId+'_tt'); if(tt) tt.classList.remove('visible');
-  }
-
-  function toggleDDSection(id) {
-    const el = document.getElementById(id);
-    el.classList.toggle('dd-collapsed');
-    if(id === 'dd_channel' && !el.classList.contains('dd-collapsed')) animateChannelBars('dd_channel_body');
-  }
-
-  function scrollToSection(sectionId) {
-    const el = document.getElementById(sectionId);
-    if(!el) return;
-    if(el.classList.contains('dd-collapsed')) {
-      el.classList.remove('dd-collapsed');
-      if(sectionId === 'dd_channel') animateChannelBars('dd_channel_body');
-    }
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function animateChannelBars(sectionId) {
-    setTimeout(() => {
-      const bars = document.querySelectorAll(`#${sectionId} .cm-bar-fill-animated`);
-      bars.forEach(bar => { const target = bar.dataset.width; bar.style.width = target; });
-    }, 80);
-  }
-
-  /* ═══ ACCORDION RENDERS ═══ */
-  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); }
-
-  function renderAutoInsightsAccordion() {
-    return `<div class="acc-section" id="acc_insights"><div class="acc-header" onclick="toggleAccordion('acc_insights')"><div class="acc-title">Auto Detected Insights <span class="acc-subtitle">${autoInsights.length} insights found</span></div><span class="acc-chevron">▼</span></div><div class="acc-body"><div class="ai-insights-list">${autoInsights.map((text, i) => `<div class="ai-insight-row"><div class="ai-insight-num">${i+1}</div><div class="ai-insight-text">${text}</div></div>`).join('')}</div></div></div>`;
-  }
-
-  function renderOverlapAccordion() {
-    const brands = Object.keys(brandPortfolio);
-    const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `<div class="tier-mix-row"><div class="tier-mix-row-head"><span>${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div><div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div></div>`; }).join('');
-    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div><div class="acc-body" style="padding-top:6px;"><div class="cbo-section-label" style="margin-top:0;">HCP Overlap &amp; Tier Mix</div><div class="cbo-grid"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div><svg viewBox="0 0 280 190" style="width:100%;height:170px;"><circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="80" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text><text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text><text x="120" y="178" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text><text x="128" y="80" font-size="12" font-weight="700" fill="var(--text-dark)">72%</text><text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="152" y="105" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text></svg></div><div class="cbo-card"><div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H / M / L across brands</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div><div class="dd-ai-summary" style="margin-top:0;margin-bottom:18px;"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> Brand_1 and Brand_2 have the highest HCP overlap at 72%, with strong High + Medium tier alignment. Brand_3 has moderate overlap indicating an emerging but distinct audience.</div></div><div class="cbo-section-label">Data Quality</div><div class="dq-grid"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div><div class="dd-ai-summary" style="margin-top:14px;"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> Data is largely clean with no duplicate records. 8 columns have missing values flagged. 142 HCPs show outlier sales and should be reviewed before insight generation.</div></div></div></div>`;
-  }
-
+  /* ═══ BRANDS ACCORDION (at top) ═══ */
   function renderBrandsAccordion() {
     const brands = Object.keys(brandPortfolio);
-    const placeholders = { Brand_1:'e.g. Grow market share by 5% in target segment', Brand_2:'e.g. Defend share against generic erosion', Brand_3:'e.g. Accelerate new-patient starts in launch year' };
-    return `<div class="acc-section collapsed" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div><div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Total Spend</label><span>$100M</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name, i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrands()">Add Brand(s)</button></div></div></div>`;
+    const placeholders = { Brand_1:'e.g. Grow market share by 5%', Brand_2:'e.g. Defend share against generic erosion', Brand_3:'e.g. Accelerate new-patient starts' };
+    const summaryHTML = `<div class="acc-summary"><ul><li><strong>${brands.length} brands</strong> detected across ${brands.map(n=>brandPortfolio[n].ta).filter((v,i,a)=>a.indexOf(v)===i).length} therapeutic areas with combined budget of $100M</li><li><strong>12,480 unique HCPs</strong> reached, 4,243 multi-brand overlap</li><li>Brand_3 (Launch) shows strongest growth at <strong>139% over 12 months</strong></li></ul></div>`;
+    return `<div class="acc-section" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Total Spend</label><span>$100M</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name,i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrandsNew()">Add Brand(s)</button></div></div></div>`;
   }
 
-  function renderInsightsPanel() {
+  /* ═══ OVERLAP ACCORDION (with tabs) ═══ */
+  function renderOverlapAccordion() {
+    const brands = Object.keys(brandPortfolio);
+    const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `<div class="tier-mix-row" style="cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.15s;" onmouseenter="this.style.background='var(--bg)';this.querySelector('.tier-detail').style.maxHeight='28px';this.querySelector('.tier-detail').style.opacity='1';" onmouseleave="this.style.background='transparent';this.querySelector('.tier-detail').style.maxHeight='0';this.querySelector('.tier-detail').style.opacity='0';"><div class="tier-mix-row-head"><span style="font-weight:600;">${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div><div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div><div class="tier-detail" style="max-height:0;opacity:0;overflow:hidden;transition:max-height 0.2s ease,opacity 0.15s ease;font-size:10px;color:var(--text-light);padding-top:2px;">High ${t.h}% · Med ${t.m}% · Low ${t.l}%</div></div>`; }).join('');
+    const summaryHTML = `<div class="acc-summary"><ul><li><strong>Brand_1 &amp; Brand_2 highest overlap at 72%</strong> — shared targeting strategy</li><li><strong>34% tri-brand overlap</strong> (4,243 HCPs) — deliberate cross-promotion</li><li>Data quality: <strong>0 duplicates</strong>, 8 cols missing values, <strong>142 outlier HCPs</strong></li></ul></div>`;
+    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-tabs" id="overlapTabs"><button class="acc-tab active" onclick="switchOverlapTab(0,event)">HCP Overlap</button><button class="acc-tab" onclick="switchOverlapTab(1,event)">Segment Mix</button><button class="acc-tab" onclick="switchOverlapTab(2,event)">Data Quality</button></div><div class="acc-body" style="padding-top:14px;"><div class="acc-tab-panel active" id="ot_0"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>High Overlap:</strong> Brand_1 and Brand_2 share 72% HCP overlap with strong High+Medium tier alignment.</div><div class="ai-bullet"><strong>Tri-Brand:</strong> 34% of HCPs (4,243) reached by all three brands.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div><svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;"><g class="venn-group"><circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><text x="75" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text><g class="venn-tooltip" opacity="0"><rect x="30" y="90" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="80" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">8,960 HCPs · $48M</text></g></g><g class="venn-group"><circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text><g class="venn-tooltip" opacity="0"><rect x="150" y="90" width="105" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="202" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">9,856 HCPs · $35M</text></g></g><g class="venn-group"><circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="120" y="188" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text><g class="venn-tooltip" opacity="0"><rect x="90" y="145" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="140" y="160" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">5,248 HCPs · $17M</text></g></g><text x="128" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="155" y="100" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text></svg></div></div></div></div><div class="acc-tab-panel" id="ot_1"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 highest High-tier (34%), Brand_2 leans Medium (46%).</div><div class="ai-bullet"><strong>Emerging:</strong> Brand_3 balanced (29/38/33), distinct audience segment.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H/M/L</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div></div></div><div class="acc-tab-panel" id="ot_2"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Clean:</strong> No duplicates. Customer × Brand × Period uniqueness maintained.</div><div class="ai-bullet"><strong>Flags:</strong> 8 cols missing values. 142 outlier HCPs (&gt;3× tier avg).</div></div><div class="acc-split-right"><div class="dq-grid" style="grid-template-columns:1fr;"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div></div></div></div></div></div>`;
+  }
+
+  function switchOverlapTab(idx, event) { event.stopPropagation(); document.querySelectorAll('#overlapTabs .acc-tab').forEach((t,i) => t.classList.toggle('active', i===idx)); document.querySelectorAll('[id^="ot_"]').forEach((p,i) => p.classList.toggle('active', i===idx)); }
+
+  /* ═══ RENDER ALL INSIGHTS ═══ */
+  function renderInsightsAccordion() {
     const el = document.getElementById('insightsRight');
     if(!el) return;
-    el.innerHTML = renderAutoInsightsAccordion() + renderOverlapAccordion() + renderBrandsAccordion();
+    el.innerHTML = renderBrandsAccordion() + renderOverlapAccordion();
   }
+
+  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); }
 
   /* ═══ BRAND SELECTION ═══ */
   function selectBrand(i) {
@@ -3069,134 +2924,49 @@
     document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt > 0);
   }
 
-  function addSelectedBrands() {
+  function addSelectedBrandsNew() {
+    const count = selectedBrands.size;
+    if(count === 0) return;
     selectedBrands.forEach(i => {
-      const brands = Object.keys(brandPortfolio);
-      const name = brands[i];
+      const name = Object.keys(brandPortfolio)[i];
       const b = brandPortfolio[name];
-      if(!addedBrands.find(x => x.name === name)) addedBrands.push({ name, ta: b.ta, compType: b.compType, objective: '' });
+      if(!addedBrands.find(x=>x.name===name)) addedBrands.push({ name, ta:b.ta, compType:b.compType, objective:'' });
     });
     selectedBrands.clear();
     document.querySelectorAll('.pf-brand-card').forEach(c => c.classList.remove('selected'));
     document.getElementById('selCount').innerHTML = '<strong>0</strong> brand(s) selected';
     document.getElementById('addBrandsBtn').classList.remove('enabled');
     goTo('s1b');
-    showToast('Brands added successfully', 'success');
+    showToast(`${count} brand(s) added successfully`, 'success');
   }
 
-  /* ═══ DEEP DIVE MODAL (INTERACTIVE) ═══ */
-  let currentDeepDiveBrand = null;
-
+  /* ═══ DEEP DIVE MODAL (accordion sections, AI inline) ═══ */
   function openDeepDive(name) {
-    currentDeepDiveBrand = name;
     const dd = brandDeepDive[name];
     const b = brandPortfolio[name];
     const color = brandColors[name];
-    const brandIdx = Object.keys(brandPortfolio).indexOf(name);
-    const isSelected = selectedBrands.has(brandIdx);
-
     document.getElementById('ddModalTitle').innerHTML = `<span class="pf-dot" style="background:${color};width:10px;height:10px;"></span> ${name} — Deep Dive`;
-    document.getElementById('ddFooterInfo').innerHTML = `<strong>${name}</strong> · ${b.ta} · ${b.compType} · ${b.budget} budget`;
-
-    const selBtn = document.getElementById('ddSelectBtn');
-    if(isSelected) { selBtn.textContent = '✓ Brand Selected'; selBtn.className = 'dd-select-brand-btn selected-state'; }
-    else { selBtn.textContent = 'Select this Brand'; selBtn.className = 'dd-select-brand-btn'; }
-
     document.getElementById('ddModalBody').innerHTML = `
-      <div class="dd-nav-tabs">
-        <div class="dd-nav-tab active" onclick="scrollToSection('dd_sales')">📈 Sales</div>
-        <div class="dd-nav-tab" onclick="scrollToSection('dd_channel')">📊 Channels</div>
-        <div class="dd-nav-tab" onclick="scrollToSection('dd_curve')">📉 Curve</div>
+      <div class="dd-kpi-row" style="margin-bottom:16px;">
+        <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+        <div class="dd-kpi"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub">${dd.postPeakMonth}</div></div>
+        <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
+        <div class="dd-kpi"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
       </div>
-
-      <div class="dd-kpi-row">
-        <div class="dd-kpi animate-in"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
-        <div class="dd-kpi animate-in"><label>Post-Peak</label><div class="dd-kpi-val">${dd.postPeak>0?'+':''}${dd.postPeak}%</div><div class="dd-kpi-sub ${dd.postPeak>0?'pos':'neg'}">${dd.postPeakMonth}</div></div>
-        <div class="dd-kpi animate-in"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
-        <div class="dd-kpi animate-in"><label>Curve Position</label><div class="dd-kpi-val">${dd.curvePos}%</div><div class="dd-kpi-sub">Saturation</div></div>
-      </div>
-
-      <div class="dd-section" id="dd_sales">
-        <div class="dd-section-header" onclick="toggleDDSection('dd_sales')">
-          📈 Sales Trend
-          <span class="dd-section-chevron">▼</span>
-        </div>
-        <div class="dd-section-body">
-          ${areaChartSVG(dd.sales, dd.months, color, 740, 180, 'sales_chart')}
-          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.salesAI}</div></div>
-        </div>
-      </div>
-
-      <div class="dd-section dd-collapsed" id="dd_channel">
-        <div class="dd-section-header" onclick="toggleDDSection('dd_channel')">
-          📊 Channel Mix
-          <span class="dd-section-chevron">▼</span>
-        </div>
-        <div class="dd-section-body" id="dd_channel_body">
-          ${dd.channelMix.map((c,ci) => `<div class="cm-bar-interactive"><div class="cm-bar-head"><span>${c.name}</span><span>${c.pct}%<span class="cm-bar-pct-badge" style="background:${color}22;color:${color};">$${Math.round(parseInt(b.budget.replace(/[^0-9]/g,''))*c.pct/100)}M</span></span></div><div class="cm-bar-track"><div class="cm-bar-fill-animated" data-width="${c.pct}%" style="width:0%;background:${color};"></div></div></div>`).join('')}
-          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.channelAI}</div></div>
-        </div>
-      </div>
-
-      <div class="dd-section dd-collapsed" id="dd_curve">
-        <div class="dd-section-header" onclick="toggleDDSection('dd_curve')">
-          📉 Response Curve
-          <span class="dd-section-chevron">▼</span>
-        </div>
-        <div class="dd-section-body">
-          ${responseCurveSVG(dd.curveK, dd.curvePos, color, 740, 200, 'rc_chart')}
-          <div class="dd-ai-summary"><span class="ai-icon">✨</span><div><strong>AI Summary:</strong> ${dd.curveAI}</div></div>
-        </div>
-      </div>`;
-
+      <div class="dd-acc open" id="ddAcc0"><div class="dd-acc-header" onclick="toggleDDAcc('ddAcc0')"><div class="dd-acc-title"><span class="dd-acc-icon">📈</span> Sales Trend</div><span class="dd-acc-chevron">▼</span></div><div class="dd-acc-body"><div class="dd-acc-body-inner"><div class="dd-inline-ai"><span class="ai-icon">✨</span><div><strong>AI Insight:</strong> ${dd.salesAI}</div></div>${areaChartSVG(dd.sales, dd.months, color, 740, 200)}</div></div></div>
+      <div class="dd-acc" id="ddAcc1"><div class="dd-acc-header" onclick="toggleDDAcc('ddAcc1')"><div class="dd-acc-title"><span class="dd-acc-icon">📊</span> Channel Mix</div><span class="dd-acc-chevron">▼</span></div><div class="dd-acc-body"><div class="dd-acc-body-inner"><div class="dd-inline-ai"><span class="ai-icon">✨</span><div><strong>AI Insight:</strong> ${dd.channelAI}</div></div>${channelMixHTML(dd.channelMix, color)}</div></div></div>
+      <div class="dd-acc" id="ddAcc2"><div class="dd-acc-header" onclick="toggleDDAcc('ddAcc2')"><div class="dd-acc-title"><span class="dd-acc-icon">📉</span> Response Curve</div><span class="dd-acc-chevron">▼</span></div><div class="dd-acc-body"><div class="dd-acc-body-inner"><div class="dd-inline-ai"><span class="ai-icon">✨</span><div><strong>AI Insight:</strong> ${dd.curveAI}</div></div>${responseCurveSVG(dd.curveK, dd.curvePos, color, 740, 210)}</div></div></div>`;
     document.getElementById('deepDiveModal').classList.add('open');
-    animateChannelBars('dd_channel_body');
-    setupNavTabHighlight();
   }
+  function toggleDDAcc(id) { document.getElementById(id).classList.toggle('open'); }
+  function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); }
+  document.addEventListener('click', function(e) { if(e.target && e.target.id === 'deepDiveModal') closeDeepDive(); });
 
-  function setupNavTabHighlight() {
-    const body = document.getElementById('ddModalBody');
-    if(!body) return;
-    body.addEventListener('scroll', () => {
-      const tabs = body.querySelectorAll('.dd-nav-tab');
-      const sections = ['dd_sales','dd_channel','dd_curve'];
-      let activeIdx = 0;
-      sections.forEach((id, i) => {
-        const el = document.getElementById(id);
-        if(el && el.getBoundingClientRect().top < body.getBoundingClientRect().top + 120) activeIdx = i;
-      });
-      tabs.forEach((t,i) => t.classList.toggle('active', i === activeIdx));
-    });
-  }
-
-  function selectBrandFromModal() {
-    if(!currentDeepDiveBrand) return;
-    const brandIdx = Object.keys(brandPortfolio).indexOf(currentDeepDiveBrand);
-    if(brandIdx === -1) return;
-    if(!selectedBrands.has(brandIdx)) {
-      selectedBrands.add(brandIdx);
-      const card = document.getElementById('pf_'+brandIdx);
-      if(card) card.classList.add('selected');
-      const cnt = selectedBrands.size;
-      document.getElementById('selCount').innerHTML = `<strong>${cnt}</strong> brand(s) selected`;
-      document.getElementById('addBrandsBtn').classList.toggle('enabled', cnt > 0);
-    }
-    const btn = document.getElementById('ddSelectBtn');
-    btn.textContent = '✓ Brand Selected';
-    btn.className = 'dd-select-brand-btn selected-state';
-    showToast(`${currentDeepDiveBrand} selected`, 'success', 2000);
-  }
-
-  function closeDeepDive() { document.getElementById('deepDiveModal').classList.remove('open'); currentDeepDiveBrand = null; }
-
-  /* ─ toggleBrand kept for backward compat ─ */
-  function toggleBrand(i) { selectBrand(i); }
-
-  /* ─ Chat ─ */
+  /* ═══ CHAT ═══ */
   const aiResponses = [
-    "Based on your uploaded data, I found relevant patterns related to that. Let me know if you'd like me to break it down by brand or by channel.",
-    "Looking at the data you've uploaded, I can pull that out for you — could you confirm which time period or brand you'd like this scoped to?",
-    "That pattern shows up across your customer and financial files. I can summarize the trend or flag any anomalies if that would help.",
+    "Based on your uploaded data, I found relevant patterns. Let me know if you'd like a breakdown by brand or channel.",
+    "Looking at the data, I can pull that out — could you confirm which time period or brand?",
+    "That pattern shows up across your files. I can summarize the trend or flag anomalies.",
   ];
   let aiResponseIdx = 0;
   function sendChat() {
@@ -3206,14 +2976,13 @@
     const empty = document.getElementById('chatEmpty');
     if(empty) empty.remove();
     const body = document.getElementById('chatBody');
-    const time = 'Just now';
-    body.innerHTML += `<div class="chat-row user"><div class="chat-bubble user"><div class="msg-time">${time}</div><div>${msg.replace(/</g,'&lt;')}</div></div></div>`;
+    body.innerHTML += `<div class="chat-row user"><div class="chat-bubble user"><div class="msg-time">Just now</div><div>${msg.replace(/</g,'&lt;')}</div></div></div>`;
     input.value = '';
     body.scrollTop = body.scrollHeight;
     const typingId = 'typing_'+Date.now();
     body.innerHTML += `<div class="chat-row ai" id="${typingId}"><div class="chat-bubble ai"><div class="chat-typing"><span></span><span></span><span></span></div></div></div>`;
     body.scrollTop = body.scrollHeight;
-    setTimeout(()=>{
+    setTimeout(() => {
       const typingEl = document.getElementById(typingId);
       const reply = aiResponses[aiResponseIdx % aiResponses.length];
       aiResponseIdx++;
@@ -3222,7 +2991,7 @@
     }, 900);
   }
 
-  /* ─ Toast ─ */
+  /* ═══ TOAST ═══ */
   let tt;
   function showToast(msg, type, duration) {
     const t = document.getElementById('toast');
@@ -3233,12 +3002,10 @@
     document.getElementById('toastSub').textContent = msg;
     t.className = 'toast show' + (type ? ' '+type : '');
     clearTimeout(tt);
-    tt = setTimeout(()=>t.classList.remove('show'), duration||3500);
+    tt = setTimeout(() => t.classList.remove('show'), duration||3500);
   }
-  function dismissToast() {
-    clearTimeout(tt);
-    document.getElementById('toast').classList.remove('show');
-  }
+  function dismissToast() { clearTimeout(tt); document.getElementById('toast').classList.remove('show'); }
+
 </script>
 </body>
 </html>

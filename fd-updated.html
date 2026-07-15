@@ -240,6 +240,32 @@
   .brand-mapping-detected { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--teal-dark); background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 6px; padding: 4px 10px; white-space: nowrap; }
   .brand-mapping-detected-name { line-height: 1; }
   .brand-mapping-detected-icon { display: inline-flex; align-items: center; color: var(--teal); flex-shrink: 0; line-height: 0; }
+  .brand-mapping-multi { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .brand-mapping-pill { display: inline-flex; align-items: center; gap: 3px; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 5px; cursor: pointer; user-select: none; transition: all 0.12s; border: 1.5px solid var(--border); background: var(--white); color: var(--text-light); }
+  .brand-mapping-pill.active { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal-dark); }
+  .brand-mapping-pill:hover { border-color: var(--teal-mid); }
+  .brand-mapping-pill .bm-check { font-size: 8px; }
+  .bm-multiselect-wrap { position: relative; }
+  .bm-multiselect-display { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 11.5px; font-weight: 500; color: var(--text-dark); background: var(--white); cursor: pointer; min-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bm-multiselect-display:hover { border-color: var(--teal-mid); }
+  .bm-dd-arrow { font-size: 10px; color: var(--text-light); flex-shrink: 0; }
+  .bm-dd-panel { position: absolute; top: calc(100% + 4px); left: 0; right: 0; min-width: 160px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 20; padding: 4px 0; max-height: 180px; overflow-y: auto; }
+  .bm-dd-option:hover { background: var(--bg); }
+  .fin-data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .fin-data-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .fin-data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); }
+  .fin-data-table tr:last-child td { border-bottom: none; }
+  .fin-data-table .fin-brand-cell { font-weight: 600; }
+  .fin-data-table select { font-size: 11.5px; padding: 3px 20px 3px 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--white); cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234b5768'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 6px center; }
+  .map-data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .map-data-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .map-data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); }
+  .map-data-table tr:last-child td { border-bottom: none; }
+  .map-type-pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+  .map-type-hcp { background: #ede9fe; color: #5b21b6; }
+  .map-type-account { background: #dbeafe; color: #1e40af; }
+  .map-type-zip { background: #fef3c7; color: #92400e; }
+  .map-type-terr { background: #d1fae5; color: #065f46; }
 
   /* QC panel on main config screen */
   .cfg-status-banner { margin: 14px 20px 0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -1017,12 +1043,12 @@
       <div class="upload-card" id="uc_customer">
         <div class="upload-card-header">
           <div class="upload-card-icon">👥</div>
-          <div class="upload-card-title">Customer Data</div>
+          <div class="upload-card-title">DataVerse</div>
         </div>
         <div class="upload-option-row" id="row_customer_master" onclick="openMasterModal('customer')">
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
-            <div class="upload-option-title">Customer Master Upload</div>
+            <div class="upload-option-title">Customer/Segment Master Upload</div>
             <div class="upload-option-sub">CSV, weekly/monthly, multiple files allowed</div>
           </div>
           <div class="upload-option-status" id="status_customer_master"></div>
@@ -1031,7 +1057,7 @@
           <div class="upload-option-icon">📈</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Response Curve Upload <span class="optional-tag">Optional</span></div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_customer_secondary"></div>
         </div>
@@ -1051,7 +1077,7 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Financial Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_financial_master"></div>
         </div>
@@ -1071,7 +1097,7 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Mapping Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_mapping_master"></div>
         </div>
@@ -1155,7 +1181,7 @@
     <div class="config-panel">
       <div class="config-panel-header">
         <button class="config-tab-btn active" id="cfgTabBtn_brands" onclick="switchConfigTab(this,'brands')">Brands</button>
-        <button class="config-tab-btn locked" id="cfgTabBtn_customer" onclick="switchConfigTab(this,'customer')">Customer Data</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_customer" onclick="switchConfigTab(this,'customer')">DataVerse</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_financial" onclick="switchConfigTab(this,'financial')">Financial Data</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_mapping" onclick="switchConfigTab(this,'mapping')">Mapping</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_response" onclick="switchConfigTab(this,'response')">Response Curves</button>
@@ -1183,22 +1209,41 @@
     <div class="modal-body">
       <div class="abm-field">
         <label>Brand Name <span class="req">*</span></label>
-        <input type="text" id="abm_name" placeholder="Enter brand name">
+        <input type="text" id="abm_name" placeholder="Enter brand name" oninput="checkAbmBrandMatch()">
       </div>
       <div class="abm-field">
         <label>Description</label>
         <textarea id="abm_desc" placeholder="Enter a short brand description"></textarea>
       </div>
-      <div class="abm-field abm-toggle-row">
-        <label class="brand-toggle">
-          <input type="checkbox" id="abm_active" checked>
-          <span class="brand-toggle-slider"></span>
-        </label>
-        <span>Include this brand in the project</span>
+      <div class="abm-field" style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
+        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Financial Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Upload financial file for the new brand</span></label>
+        <div id="abm_dropzone" class="modal-dropzone" style="padding:20px;margin:0;cursor:pointer;" onclick="document.getElementById('abm_fin_file').click()" ondragover="event.preventDefault();this.style.borderColor='var(--teal)'" ondragleave="this.style.borderColor=''" ondrop="event.preventDefault();this.style.borderColor='';handleAbmFinFile(event.dataTransfer.files)">
+          <input type="file" id="abm_fin_file" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleAbmFinFile(this.files)">
+          <div style="text-align:center;">
+            <div style="font-size:24px;margin-bottom:4px;">📄</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-mid);">Drag & drop financial data file</div>
+            <div style="font-size:11px;color:var(--text-light);margin-top:2px;">CSV or Excel · Brands are detected automatically</div>
+          </div>
+        </div>
+        <div id="abm_fin_file_info" style="display:none;margin-top:10px;">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;">
+            <span style="font-size:16px;">📎</span>
+            <div style="flex:1;min-width:0;">
+              <div id="abm_fin_file_name" style="font-size:12px;font-weight:600;color:var(--text-dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+              <div id="abm_fin_file_size" style="font-size:10px;color:var(--text-light);"></div>
+            </div>
+            <button onclick="clearAbmFinFile()" style="border:none;background:none;cursor:pointer;color:var(--text-light);font-size:14px;">✕</button>
+          </div>
+        </div>
+        <div id="abm_brand_detect_section" style="display:none;margin-top:10px;padding:10px 12px;background:var(--white);border:1px solid var(--border);border-radius:6px;">
+          <div style="font-size:10.5px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Brands Detected from File</div>
+          <div id="abm_detected_brands_list" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+          <div id="abm_match_status" style="margin-top:8px;font-size:11px;"></div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-teal" onclick="submitAddBrandCfg()">Save Brand</button>
+      <button class="btn-teal" id="abm_save_btn" onclick="submitAddBrandCfg()" disabled style="opacity:0.4;cursor:not-allowed;">Save Brand</button>
     </div>
   </div>
 </div>
@@ -1546,7 +1591,7 @@
   /* ─ Upload config per data type ─ */
   const dataTypeConfig = {
     customer: {
-      masterLabel: 'Customer Master Upload',
+      masterLabel: 'Customer/Segment Master Upload',
       templates: ['Customer Data Template', 'Segment Data Template'],
       brands: ['Brand_1', 'Brand_2', 'Brand_3']
     },
@@ -1817,7 +1862,7 @@
         </table>
       </div>
       <div class="config-toolbar" style="justify-content:flex-end;">
-        <button class="btn-confirm-brands ${brandsConfirmed?'done':''}" id="btnConfirmBrands" onclick="confirmBrandsConfig()">${brandsConfirmed ? '✓ Brands Confirmed — Customer Data →' : 'Customer Data →'}</button>
+        <button class="btn-confirm-brands ${brandsConfirmed?'done':''}" id="btnConfirmBrands" onclick="confirmBrandsConfig()">${brandsConfirmed ? '✓ Brands Confirmed — DataVerse →' : 'DataVerse →'}</button>
       </div>
     `;
   }
@@ -1835,11 +1880,74 @@
   }
 
   /* ─ Add Brand modal ─ */
+  let abmDetectedBrands = [];
+  let abmFinFileName = '';
   function openAddBrandCfgModal() {
     document.getElementById('abm_name').value = '';
     document.getElementById('abm_desc').value = '';
-    document.getElementById('abm_active').checked = true;
+    abmDetectedBrands = [];
+    abmFinFileName = '';
+    document.getElementById('abm_dropzone').style.display = '';
+    document.getElementById('abm_fin_file_info').style.display = 'none';
+    document.getElementById('abm_brand_detect_section').style.display = 'none';
+    document.getElementById('abm_fin_file').value = '';
+    setAbmSaveEnabled(false);
     document.getElementById('addBrandCfgModalOverlay').classList.add('open');
+  }
+  function handleAbmFinFile(files) {
+    if(!files || !files.length) return;
+    const file = files[0];
+    abmFinFileName = file.name;
+    document.getElementById('abm_fin_file_name').textContent = file.name;
+    document.getElementById('abm_fin_file_size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+    document.getElementById('abm_dropzone').style.display = 'none';
+    document.getElementById('abm_fin_file_info').style.display = 'block';
+    // Simulate brand detection from financial file
+    setTimeout(() => {
+      abmDetectedBrands = ['Lexorin', 'Polair', 'Demodryl'];
+      const listEl = document.getElementById('abm_detected_brands_list');
+      listEl.innerHTML = abmDetectedBrands.map(b =>
+        '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-mid);">🏷️ ' + b + '</span>'
+      ).join('');
+      document.getElementById('abm_brand_detect_section').style.display = 'block';
+      checkAbmBrandMatch();
+    }, 600);
+  }
+  function clearAbmFinFile() {
+    abmFinFileName = '';
+    abmDetectedBrands = [];
+    document.getElementById('abm_dropzone').style.display = '';
+    document.getElementById('abm_fin_file_info').style.display = 'none';
+    document.getElementById('abm_brand_detect_section').style.display = 'none';
+    document.getElementById('abm_fin_file').value = '';
+    setAbmSaveEnabled(false);
+  }
+  function checkAbmBrandMatch() {
+    const name = (document.getElementById('abm_name').value || '').trim().toLowerCase();
+    const matchEl = document.getElementById('abm_match_status');
+    if(!matchEl) return;
+    if(!name || !abmDetectedBrands.length) {
+      matchEl.innerHTML = (name && abmDetectedBrands.length)
+        ? '<span style="color:var(--red);font-weight:600;">✕ Brand name does not match any detected brand</span>'
+        : '';
+      setAbmSaveEnabled(false);
+      return;
+    }
+    const match = abmDetectedBrands.find(b => b.toLowerCase() === name);
+    if(match) {
+      matchEl.innerHTML = '<span style="color:var(--green);font-weight:600;">✓ "' + match + '" matches detected brand — ready to save</span>';
+      setAbmSaveEnabled(true);
+    } else {
+      matchEl.innerHTML = '<span style="color:var(--red);font-weight:600;">✕ "' + document.getElementById('abm_name').value.trim() + '" does not match any detected brand</span>';
+      setAbmSaveEnabled(false);
+    }
+  }
+  function setAbmSaveEnabled(enabled) {
+    const btn = document.getElementById('abm_save_btn');
+    if(!btn) return;
+    btn.disabled = !enabled;
+    btn.style.opacity = enabled ? '1' : '0.4';
+    btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
   }
   function closeAddBrandCfgModal() {
     document.getElementById('addBrandCfgModalOverlay').classList.remove('open');
@@ -1847,11 +1955,20 @@
   function submitAddBrandCfg() {
     const name = document.getElementById('abm_name').value.trim();
     if(!name) { showToast('Brand name is required', 'error'); return; }
+    if(!abmDetectedBrands.find(b => b.toLowerCase() === name.toLowerCase())) {
+      showToast('Brand name must match a detected brand', 'error'); return;
+    }
     const desc = document.getElementById('abm_desc').value.trim();
-    const active = document.getElementById('abm_active').checked;
-    configBrands.push({ name, alias:name, desc: desc || `${name} — added manually.`, active, aiGenerated:false, isNew:true });
-    configData.response.byBrand[name] = []; // new brand starts with no response curve data
-    // Add new brand to all data type brand lists so it shows in upload dialog boxes
+    configBrands.push({ name, alias:name, desc: desc || name + ' — added manually.', active:true, aiGenerated:false, isNew:true });
+    configData.response.byBrand[name] = [];
+    if(!configData.financial.brandData) configData.financial.brandData = {};
+    configData.financial.brandData[name] = [
+      { forecast:'100', cogs:'10', gtn:'88' },
+      { forecast:'100', cogs:'10', gtn:'88' },
+      { forecast:'100', cogs:'10', gtn:'88' }
+    ];
+    if(!configData.financial.brandFiles) configData.financial.brandFiles = [];
+    configData.financial.brandFiles.push({ name: abmFinFileName, brand: name });
     ['customer','financial','mapping'].forEach(type => {
       if(dataTypeConfig[type] && dataTypeConfig[type].brands && !dataTypeConfig[type].brands.includes(name)) {
         dataTypeConfig[type].brands.push(name);
@@ -1859,8 +1976,9 @@
     });
     closeAddBrandCfgModal();
     renderBrandsTab();
-    showToast(`"${name}" added to the project`, 'success', 3500);
+    showToast('"' + name + '" added to the project', 'success', 3500);
   }
+
 
   function confirmBrandsConfig() {
     brandsConfirmed = true;
@@ -2218,21 +2336,23 @@
       if(isCustomerTab) {
         const showMapping = needsBrandMapping(path, c);
         if(showMapping) {
-          if(path === 'customerLevel') {
-            // Customer Level: single auto-detected brand from checked brands in Brands tab
-            const detected = c.brandMapping || activeBrands[0] || '—';
-            brandMappingCell = `<td><span class="brand-mapping-detected"><span class="brand-mapping-detected-name">${detected}</span><span class="brand-mapping-detected-icon" title="Auto-detected from uploaded data">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 12.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z" fill="currentColor" opacity=".25"/><path d="M4.5 8.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span></span></td>`;
-          } else {
-            // Segment Level: manual dropdown
-            brandMappingCell = `<td>
-              <select class="cfg-brand-mapping-select" onchange="getColumnsFor('${path}')[${ci}].brandMapping=this.value">
-                <option value="">Select brand…</option>
-                ${activeBrands.map(b => `<option value="${b}" ${c.brandMapping===b?'selected':''}>${b}</option>`).join('')}
-              </select>
-            </td>`;
-          }
+          // Both levels: multi-select dropdown
+          // Customer Level: all brands auto-detected (pre-selected)
+          // Segment Level: defaults to none selected ("Select Brand")
+          if(!c.brandMappingMulti) c.brandMappingMulti = (path === 'customerLevel') ? [...activeBrands] : [];
+          const selectedLabel = c.brandMappingMulti.length ? c.brandMappingMulti.join(', ') : 'Select Brand';
+          const truncLabel = selectedLabel.length > 28 ? selectedLabel.slice(0,26) + '…' : selectedLabel;
+          const ddId = 'bmdd_' + path.charAt(0) + '_' + ci;
+          const opts = activeBrands.map(b => {
+            const checked = c.brandMappingMulti.includes(b);
+            return `<label class="bm-dd-option" onclick="event.stopPropagation();" style="display:flex;align-items:center;gap:6px;padding:5px 10px;cursor:pointer;font-size:11.5px;color:var(--text-dark);"><input type="checkbox" ${checked?'checked':''} onchange="toggleBrandMappingMulti('${path}',${ci},'${b}')"> ${b}</label>`;
+          }).join('');
+          brandMappingCell = `<td style="position:relative;">
+            <div class="bm-multiselect-wrap">
+              <div class="bm-multiselect-display" onclick="toggleBmDropdown('${ddId}')">${truncLabel}<span class="bm-dd-arrow">▾</span></div>
+              <div class="bm-dd-panel" id="${ddId}" style="display:none;" onclick="event.stopPropagation();">${opts}</div>
+            </div>
+          </td>`;
         } else {
           brandMappingCell = `<td><span class="brand-mapping-na">—</span></td>`;
         }
@@ -2261,14 +2381,45 @@
     if(col.type === 'Sales' || col.type === 'Activity') return true;
     const n = col.name.toLowerCase().replace(/[\s_]/g,'');
     if(path === 'customerLevel') {
-      // Customer Level: also show for Segment_Tier
       return /^segmenttier$/.test(n);
     }
     if(path === 'segmentLevel') {
-      // Segment Level: also show for Segment_Tier, Segment_Quintile, Segment_ABC, Customer_count
       return /^segmenttier$|^segmentquintile$|^segmentabc$|^customercount$/.test(n);
     }
     return false;
+  }
+
+  // Toggle brand in multi-select brand mapping for customer level
+  function toggleBrandMappingMulti(path, colIdx, brand) {
+    const col = getColumnsFor(path)[colIdx];
+    if(!col.brandMappingMulti) col.brandMappingMulti = [];
+    const idx = col.brandMappingMulti.indexOf(brand);
+    if(idx >= 0) { col.brandMappingMulti.splice(idx, 1); }
+    else { col.brandMappingMulti.push(brand); }
+    // Update display label in-place (no full re-render so dropdown stays open)
+    const panel = document.getElementById('bmdd_' + path.charAt(0) + '_' + colIdx);
+    if(panel) {
+      const wrap = panel.parentElement;
+      const display = wrap ? wrap.querySelector('.bm-multiselect-display') : null;
+      if(display) {
+        const label = col.brandMappingMulti.length ? col.brandMappingMulti.join(', ') : 'Select Brand';
+        const trunc = label.length > 28 ? label.slice(0,26) + '…' : label;
+        const arrow = display.querySelector('.bm-dd-arrow');
+        if(arrow) { display.firstChild.textContent = trunc; }
+        else { display.textContent = trunc; }
+      }
+    }
+  }
+  function toggleBmDropdown(id) {
+    const panel = document.getElementById(id);
+    if(!panel) return;
+    const isOpen = panel.style.display !== 'none';
+    document.querySelectorAll('.bm-dd-panel').forEach(p => p.style.display = 'none');
+    panel.style.display = isOpen ? 'none' : 'block';
+    if(!isOpen) {
+      const closer = (e) => { if(!panel.parentElement.contains(e.target)) { panel.style.display = 'none'; document.removeEventListener('click', closer); } };
+      setTimeout(() => document.addEventListener('click', closer), 0);
+    }
   }
 
   function columnTableHtml(path) {
@@ -2310,9 +2461,40 @@
     }
 
     if(type === 'mapping') {
+      // Mapping template columns styled like Brands tab
+      if(!configData.mapping.templateCols) {
+        configData.mapping.templateCols = [
+          { name:'From_type', alias:'From Type', desc:'Source entity type (e.g. HCP, ZIP)' },
+          { name:'To_type', alias:'To Type', desc:'Target entity type (e.g. Account, Terr)' },
+          { name:'Value_from', alias:'Value From', desc:'Source entity identifier' },
+          { name:'Value_to', alias:'Value To', desc:'Target entity identifier' },
+          { name:'Weight', alias:'Weight', desc:'Mapping weight (default 1)' },
+          { name:'Mapping_Category', alias:'Mapping Category', desc:'Type of mapping relationship (Affiliation, Alignment)' }
+        ];
+      }
+      const cols = configData.mapping.templateCols;
+      const rows = cols.map((c, i) => `
+        <tr>
+          <td>
+            <input type="checkbox" class="cfg-checkbox" checked disabled title="Required column — always included">
+          </td>
+          <td style="font-weight:600;">${c.name}<span class="req-tag">Required</span></td>
+          <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${c.alias}" oninput="configData.mapping.templateCols[${i}].alias=this.value"></span></td>
+          <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${c.desc}" oninput="configData.mapping.templateCols[${i}].desc=this.value"></span></td>
+        </tr>`).join('');
+      const fileNames = configData.mapping.files.map(f => f.name).join(', ') || 'No files uploaded';
       pane.innerHTML = `
-        <div>${columnTableHtml('mapping')}</div>
-        <div class="upload-more-row">
+        <div class="brandcfg-toolbar">
+          <span style="font-size:12px;color:var(--text-mid);">Mapping file template columns. Edit aliases and descriptions as needed.</span>
+          <span style="font-size:11px;color:var(--text-light);">📄 ${fileNames}</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="brandcfg-table">
+            <thead><tr>
+              <th style="width:36px;"></th><th>Name</th><th>Alias</th><th>Description</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
@@ -2321,9 +2503,82 @@
     }
 
     if(type === 'financial') {
+      const brands = configBrands.filter(b => b.active && !b.isNew);
+      if(!configData.financial._activeTab) configData.financial._activeTab = 0;
+      if(!configData.financial._timePeriod) configData.financial._timePeriod = '2026';
+      if(!configData.financial._custType) configData.financial._custType = {};
+      // Per-brand file tabs
+      const finFiles = brands.map(b => ({ name: b.name + '_Financial_Assumptions.csv', brand: b.name }));
+      if(!finFiles.length) { pane.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);">No active brands.</div>'; return; }
+      const activeIdx = Math.min(configData.financial._activeTab, finFiles.length - 1);
+      const activeFile = finFiles[activeIdx];
+      const activeBrand = activeFile.brand;
+      const custType = configData.financial._custType[activeBrand] || 'HCP';
+      // File tabs
+      const fileTabs = finFiles.map((f, i) =>
+        `<button class="rc-file-tab ${i===activeIdx?'active':''}" onclick="configData.financial._activeTab=${i};renderConfigTab('financial')"><span class="rc-file-icon">📄</span>${f.name}</button>`
+      ).join('');
+      // Time period dropdown
+      const periodOpts = ['2025','2026','2027','2028','2029','2030'].map(y =>
+        `<option value="${y}" ${configData.financial._timePeriod===y?'selected':''}>${y}</option>`
+      ).join('');
+      // HCP / HCO / Account pills
+      const levelPills = `<div class="rc-level-pills">
+        <button class="rc-level-pill ${custType==='HCP'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCP';renderConfigTab('financial')">HCP</button>
+        <button class="rc-level-pill ${custType==='HCO'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCO';renderConfigTab('financial')">HCO</button>
+        <button class="rc-level-pill ${custType==='Account'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='Account';renderConfigTab('financial')">Account</button>
+      </div>`;
+      // Mock data per level
+      const mockByType = {
+        HCP: [
+          { forecast:'42.5', cogs:'10', gtn:'88' },
+          { forecast:'31.2', cogs:'12', gtn:'85' },
+          { forecast:'18.8', cogs:'9', gtn:'90' },
+          { forecast:'7.5', cogs:'14', gtn:'82' }
+        ],
+        HCO: [
+          { forecast:'38.0', cogs:'9', gtn:'90' },
+          { forecast:'27.5', cogs:'11', gtn:'86' },
+          { forecast:'22.0', cogs:'10', gtn:'88' }
+        ],
+        Account: [
+          { forecast:'55.0', cogs:'8', gtn:'91' },
+          { forecast:'30.0', cogs:'11', gtn:'87' },
+          { forecast:'15.0', cogs:'13', gtn:'84' }
+        ]
+      };
+      const dataRows = mockByType[custType] || mockByType.HCP;
+      let tableRows = dataRows.map((r, ri) => `<tr>
+        <td style="text-align:left;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.forecast}</td>
+        <td style="text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.cogs}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.gtn}</td>
+      </tr>`).join('');
       pane.innerHTML = `
-        <div>${columnTableHtml('financial')}</div>
-        <div class="upload-more-row">
+        <div style="padding:14px 20px 0;">
+          <div class="rc-file-tabs">${fileTabs}</div>
+          <div class="respcurve-brand-card" style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="respcurve-brand-title" style="margin-bottom:0;">${activeBrand}</div>
+                ${levelPills}
+              </div>
+              <div class="rc-controls-row" style="margin-bottom:0;">
+                <div class="rc-control"><label>Time Period:</label><select onchange="configData.financial._timePeriod=this.value;renderConfigTab('financial')">${periodOpts}</select></div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFile.name}</strong></div>
+            <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
+              <table class="config-table" style="font-size:12px;table-layout:fixed;width:100%;">
+                <thead><tr>
+                  <th style="text-align:left;width:33.33%;">Total Forecast ($)</th>
+                  <th style="text-align:center;width:33.33%;">COGS (%)</th>
+                  <th style="text-align:right;width:33.33%;">Gross To Net (%)</th>
+                </tr></thead>
+                <tbody>${tableRows}</tbody>
+              </table>
+            </div>
+            <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${dataRows.length} rows · ${custType} · ${activeBrand} · Period ${configData.financial._timePeriod}</div>
+          </div>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>

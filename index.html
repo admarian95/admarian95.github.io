@@ -240,6 +240,32 @@
   .brand-mapping-detected { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--teal-dark); background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 6px; padding: 4px 10px; white-space: nowrap; }
   .brand-mapping-detected-name { line-height: 1; }
   .brand-mapping-detected-icon { display: inline-flex; align-items: center; color: var(--teal); flex-shrink: 0; line-height: 0; }
+  .brand-mapping-multi { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .brand-mapping-pill { display: inline-flex; align-items: center; gap: 3px; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 5px; cursor: pointer; user-select: none; transition: all 0.12s; border: 1.5px solid var(--border); background: var(--white); color: var(--text-light); }
+  .brand-mapping-pill.active { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal-dark); }
+  .brand-mapping-pill:hover { border-color: var(--teal-mid); }
+  .brand-mapping-pill .bm-check { font-size: 8px; }
+  .bm-multiselect-wrap { position: relative; }
+  .bm-multiselect-display { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 11.5px; font-weight: 500; color: var(--text-dark); background: var(--white); cursor: pointer; min-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bm-multiselect-display:hover { border-color: var(--teal-mid); }
+  .bm-dd-arrow { font-size: 10px; color: var(--text-light); flex-shrink: 0; }
+  .bm-dd-panel { position: absolute; top: calc(100% + 4px); left: 0; right: 0; min-width: 160px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 20; padding: 4px 0; max-height: 180px; overflow-y: auto; }
+  .bm-dd-option:hover { background: var(--bg); }
+  .fin-data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .fin-data-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .fin-data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); }
+  .fin-data-table tr:last-child td { border-bottom: none; }
+  .fin-data-table .fin-brand-cell { font-weight: 600; }
+  .fin-data-table select { font-size: 11.5px; padding: 3px 20px 3px 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--white); cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234b5768'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 6px center; }
+  .map-data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .map-data-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .map-data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); }
+  .map-data-table tr:last-child td { border-bottom: none; }
+  .map-type-pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+  .map-type-hcp { background: #ede9fe; color: #5b21b6; }
+  .map-type-account { background: #dbeafe; color: #1e40af; }
+  .map-type-zip { background: #fef3c7; color: #92400e; }
+  .map-type-terr { background: #d1fae5; color: #065f46; }
 
   /* QC panel on main config screen */
   .cfg-status-banner { margin: 14px 20px 0; padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -366,6 +392,41 @@
   .toast-sub { font-size: 11px; opacity: 0.85; }
   .toast-dismiss { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 16px; cursor: pointer; flex-shrink: 0; line-height: 1; padding: 0; margin-top: 1px; }
   .toast-dismiss:hover { color: white; }
+
+  /* ═══ INPUT GUIDE BUTTON ═══ */
+  .input-guide-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--white); border: 1px solid var(--teal-mid); color: var(--teal-dark); font-size: 10.5px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-top: 8px; }
+  .input-guide-btn:hover { background: var(--teal-light); border-color: var(--teal); }
+  .input-guide-btn .guide-icon { font-size: 13px; }
+  .guide-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 300; align-items: center; justify-content: center; }
+  .guide-modal-overlay.open { display: flex; }
+  .guide-modal { background: var(--white); border-radius: var(--radius); width: 620px; max-width: 92vw; max-height: 86vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .guide-modal .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--teal-dark); flex-shrink: 0; }
+  .guide-modal .modal-header h3 { font-size: 15px; font-weight: 600; color: white; }
+  .guide-modal .modal-close { background: none; border: none; font-size: 20px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; }
+  .guide-modal .modal-close:hover { color: white; }
+  .guide-modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+  .guide-section { margin-bottom: 18px; }
+  .guide-section-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .guide-section-title .guide-section-icon { font-size: 15px; }
+  .guide-desc { font-size: 12px; color: var(--text-mid); line-height: 1.65; margin-bottom: 10px; }
+  .guide-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11.5px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+  .guide-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .guide-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); font-family: 'SF Mono', 'Consolas', monospace; font-size: 11px; }
+  .guide-table tr:last-child td { border-bottom: none; }
+  .guide-note { font-size: 11px; color: var(--text-light); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; line-height: 1.6; }
+  .guide-note strong { color: var(--text-dark); }
+  .guide-chip { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid); margin-right: 4px; }
+
+  /* ═══ EXISTING BRAND PILL SELECTOR (Add Brand modal) ═══ */
+  .abm-brand-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .abm-brand-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 8px; cursor: pointer; user-select: none; transition: all 0.15s; border: 1.5px solid var(--border); background: var(--white); color: var(--text-mid); }
+  .abm-brand-pill:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .abm-brand-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
+  .abm-brand-pill .pill-icon { font-size: 14px; }
+  .abm-ref-file { margin-top: 10px; padding: 10px 12px; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 8px; display: flex; align-items: center; gap: 8px; }
+  .abm-ref-file .ref-file-icon { font-size: 16px; }
+  .abm-ref-file .ref-file-name { font-size: 12px; font-weight: 600; color: var(--teal-dark); }
+  .abm-ref-file .ref-file-sub { font-size: 10px; color: var(--text-light); margin-top: 1px; }
 
   @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
   @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } }
@@ -518,7 +579,7 @@
   .ai-badge { background: none; width: auto; height: auto; border-radius: 0; font-size: 12px; color: #8b5cf6; }
 
   /* ═══ ADD BRAND MODAL ═══ */
-  .add-brand-modal .modal-box { width: 460px; }
+  .add-brand-modal .modal-box { width: 520px; }
   .abm-field { margin-bottom: 14px; }
   .abm-field label { font-size: 12px; font-weight: 600; color: var(--text-mid); display: block; margin-bottom: 6px; }
   .abm-field input, .abm-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; font-size: 13px; color: var(--text-dark); font-family: inherit; }
@@ -539,6 +600,23 @@
   .respcurve-kpi-row { display: flex; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
   .respcurve-kpi { font-size: 11px; color: var(--text-light); }
   .respcurve-kpi strong { display: block; font-size: 14px; color: var(--text-dark); }
+  .rc-file-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 14px; overflow-x: auto; }
+  .rc-file-tab { padding: 8px 14px; font-size: 11.5px; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; user-select: none; background: none; border-top: none; border-left: none; border-right: none; transition: color 0.15s, border-color 0.15s; display: flex; align-items: center; gap: 6px; }
+  .rc-file-tab:hover { color: var(--text-mid); background: var(--bg); }
+  .rc-file-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+  .rc-file-tab .rc-file-icon { font-size: 13px; opacity: 0.6; }
+  .rc-file-tab.active .rc-file-icon { opacity: 1; }
+  .rc-controls-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .rc-control { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-light); }
+  .rc-control label { font-weight: 600; color: var(--text-mid); }
+  .rc-control select { font-size: 11.5px; padding: 4px 24px 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); color: var(--text-dark); font-weight: 600; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234b5768'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; min-width: 80px; }
+  .rc-control select:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(26,148,148,0.15); }
+  .rc-segment-static { font-size: 11.5px; font-weight: 600; color: var(--text-dark); background: var(--bg); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); display: inline-block; }
+  .rc-level-pills { display: inline-flex; gap: 0; border: 1.5px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .rc-level-pill { font-size: 11.5px; font-weight: 600; padding: 5px 16px; cursor: pointer; border: none; background: var(--white); color: var(--text-light); transition: all 0.15s; }
+  .rc-level-pill:not(:last-child) { border-right: 1.5px solid var(--border); }
+  .rc-level-pill.active { background: var(--teal); color: white; }
+  .rc-level-pill:not(.active):hover { background: var(--bg); color: var(--text-mid); }
 
   /* ═══ DATA INSIGHTS — Portfolio Overview (image-based restructure) ═══ */
   .pf-header-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
@@ -659,6 +737,22 @@
   .venn-group:hover { opacity: 0.75; }
   .venn-tooltip { transition: opacity 0.15s; pointer-events: none; }
   .venn-group:hover .venn-tooltip { opacity: 1 !important; }
+  .venn-brand-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .venn-brand-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--white); color: var(--text-mid); transition: all 0.15s; user-select: none; }
+  .venn-brand-chip:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .venn-brand-chip.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .venn-brand-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .venn-brand-chip.active .chip-dot { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.6); }
+  .venn-brand-chip .chip-check { font-size: 9px; margin-left: 2px; }
+  .overlap-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11.5px; margin-top: 10px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .overlap-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 7px 10px; text-align: center; border-bottom: 1px solid var(--border); }
+  .overlap-table td { padding: 7px 10px; text-align: center; color: var(--text-dark); border-bottom: 1px solid var(--border); }
+  .overlap-table tr:last-child td { border-bottom: none; }
+  .overlap-table td:first-child { text-align: left; font-weight: 600; background: var(--bg); color: var(--text-mid); }
+  .overlap-table .ov-val { font-weight: 700; color: var(--teal-dark); }
+  .overlap-table .ov-self { color: var(--text-light); font-weight: 500; }
+  .venn-select-hint { font-size: 10.5px; color: var(--text-light); margin-bottom: 6px; }
+  .venn-min-hint { font-size: 11px; color: var(--orange); text-align: center; padding: 24px 12px; }
   .dq-card { transition: transform 0.15s, box-shadow 0.15s, border-color 0.2s; cursor: default; }
   .dq-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
   .cbo-card svg, .dd-section-body svg, .acc-split-right svg, .chart-container svg { width: 100%; height: auto; }
@@ -984,12 +1078,12 @@
       <div class="upload-card" id="uc_customer">
         <div class="upload-card-header">
           <div class="upload-card-icon">👥</div>
-          <div class="upload-card-title">Customer Data</div>
+          <div class="upload-card-title">DataVerse</div>
         </div>
         <div class="upload-option-row" id="row_customer_master" onclick="openMasterModal('customer')">
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
-            <div class="upload-option-title">Customer Master Upload</div>
+            <div class="upload-option-title">Customer/Segment Master Upload</div>
             <div class="upload-option-sub">CSV, weekly/monthly, multiple files allowed</div>
           </div>
           <div class="upload-option-status" id="status_customer_master"></div>
@@ -998,7 +1092,7 @@
           <div class="upload-option-icon">📈</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Response Curve Upload <span class="optional-tag">Optional</span></div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_customer_secondary"></div>
         </div>
@@ -1007,6 +1101,7 @@
           <li>Mandatory: one ID and one Date Range column</li>
           <li>At least one Sales or Activity column required</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('response')"><span class="guide-icon">📖</span> Input Guide — Response Curve</button>
       </div>
       <!-- Financial Data -->
       <div class="upload-card" id="uc_financial">
@@ -1018,7 +1113,7 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Financial Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_financial_master"></div>
         </div>
@@ -1027,6 +1122,7 @@
           <li>Currency units must be consistent</li>
           <li>Channel names must match Customer data</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('financial')"><span class="guide-icon">📖</span> Input Guide — Financial</button>
       </div>
       <!-- Mapping File -->
       <div class="upload-card" id="uc_mapping">
@@ -1038,7 +1134,7 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Mapping Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer Master Upload completes</div>
+            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
           </div>
           <div class="upload-option-status" id="status_mapping_master"></div>
         </div>
@@ -1047,6 +1143,7 @@
           <li>Weights column optional</li>
           <li>Cyclic mapping not allowed</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('mapping')"><span class="guide-icon">📖</span> Input Guide — Mapping</button>
       </div>
     </div>
     <div class="continue-row">
@@ -1097,7 +1194,7 @@
       <div class="modal-file-list" id="secondaryFileList"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn-teal" onclick="closeSecondaryModal()">Done</button>
+      <button class="btn-teal" id="secondaryDoneBtn" onclick="closeSecondaryModal()">Done</button>
     </div>
   </div>
 </div>
@@ -1122,7 +1219,7 @@
     <div class="config-panel">
       <div class="config-panel-header">
         <button class="config-tab-btn active" id="cfgTabBtn_brands" onclick="switchConfigTab(this,'brands')">Brands</button>
-        <button class="config-tab-btn locked" id="cfgTabBtn_customer" onclick="switchConfigTab(this,'customer')">Customer Data</button>
+        <button class="config-tab-btn locked" id="cfgTabBtn_customer" onclick="switchConfigTab(this,'customer')">DataVerse</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_financial" onclick="switchConfigTab(this,'financial')">Financial Data</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_mapping" onclick="switchConfigTab(this,'mapping')">Mapping</button>
         <button class="config-tab-btn locked" id="cfgTabBtn_response" onclick="switchConfigTab(this,'response')">Response Curves</button>
@@ -1150,22 +1247,28 @@
     <div class="modal-body">
       <div class="abm-field">
         <label>Brand Name <span class="req">*</span></label>
-        <input type="text" id="abm_name" placeholder="Enter brand name">
+        <input type="text" id="abm_name" placeholder="Enter brand name" oninput="checkAbmBrandMatch()">
       </div>
       <div class="abm-field">
         <label>Description</label>
         <textarea id="abm_desc" placeholder="Enter a short brand description"></textarea>
       </div>
-      <div class="abm-field abm-toggle-row">
-        <label class="brand-toggle">
-          <input type="checkbox" id="abm_active" checked>
-          <span class="brand-toggle-slider"></span>
-        </label>
-        <span>Include this brand in the project</span>
+      <div class="abm-field" style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
+        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Financial Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Select an existing brand to copy financial data from</span></label>
+        <div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Choose a brand whose financial assumptions you'd like to reference for the new brand:</div>
+        <div class="abm-brand-pills" id="abm_brand_pills"></div>
+        <div id="abm_ref_file_display" style="display:none;"></div>
       </div>
+      <div class="abm-field" style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
+        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Customer/Segment Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Select an existing brand to copy customer & segment data from</span></label>
+        <div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Choose a brand whose customer/segment data structure you'd like to reference for the new brand:</div>
+        <div class="abm-brand-pills" id="abm_cust_pills"></div>
+        <div id="abm_cust_ref_file_display" style="display:none;"></div>
+      </div>
+      <div id="abm_match_status" style="margin-top:4px;font-size:11px;padding:0 2px;"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn-teal" onclick="submitAddBrandCfg()">Save Brand</button>
+      <button class="btn-teal" id="abm_save_btn" onclick="submitAddBrandCfg()" disabled style="opacity:0.4;cursor:not-allowed;">Save Brand</button>
     </div>
   </div>
 </div>
@@ -1288,6 +1391,17 @@
   </div>
 </div>
 
+<!-- ═══════════ MODAL: INPUT GUIDE ═══════════ -->
+<div class="guide-modal-overlay" id="inputGuideOverlay" onclick="if(event.target===this)closeInputGuide()">
+  <div class="guide-modal">
+    <div class="modal-header">
+      <h3 id="inputGuideTitle">Input Guide</h3>
+      <button class="modal-close" onclick="closeInputGuide()">×</button>
+    </div>
+    <div class="guide-modal-body" id="inputGuideBody"></div>
+  </div>
+</div>
+
 <script>
   const detectedBrands = [
     { name:'Brand_1', ta:'Oncology', compType:'Branded', objective:'' },
@@ -1295,6 +1409,126 @@
     { name:'Brand_3', ta:'Neurology', compType:'Branded', objective:'' },
   ];
   let selectedBrands = new Set();
+
+  /* ═══ INPUT GUIDE ═══ */
+  const inputGuideContent = {
+    response: {
+      title: 'Input Guide — Response Curve Data',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">Response curve files should be in <strong>CSV format</strong>, one file per brand per customer type (e.g. HCP, Account). Each file contains activity-response pairs across centiles/segments.</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Centile</td><td>Text</td><td>Segment identifier (e.g. OCS_Brand_1_PCP_55)</td></tr>
+              <tr><td>Customer_Type</td><td>Text</td><td>HCP or Account</td></tr>
+              <tr><td>Customers</td><td>Numeric</td><td>Number of customers in segment</td></tr>
+              <tr><td>activity_0 … activity_N</td><td>Numeric</td><td>Activity input levels (monotonically increasing)</td></tr>
+              <tr><td>response_0 … response_N</td><td>Numeric</td><td>Response values corresponding to each activity level</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>Centile</th><th>Customer_Type</th><th>Customers</th><th>activity_0</th><th>response_0</th><th>activity_1</th><th>response_1</th></tr></thead>
+            <tbody>
+              <tr><td>OCS_Brand_1_PCP_55</td><td>HCP</td><td>1</td><td>0.00</td><td>0.00</td><td>2.00</td><td>389.50</td></tr>
+              <tr><td>OCS_Brand_1_ENDO_30</td><td>HCP</td><td>3</td><td>0.00</td><td>0.00</td><td>2.00</td><td>455.20</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Ensure activity values are clean numerics (no $ or commas). Each brand should have separate files for HCP and Account levels. File naming like <span class="guide-chip">Brand_1_HCP_Response_Curve.csv</span> helps with automatic brand detection.</div>
+      `
+    },
+    financial: {
+      title: 'Input Guide — Financial Data',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">Financial data should be in <strong>CSV format</strong>, one file per brand. Each file contains yearly financial assumptions by customer type (HCP, HCO, Account).</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Brand</td><td>Text</td><td>Brand name (must match detected brands)</td></tr>
+              <tr><td>Customer_type</td><td>Text</td><td>HCP, HCO, or Account</td></tr>
+              <tr><td>Year</td><td>Numeric</td><td>Forecast year (e.g. 2026, 2027)</td></tr>
+              <tr><td>Total_Forecast_$</td><td>Currency</td><td>Total forecast amount for the period</td></tr>
+              <tr><td>COGS_pct</td><td>Percentage</td><td>Cost of Goods Sold percentage</td></tr>
+              <tr><td>Gross_to_Net_pct</td><td>Percentage</td><td>Gross-to-Net adjustment percentage</td></tr>
+              <tr><td>Non_SF_Impact_pct</td><td>Percentage</td><td>Non-Sales Force impact percentage</td></tr>
+              <tr><td>Carryover_Rate_pct</td><td>Percentage</td><td>Carryover rate from prior period</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>Brand</th><th>Customer_type</th><th>Year</th><th>Total_Forecast_$</th><th>COGS_pct</th><th>Gross_to_Net_pct</th></tr></thead>
+            <tbody>
+              <tr><td>Brand_1</td><td>HCP</td><td>2026</td><td>100</td><td>10</td><td>88</td></tr>
+              <tr><td>Brand_1</td><td>HCP</td><td>2027</td><td>120</td><td>10</td><td>85</td></tr>
+              <tr><td>Brand_2</td><td>Account</td><td>2026</td><td>85</td><td>12</td><td>90</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Do not include commas in numeric values. Currency units should be consistent across all rows. Each brand file must contain data for <strong>all detected brands</strong> to complete the upload.</div>
+      `
+    },
+    mapping: {
+      title: 'Input Guide — Mapping File',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">The mapping file establishes relationships between entities (e.g. HCP → Account, ZIP → Territory). Upload as a <strong>CSV file</strong> with the required columns below.</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>From_type</td><td>Text</td><td>Source entity type <span class="guide-chip">HCP</span> <span class="guide-chip">ZIP</span></td></tr>
+              <tr><td>To_type</td><td>Text</td><td>Target entity type <span class="guide-chip">Account</span> <span class="guide-chip">Territory</span></td></tr>
+              <tr><td>Value_from</td><td>Text</td><td>Source entity identifier (e.g. HCP_01)</td></tr>
+              <tr><td>Value_to</td><td>Text</td><td>Target entity identifier (e.g. HCO_01)</td></tr>
+              <tr><td>Weight</td><td>Numeric</td><td>Mapping weight (default 1, optional)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>From_type</th><th>To_type</th><th>Value_from</th><th>Value_to</th><th>Weight</th></tr></thead>
+            <tbody>
+              <tr><td>HCP</td><td>Account</td><td>HCP_01</td><td>HCO_01</td><td>1</td></tr>
+              <tr><td>HCP</td><td>Account</td><td>HCP_02</td><td>HCO_01</td><td>1</td></tr>
+              <tr><td>HCP</td><td>Account</td><td>HCP_04</td><td>HCO_02</td><td>0.5</td></tr>
+              <tr><td>ZIP</td><td>Territory</td><td>10001</td><td>TERR_NE_1</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Cyclic mappings are not allowed (A→B→A). One HCP can map to multiple Accounts using different rows. The Weight column is optional — if omitted, all weights default to 1.</div>
+      `
+    }
+  };
+
+  function openInputGuide(type) {
+    const content = inputGuideContent[type];
+    if(!content) return;
+    document.getElementById('inputGuideTitle').textContent = content.title;
+    document.getElementById('inputGuideBody').innerHTML = content.html;
+    document.getElementById('inputGuideOverlay').classList.add('open');
+  }
+  function closeInputGuide() {
+    document.getElementById('inputGuideOverlay').classList.remove('open');
+  }
   let addedBrands = [];
   let editingIndex = null;
 
@@ -1513,7 +1747,7 @@
   /* ─ Upload config per data type ─ */
   const dataTypeConfig = {
     customer: {
-      masterLabel: 'Customer Master Upload',
+      masterLabel: 'Customer/Segment Master Upload',
       templates: ['Customer Data Template', 'Segment Data Template'],
       brands: ['Brand_1', 'Brand_2', 'Brand_3']
     },
@@ -1653,10 +1887,33 @@
     document.getElementById('secondaryModalTitle').textContent = brandModalConfig[type].label;
     renderBrandTicks(type);
     renderSecondaryFileList(type);
+    updateSecondaryDoneBtn(type);
     document.getElementById('secondaryModalOverlay').classList.add('open');
+    // Hide brand tick list for mapping type
+    document.getElementById('brandTickList').parentElement.querySelector('.modal-section-label').style.display = (type === 'mapping') ? 'none' : '';
+    document.getElementById('brandTickList').style.display = (type === 'mapping') ? 'none' : '';
   }
   function closeSecondaryModal() {
     document.getElementById('secondaryModalOverlay').classList.remove('open');
+  }
+
+  function updateSecondaryDoneBtn(type) {
+    const btn = document.getElementById('secondaryDoneBtn');
+    if(!btn) return;
+    if(type === 'financial') {
+      const cfg = dataTypeConfig[type];
+      const state = getBrandStage(type);
+      const allDetected = state.detected.size >= cfg.brands.length;
+      btn.disabled = !allDetected;
+      btn.style.opacity = allDetected ? '1' : '0.4';
+      btn.style.cursor = allDetected ? 'pointer' : 'not-allowed';
+      btn.textContent = allDetected ? 'Done' : 'Upload files for all brands';
+    } else {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.textContent = 'Done';
+    }
   }
 
   function renderBrandTicks(type) {
@@ -1696,6 +1953,7 @@
       });
       renderSecondaryFileList(type);
       renderBrandTicks(type);
+      updateSecondaryDoneBtn(type);
       if(state.detected.size >= cfg.brands.length) markBrandModalComplete(type);
       showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned for brand data`, 'success');
     }, 1000);
@@ -1765,7 +2023,6 @@
           <input type="checkbox" class="cfg-checkbox" ${b.active?'checked':''} onchange="toggleConfigBrandActive(${i}, this.checked)">
         </td>
         <td style="font-weight:600;">${b.name}${b.isNew?' <span class="req-tag" style="color:var(--teal-dark);">New</span>':''}</td>
-        <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${b.alias}" oninput="configBrands[${i}].alias=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
         <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${b.desc}" oninput="configBrands[${i}].desc=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
       </tr>`).join('');
 
@@ -1778,13 +2035,13 @@
         <table class="brandcfg-table">
           <thead><tr>
             <th style="width:34px;"><input type="checkbox" class="cfg-checkbox" ${allActive?'checked':''} onchange="toggleAllBrands(this.checked)" title="Select/deselect all brands"></th>
-            <th>Brand Name</th><th>Alias</th><th>Description</th>
+            <th>Brand Name</th><th>Description</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
       <div class="config-toolbar" style="justify-content:flex-end;">
-        <button class="btn-confirm-brands ${brandsConfirmed?'done':''}" id="btnConfirmBrands" onclick="confirmBrandsConfig()">${brandsConfirmed ? '✓ Brands Confirmed — Customer Data →' : 'Customer Data →'}</button>
+        <button class="btn-confirm-brands ${brandsConfirmed?'done':''}" id="btnConfirmBrands" onclick="confirmBrandsConfig()">${brandsConfirmed ? '✓ Brands Confirmed — DataVerse →' : 'DataVerse →'}</button>
       </div>
     `;
   }
@@ -1802,11 +2059,124 @@
   }
 
   /* ─ Add Brand modal ─ */
+  let abmDetectedBrands = [];
+  let abmFinFileName = '';
+  let abmSelectedRefBrand = null;
+  let abmSelectedCustBrand = null;
+
+  // Map brands to their file names
+  function getFinancialFileName(brandName) {
+    return brandName + '_Financial_Assumptions.csv';
+  }
+  function getCustomerFileName(brandName) {
+    return brandName + '_Customer_Segment_Data.csv';
+  }
+
   function openAddBrandCfgModal() {
     document.getElementById('abm_name').value = '';
     document.getElementById('abm_desc').value = '';
-    document.getElementById('abm_active').checked = true;
+    abmDetectedBrands = [];
+    abmFinFileName = '';
+    abmSelectedRefBrand = null;
+    abmSelectedCustBrand = null;
+    document.getElementById('abm_ref_file_display').style.display = 'none';
+    document.getElementById('abm_cust_ref_file_display').style.display = 'none';
+    document.getElementById('abm_match_status').innerHTML = '';
+    // Render financial brand pills
+    const existingBrands = configBrands.filter(b => b.active && !b.isNew);
+    const finPillsEl = document.getElementById('abm_brand_pills');
+    finPillsEl.innerHTML = existingBrands.map(b =>
+      `<div class="abm-brand-pill" id="abm_fin_pill_${b.name.replace(/\s+/g,'_')}" onclick="selectRefBrand('${b.name}')"><span class="pill-icon">🏷️</span> ${b.name}</div>`
+    ).join('');
+    // Render customer brand pills
+    const custPillsEl = document.getElementById('abm_cust_pills');
+    custPillsEl.innerHTML = existingBrands.map(b =>
+      `<div class="abm-brand-pill" id="abm_cust_pill_${b.name.replace(/\s+/g,'_')}" onclick="selectCustRefBrand('${b.name}')"><span class="pill-icon">🏷️</span> ${b.name}</div>`
+    ).join('');
+    setAbmSaveEnabled(false);
     document.getElementById('addBrandCfgModalOverlay').classList.add('open');
+  }
+
+  function selectRefBrand(brandName) {
+    abmSelectedRefBrand = brandName;
+    abmFinFileName = getFinancialFileName(brandName);
+    // Update pill styles
+    document.querySelectorAll('#abm_brand_pills .abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    const pill = document.getElementById('abm_fin_pill_' + brandName.replace(/\s+/g,'_'));
+    if(pill) pill.classList.add('selected');
+    // Show ref file display
+    const refEl = document.getElementById('abm_ref_file_display');
+    refEl.style.display = 'block';
+    refEl.innerHTML = `<div class="abm-ref-file"><span class="ref-file-icon">📄</span><div><div class="ref-file-name">${abmFinFileName}</div><div class="ref-file-sub">Financial data will be copied from ${brandName}</div></div></div>`;
+    checkAbmBrandMatch();
+  }
+
+  function selectCustRefBrand(brandName) {
+    abmSelectedCustBrand = brandName;
+    // Update pill styles
+    document.querySelectorAll('#abm_cust_pills .abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    const pill = document.getElementById('abm_cust_pill_' + brandName.replace(/\s+/g,'_'));
+    if(pill) pill.classList.add('selected');
+    // Show ref file display
+    const refEl = document.getElementById('abm_cust_ref_file_display');
+    refEl.style.display = 'block';
+    const custFileName = getCustomerFileName(brandName);
+    refEl.innerHTML = `<div class="abm-ref-file"><span class="ref-file-icon">👥</span><div><div class="ref-file-name">${custFileName}</div><div class="ref-file-sub">Customer/segment data will be copied from ${brandName}</div></div></div>`;
+    checkAbmBrandMatch();
+  }
+
+  function handleAbmFinFile(files) {
+    // Legacy handler - no longer used with pill-based selection
+    if(!files || !files.length) return;
+  }
+  function clearAbmFinFile() {
+    abmFinFileName = '';
+    abmSelectedRefBrand = null;
+    abmSelectedCustBrand = null;
+    abmDetectedBrands = [];
+    document.querySelectorAll('.abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    document.getElementById('abm_ref_file_display').style.display = 'none';
+    document.getElementById('abm_cust_ref_file_display').style.display = 'none';
+    document.getElementById('abm_match_status').innerHTML = '';
+    setAbmSaveEnabled(false);
+  }
+  function checkAbmBrandMatch() {
+    const name = (document.getElementById('abm_name').value || '').trim();
+    const matchEl = document.getElementById('abm_match_status');
+    if(!matchEl) return;
+    if(!name) {
+      matchEl.innerHTML = '';
+      setAbmSaveEnabled(false);
+      return;
+    }
+    // Check that the name is not already used
+    const existing = configBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
+    if(existing) {
+      matchEl.innerHTML = '<span style="color:var(--red);font-weight:600;">✕ "' + name + '" already exists — choose a different name</span>';
+      setAbmSaveEnabled(false);
+      return;
+    }
+    // Check both selections are made
+    if(!abmSelectedRefBrand && !abmSelectedCustBrand) {
+      matchEl.innerHTML = '<span style="color:var(--text-light);">Select a financial and customer/segment brand reference to continue</span>';
+      setAbmSaveEnabled(false);
+    } else if(!abmSelectedRefBrand) {
+      matchEl.innerHTML = '<span style="color:var(--orange);font-weight:600;">⚠ Select a brand for Financial Data to continue</span>';
+      setAbmSaveEnabled(false);
+    } else if(!abmSelectedCustBrand) {
+      matchEl.innerHTML = '<span style="color:var(--orange);font-weight:600;">⚠ Select a brand for Customer/Segment Data to continue</span>';
+      setAbmSaveEnabled(false);
+    } else {
+      matchEl.innerHTML = '<span style="color:var(--green);font-weight:600;">✓ "' + name + '" — financials from ' + abmSelectedRefBrand + ', customer/segment data from ' + abmSelectedCustBrand + ' — ready to save</span>';
+      setAbmSaveEnabled(true);
+    }
+  }
+  function setAbmSaveEnabled(enabled) {
+    const btn = document.getElementById('abm_save_btn');
+    if(!btn) return;
+    btn.disabled = !enabled;
+    btn.style.opacity = enabled ? '1' : '0.4';
+    btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
   }
   function closeAddBrandCfgModal() {
     document.getElementById('addBrandCfgModalOverlay').classList.remove('open');
@@ -1814,11 +2184,26 @@
   function submitAddBrandCfg() {
     const name = document.getElementById('abm_name').value.trim();
     if(!name) { showToast('Brand name is required', 'error'); return; }
+    if(!abmSelectedRefBrand) {
+      showToast('Please select a brand to copy financial data from', 'error'); return;
+    }
+    if(!abmSelectedCustBrand) {
+      showToast('Please select a brand to copy customer/segment data from', 'error'); return;
+    }
+    if(configBrands.find(b => b.name.toLowerCase() === name.toLowerCase())) {
+      showToast('Brand name already exists', 'error'); return;
+    }
     const desc = document.getElementById('abm_desc').value.trim();
-    const active = document.getElementById('abm_active').checked;
-    configBrands.push({ name, alias:name, desc: desc || `${name} — added manually.`, active, aiGenerated:false, isNew:true });
-    configData.response.byBrand[name] = []; // new brand starts with no response curve data
-    // Add new brand to all data type brand lists so it shows in upload dialog boxes
+    configBrands.push({ name, alias:name, desc: desc || name + ' — added manually (financials from ' + abmSelectedRefBrand + ', customer data from ' + abmSelectedCustBrand + ').', active:true, aiGenerated:false, isNew:true });
+    configData.response.byBrand[name] = [];
+    if(!configData.financial.brandData) configData.financial.brandData = {};
+    configData.financial.brandData[name] = [
+      { forecast:'100', cogs:'10', gtn:'88' },
+      { forecast:'100', cogs:'10', gtn:'88' },
+      { forecast:'100', cogs:'10', gtn:'88' }
+    ];
+    if(!configData.financial.brandFiles) configData.financial.brandFiles = [];
+    configData.financial.brandFiles.push({ name: abmFinFileName, brand: name });
     ['customer','financial','mapping'].forEach(type => {
       if(dataTypeConfig[type] && dataTypeConfig[type].brands && !dataTypeConfig[type].brands.includes(name)) {
         dataTypeConfig[type].brands.push(name);
@@ -1826,8 +2211,9 @@
     });
     closeAddBrandCfgModal();
     renderBrandsTab();
-    showToast(`"${name}" added to the project`, 'success', 3500);
+    showToast('"' + name + '" added to the project', 'success', 3500);
   }
+
 
   function confirmBrandsConfig() {
     brandsConfirmed = true;
@@ -2185,21 +2571,23 @@
       if(isCustomerTab) {
         const showMapping = needsBrandMapping(path, c);
         if(showMapping) {
-          if(path === 'customerLevel') {
-            // Customer Level: single auto-detected brand from checked brands in Brands tab
-            const detected = c.brandMapping || activeBrands[0] || '—';
-            brandMappingCell = `<td><span class="brand-mapping-detected"><span class="brand-mapping-detected-name">${detected}</span><span class="brand-mapping-detected-icon" title="Auto-detected from uploaded data">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 12.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z" fill="currentColor" opacity=".25"/><path d="M4.5 8.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span></span></td>`;
-          } else {
-            // Segment Level: manual dropdown
-            brandMappingCell = `<td>
-              <select class="cfg-brand-mapping-select" onchange="getColumnsFor('${path}')[${ci}].brandMapping=this.value">
-                <option value="">Select brand…</option>
-                ${activeBrands.map(b => `<option value="${b}" ${c.brandMapping===b?'selected':''}>${b}</option>`).join('')}
-              </select>
-            </td>`;
-          }
+          // Both levels: multi-select dropdown
+          // Customer Level: all brands auto-detected (pre-selected)
+          // Segment Level: defaults to none selected ("Select Brand")
+          if(!c.brandMappingMulti) c.brandMappingMulti = (path === 'customerLevel') ? [...activeBrands] : [];
+          const selectedLabel = c.brandMappingMulti.length ? c.brandMappingMulti.join(', ') : 'Select Brand';
+          const truncLabel = selectedLabel.length > 28 ? selectedLabel.slice(0,26) + '…' : selectedLabel;
+          const ddId = 'bmdd_' + path.charAt(0) + '_' + ci;
+          const opts = activeBrands.map(b => {
+            const checked = c.brandMappingMulti.includes(b);
+            return `<label class="bm-dd-option" onclick="event.stopPropagation();" style="display:flex;align-items:center;gap:6px;padding:5px 10px;cursor:pointer;font-size:11.5px;color:var(--text-dark);"><input type="checkbox" ${checked?'checked':''} onchange="toggleBrandMappingMulti('${path}',${ci},'${b}')"> ${b}</label>`;
+          }).join('');
+          brandMappingCell = `<td style="position:relative;">
+            <div class="bm-multiselect-wrap">
+              <div class="bm-multiselect-display" onclick="toggleBmDropdown('${ddId}')">${truncLabel}<span class="bm-dd-arrow">▾</span></div>
+              <div class="bm-dd-panel" id="${ddId}" style="display:none;" onclick="event.stopPropagation();">${opts}</div>
+            </div>
+          </td>`;
         } else {
           brandMappingCell = `<td><span class="brand-mapping-na">—</span></td>`;
         }
@@ -2228,14 +2616,45 @@
     if(col.type === 'Sales' || col.type === 'Activity') return true;
     const n = col.name.toLowerCase().replace(/[\s_]/g,'');
     if(path === 'customerLevel') {
-      // Customer Level: also show for Segment_Tier
       return /^segmenttier$/.test(n);
     }
     if(path === 'segmentLevel') {
-      // Segment Level: also show for Segment_Tier, Segment_Quintile, Segment_ABC, Customer_count
       return /^segmenttier$|^segmentquintile$|^segmentabc$|^customercount$/.test(n);
     }
     return false;
+  }
+
+  // Toggle brand in multi-select brand mapping for customer level
+  function toggleBrandMappingMulti(path, colIdx, brand) {
+    const col = getColumnsFor(path)[colIdx];
+    if(!col.brandMappingMulti) col.brandMappingMulti = [];
+    const idx = col.brandMappingMulti.indexOf(brand);
+    if(idx >= 0) { col.brandMappingMulti.splice(idx, 1); }
+    else { col.brandMappingMulti.push(brand); }
+    // Update display label in-place (no full re-render so dropdown stays open)
+    const panel = document.getElementById('bmdd_' + path.charAt(0) + '_' + colIdx);
+    if(panel) {
+      const wrap = panel.parentElement;
+      const display = wrap ? wrap.querySelector('.bm-multiselect-display') : null;
+      if(display) {
+        const label = col.brandMappingMulti.length ? col.brandMappingMulti.join(', ') : 'Select Brand';
+        const trunc = label.length > 28 ? label.slice(0,26) + '…' : label;
+        const arrow = display.querySelector('.bm-dd-arrow');
+        if(arrow) { display.firstChild.textContent = trunc; }
+        else { display.textContent = trunc; }
+      }
+    }
+  }
+  function toggleBmDropdown(id) {
+    const panel = document.getElementById(id);
+    if(!panel) return;
+    const isOpen = panel.style.display !== 'none';
+    document.querySelectorAll('.bm-dd-panel').forEach(p => p.style.display = 'none');
+    panel.style.display = isOpen ? 'none' : 'block';
+    if(!isOpen) {
+      const closer = (e) => { if(!panel.parentElement.contains(e.target)) { panel.style.display = 'none'; document.removeEventListener('click', closer); } };
+      setTimeout(() => document.addEventListener('click', closer), 0);
+    }
   }
 
   function columnTableHtml(path) {
@@ -2277,10 +2696,40 @@
     }
 
     if(type === 'mapping') {
+      // Mapping template columns styled like Brands tab
+      if(!configData.mapping.templateCols) {
+        configData.mapping.templateCols = [
+          { name:'From_type', alias:'From Type', desc:'Source entity type (e.g. HCP, ZIP)' },
+          { name:'To_type', alias:'To Type', desc:'Target entity type (e.g. Account, Terr)' },
+          { name:'Value_from', alias:'Value From', desc:'Source entity identifier' },
+          { name:'Value_to', alias:'Value To', desc:'Target entity identifier' },
+          { name:'Weight', alias:'Weight', desc:'Mapping weight (default 1)' },
+          { name:'Mapping_Category', alias:'Mapping Category', desc:'Type of mapping relationship (Affiliation, Alignment)' }
+        ];
+      }
+      const cols = configData.mapping.templateCols;
+      const rows = cols.map((c, i) => `
+        <tr>
+          <td>
+            <input type="checkbox" class="cfg-checkbox" checked disabled title="Required column — always included">
+          </td>
+          <td style="font-weight:600;">${c.name}<span class="req-tag">Required</span></td>
+          <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${c.alias}" oninput="configData.mapping.templateCols[${i}].alias=this.value"></span></td>
+          <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${c.desc}" oninput="configData.mapping.templateCols[${i}].desc=this.value"></span></td>
+        </tr>`).join('');
+      const fileNames = configData.mapping.files.map(f => f.name).join(', ') || 'No files uploaded';
       pane.innerHTML = `
-        <div>${columnTableHtml('mapping')}</div>
-        <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('mapping')">+ Upload New Mapping Data</button>
+        <div class="brandcfg-toolbar">
+          <span style="font-size:12px;color:var(--text-mid);">Mapping file template columns. Edit aliases and descriptions as needed.</span>
+          <span style="font-size:11px;color:var(--text-light);">📄 ${fileNames}</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="brandcfg-table">
+            <thead><tr>
+              <th style="width:36px;"></th><th>Name</th><th>Alias</th><th>Description</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
@@ -2289,10 +2738,82 @@
     }
 
     if(type === 'financial') {
+      const brands = configBrands.filter(b => b.active && !b.isNew);
+      if(!configData.financial._activeTab) configData.financial._activeTab = 0;
+      if(!configData.financial._timePeriod) configData.financial._timePeriod = '2026';
+      if(!configData.financial._custType) configData.financial._custType = {};
+      // Per-brand file tabs
+      const finFiles = brands.map(b => ({ name: b.name + '_Financial_Assumptions.csv', brand: b.name }));
+      if(!finFiles.length) { pane.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);">No active brands.</div>'; return; }
+      const activeIdx = Math.min(configData.financial._activeTab, finFiles.length - 1);
+      const activeFile = finFiles[activeIdx];
+      const activeBrand = activeFile.brand;
+      const custType = configData.financial._custType[activeBrand] || 'HCP';
+      // File tabs
+      const fileTabs = finFiles.map((f, i) =>
+        `<button class="rc-file-tab ${i===activeIdx?'active':''}" onclick="configData.financial._activeTab=${i};renderConfigTab('financial')"><span class="rc-file-icon">📄</span>${f.name}</button>`
+      ).join('');
+      // Time period dropdown
+      const periodOpts = ['2025','2026','2027','2028','2029','2030'].map(y =>
+        `<option value="${y}" ${configData.financial._timePeriod===y?'selected':''}>${y}</option>`
+      ).join('');
+      // HCP / HCO / Account pills
+      const levelPills = `<div class="rc-level-pills">
+        <button class="rc-level-pill ${custType==='HCP'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCP';renderConfigTab('financial')">HCP</button>
+        <button class="rc-level-pill ${custType==='HCO'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCO';renderConfigTab('financial')">HCO</button>
+        <button class="rc-level-pill ${custType==='Account'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='Account';renderConfigTab('financial')">Account</button>
+      </div>`;
+      // Mock data per level
+      const mockByType = {
+        HCP: [
+          { forecast:'42.5', cogs:'10', gtn:'88' },
+          { forecast:'31.2', cogs:'12', gtn:'85' },
+          { forecast:'18.8', cogs:'9', gtn:'90' },
+          { forecast:'7.5', cogs:'14', gtn:'82' }
+        ],
+        HCO: [
+          { forecast:'38.0', cogs:'9', gtn:'90' },
+          { forecast:'27.5', cogs:'11', gtn:'86' },
+          { forecast:'22.0', cogs:'10', gtn:'88' }
+        ],
+        Account: [
+          { forecast:'55.0', cogs:'8', gtn:'91' },
+          { forecast:'30.0', cogs:'11', gtn:'87' },
+          { forecast:'15.0', cogs:'13', gtn:'84' }
+        ]
+      };
+      const dataRows = mockByType[custType] || mockByType.HCP;
+      let tableRows = dataRows.map((r, ri) => `<tr>
+        <td style="text-align:left;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.forecast}</td>
+        <td style="text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.cogs}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.gtn}</td>
+      </tr>`).join('');
       pane.innerHTML = `
-        <div>${columnTableHtml('financial')}</div>
-        <div class="upload-more-row">
-          <button class="btn-upload-more" onclick="openCfgBrandModal('financial')">+ Upload New Financial Data</button>
+        <div style="padding:14px 20px 0;">
+          <div class="rc-file-tabs">${fileTabs}</div>
+          <div class="respcurve-brand-card" style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="respcurve-brand-title" style="margin-bottom:0;">${activeBrand}</div>
+                ${levelPills}
+              </div>
+              <div class="rc-controls-row" style="margin-bottom:0;">
+                <div class="rc-control"><label>Time Period:</label><select onchange="configData.financial._timePeriod=this.value;renderConfigTab('financial')">${periodOpts}</select></div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFile.name}</strong></div>
+            <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
+              <table class="config-table" style="font-size:12px;table-layout:fixed;width:100%;">
+                <thead><tr>
+                  <th style="text-align:left;width:33.33%;">Total Forecast ($)</th>
+                  <th style="text-align:center;width:33.33%;">COGS (%)</th>
+                  <th style="text-align:right;width:33.33%;">Gross To Net (%)</th>
+                </tr></thead>
+                <tbody>${tableRows}</tbody>
+              </table>
+            </div>
+            <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${dataRows.length} rows · ${custType} · ${activeBrand} · Period ${configData.financial._timePeriod}</div>
+          </div>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
           <button class="btn-confirm-brands" onclick="tabUnlocked.mapping=true;refreshTabLockUI();switchConfigTabProgrammatic('mapping');">Mapping →</button>
@@ -2311,6 +2832,42 @@
   const rcBrandLevelTab = {};
   function getRcLevel(brandName) { return rcBrandLevelTab[brandName] || 'hcp'; }
   function setRcLevel(brandName, level) { rcBrandLevelTab[brandName] = level; renderConfigTab('response'); }
+
+  /* ─ RC file-tab + period + segment state ─ */
+  let rcActiveBrandIdx = 0;
+  let rcSelectedPeriod = '2027';
+  let rcSelectedSegment = 'Centile';
+  const rcPeriodOptions = ['2025','2026','2027','2028'];
+  const rcSegmentTypeOptions = ['Centile','Decile','Tier','Quintile'];
+  /* ─ Per-brand HCP/Account level state ─ */
+  const rcBrandLevelState = {};
+  function getRcBrandLevel(brandName) { return rcBrandLevelState[brandName] || 'HCP'; }
+  function setRcBrandLevel(brandName, level) { rcBrandLevelState[brandName] = level; renderConfigTab('response'); }
+  function setRcBrandTab(idx) { rcActiveBrandIdx = idx; renderConfigTab('response'); }
+  function setRcPeriod(val) { rcSelectedPeriod = val; renderConfigTab('response'); }
+  function setRcSegment(val) { rcSelectedSegment = val; renderConfigTab('response'); }
+
+  /* ─ Build brand-grouped RC file list ─ */
+  function getRcBrandFiles() {
+    return configBrands.filter(b => b.active && !b.isNew).map(b => ({
+      brand: b.name,
+      hcpFile: `${b.name}_HCP_Response_Curve.csv`,
+      hcoFile: `${b.name}_HCO_Response_Curve.csv`
+    }));
+  }
+
+  /* ─ Extract unique segment types from segments like OCS_Brand_1_PCP_55 → [PCP, ENDO] ─ */
+  function getSegmentTypes(data, brandName) {
+    const types = new Set();
+    const pfx = 'OCS_' + brandName + '_';
+    data.forEach(row => {
+      const rest = row.centile.startsWith(pfx) ? row.centile.slice(pfx.length) : row.centile;
+      // Strip trailing _digits or trailing digits to get the type root
+      const segType = rest.replace(/_?\d+$/, '');
+      types.add(segType);
+    });
+    return Array.from(types);
+  }
 
   function generateResponseTableData(brand, level) {
     if(level === 'hcp') {
@@ -2335,41 +2892,76 @@
   }
 
   function renderResponseCurveFiles() {
+    const brandFiles = getRcBrandFiles();
+    if (!brandFiles.length) return '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
+    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
+    const active = brandFiles[rcActiveBrandIdx];
+    const level = getRcBrandLevel(active.brand);
+    const isHcp = level === 'HCP';
+    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
+
+    // File name tabs (one per brand, shows active file name)
+    const fileTabs = brandFiles.map((bf, i) => {
+      const lvl = getRcBrandLevel(bf.brand);
+      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
+      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
+    }).join('');
+
+    // Generate table data
+    const data = generateResponseTableData(active.brand, isHcp ? 'hcp' : 'account');
+    const segmentTypes = getSegmentTypes(data, active.brand);
+    const isMultiSegment = segmentTypes.length > 1;
+
+    // Filter data by selected segment type
+    let filteredData = data;
+    if (rcSelectedSegment !== rcSegmentTypeOptions[0]) {
+      // When segment type changes, map affects display but we use all data for demo
+      // In production this would filter by actual segment type classification
+    }
+
+    // Segment control: dropdown (always, with Centile/Decile/Tier/Quintile), or static string if only one type
+    let segmentControl;
+    if (isMultiSegment) {
+      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
+      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
+    } else {
+      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
+    }
+
+    // Period dropdown
+    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
+
+    // HCP / Account pills
+    const levelPills = `<div class="rc-level-pills">
+      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
+      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
+    </div>`;
+
     const activityHeaders = Array.from({length:9}, (_,i) => `activity_${i*2}`);
+    const tableRows = filteredData.map(row => `
+      <tr>
+        <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
+        <td>${row.custType}</td>
+        <td>${row.activity}</td>
+        <td style="text-align:center;">${row.customers}</td>
+        ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
+      </tr>`).join('');
 
-    const brandCards = configBrands.filter(b=>b.active).map(b => {
-      const level = getRcLevel(b.name);
-      const data = generateResponseTableData(b.name, level);
-      const files = configData.response.byBrand[b.name] || [];
-      const hasUploadedData = files.length > 0 || !b.isNew;
-
-      const tableRows = data.map(row => `
-        <tr>
-          <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
-          <td>${row.custType}</td>
-          <td>${row.activity}</td>
-          <td style="text-align:center;">${row.customers}</td>
-          ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
-        </tr>`).join('');
-
-      const levelBtnStyle = (active) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${active?'var(--teal)':'var(--bg)'};color:${active?'white':'var(--text-mid)'};`;
-
-      return `<div class="respcurve-brand-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    return `<div style="padding:14px 20px 0;">
+      <div class="rc-file-tabs">${fileTabs}</div>
+      <div class="respcurve-brand-card" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name}</div>
-            ${!hasUploadedData ? '<span style="font-size:9.5px;font-weight:700;color:var(--orange);background:var(--orange-light);border:1px solid #fcd34d;border-radius:5px;padding:2px 8px;">Default data — upload to override</span>' : '<span style="font-size:9.5px;font-weight:700;color:var(--teal-dark);background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:5px;padding:2px 8px;">✓ Uploaded</span>'}
+            <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand}</div>
+            ${levelPills}
           </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:11px;color:var(--text-light);">Period: <strong style="color:var(--text-dark);">2027</strong></span>
-            <span style="font-size:11px;color:var(--text-light);">Segments: <strong style="color:var(--text-dark);">Centiles</strong></span>
-            <span style="font-size:11px;color:var(--text-light);">Forecast: <strong style="color:var(--text-dark);">Base</strong></span>
+          <div class="rc-controls-row" style="margin-bottom:0;">
+            <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
+            <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
+            <div class="rc-control"><label>Forecast:</label><span class="rc-segment-static">Base</span></div>
           </div>
         </div>
-        <div style="display:flex;gap:4px;margin-bottom:10px;">
-          <button onclick="setRcLevel('${b.name}','hcp')" style="${levelBtnStyle(level==='hcp')}">HCP</button>
-          <button onclick="setRcLevel('${b.name}','account')" style="${levelBtnStyle(level==='account')}">Account</button>
-        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
         <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
           <table class="config-table" style="font-size:11.5px;">
             <thead><tr>
@@ -2379,14 +2971,7 @@
             <tbody>${tableRows}</tbody>
           </table>
         </div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${data.length} centile segments · ${level==='hcp'?'HCP':'Account'} level data</div>
-      </div>`;
-    }).join('');
-
-    return `<div style="padding:14px 20px 0;">
-      ${brandCards}
-      <div class="upload-more-row" style="margin-top:4px;">
-        <button class="btn-upload-more" onclick="openCfgBrandModal('response')">+ Upload New Response Curve</button>
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${filteredData.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
       </div>
     </div>`;
   }
@@ -2670,64 +3255,103 @@
         </div>
       </div>`;
 
-    const brandCharts = configBrands.filter(b=>b.active).map(b => {
-      const chartLevel = getChartLevel(b.name);
-      const isHcp = chartLevel === 'hcp';
-      const segments = isHcp
-        ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
-        : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
-      const w = 660, h = 260, pad = 50;
-      const maxX = 50, maxY = isHcp ? 152000 : 80000;
+    const brandFiles = getRcBrandFiles();
+    if (!brandFiles.length) return successBanner + '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
+    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
+    const active = brandFiles[rcActiveBrandIdx];
+    const level = getRcBrandLevel(active.brand);
+    const isHcp = level === 'HCP';
+    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
 
-      let paths = '';
-      let legendHtml = '';
-      segments.forEach((seg, si) => {
-        const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
-        const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
-        const color = rcSegmentColors[si % rcSegmentColors.length];
-        let d = '';
-        for(let x = 0; x <= maxX; x++) {
-          const y = sat * (1 - Math.exp(-k * x));
-          const px = pad + (x/maxX)*(w-2*pad);
-          const py = (h-pad) - (y/maxY)*(h-2*pad);
-          d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
-        }
-        paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
-        legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${b.name}_${seg}</span>`;
-      });
-
-      let gridLines = '';
-      for(let i=0;i<=6;i++) {
-        const y = (h-pad)-(i/6)*(h-2*pad);
-        gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
-        gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
-      }
-      for(let i=0;i<=10;i++) {
-        const x = pad+(i/10)*(w-2*pad);
-        gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
-      }
-
-      const cBtnStyle = (on) => `font-size:11px;font-weight:600;padding:4px 14px;border-radius:5px;cursor:pointer;border:none;background:${on?'var(--teal)':'var(--bg)'};color:${on?'white':'var(--text-mid)'};`;
-
-      return `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-          <div class="respcurve-brand-title" style="margin-bottom:0;">${b.name} — Response Curve</div>
-          <div style="display:flex;gap:4px;">
-            <button onclick="setChartLevel('${b.name}','hcp')" style="${cBtnStyle(isHcp)}">HCP</button>
-            <button onclick="setChartLevel('${b.name}','account')" style="${cBtnStyle(!isHcp)}">Account</button>
-          </div>
-        </div>
-        <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
-          ${gridLines}
-          <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
-          <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
-          ${paths}
-        </svg>
-        <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
-      </div>`;
+    // File name tabs (one per brand)
+    const fileTabs = brandFiles.map((bf, i) => {
+      const lvl = getRcBrandLevel(bf.brand);
+      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
+      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
     }).join('');
 
-    return successBanner + brandCharts;
+    const segments = isHcp
+      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
+      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
+
+    // Extract unique segment prefixes
+    const segTypeSet = new Set();
+    segments.forEach(seg => { segTypeSet.add(seg.replace(/_?\d+$/, '')); });
+    const segTypes = Array.from(segTypeSet);
+    const isMultiSegment = segTypes.length > 1;
+
+    // Segment control: dropdown with Centile/Decile/Tier/Quintile (no "All"), or static string if single type
+    let segmentControl;
+    if (isMultiSegment) {
+      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
+      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
+    } else {
+      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
+    }
+
+    // Period dropdown
+    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
+
+    // HCP / Account pills
+    const levelPills = `<div class="rc-level-pills">
+      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
+      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
+    </div>`;
+
+    const w = 660, h = 260, pad = 50;
+    const maxX = 50, maxY = isHcp ? 152000 : 80000;
+
+    let paths = '';
+    let legendHtml = '';
+    segments.forEach((seg, si) => {
+      const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
+      const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
+      const color = rcSegmentColors[si % rcSegmentColors.length];
+      let d = '';
+      for(let x = 0; x <= maxX; x++) {
+        const y = sat * (1 - Math.exp(-k * x));
+        const px = pad + (x/maxX)*(w-2*pad);
+        const py = (h-pad) - (y/maxY)*(h-2*pad);
+        d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+      }
+      paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
+      legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${active.brand}_${seg}</span>`;
+    });
+
+    let gridLines = '';
+    for(let i=0;i<=6;i++) {
+      const y = (h-pad)-(i/6)*(h-2*pad);
+      gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
+      gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
+    }
+    for(let i=0;i<=10;i++) {
+      const x = pad+(i/10)*(w-2*pad);
+      gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
+    }
+
+    const chartCard = `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand} — Response Curve</div>
+          ${levelPills}
+        </div>
+        <div class="rc-controls-row" style="margin-bottom:0;">
+          <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
+          <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
+        ${gridLines}
+        <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
+        <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
+        ${paths}
+      </svg>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${segments.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
+    </div>`;
+
+    return successBanner + `<div style="margin:0 20px;"><div class="rc-file-tabs">${fileTabs}</div></div>` + chartCard;
   }
 
 
@@ -2921,7 +3545,22 @@
     }
   };
 
-  /* ═══ INTERACTIVE CHART HELPERS ═══ */
+  /* ═══ OVERLAP DATA ═══ */
+  const overlapData = {
+    'Brand_1|Brand_2': { pct: 72, hcps: 6451 },
+    'Brand_1|Brand_3': { pct: 45, hcps: 4032 },
+    'Brand_2|Brand_3': { pct: 58, hcps: 3044 },
+    'Brand_1|Brand_2|Brand_3': { pct: 34, hcps: 4243 }
+  };
+  function getOverlap(a, b) {
+    const key = [a, b].sort().join('|');
+    return overlapData[key] || { pct: 0, hcps: 0 };
+  }
+  function getTriOverlap(a, b, c) {
+    const key = [a, b, c].sort().join('|');
+    return overlapData[key] || { pct: 0, hcps: 0 };
+  }
+  let vennSelectedBrands = new Set(['Brand_1', 'Brand_2', 'Brand_3']);
   let _chartId = 0;
   function areaChartSVG(values, months, color, w, h) {
     const id = 'ac_' + (_chartId++);
@@ -2962,7 +3601,7 @@
     const brands = Object.keys(brandPortfolio);
     const placeholders = { Brand_1:'e.g. Grow market share by 5%', Brand_2:'e.g. Defend share against generic erosion', Brand_3:'e.g. Accelerate new-patient starts' };
     const summaryHTML = `<div class="acc-summary"><ul><li><strong>${brands.length} brands</strong> detected across ${brands.map(n=>brandPortfolio[n].ta).filter((v,i,a)=>a.indexOf(v)===i).length} therapeutic areas with combined budget of $100M</li><li><strong>12,480 unique HCPs</strong> reached, 4,243 multi-brand overlap</li><li>Brand_3 (Launch) shows strongest growth at <strong>139% over 12 months</strong></li></ul></div>`;
-    return `<div class="acc-section" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Total Spend</label><span>$100M</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name,i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrandsNew()">Add Brand(s)</button></div></div></div>`;
+    return `<div class="acc-section" id="acc_brands"><div class="acc-header" onclick="toggleAccordion('acc_brands')"><div class="acc-title">${brands.length} Brands Detected with Insights</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-body" style="padding-top:6px;"><div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div><div class="pf-stats-row"><div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div><div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div><div class="pf-stat"><label>Multi-Brand HCPs</label><span>4,243</span></div></div><div class="pf-brand-cards">${brands.map((name,i) => { const b = brandPortfolio[name]; return `<div class="pf-brand-card" id="pf_${i}" onclick="selectBrand(${i})"><div class="pf-brand-actions"><button class="pf-view-btn" onclick="event.stopPropagation(); openDeepDive('${name}')">View Insights</button><div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div></div><div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div><div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div><div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div><div class="pf-brand-metric-row"><span>Budget</span><span>${b.budget}</span></div><div class="pf-brand-metric-row"><span>Top Channel</span><span>${b.topChannel}</span></div><div class="pf-brand-objective"><label>Brand Objective</label><input type="text" placeholder="${placeholders[name]||'Enter brand objective...'}" onclick="event.stopPropagation()" id="obj_${name}"></div></div>`; }).join('')}</div><div class="add-brands-bar"><span class="selected-count" id="selCount"><strong>0</strong> brand(s) selected</span><button class="btn-add-brands" id="addBrandsBtn" onclick="addSelectedBrandsNew()">Add Brand(s)</button></div></div></div>`;
   }
 
   /* ═══ OVERLAP ACCORDION (with tabs) ═══ */
@@ -2970,19 +3609,144 @@
     const brands = Object.keys(brandPortfolio);
     const tierRows = brands.map(name => { const t = brandPortfolio[name].tierMix; return `<div class="tier-mix-row" style="cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.15s;" onmouseenter="this.style.background='var(--bg)';this.querySelector('.tier-detail').style.maxHeight='28px';this.querySelector('.tier-detail').style.opacity='1';" onmouseleave="this.style.background='transparent';this.querySelector('.tier-detail').style.maxHeight='0';this.querySelector('.tier-detail').style.opacity='0';"><div class="tier-mix-row-head"><span style="font-weight:600;">${name}</span><span>${brandPortfolio[name].reach.toLocaleString()} HCPs</span></div><div class="tier-mix-bar"><div class="tier-mix-seg-h" style="width:${t.h}%"></div><div class="tier-mix-seg-m" style="width:${t.m}%"></div><div class="tier-mix-seg-l" style="width:${t.l}%"></div></div><div class="tier-detail" style="max-height:0;opacity:0;overflow:hidden;transition:max-height 0.2s ease,opacity 0.15s ease;font-size:10px;color:var(--text-light);padding-top:2px;">High ${t.h}% · Med ${t.m}% · Low ${t.l}%</div></div>`; }).join('');
     const summaryHTML = `<div class="acc-summary"><ul><li><strong>Brand_1 &amp; Brand_2 highest overlap at 72%</strong> — shared targeting strategy</li><li><strong>34% tri-brand overlap</strong> (4,243 HCPs) — deliberate cross-promotion</li><li>Data quality: <strong>0 duplicates</strong>, 8 cols missing values, <strong>142 outlier HCPs</strong></li></ul></div>`;
-    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-tabs" id="overlapTabs"><button class="acc-tab active" onclick="switchOverlapTab(0,event)">HCP Overlap</button><button class="acc-tab" onclick="switchOverlapTab(1,event)">Segment Mix</button><button class="acc-tab" onclick="switchOverlapTab(2,event)">Data Quality</button></div><div class="acc-body" style="padding-top:14px;"><div class="acc-tab-panel active" id="ot_0"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>High Overlap:</strong> Brand_1 and Brand_2 share 72% HCP overlap with strong High+Medium tier alignment.</div><div class="ai-bullet"><strong>Tri-Brand:</strong> 34% of HCPs (4,243) reached by all three brands.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">4,243 shared</span></div><svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;"><g class="venn-group"><circle cx="105" cy="80" r="62" fill="${brandColors.Brand_1}33" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><text x="75" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text><g class="venn-tooltip" opacity="0"><rect x="30" y="90" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="80" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">8,960 HCPs · $48M</text></g></g><g class="venn-group"><circle cx="175" cy="80" r="62" fill="${brandColors.Brand_2}33" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text><g class="venn-tooltip" opacity="0"><rect x="150" y="90" width="105" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="202" y="105" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">9,856 HCPs · $35M</text></g></g><g class="venn-group"><circle cx="140" cy="135" r="62" fill="${brandColors.Brand_3}33" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="120" y="188" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text><g class="venn-tooltip" opacity="0"><rect x="90" y="145" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/><text x="140" y="160" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">5,248 HCPs · $17M</text></g></g><text x="128" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="155" y="100" font-size="12" font-weight="700" fill="var(--text-dark)">58%</text></svg></div></div></div></div><div class="acc-tab-panel" id="ot_1"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 highest High-tier (34%), Brand_2 leans Medium (46%).</div><div class="ai-bullet"><strong>Emerging:</strong> Brand_3 balanced (29/38/33), distinct audience segment.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H/M/L</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div></div></div><div class="acc-tab-panel" id="ot_2"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Clean:</strong> No duplicates. Customer × Brand × Period uniqueness maintained.</div><div class="ai-bullet"><strong>Flags:</strong> 8 cols missing values. 142 outlier HCPs (&gt;3× tier avg).</div></div><div class="acc-split-right"><div class="dq-grid" style="grid-template-columns:1fr;"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div></div></div></div></div></div>`;
+    return `<div class="acc-section collapsed" id="acc_overlap"><div class="acc-header" onclick="toggleAccordion('acc_overlap')"><div class="acc-title">Cross-Brand Overlap &amp; Data Quality</div><span class="acc-chevron">▼</span></div>${summaryHTML}<div class="acc-tabs" id="overlapTabs"><button class="acc-tab active" onclick="switchOverlapTab(0,event)">HCP Overlap</button><button class="acc-tab" onclick="switchOverlapTab(1,event)">Segment Mix</button><button class="acc-tab" onclick="switchOverlapTab(2,event)">Data Quality</button></div><div class="acc-body" style="padding-top:14px;"><div class="acc-tab-panel active" id="ot_0"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>High Overlap:</strong> Brand_1 and Brand_2 share 72% HCP overlap with strong High+Medium tier alignment.</div><div class="ai-bullet"><strong>Tri-Brand:</strong> 34% of HCPs (4,243) reached by all three brands.</div><div class="ai-bullet"><strong>Brand_1 &amp; Brand_3:</strong> 45% overlap — moderate cross-promotion with Neurology launch.</div><div class="ai-bullet"><strong>Brand_2 &amp; Brand_3:</strong> 58% overlap — shared patient-type affinity in specialty care.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">Select brands to compare</span></div><div class="venn-brand-selector" id="vennBrandSelector"></div><div id="vennContainer"></div><div id="overlapTableContainer"></div></div></div></div></div><div class="acc-tab-panel" id="ot_1"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 highest High-tier (34%), Brand_2 leans Medium (46%).</div><div class="ai-bullet"><strong>Emerging:</strong> Brand_3 balanced (29/38/33), distinct audience segment.</div></div><div class="acc-split-right"><div class="cbo-card"><div class="cbo-card-title">Segment mix <span class="cbo-title-sub">H/M/L</span></div>${tierRows}<div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div></div></div></div></div><div class="acc-tab-panel" id="ot_2"><div class="acc-split"><div class="acc-split-left"><div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div><div class="ai-bullet"><strong>Clean:</strong> No duplicates. Customer × Brand × Period uniqueness maintained.</div><div class="ai-bullet"><strong>Flags:</strong> 8 cols missing values. 142 outlier HCPs (&gt;3× tier avg).</div></div><div class="acc-split-right"><div class="dq-grid" style="grid-template-columns:1fr;"><div class="dq-card"><div class="dq-card-head"><span>Missing values</span><span class="dq-pill flag">Flag</span></div><div class="dq-card-value">8 of 19 cols</div><div class="dq-card-sub">Activity Proxy: high zero-rate</div></div><div class="dq-card"><div class="dq-card-head"><span>Duplicates</span><span class="dq-pill clean">Clean</span></div><div class="dq-card-value">0 rows</div><div class="dq-card-sub">Customer × Brand × Period unique</div></div><div class="dq-card"><div class="dq-card-head"><span>Outliers</span><span class="dq-pill review">Review</span></div><div class="dq-card-value">142 HCPs</div><div class="dq-card-sub">Sales &gt; 3× tier average</div></div></div></div></div></div></div></div>`;
   }
 
   function switchOverlapTab(idx, event) { event.stopPropagation(); document.querySelectorAll('#overlapTabs .acc-tab').forEach((t,i) => t.classList.toggle('active', i===idx)); document.querySelectorAll('[id^="ot_"]').forEach((p,i) => p.classList.toggle('active', i===idx)); }
+
+  /* ═══ VENN DIAGRAM — dynamic brand selector + correct overlap rendering ═══ */
+  function renderVennBrandSelector() {
+    const el = document.getElementById('vennBrandSelector');
+    if (!el) return;
+    const brands = Object.keys(brandPortfolio);
+    el.innerHTML = brands.map(name => {
+      const active = vennSelectedBrands.has(name);
+      return `<div class="venn-brand-chip ${active ? 'active' : ''}" onclick="toggleVennBrand('${name}')"><span class="chip-dot" style="background:${brandColors[name]}"></span>${name}${active ? '<span class="chip-check">✓</span>' : ''}</div>`;
+    }).join('');
+    renderVennDiagram();
+    renderOverlapTable();
+  }
+
+  function toggleVennBrand(name) {
+    if (vennSelectedBrands.has(name)) {
+      if (vennSelectedBrands.size <= 2) return; // minimum 2 brands
+      vennSelectedBrands.delete(name);
+    } else {
+      vennSelectedBrands.add(name);
+    }
+    renderVennBrandSelector();
+  }
+
+  function renderVennDiagram() {
+    const container = document.getElementById('vennContainer');
+    if (!container) return;
+    const sel = Array.from(vennSelectedBrands);
+
+    if (sel.length < 2) {
+      container.innerHTML = '<div class="venn-min-hint">Select at least 2 brands to see overlap</div>';
+      return;
+    }
+
+    if (sel.length === 2) {
+      const [a, b] = sel;
+      const ov = getOverlap(a, b);
+      container.innerHTML = `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">
+        <g class="venn-group"><circle cx="100" cy="80" r="62" fill="${brandColors[a]}22" stroke="${brandColors[a]}" stroke-width="1.5"/>
+          <text x="62" y="40" font-size="11" font-weight="600" fill="var(--text-dark)">${a}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="26" y="86" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="76" y="101" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[a].reach.toLocaleString()} HCPs · ${brandPortfolio[a].budget}</text></g></g>
+        <g class="venn-group"><circle cx="180" cy="80" r="62" fill="${brandColors[b]}22" stroke="${brandColors[b]}" stroke-width="1.5"/>
+          <text x="188" y="40" font-size="11" font-weight="600" fill="var(--text-dark)">${b}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="155" y="86" width="100" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="205" y="101" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[b].reach.toLocaleString()} HCPs · ${brandPortfolio[b].budget}</text></g></g>
+        <text x="140" y="76" font-size="14" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ov.pct}%</text>
+        <text x="140" y="92" font-size="9" fill="var(--text-light)" text-anchor="middle">${ov.hcps.toLocaleString()} HCPs</text>
+      </svg>`;
+      return;
+    }
+
+    if (sel.length >= 3) {
+      // Use first 3 for the main Venn, show table for all
+      const [a, b, c] = sel;
+      const ab = getOverlap(a, b);
+      const ac = getOverlap(a, c);
+      const bc = getOverlap(b, c);
+      const abc = getTriOverlap(a, b, c);
+      container.innerHTML = `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;">
+        <!-- Brand circles -->
+        <g class="venn-group"><circle cx="112" cy="82" r="64" fill="${brandColors[a]}22" stroke="${brandColors[a]}" stroke-width="1.5"/>
+          <text x="68" y="42" font-size="11" font-weight="600" fill="var(--text-dark)">${a}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="30" y="56" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="85" y="71" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[a].reach.toLocaleString()} HCPs · ${brandPortfolio[a].budget}</text></g></g>
+        <g class="venn-group"><circle cx="188" cy="82" r="64" fill="${brandColors[b]}22" stroke="${brandColors[b]}" stroke-width="1.5"/>
+          <text x="200" y="42" font-size="11" font-weight="600" fill="var(--text-dark)">${b}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="160" y="56" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="215" y="71" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[b].reach.toLocaleString()} HCPs · ${brandPortfolio[b].budget}</text></g></g>
+        <g class="venn-group"><circle cx="150" cy="144" r="64" fill="${brandColors[c]}22" stroke="${brandColors[c]}" stroke-width="1.5"/>
+          <text x="124" y="210" font-size="11" font-weight="600" fill="var(--text-dark)">${c}</text>
+          <g class="venn-tooltip" opacity="0"><rect x="95" y="168" width="110" height="22" rx="5" fill="#1e293b" opacity="0.9"/>
+            <text x="150" y="183" font-size="9.5" font-weight="600" fill="white" text-anchor="middle">${brandPortfolio[c].reach.toLocaleString()} HCPs · ${brandPortfolio[c].budget}</text></g></g>
+        <!-- A∩B overlap (top center, between circles 1 & 2) -->
+        <text x="150" y="68" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ab.pct}%</text>
+        <text x="150" y="80" font-size="8" fill="var(--text-light)" text-anchor="middle">${ab.hcps.toLocaleString()}</text>
+        <!-- A∩C overlap (lower left, between circles 1 & 3) -->
+        <text x="116" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ac.pct}%</text>
+        <text x="116" y="132" font-size="8" fill="var(--text-light)" text-anchor="middle">${ac.hcps.toLocaleString()}</text>
+        <!-- B∩C overlap (lower right, between circles 2 & 3) -->
+        <text x="184" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${bc.pct}%</text>
+        <text x="184" y="132" font-size="8" fill="var(--text-light)" text-anchor="middle">${bc.hcps.toLocaleString()}</text>
+        <!-- A∩B∩C center overlap -->
+        <rect x="127" y="90" width="46" height="24" rx="6" fill="var(--teal-dark)" opacity="0.12"/>
+        <text x="150" y="100" font-size="13" font-weight="800" fill="var(--teal-dark)" text-anchor="middle">${abc.pct}%</text>
+        <text x="150" y="112" font-size="8" fill="var(--text-mid)" text-anchor="middle">${abc.hcps.toLocaleString()} all 3</text>
+      </svg>`;
+    }
+  }
+
+  function renderOverlapTable() {
+    const container = document.getElementById('overlapTableContainer');
+    if (!container) return;
+    const sel = Array.from(vennSelectedBrands);
+    if (sel.length < 2) { container.innerHTML = ''; return; }
+
+    let html = '<table class="overlap-table"><thead><tr><th></th>';
+    sel.forEach(name => { html += `<th><span style="display:inline-flex;align-items:center;gap:4px;"><span class="chip-dot" style="background:${brandColors[name]};width:7px;height:7px;border-radius:50%;display:inline-block;"></span>${name}</span></th>`; });
+    html += '</tr></thead><tbody>';
+    sel.forEach((rowName, ri) => {
+      html += `<td>${rowName}</td>`;
+      sel.forEach((colName, ci) => {
+        if (ri === ci) {
+          html += `<td class="ov-self">—</td>`;
+        } else {
+          const ov = getOverlap(rowName, colName);
+          html += `<td class="ov-val">${ov.pct}% <span style="font-weight:400;font-size:10px;color:var(--text-light);">(${ov.hcps.toLocaleString()})</span></td>`;
+        }
+      });
+      html += '</tr>';
+    });
+    // Add tri-brand row if 3+ brands
+    if (sel.length >= 3) {
+      const triKey = sel.slice(0,3).sort().join('|');
+      const tri = overlapData[triKey];
+      if (tri) {
+        html += `<tr><td style="color:var(--teal-dark);font-weight:700;">All ${sel.slice(0,3).length}</td>`;
+        html += `<td colspan="${sel.length}" class="ov-val" style="text-align:center;">${tri.pct}% <span style="font-weight:400;font-size:10px;color:var(--text-light);">(${tri.hcps.toLocaleString()} HCPs)</span></td></tr>`;
+      }
+    }
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
 
   /* ═══ RENDER ALL INSIGHTS ═══ */
   function renderInsightsAccordion() {
     const el = document.getElementById('insightsRight');
     if(!el) return;
     el.innerHTML = renderBrandsAccordion() + renderOverlapAccordion();
+    // Initialize the Venn brand selector after DOM is ready
+    setTimeout(() => { renderVennBrandSelector(); }, 0);
   }
 
-  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); }
+  function toggleAccordion(id) { document.getElementById(id).classList.toggle('collapsed'); if (id === 'acc_overlap' && !document.getElementById(id).classList.contains('collapsed')) { setTimeout(() => { renderVennBrandSelector(); }, 10); } }
 
   /* ═══ BRAND SELECTION ═══ */
   function selectBrand(i) {
@@ -3069,9 +3833,25 @@
       title: 'HCP Overlap Analysis',
       desc: 'Cross-brand audience overlap and shared targeting',
       icon: '🔗',
-      aiText: 'Brand_1 and Brand_2 share the highest overlap at 72%. 34% of all unique HCPs (4,243) are reached by all three brands.',
-      getVisual: () => `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"><circle cx="105" cy="80" r="58" fill="${brandColors.Brand_1}30" stroke="${brandColors.Brand_1}" stroke-width="1.5"/><circle cx="175" cy="80" r="58" fill="${brandColors.Brand_2}30" stroke="${brandColors.Brand_2}" stroke-width="1.5"/><circle cx="140" cy="130" r="58" fill="${brandColors.Brand_3}30" stroke="${brandColors.Brand_3}" stroke-width="1.5"/><text x="75" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_1</text><text x="180" y="55" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_2</text><text x="115" y="185" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_3</text><text x="126" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">72%</text><text x="138" y="115" font-size="11" font-weight="700" fill="var(--text-dark)">34%</text><text x="153" y="97" font-size="11" font-weight="700" fill="var(--text-dark)">58%</text></svg>`,
-      textReply: "I've mapped the HCP overlap across your portfolio. Brand_1 and Brand_2 share 72% of their audience, with 34% tri-brand overlap. Visual is ready for review."
+      aiText: 'Brand_1 and Brand_2 share the highest overlap at 72%. Brand_2 & Brand_3 at 58%, Brand_1 & Brand_3 at 45%. 34% of all unique HCPs (4,243) are reached by all three brands.',
+      getVisual: () => `<svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <circle cx="112" cy="82" r="64" fill="${brandColors.Brand_1}22" stroke="${brandColors.Brand_1}" stroke-width="1.5"/>
+        <circle cx="188" cy="82" r="64" fill="${brandColors.Brand_2}22" stroke="${brandColors.Brand_2}" stroke-width="1.5"/>
+        <circle cx="150" cy="144" r="64" fill="${brandColors.Brand_3}22" stroke="${brandColors.Brand_3}" stroke-width="1.5"/>
+        <text x="68" y="42" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_1</text>
+        <text x="200" y="42" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_2</text>
+        <text x="124" y="210" font-size="10" font-weight="600" fill="var(--text-dark)">Brand_3</text>
+        <text x="150" y="68" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">72%</text>
+        <text x="150" y="80" font-size="6" fill="var(--text-light)" text-anchor="middle">6,451</text>
+        <text x="116" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">45%</text>
+        <text x="116" y="132" font-size="6" fill="var(--text-light)" text-anchor="middle">4,032</text>
+        <text x="184" y="120" font-size="12" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">58%</text>
+        <text x="184" y="132" font-size="6" fill="var(--text-light)" text-anchor="middle">3,044</text>
+        <rect x="127" y="90" width="46" height="24" rx="6" fill="var(--teal-dark)" opacity="0.12"/>
+        <text x="150" y="100" font-size="13" font-weight="800" fill="var(--teal-dark)" text-anchor="middle">34%</text>
+        <text x="150" y="112" font-size="6" fill="var(--text-mid)" text-anchor="middle">4,243 all 3</text>
+      </svg>`,
+      textReply: "I've mapped the HCP overlap across your portfolio. Brand_1 and Brand_2 share 72% overlap, Brand_2 & Brand_3 at 58%, Brand_1 & Brand_3 at 45%, with 34% tri-brand overlap (4,243 HCPs). Visual is ready for review."
     },
     {
       trigger: /brand.?3|launch|neuro|growth|new/i,

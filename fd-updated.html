@@ -393,6 +393,41 @@
   .toast-dismiss { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 16px; cursor: pointer; flex-shrink: 0; line-height: 1; padding: 0; margin-top: 1px; }
   .toast-dismiss:hover { color: white; }
 
+  /* ═══ INPUT GUIDE BUTTON ═══ */
+  .input-guide-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--white); border: 1px solid var(--teal-mid); color: var(--teal-dark); font-size: 10.5px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-top: 8px; }
+  .input-guide-btn:hover { background: var(--teal-light); border-color: var(--teal); }
+  .input-guide-btn .guide-icon { font-size: 13px; }
+  .guide-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 300; align-items: center; justify-content: center; }
+  .guide-modal-overlay.open { display: flex; }
+  .guide-modal { background: var(--white); border-radius: var(--radius); width: 620px; max-width: 92vw; max-height: 86vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .guide-modal .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--teal-dark); flex-shrink: 0; }
+  .guide-modal .modal-header h3 { font-size: 15px; font-weight: 600; color: white; }
+  .guide-modal .modal-close { background: none; border: none; font-size: 20px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; }
+  .guide-modal .modal-close:hover { color: white; }
+  .guide-modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+  .guide-section { margin-bottom: 18px; }
+  .guide-section-title { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .guide-section-title .guide-section-icon { font-size: 15px; }
+  .guide-desc { font-size: 12px; color: var(--text-mid); line-height: 1.65; margin-bottom: 10px; }
+  .guide-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 11.5px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+  .guide-table th { background: var(--bg); font-weight: 600; color: var(--text-mid); padding: 8px 10px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid var(--border); }
+  .guide-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-dark); font-family: 'SF Mono', 'Consolas', monospace; font-size: 11px; }
+  .guide-table tr:last-child td { border-bottom: none; }
+  .guide-note { font-size: 11px; color: var(--text-light); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; line-height: 1.6; }
+  .guide-note strong { color: var(--text-dark); }
+  .guide-chip { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--teal-light); color: var(--teal-dark); border: 1px solid var(--teal-mid); margin-right: 4px; }
+
+  /* ═══ EXISTING BRAND PILL SELECTOR (Add Brand modal) ═══ */
+  .abm-brand-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .abm-brand-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 8px; cursor: pointer; user-select: none; transition: all 0.15s; border: 1.5px solid var(--border); background: var(--white); color: var(--text-mid); }
+  .abm-brand-pill:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .abm-brand-pill.selected { background: var(--teal); border-color: var(--teal); color: white; }
+  .abm-brand-pill .pill-icon { font-size: 14px; }
+  .abm-ref-file { margin-top: 10px; padding: 10px 12px; background: var(--teal-light); border: 1px solid var(--teal-mid); border-radius: 8px; display: flex; align-items: center; gap: 8px; }
+  .abm-ref-file .ref-file-icon { font-size: 16px; }
+  .abm-ref-file .ref-file-name { font-size: 12px; font-weight: 600; color: var(--teal-dark); }
+  .abm-ref-file .ref-file-sub { font-size: 10px; color: var(--text-light); margin-top: 1px; }
+
   @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
   @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } }
 
@@ -544,7 +579,7 @@
   .ai-badge { background: none; width: auto; height: auto; border-radius: 0; font-size: 12px; color: #8b5cf6; }
 
   /* ═══ ADD BRAND MODAL ═══ */
-  .add-brand-modal .modal-box { width: 460px; }
+  .add-brand-modal .modal-box { width: 520px; }
   .abm-field { margin-bottom: 14px; }
   .abm-field label { font-size: 12px; font-weight: 600; color: var(--text-mid); display: block; margin-bottom: 6px; }
   .abm-field input, .abm-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; font-size: 13px; color: var(--text-dark); font-family: inherit; }
@@ -1066,6 +1101,7 @@
           <li>Mandatory: one ID and one Date Range column</li>
           <li>At least one Sales or Activity column required</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('response')"><span class="guide-icon">📖</span> Input Guide — Response Curve</button>
       </div>
       <!-- Financial Data -->
       <div class="upload-card" id="uc_financial">
@@ -1086,6 +1122,7 @@
           <li>Currency units must be consistent</li>
           <li>Channel names must match Customer data</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('financial')"><span class="guide-icon">📖</span> Input Guide — Financial</button>
       </div>
       <!-- Mapping File -->
       <div class="upload-card" id="uc_mapping">
@@ -1106,6 +1143,7 @@
           <li>Weights column optional</li>
           <li>Cyclic mapping not allowed</li>
         </ul>
+        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('mapping')"><span class="guide-icon">📖</span> Input Guide — Mapping</button>
       </div>
     </div>
     <div class="continue-row">
@@ -1156,7 +1194,7 @@
       <div class="modal-file-list" id="secondaryFileList"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn-teal" onclick="closeSecondaryModal()">Done</button>
+      <button class="btn-teal" id="secondaryDoneBtn" onclick="closeSecondaryModal()">Done</button>
     </div>
   </div>
 </div>
@@ -1216,31 +1254,18 @@
         <textarea id="abm_desc" placeholder="Enter a short brand description"></textarea>
       </div>
       <div class="abm-field" style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
-        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Financial Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Upload financial file for the new brand</span></label>
-        <div id="abm_dropzone" class="modal-dropzone" style="padding:20px;margin:0;cursor:pointer;" onclick="document.getElementById('abm_fin_file').click()" ondragover="event.preventDefault();this.style.borderColor='var(--teal)'" ondragleave="this.style.borderColor=''" ondrop="event.preventDefault();this.style.borderColor='';handleAbmFinFile(event.dataTransfer.files)">
-          <input type="file" id="abm_fin_file" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleAbmFinFile(this.files)">
-          <div style="text-align:center;">
-            <div style="font-size:24px;margin-bottom:4px;">📄</div>
-            <div style="font-size:12px;font-weight:600;color:var(--text-mid);">Drag & drop financial data file</div>
-            <div style="font-size:11px;color:var(--text-light);margin-top:2px;">CSV or Excel · Brands are detected automatically</div>
-          </div>
-        </div>
-        <div id="abm_fin_file_info" style="display:none;margin-top:10px;">
-          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;">
-            <span style="font-size:16px;">📎</span>
-            <div style="flex:1;min-width:0;">
-              <div id="abm_fin_file_name" style="font-size:12px;font-weight:600;color:var(--text-dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
-              <div id="abm_fin_file_size" style="font-size:10px;color:var(--text-light);"></div>
-            </div>
-            <button onclick="clearAbmFinFile()" style="border:none;background:none;cursor:pointer;color:var(--text-light);font-size:14px;">✕</button>
-          </div>
-        </div>
-        <div id="abm_brand_detect_section" style="display:none;margin-top:10px;padding:10px 12px;background:var(--white);border:1px solid var(--border);border-radius:6px;">
-          <div style="font-size:10.5px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Brands Detected from File</div>
-          <div id="abm_detected_brands_list" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
-          <div id="abm_match_status" style="margin-top:8px;font-size:11px;"></div>
-        </div>
+        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Financial Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Select an existing brand to copy financial data from</span></label>
+        <div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Choose a brand whose financial assumptions you'd like to reference for the new brand:</div>
+        <div class="abm-brand-pills" id="abm_brand_pills"></div>
+        <div id="abm_ref_file_display" style="display:none;"></div>
       </div>
+      <div class="abm-field" style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--bg);">
+        <label style="margin-bottom:8px;display:flex;align-items:center;gap:6px;">Customer/Segment Data <span class="req">*</span> <span style="font-size:10px;color:var(--text-light);font-weight:400;">Select an existing brand to copy customer & segment data from</span></label>
+        <div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Choose a brand whose customer/segment data structure you'd like to reference for the new brand:</div>
+        <div class="abm-brand-pills" id="abm_cust_pills"></div>
+        <div id="abm_cust_ref_file_display" style="display:none;"></div>
+      </div>
+      <div id="abm_match_status" style="margin-top:4px;font-size:11px;padding:0 2px;"></div>
     </div>
     <div class="modal-footer">
       <button class="btn-teal" id="abm_save_btn" onclick="submitAddBrandCfg()" disabled style="opacity:0.4;cursor:not-allowed;">Save Brand</button>
@@ -1366,6 +1391,17 @@
   </div>
 </div>
 
+<!-- ═══════════ MODAL: INPUT GUIDE ═══════════ -->
+<div class="guide-modal-overlay" id="inputGuideOverlay" onclick="if(event.target===this)closeInputGuide()">
+  <div class="guide-modal">
+    <div class="modal-header">
+      <h3 id="inputGuideTitle">Input Guide</h3>
+      <button class="modal-close" onclick="closeInputGuide()">×</button>
+    </div>
+    <div class="guide-modal-body" id="inputGuideBody"></div>
+  </div>
+</div>
+
 <script>
   const detectedBrands = [
     { name:'Brand_1', ta:'Oncology', compType:'Branded', objective:'' },
@@ -1373,6 +1409,126 @@
     { name:'Brand_3', ta:'Neurology', compType:'Branded', objective:'' },
   ];
   let selectedBrands = new Set();
+
+  /* ═══ INPUT GUIDE ═══ */
+  const inputGuideContent = {
+    response: {
+      title: 'Input Guide — Response Curve Data',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">Response curve files should be in <strong>CSV format</strong>, one file per brand per customer type (e.g. HCP, Account). Each file contains activity-response pairs across centiles/segments.</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Centile</td><td>Text</td><td>Segment identifier (e.g. OCS_Brand_1_PCP_55)</td></tr>
+              <tr><td>Customer_Type</td><td>Text</td><td>HCP or Account</td></tr>
+              <tr><td>Customers</td><td>Numeric</td><td>Number of customers in segment</td></tr>
+              <tr><td>activity_0 … activity_N</td><td>Numeric</td><td>Activity input levels (monotonically increasing)</td></tr>
+              <tr><td>response_0 … response_N</td><td>Numeric</td><td>Response values corresponding to each activity level</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>Centile</th><th>Customer_Type</th><th>Customers</th><th>activity_0</th><th>response_0</th><th>activity_1</th><th>response_1</th></tr></thead>
+            <tbody>
+              <tr><td>OCS_Brand_1_PCP_55</td><td>HCP</td><td>1</td><td>0.00</td><td>0.00</td><td>2.00</td><td>389.50</td></tr>
+              <tr><td>OCS_Brand_1_ENDO_30</td><td>HCP</td><td>3</td><td>0.00</td><td>0.00</td><td>2.00</td><td>455.20</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Ensure activity values are clean numerics (no $ or commas). Each brand should have separate files for HCP and Account levels. File naming like <span class="guide-chip">Brand_1_HCP_Response_Curve.csv</span> helps with automatic brand detection.</div>
+      `
+    },
+    financial: {
+      title: 'Input Guide — Financial Data',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">Financial data should be in <strong>CSV format</strong>, one file per brand. Each file contains yearly financial assumptions by customer type (HCP, HCO, Account).</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Brand</td><td>Text</td><td>Brand name (must match detected brands)</td></tr>
+              <tr><td>Customer_type</td><td>Text</td><td>HCP, HCO, or Account</td></tr>
+              <tr><td>Year</td><td>Numeric</td><td>Forecast year (e.g. 2026, 2027)</td></tr>
+              <tr><td>Total_Forecast_$</td><td>Currency</td><td>Total forecast amount for the period</td></tr>
+              <tr><td>COGS_pct</td><td>Percentage</td><td>Cost of Goods Sold percentage</td></tr>
+              <tr><td>Gross_to_Net_pct</td><td>Percentage</td><td>Gross-to-Net adjustment percentage</td></tr>
+              <tr><td>Non_SF_Impact_pct</td><td>Percentage</td><td>Non-Sales Force impact percentage</td></tr>
+              <tr><td>Carryover_Rate_pct</td><td>Percentage</td><td>Carryover rate from prior period</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>Brand</th><th>Customer_type</th><th>Year</th><th>Total_Forecast_$</th><th>COGS_pct</th><th>Gross_to_Net_pct</th></tr></thead>
+            <tbody>
+              <tr><td>Brand_1</td><td>HCP</td><td>2026</td><td>100</td><td>10</td><td>88</td></tr>
+              <tr><td>Brand_1</td><td>HCP</td><td>2027</td><td>120</td><td>10</td><td>85</td></tr>
+              <tr><td>Brand_2</td><td>Account</td><td>2026</td><td>85</td><td>12</td><td>90</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Do not include commas in numeric values. Currency units should be consistent across all rows. Each brand file must contain data for <strong>all detected brands</strong> to complete the upload.</div>
+      `
+    },
+    mapping: {
+      title: 'Input Guide — Mapping File',
+      html: `
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📋</span> File Format</div>
+          <div class="guide-desc">The mapping file establishes relationships between entities (e.g. HCP → Account, ZIP → Territory). Upload as a <strong>CSV file</strong> with the required columns below.</div>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">📊</span> Required Columns</div>
+          <table class="guide-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>From_type</td><td>Text</td><td>Source entity type <span class="guide-chip">HCP</span> <span class="guide-chip">ZIP</span></td></tr>
+              <tr><td>To_type</td><td>Text</td><td>Target entity type <span class="guide-chip">Account</span> <span class="guide-chip">Territory</span></td></tr>
+              <tr><td>Value_from</td><td>Text</td><td>Source entity identifier (e.g. HCP_01)</td></tr>
+              <tr><td>Value_to</td><td>Text</td><td>Target entity identifier (e.g. HCO_01)</td></tr>
+              <tr><td>Weight</td><td>Numeric</td><td>Mapping weight (default 1, optional)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-section">
+          <div class="guide-section-title"><span class="guide-section-icon">💡</span> Example Data</div>
+          <table class="guide-table">
+            <thead><tr><th>From_type</th><th>To_type</th><th>Value_from</th><th>Value_to</th><th>Weight</th></tr></thead>
+            <tbody>
+              <tr><td>HCP</td><td>Account</td><td>HCP_01</td><td>HCO_01</td><td>1</td></tr>
+              <tr><td>HCP</td><td>Account</td><td>HCP_02</td><td>HCO_01</td><td>1</td></tr>
+              <tr><td>HCP</td><td>Account</td><td>HCP_04</td><td>HCO_02</td><td>0.5</td></tr>
+              <tr><td>ZIP</td><td>Territory</td><td>10001</td><td>TERR_NE_1</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-note"><strong>Tips:</strong> Cyclic mappings are not allowed (A→B→A). One HCP can map to multiple Accounts using different rows. The Weight column is optional — if omitted, all weights default to 1.</div>
+      `
+    }
+  };
+
+  function openInputGuide(type) {
+    const content = inputGuideContent[type];
+    if(!content) return;
+    document.getElementById('inputGuideTitle').textContent = content.title;
+    document.getElementById('inputGuideBody').innerHTML = content.html;
+    document.getElementById('inputGuideOverlay').classList.add('open');
+  }
+  function closeInputGuide() {
+    document.getElementById('inputGuideOverlay').classList.remove('open');
+  }
   let addedBrands = [];
   let editingIndex = null;
 
@@ -1731,10 +1887,33 @@
     document.getElementById('secondaryModalTitle').textContent = brandModalConfig[type].label;
     renderBrandTicks(type);
     renderSecondaryFileList(type);
+    updateSecondaryDoneBtn(type);
     document.getElementById('secondaryModalOverlay').classList.add('open');
+    // Hide brand tick list for mapping type
+    document.getElementById('brandTickList').parentElement.querySelector('.modal-section-label').style.display = (type === 'mapping') ? 'none' : '';
+    document.getElementById('brandTickList').style.display = (type === 'mapping') ? 'none' : '';
   }
   function closeSecondaryModal() {
     document.getElementById('secondaryModalOverlay').classList.remove('open');
+  }
+
+  function updateSecondaryDoneBtn(type) {
+    const btn = document.getElementById('secondaryDoneBtn');
+    if(!btn) return;
+    if(type === 'financial') {
+      const cfg = dataTypeConfig[type];
+      const state = getBrandStage(type);
+      const allDetected = state.detected.size >= cfg.brands.length;
+      btn.disabled = !allDetected;
+      btn.style.opacity = allDetected ? '1' : '0.4';
+      btn.style.cursor = allDetected ? 'pointer' : 'not-allowed';
+      btn.textContent = allDetected ? 'Done' : 'Upload files for all brands';
+    } else {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.textContent = 'Done';
+    }
   }
 
   function renderBrandTicks(type) {
@@ -1774,6 +1953,7 @@
       });
       renderSecondaryFileList(type);
       renderBrandTicks(type);
+      updateSecondaryDoneBtn(type);
       if(state.detected.size >= cfg.brands.length) markBrandModalComplete(type);
       showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned for brand data`, 'success');
     }, 1000);
@@ -1843,7 +2023,6 @@
           <input type="checkbox" class="cfg-checkbox" ${b.active?'checked':''} onchange="toggleConfigBrandActive(${i}, this.checked)">
         </td>
         <td style="font-weight:600;">${b.name}${b.isNew?' <span class="req-tag" style="color:var(--teal-dark);">New</span>':''}</td>
-        <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${b.alias}" oninput="configBrands[${i}].alias=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
         <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${b.desc}" oninput="configBrands[${i}].desc=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
       </tr>`).join('');
 
@@ -1856,7 +2035,7 @@
         <table class="brandcfg-table">
           <thead><tr>
             <th style="width:34px;"><input type="checkbox" class="cfg-checkbox" ${allActive?'checked':''} onchange="toggleAllBrands(this.checked)" title="Select/deselect all brands"></th>
-            <th>Brand Name</th><th>Alias</th><th>Description</th>
+            <th>Brand Name</th><th>Description</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
@@ -1882,64 +2061,114 @@
   /* ─ Add Brand modal ─ */
   let abmDetectedBrands = [];
   let abmFinFileName = '';
+  let abmSelectedRefBrand = null;
+  let abmSelectedCustBrand = null;
+
+  // Map brands to their file names
+  function getFinancialFileName(brandName) {
+    return brandName + '_Financial_Assumptions.csv';
+  }
+  function getCustomerFileName(brandName) {
+    return brandName + '_Customer_Segment_Data.csv';
+  }
+
   function openAddBrandCfgModal() {
     document.getElementById('abm_name').value = '';
     document.getElementById('abm_desc').value = '';
     abmDetectedBrands = [];
     abmFinFileName = '';
-    document.getElementById('abm_dropzone').style.display = '';
-    document.getElementById('abm_fin_file_info').style.display = 'none';
-    document.getElementById('abm_brand_detect_section').style.display = 'none';
-    document.getElementById('abm_fin_file').value = '';
+    abmSelectedRefBrand = null;
+    abmSelectedCustBrand = null;
+    document.getElementById('abm_ref_file_display').style.display = 'none';
+    document.getElementById('abm_cust_ref_file_display').style.display = 'none';
+    document.getElementById('abm_match_status').innerHTML = '';
+    // Render financial brand pills
+    const existingBrands = configBrands.filter(b => b.active && !b.isNew);
+    const finPillsEl = document.getElementById('abm_brand_pills');
+    finPillsEl.innerHTML = existingBrands.map(b =>
+      `<div class="abm-brand-pill" id="abm_fin_pill_${b.name.replace(/\s+/g,'_')}" onclick="selectRefBrand('${b.name}')"><span class="pill-icon">🏷️</span> ${b.name}</div>`
+    ).join('');
+    // Render customer brand pills
+    const custPillsEl = document.getElementById('abm_cust_pills');
+    custPillsEl.innerHTML = existingBrands.map(b =>
+      `<div class="abm-brand-pill" id="abm_cust_pill_${b.name.replace(/\s+/g,'_')}" onclick="selectCustRefBrand('${b.name}')"><span class="pill-icon">🏷️</span> ${b.name}</div>`
+    ).join('');
     setAbmSaveEnabled(false);
     document.getElementById('addBrandCfgModalOverlay').classList.add('open');
   }
+
+  function selectRefBrand(brandName) {
+    abmSelectedRefBrand = brandName;
+    abmFinFileName = getFinancialFileName(brandName);
+    // Update pill styles
+    document.querySelectorAll('#abm_brand_pills .abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    const pill = document.getElementById('abm_fin_pill_' + brandName.replace(/\s+/g,'_'));
+    if(pill) pill.classList.add('selected');
+    // Show ref file display
+    const refEl = document.getElementById('abm_ref_file_display');
+    refEl.style.display = 'block';
+    refEl.innerHTML = `<div class="abm-ref-file"><span class="ref-file-icon">📄</span><div><div class="ref-file-name">${abmFinFileName}</div><div class="ref-file-sub">Financial data will be copied from ${brandName}</div></div></div>`;
+    checkAbmBrandMatch();
+  }
+
+  function selectCustRefBrand(brandName) {
+    abmSelectedCustBrand = brandName;
+    // Update pill styles
+    document.querySelectorAll('#abm_cust_pills .abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    const pill = document.getElementById('abm_cust_pill_' + brandName.replace(/\s+/g,'_'));
+    if(pill) pill.classList.add('selected');
+    // Show ref file display
+    const refEl = document.getElementById('abm_cust_ref_file_display');
+    refEl.style.display = 'block';
+    const custFileName = getCustomerFileName(brandName);
+    refEl.innerHTML = `<div class="abm-ref-file"><span class="ref-file-icon">👥</span><div><div class="ref-file-name">${custFileName}</div><div class="ref-file-sub">Customer/segment data will be copied from ${brandName}</div></div></div>`;
+    checkAbmBrandMatch();
+  }
+
   function handleAbmFinFile(files) {
+    // Legacy handler - no longer used with pill-based selection
     if(!files || !files.length) return;
-    const file = files[0];
-    abmFinFileName = file.name;
-    document.getElementById('abm_fin_file_name').textContent = file.name;
-    document.getElementById('abm_fin_file_size').textContent = (file.size / 1024).toFixed(1) + ' KB';
-    document.getElementById('abm_dropzone').style.display = 'none';
-    document.getElementById('abm_fin_file_info').style.display = 'block';
-    // Simulate brand detection from financial file
-    setTimeout(() => {
-      abmDetectedBrands = ['Lexorin', 'Polair', 'Demodryl'];
-      const listEl = document.getElementById('abm_detected_brands_list');
-      listEl.innerHTML = abmDetectedBrands.map(b =>
-        '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-mid);">🏷️ ' + b + '</span>'
-      ).join('');
-      document.getElementById('abm_brand_detect_section').style.display = 'block';
-      checkAbmBrandMatch();
-    }, 600);
   }
   function clearAbmFinFile() {
     abmFinFileName = '';
+    abmSelectedRefBrand = null;
+    abmSelectedCustBrand = null;
     abmDetectedBrands = [];
-    document.getElementById('abm_dropzone').style.display = '';
-    document.getElementById('abm_fin_file_info').style.display = 'none';
-    document.getElementById('abm_brand_detect_section').style.display = 'none';
-    document.getElementById('abm_fin_file').value = '';
+    document.querySelectorAll('.abm-brand-pill').forEach(pill => pill.classList.remove('selected'));
+    document.getElementById('abm_ref_file_display').style.display = 'none';
+    document.getElementById('abm_cust_ref_file_display').style.display = 'none';
+    document.getElementById('abm_match_status').innerHTML = '';
     setAbmSaveEnabled(false);
   }
   function checkAbmBrandMatch() {
-    const name = (document.getElementById('abm_name').value || '').trim().toLowerCase();
+    const name = (document.getElementById('abm_name').value || '').trim();
     const matchEl = document.getElementById('abm_match_status');
     if(!matchEl) return;
-    if(!name || !abmDetectedBrands.length) {
-      matchEl.innerHTML = (name && abmDetectedBrands.length)
-        ? '<span style="color:var(--red);font-weight:600;">✕ Brand name does not match any detected brand</span>'
-        : '';
+    if(!name) {
+      matchEl.innerHTML = '';
       setAbmSaveEnabled(false);
       return;
     }
-    const match = abmDetectedBrands.find(b => b.toLowerCase() === name);
-    if(match) {
-      matchEl.innerHTML = '<span style="color:var(--green);font-weight:600;">✓ "' + match + '" matches detected brand — ready to save</span>';
-      setAbmSaveEnabled(true);
-    } else {
-      matchEl.innerHTML = '<span style="color:var(--red);font-weight:600;">✕ "' + document.getElementById('abm_name').value.trim() + '" does not match any detected brand</span>';
+    // Check that the name is not already used
+    const existing = configBrands.find(b => b.name.toLowerCase() === name.toLowerCase());
+    if(existing) {
+      matchEl.innerHTML = '<span style="color:var(--red);font-weight:600;">✕ "' + name + '" already exists — choose a different name</span>';
       setAbmSaveEnabled(false);
+      return;
+    }
+    // Check both selections are made
+    if(!abmSelectedRefBrand && !abmSelectedCustBrand) {
+      matchEl.innerHTML = '<span style="color:var(--text-light);">Select a financial and customer/segment brand reference to continue</span>';
+      setAbmSaveEnabled(false);
+    } else if(!abmSelectedRefBrand) {
+      matchEl.innerHTML = '<span style="color:var(--orange);font-weight:600;">⚠ Select a brand for Financial Data to continue</span>';
+      setAbmSaveEnabled(false);
+    } else if(!abmSelectedCustBrand) {
+      matchEl.innerHTML = '<span style="color:var(--orange);font-weight:600;">⚠ Select a brand for Customer/Segment Data to continue</span>';
+      setAbmSaveEnabled(false);
+    } else {
+      matchEl.innerHTML = '<span style="color:var(--green);font-weight:600;">✓ "' + name + '" — financials from ' + abmSelectedRefBrand + ', customer/segment data from ' + abmSelectedCustBrand + ' — ready to save</span>';
+      setAbmSaveEnabled(true);
     }
   }
   function setAbmSaveEnabled(enabled) {
@@ -1955,11 +2184,17 @@
   function submitAddBrandCfg() {
     const name = document.getElementById('abm_name').value.trim();
     if(!name) { showToast('Brand name is required', 'error'); return; }
-    if(!abmDetectedBrands.find(b => b.toLowerCase() === name.toLowerCase())) {
-      showToast('Brand name must match a detected brand', 'error'); return;
+    if(!abmSelectedRefBrand) {
+      showToast('Please select a brand to copy financial data from', 'error'); return;
+    }
+    if(!abmSelectedCustBrand) {
+      showToast('Please select a brand to copy customer/segment data from', 'error'); return;
+    }
+    if(configBrands.find(b => b.name.toLowerCase() === name.toLowerCase())) {
+      showToast('Brand name already exists', 'error'); return;
     }
     const desc = document.getElementById('abm_desc').value.trim();
-    configBrands.push({ name, alias:name, desc: desc || name + ' — added manually.', active:true, aiGenerated:false, isNew:true });
+    configBrands.push({ name, alias:name, desc: desc || name + ' — added manually (financials from ' + abmSelectedRefBrand + ', customer data from ' + abmSelectedCustBrand + ').', active:true, aiGenerated:false, isNew:true });
     configData.response.byBrand[name] = [];
     if(!configData.financial.brandData) configData.financial.brandData = {};
     configData.financial.brandData[name] = [

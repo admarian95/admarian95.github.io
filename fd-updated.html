@@ -225,6 +225,12 @@
   .locked-tag { font-size: 9px; font-weight: 700; color: var(--teal-dark); background: var(--teal-light); border-radius: 6px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; }
   .cfg-alias-input, .cfg-desc-input { width: 100%; border: 0.5px solid var(--border); border-radius: 5px; padding: 5px 7px; font-size: 12px; color: var(--text-dark); background: #fffde8; font-family: inherit; }
   .cfg-alias-input:focus, .cfg-desc-input:focus { outline: 1.5px solid var(--teal); }
+  .alias-info-wrap { display: inline-flex; align-items: center; position: relative; }
+  .alias-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border: 1.5px solid var(--teal-mid); border-radius: 50%; font-size: 9px; color: var(--teal-dark); cursor: help; flex-shrink: 0; vertical-align: middle; margin-left: 5px; font-style: normal; font-weight: 700; background: var(--teal-light); transition: all 0.15s; }
+  .alias-info-icon:hover { background: var(--teal); color: white; border-color: var(--teal); }
+  .alias-info-wrap .alias-tooltip { display: none; position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); background: var(--teal-dark); color: white; font-size: 11px; font-weight: 500; line-height: 1.5; padding: 8px 12px; border-radius: 8px; white-space: nowrap; z-index: 100; box-shadow: 0 4px 16px rgba(0,0,0,0.18); pointer-events: none; letter-spacing: 0; text-transform: none; }
+  .alias-info-wrap .alias-tooltip::before { content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--teal-dark); }
+  .alias-info-wrap:hover .alias-tooltip { display: block; }
   .config-table { width: 100%; border-collapse: collapse; }
   .config-table thead th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
   .config-table tbody tr { border-bottom: 1px solid var(--border); }
@@ -428,8 +434,90 @@
   .abm-ref-file .ref-file-name { font-size: 12px; font-weight: 600; color: var(--teal-dark); }
   .abm-ref-file .ref-file-sub { font-size: 10px; color: var(--text-light); margin-top: 1px; }
 
-  @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } }
-  @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } }
+  /* ═══ NEW BRAND BADGE (Financial upload detection) ═══ */
+  .brand-tick-new-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; color: var(--green); background: var(--green-light); border: 1px solid #6ee7b7; border-radius: 5px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 8px; }
+  .brand-tick-item.new-brand { border-color: #6ee7b7; background: #f0fdf4; }
+  .brand-tick-item.new-brand.ticked { border-color: #6ee7b7; background: var(--green-light); }
+  .brand-tick-item.new-brand .brand-tick-circle { border-color: var(--green); color: var(--green); }
+  .brand-tick-item.new-brand.ticked .brand-tick-circle { border-color: var(--green); background: var(--green); color: white; }
+
+  /* ═══ BRAND CONFIG: Source selection buttons ═══ */
+  .brand-src-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .btn-select-source { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; border: 1px dashed var(--teal-mid); background: var(--white); color: var(--teal-dark); transition: all 0.15s; white-space: nowrap; }
+  .btn-select-source:hover { background: var(--teal-light); border-style: solid; }
+  .btn-select-source.selected { border-style: solid; background: var(--teal-light); border-color: var(--teal); }
+  .btn-select-source .src-icon { font-size: 12px; }
+  .btn-select-source .src-brand-name { font-weight: 700; color: var(--teal-dark); }
+  .src-selection-modal .modal-box { width: 440px; }
+  .src-brand-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .src-brand-option { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.15s; background: var(--white); }
+  .src-brand-option:hover { border-color: var(--teal-mid); background: var(--teal-light); }
+  .src-brand-option.chosen { border-color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 2px rgba(26,148,148,0.15); }
+  .src-brand-option .src-brand-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+  .src-brand-option.chosen .src-brand-radio { border-color: var(--teal); background: var(--teal); color: white; font-size: 10px; }
+  .src-brand-option .src-brand-label { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+  .src-brand-option .src-brand-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+  .brand-new-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: #7c3aed; background: #ede9fe; border: 1px solid #c4b5fd; border-radius: 5px; padding: 1px 6px; margin-left: 6px; }
+  .brand-new-tag-green { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--green); background: var(--green-light); border: 1px solid #6ee7b7; border-radius: 5px; padding: 2px 8px; margin-left: 6px; }
+  .brand-new-unchecked-hint { font-size: 10px; color: var(--text-light); font-style: italic; display: inline-block; margin-left: 8px; }
+  .src-type-label { font-size: 9.5px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.3px; }
+
+  /* ═══ UPLOAD KPI TILES ═══ */
+  .upload-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .upload-kpi { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-sm); display: flex; align-items: flex-start; gap: 12px; transition: border-color 0.2s, box-shadow 0.2s; }
+  .upload-kpi:hover { border-color: var(--teal-mid); box-shadow: var(--shadow-md); }
+  .upload-kpi-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .upload-kpi-icon.cust { background: #dbeafe; }
+  .upload-kpi-icon.rc { background: #ede9fe; }
+  .upload-kpi-icon.fin { background: #fef3c7; }
+  .upload-kpi-icon.map { background: #d1fae5; }
+  .upload-kpi-body { flex: 1; }
+  .upload-kpi-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-light); margin-bottom: 4px; }
+  .upload-kpi-val { font-size: 18px; font-weight: 700; color: var(--text-dark); line-height: 1.1; }
+  .upload-kpi-sub { font-size: 10.5px; color: var(--text-light); margin-top: 3px; }
+  .upload-kpi-sub .kpi-ok { color: var(--green); font-weight: 600; }
+  .upload-kpi-sub .kpi-pending { color: var(--orange); font-weight: 600; }
+  .upload-kpi-sub .kpi-na { color: var(--text-light); }
+
+  /* ═══ UNIFIED INPUT GUIDE LINK ═══ */
+  .input-guide-unified { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; color: var(--teal-dark); cursor: pointer; transition: color 0.15s; }
+  .input-guide-unified:hover { color: var(--teal); text-decoration: underline; }
+  .input-guide-unified .guide-link-icon { font-size: 14px; }
+
+  /* ═══ FINANCIAL BRAND PILLS (pending tracker) ═══ */
+  .fin-brand-pills-area { padding: 0; margin-top: 4px; }
+  .fin-brand-pills-area:empty { display: none; }
+  .fin-brand-pills-label { font-size: 10.5px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .fin-brand-pills-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fin-bp { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mid); transition: all 0.2s; }
+  .fin-bp .bp-icon { font-size: 11px; }
+  .fin-bp.done { border-color: #6ee7b7; background: var(--green-light); color: var(--green); }
+  .fin-bp.pending { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
+  .fin-bp.new-brand { border-color: #c4b5fd; background: #ede9fe; color: #5b21b6; }
+
+  /* ═══ SKIP RESPONSE CURVE DIALOG ═══ */
+  .skip-rc-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 310; align-items: center; justify-content: center; }
+  .skip-rc-overlay.open { display: flex; }
+  .skip-rc-dialog { background: var(--white); border-radius: var(--radius); width: 460px; max-width: 90vw; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .skip-rc-dialog-header { padding: 16px 22px; background: #fef3c7; border-bottom: 1px solid #fcd34d; display: flex; align-items: center; gap: 10px; }
+  .skip-rc-dialog-header .skip-icon { font-size: 22px; }
+  .skip-rc-dialog-header h3 { font-size: 14px; font-weight: 600; color: #92400e; }
+  .skip-rc-dialog-body { padding: 20px 22px; font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+  .skip-rc-dialog-body strong { color: var(--text-dark); }
+  .skip-rc-dialog-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+  .btn-skip-cancel { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.15s; }
+  .btn-skip-cancel:hover { background: var(--bg); border-color: var(--teal-mid); }
+  .btn-skip-confirm { background: var(--orange); border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; color: white; cursor: pointer; transition: background 0.15s; }
+  .btn-skip-confirm:hover { background: #d97706; }
+
+  /* ═══ INPUT GUIDE SECTION NAV TABS ═══ */
+  .guide-nav-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 18px; }
+  .guide-nav-tab { padding: 9px 16px; font-size: 12px; font-weight: 600; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; }
+  .guide-nav-tab:hover { color: var(--text-mid); }
+  .guide-nav-tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+
+  @media(max-width:1100px) { .upload-grid { grid-template-columns: 1fr 1fr; } .upload-kpi-row { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:760px) { .upload-grid { grid-template-columns: 1fr; } .upload-kpi-row { grid-template-columns: 1fr; } }
 
   /* ═══ FINANCIAL ASSUMPTIONS GRID ═══ */
   .fin-forecast-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -511,6 +599,13 @@
   .btn-confirm-brands { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
   .btn-confirm-brands.done { background: var(--green); }
 
+  /* ═══ REQUIRED COLUMN PILLS ═══ */
+  .req-pills-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .req-pills-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-light); margin-right: 4px; white-space: nowrap; }
+  .req-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--teal-mid); background: var(--teal-light); color: var(--teal-dark); }
+  .req-pill.satisfied { border-color: #6ee7b7; background: var(--green-light); color: var(--green); }
+  .req-pill.missing { border-color: #fca5a5; background: #fee2e2; color: var(--red); }
+
   /* ═══ CUSTOMER DATA SUBTABS ═══ */
   .subtab-row { display: flex; gap: 6px; padding: 12px 20px 0; }
   .subtab-btn { font-size: 12px; font-weight: 600; color: var(--text-mid); background: var(--bg); border: 1px solid var(--border); padding: 7px 14px; border-radius: 7px 7px 0 0; cursor: pointer; border-bottom: none; }
@@ -577,6 +672,7 @@
 
   /* ═══ AI STAR BADGE (replaces text "AI" pill) ═══ */
   .ai-badge { background: none; width: auto; height: auto; border-radius: 0; font-size: 12px; color: #8b5cf6; }
+  .auto-detect-badge { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; margin-left: 5px; cursor: default; flex-shrink: 0; vertical-align: middle; filter: grayscale(0.2); }
 
   /* ═══ ADD BRAND MODAL ═══ */
   .add-brand-modal .modal-box { width: 520px; }
@@ -1088,11 +1184,11 @@
           </div>
           <div class="upload-option-status" id="status_customer_master"></div>
         </div>
-        <div class="upload-option-row disabled" id="row_customer_secondary" onclick="openBrandModal('customer')">
+        <div class="upload-option-row disabled" id="row_customer_secondary" onclick="handleRCRowClick()">
           <div class="upload-option-icon">📈</div>
           <div class="upload-option-text">
-            <div class="upload-option-title">Response Curve Upload <span class="optional-tag">Optional</span></div>
-            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
+            <div class="upload-option-title">Response Curve Upload</div>
+            <div class="upload-option-sub">Upload response curve data per brand</div>
           </div>
           <div class="upload-option-status" id="status_customer_secondary"></div>
         </div>
@@ -1101,7 +1197,10 @@
           <li>Mandatory: one ID and one Date Range column</li>
           <li>At least one Sales or Activity column required</li>
         </ul>
-        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('response')"><span class="guide-icon">📖</span> Input Guide — Response Curve</button>
+        <div class="input-guide-unified" onclick="event.stopPropagation();openInputGuide('response')">
+          <span class="guide-link-icon">📖</span>
+          <span>Click here to view <strong>User Input Guide</strong> for Response Curve upload</span>
+        </div>
       </div>
       <!-- Financial Data -->
       <div class="upload-card" id="uc_financial">
@@ -1113,16 +1212,20 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Financial Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
+            <div class="upload-option-sub">Upload financial assumptions per brand</div>
           </div>
           <div class="upload-option-status" id="status_financial_master"></div>
         </div>
+        <div class="fin-brand-pills-area" id="finBrandPillsArea"></div>
         <ul class="upload-rules">
           <li>No commas in numeric values</li>
           <li>Currency units must be consistent</li>
           <li>Channel names must match Customer data</li>
         </ul>
-        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('financial')"><span class="guide-icon">📖</span> Input Guide — Financial</button>
+        <div class="input-guide-unified" onclick="event.stopPropagation();openInputGuide('financial')">
+          <span class="guide-link-icon">📖</span>
+          <span>Click here to view <strong>User Input Guide</strong> for Financial Data upload</span>
+        </div>
       </div>
       <!-- Mapping File -->
       <div class="upload-card" id="uc_mapping">
@@ -1134,7 +1237,7 @@
           <div class="upload-option-icon">📤</div>
           <div class="upload-option-text">
             <div class="upload-option-title">Mapping Master Upload</div>
-            <div class="upload-option-sub">Enabled after Customer/Segment Master Upload completes</div>
+            <div class="upload-option-sub">Upload entity mapping relationships</div>
           </div>
           <div class="upload-option-status" id="status_mapping_master"></div>
         </div>
@@ -1143,7 +1246,10 @@
           <li>Weights column optional</li>
           <li>Cyclic mapping not allowed</li>
         </ul>
-        <button class="input-guide-btn" onclick="event.stopPropagation();openInputGuide('mapping')"><span class="guide-icon">📖</span> Input Guide — Mapping</button>
+        <div class="input-guide-unified" onclick="event.stopPropagation();openInputGuide('mapping')">
+          <span class="guide-link-icon">📖</span>
+          <span>Click here to view <strong>User Input Guide</strong> for Mapping File upload</span>
+        </div>
       </div>
     </div>
     <div class="continue-row">
@@ -1269,6 +1375,24 @@
     </div>
     <div class="modal-footer">
       <button class="btn-teal" id="abm_save_btn" onclick="submitAddBrandCfg()" disabled style="opacity:0.4;cursor:not-allowed;">Save Brand</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: SOURCE BRAND SELECTION (for new brands in config) ═══════════ -->
+<div class="modal-overlay src-selection-modal" id="srcSelectionModalOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="srcSelectionModalTitle">Select Source Brand</h3>
+      <button class="modal-close" onclick="closeSrcSelectionModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-mid);margin-bottom:12px;" id="srcSelectionDesc">Choose a brand to copy data from:</p>
+      <div class="src-brand-list" id="srcBrandList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-teal-outline" onclick="closeSrcSelectionModal()" style="margin-right:8px;">Cancel</button>
+      <button class="btn-teal" id="srcSelectionOkBtn" onclick="confirmSrcSelection()" disabled style="opacity:0.4;cursor:not-allowed;">OK</button>
     </div>
   </div>
 </div>
@@ -1522,12 +1646,76 @@
   function openInputGuide(type) {
     const content = inputGuideContent[type];
     if(!content) return;
-    document.getElementById('inputGuideTitle').textContent = content.title;
-    document.getElementById('inputGuideBody').innerHTML = content.html;
+    // Build unified guide with all sections and nav tabs
+    const allSections = ['response','financial','mapping'];
+    const sectionLabels = { response:'Response Curve', financial:'Financial Data', mapping:'Mapping File' };
+    const navTabs = allSections.map(s =>
+      `<button class="guide-nav-tab ${s===type?'active':''}" onclick="scrollGuideSection('${s}')">${sectionLabels[s]}</button>`
+    ).join('');
+    const allHtml = allSections.map(s =>
+      `<div id="guide_section_${s}" style="scroll-margin-top:10px;">${inputGuideContent[s].html}</div>`
+    ).join('<hr style="border:none;border-top:1px solid var(--border);margin:20px 0;">');
+    document.getElementById('inputGuideTitle').textContent = 'User Input Guide';
+    document.getElementById('inputGuideBody').innerHTML = `<div class="guide-nav-tabs">${navTabs}</div>${allHtml}`;
     document.getElementById('inputGuideOverlay').classList.add('open');
+    // Scroll to target section after rendering
+    setTimeout(() => {
+      const target = document.getElementById('guide_section_'+type);
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 100);
+  }
+  function scrollGuideSection(type) {
+    // Update active tab
+    document.querySelectorAll('.guide-nav-tab').forEach((tab, i) => {
+      const sections = ['response','financial','mapping'];
+      tab.classList.toggle('active', sections[i] === type);
+    });
+    const target = document.getElementById('guide_section_'+type);
+    if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  function openUnifiedInputGuide(section) {
+    openInputGuide(section || 'response');
   }
   function closeInputGuide() {
     document.getElementById('inputGuideOverlay').classList.remove('open');
+  }
+
+  /* ═══ KPI TILE UPDATE (tiles removed — safe no-op) ═══ */
+  function updateUploadKpis() { /* KPI tiles removed per design update */ }
+
+  /* ═══ SKIP RC — removed, RC close now just enables financial/mapping ═══ */
+  let rcSkipped = false;
+  function handleRCRowClick() {
+    if(!uploadState.customer.secondaryEnabled) return;
+    openBrandModal('customer');
+  }
+
+  /* ═══ FINANCIAL BRAND PILLS ═══ */
+  function updateFinBrandPills() {
+    const area = document.getElementById('finBrandPillsArea');
+    if(!area) return;
+    // Gather all brands from Customer + Response Curve
+    const customerBrands = new Set(dataTypeConfig.customer.brands);
+    const rcDetected = uploadState.customer.secondary.detected;
+    const allBrands = [...new Set([...customerBrands, ...rcDetected])];
+    if(!allBrands.length || !uploadState.customer.master.done) { area.innerHTML = ''; return; }
+    const finDetected = getBrandStage('financial').detected;
+    const pills = allBrands.map(b => {
+      const isDone = finDetected.has(b);
+      const isNewFromRC = !customerBrands.has(b);
+      let cls = isDone ? 'fin-bp done' : 'fin-bp pending';
+      if(isNewFromRC && !isDone) cls = 'fin-bp new-brand pending';
+      else if(isNewFromRC && isDone) cls = 'fin-bp done';
+      const icon = isDone ? '✓' : '⏳';
+      const newTag = isNewFromRC ? ' <span style="font-size:8px;opacity:0.7;">RC</span>' : '';
+      return `<span class="${cls}"><span class="bp-icon">${icon}</span>${b}${newTag}</span>`;
+    }).join('');
+    const doneCount = allBrands.filter(b => finDetected.has(b)).length;
+    const pendingCount = allBrands.length - doneCount;
+    const statusText = pendingCount > 0
+      ? `<span style="color:#92400e;">${pendingCount} pending</span> · ${doneCount} uploaded`
+      : `<span style="color:var(--green);">All ${doneCount} brands uploaded</span>`;
+    area.innerHTML = `<div class="fin-brand-pills-label">Brand uploads — ${statusText}</div><div class="fin-brand-pills-wrap">${pills}</div>`;
   }
   let addedBrands = [];
   let editingIndex = null;
@@ -1745,6 +1933,8 @@
   openAddBrandSidebar = function() { _origOpenSidebar(); setTimeout(function(){ renderFinGrid(); renderCustGrid(); }, 50); };
 
   /* ─ Upload config per data type ─ */
+  const newBrandsFromFinancial = new Set(); // brands detected only from financial uploads, not from customer/response
+  const newBrandsFromRC = new Set(); // brands detected only from response curve uploads, not from customer
   const dataTypeConfig = {
     customer: {
       masterLabel: 'Customer/Segment Master Upload',
@@ -1752,12 +1942,14 @@
       brands: ['Brand_1', 'Brand_2', 'Brand_3']
     },
     financial: {
-      brands: ['Brand_1', 'Brand_2', 'Brand_3']
+      brands: ['Brand_1', 'Brand_2', 'Brand_3', 'Brand_4']  // Brand_4 is a new brand only in financial data
     },
     mapping: {
       brands: ['Brand_1', 'Brand_2', 'Brand_3']
     }
   };
+  // RC brands start as customer brands + 1 new detectable brand
+  const rcDetectableBrands = ['Brand_1', 'Brand_2', 'Brand_3', 'Brand_RC_New'];
 
   // Which upload stage (within uploadState[type]) is the "brand-detect" modal for each type,
   // and what its modal title / row+status ids are.
@@ -1818,7 +2010,9 @@
       state.done = true;
       renderMasterFileList(type);
       markCustomerMasterComplete();
-      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} uploaded successfully`, 'success');
+      const brandNames = dataTypeConfig.customer.brands.join(', ');
+      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} uploaded — Brands identified: ${brandNames}`, 'success', 5000);
+      updateUploadKpis();
     }, 800);
   }
 
@@ -1844,11 +2038,13 @@
       uploadState.customer.secondaryEnabled = false;
       uploadState.financial.masterEnabled = false;
       uploadState.mapping.masterEnabled = false;
+      rcSkipped = false;
       document.getElementById('row_customer_secondary').classList.add('disabled');
       document.getElementById('row_financial_master').classList.add('disabled');
       document.getElementById('row_mapping_master').classList.add('disabled');
     }
     renderMasterFileList(type);
+    updateUploadKpis();
   }
 
   // Customer Master Upload completing unlocks: Response Curve Upload (customer),
@@ -1857,14 +2053,18 @@
     document.getElementById('status_customer_master').innerHTML = '<span class="status-check">✓</span>';
     document.getElementById('row_customer_master').classList.add('complete');
 
+    // Enable Response Curve Upload
     document.getElementById('row_customer_secondary').classList.remove('disabled');
     uploadState.customer.secondaryEnabled = true;
 
+    // Enable Financial & Mapping
     document.getElementById('row_financial_master').classList.remove('disabled');
     uploadState.financial.masterEnabled = true;
-
     document.getElementById('row_mapping_master').classList.remove('disabled');
     uploadState.mapping.masterEnabled = true;
+
+    updateFinBrandPills();
+    updateUploadKpis();
   }
 
   function downloadTemplate(type, idx) {
@@ -1884,6 +2084,14 @@
   function openBrandModal(type) {
     if(!isBrandModalEnabled(type)) return;
     currentModalType = type;
+    // Dynamically compute financial brands to include all from customer + RC
+    if(type === 'financial') {
+      const rcDetected = [...uploadState.customer.secondary.detected];
+      const allBrands = new Set([...dataTypeConfig.customer.brands, ...rcDetected]);
+      // Also include financial-only brands
+      ['Brand_4'].forEach(b => allBrands.add(b));
+      dataTypeConfig.financial.brands = [...allBrands];
+    }
     document.getElementById('secondaryModalTitle').textContent = brandModalConfig[type].label;
     renderBrandTicks(type);
     renderSecondaryFileList(type);
@@ -1894,7 +2102,17 @@
     document.getElementById('brandTickList').style.display = (type === 'mapping') ? 'none' : '';
   }
   function closeSecondaryModal() {
+    const type = currentModalType;
     document.getElementById('secondaryModalOverlay').classList.remove('open');
+    // If RC modal closed, enable financial & mapping regardless of files
+    if(type === 'customer') {
+      document.getElementById('row_financial_master').classList.remove('disabled');
+      uploadState.financial.masterEnabled = true;
+      document.getElementById('row_mapping_master').classList.remove('disabled');
+      uploadState.mapping.masterEnabled = true;
+      updateFinBrandPills();
+      updateUploadKpis();
+    }
   }
 
   function updateSecondaryDoneBtn(type) {
@@ -1917,11 +2135,35 @@
   }
 
   function renderBrandTicks(type) {
-    const cfg = dataTypeConfig[type];
     const detected = getBrandStage(type).detected;
-    document.getElementById('brandTickList').innerHTML = cfg.brands.map((b,i) => {
+    const customerBrands = new Set(dataTypeConfig.customer.brands);
+    let visibleBrands;
+    if(type === 'customer') {
+      // RC upload: show customer brands + any RC-detectable brands (show new ones only after detection)
+      visibleBrands = rcDetectableBrands.filter(b => {
+        if(!customerBrands.has(b) && !detected.has(b)) return false;
+        return true;
+      });
+    } else if(type === 'financial') {
+      // Financial: show all brands from customer + RC + financial-only (new ones only after detection)
+      const allKnownBrands = new Set([...dataTypeConfig.customer.brands, ...uploadState.customer.secondary.detected]);
+      const cfg = dataTypeConfig[type];
+      visibleBrands = cfg.brands.filter(b => {
+        if(!allKnownBrands.has(b) && !detected.has(b)) return false;
+        return true;
+      });
+    } else {
+      const cfg = dataTypeConfig[type];
+      visibleBrands = cfg.brands;
+    }
+    document.getElementById('brandTickList').innerHTML = visibleBrands.map((b,i) => {
       const isTicked = detected.has(b);
-      return `<div class="brand-tick-item ${isTicked?'ticked':''}"><div class="brand-tick-circle">${isTicked?'✓':(i+1)}</div><div class="brand-tick-name">${b}</div></div>`;
+      const isNewFromRC = type === 'customer' && !customerBrands.has(b);
+      const isNewFromFin = type === 'financial' && !customerBrands.has(b) && !uploadState.customer.secondary.detected.has(b);
+      const isNew = isNewFromRC || isNewFromFin;
+      const newBadge = isNew ? '<span class="brand-tick-new-badge">New</span>' : '';
+      const newClass = isNew ? ' new-brand' : '';
+      return `<div class="brand-tick-item${newClass} ${isTicked?'ticked':''}"><div class="brand-tick-circle">${isTicked?'✓':(i+1)}</div><div class="brand-tick-name">${b}${newBadge}</div></div>`;
     }).join('');
   }
 
@@ -1938,24 +2180,101 @@
 
   function handleSecondaryFiles(type, fileList) {
     if(!fileList || !fileList.length) return;
-    const cfg = dataTypeConfig[type];
     const state = getBrandStage(type);
     const filesArr = Array.from(fileList);
     filesArr.forEach(f => state.files.push({ name:f.name, done:false, brands:[], fileObj:f }));
     configBuilt = false; // these files may feed Data Configuration (incl. Response Curve tab)
     renderSecondaryFileList(type);
     setTimeout(() => {
+      const customerBrands = new Set(dataTypeConfig.customer.brands);
+      const rcDetectedSoFar = uploadState.customer.secondary.detected;
       filesArr.forEach(f => {
         const entry = state.files.find(x => x.name===f.name && !x.done);
-        const matched = detectBrandsFromFile(f.name, cfg.brands, state.detected);
-        matched.forEach(b => state.detected.add(b));
+        let brandPool;
+        if(type === 'customer') {
+          // RC upload: detect from rcDetectableBrands
+          brandPool = rcDetectableBrands;
+        } else {
+          brandPool = dataTypeConfig[type].brands;
+        }
+        let matched = detectBrandsFromFile(f.name, brandPool, state.detected);
+        // For RC: force new RC-only brands to be detected
+        if(type === 'customer') {
+          const rcOnlyBrands = rcDetectableBrands.filter(b => !customerBrands.has(b) && !state.detected.has(b));
+          rcOnlyBrands.forEach(rb => { if(!matched.includes(rb)) matched.push(rb); });
+        }
+        // For financial uploads, also ensure any new-only brands (not in customer or RC data) are detected
+        if(type === 'financial') {
+          const allKnown = new Set([...customerBrands, ...rcDetectedSoFar]);
+          const financialOnlyBrands = dataTypeConfig.financial.brands.filter(b => !allKnown.has(b) && !state.detected.has(b));
+          financialOnlyBrands.forEach(fb => {
+            if(!matched.includes(fb)) matched.push(fb);
+          });
+        }
+        matched.forEach(b => {
+          state.detected.add(b);
+          // Track brands new from RC (not in customer/segment data)
+          if(type === 'customer' && !customerBrands.has(b)) {
+            newBrandsFromRC.add(b);
+            // Also add to configBrands if not already present
+            if(!configBrands.find(cb => cb.name === b)) {
+              configBrands.push({
+                name: b, alias: b.replace(/_/g,' '),
+                desc: b + ' — new brand detected from response curve data.',
+                active: false, aiGenerated: false, isNew: false, newFromRC: true,
+                custSource: null, responseSource: null
+              });
+            }
+            // Add to financial detectable brands if not already there
+            if(!dataTypeConfig.financial.brands.includes(b)) {
+              dataTypeConfig.financial.brands.push(b);
+            }
+          }
+          // Track brands that are new from financial (not in customer/segment or response data)
+          if(type === 'financial' && !customerBrands.has(b) && !rcDetectedSoFar.has(b)) {
+            newBrandsFromFinancial.add(b);
+            // Also add to configBrands if not already present
+            if(!configBrands.find(cb => cb.name === b)) {
+              configBrands.push({
+                name: b, alias: b.replace(/_/g,' '),
+                desc: b + ' — new brand detected from financial data upload.',
+                active: false, aiGenerated: false, isNew: false, newFromFinancial: true,
+                custSource: null, responseSource: null
+              });
+            }
+          }
+        });
         if(entry) { entry.done = true; entry.brands = matched; }
       });
       renderSecondaryFileList(type);
       renderBrandTicks(type);
       updateSecondaryDoneBtn(type);
-      if(state.detected.size >= cfg.brands.length) markBrandModalComplete(type);
-      showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned for brand data`, 'success');
+      const brandPool = type === 'customer' ? rcDetectableBrands : dataTypeConfig[type].brands;
+      if(state.detected.size >= brandPool.length) markBrandModalComplete(type);
+      // Build brand-name toast
+      const allDetectedArr = [...state.detected];
+      const newDetectedThisRound = filesArr.reduce((arr, f) => {
+        const entry = state.files.find(x => x.name===f.name);
+        if(entry && entry.brands) entry.brands.forEach(b => { if(!arr.includes(b)) arr.push(b); });
+        return arr;
+      }, []);
+      const typeLabel = type === 'customer' ? 'Response Curve' : 'Financial';
+      if(newDetectedThisRound.length) {
+        const newFromRC = type === 'customer' ? newDetectedThisRound.filter(b => !customerBrands.has(b)) : [];
+        const newFromFin = type === 'financial' ? newDetectedThisRound.filter(b => {
+          const allKnown = new Set([...customerBrands, ...rcDetectedSoFar]);
+          return !allKnown.has(b);
+        }) : [];
+        let brandList = newDetectedThisRound.join(', ');
+        let extra = '';
+        if(newFromRC.length) extra = ` (${newFromRC.join(', ')} — NEW)`;
+        if(newFromFin.length) extra = ` (${newFromFin.join(', ')} — NEW)`;
+        showToast(`${typeLabel} — Brands identified: ${brandList}${extra}`, 'success', 5000);
+      } else {
+        showToast(`${filesArr.length} file${filesArr.length>1?'s':''} scanned — no new brands detected`, 'success');
+      }
+      updateFinBrandPills();
+      updateUploadKpis();
     }, 1000);
   }
 
@@ -1963,8 +2282,21 @@
     const state = getBrandStage(type);
     const el = document.getElementById('secondaryFileList');
     if(!state.files.length) { el.innerHTML = '<div class="modal-empty-hint">No files uploaded yet</div>'; return; }
+    const customerBrands = new Set(dataTypeConfig.customer.brands);
+    const rcDetected = uploadState.customer.secondary.detected;
     el.innerHTML = `<div class="file-count">Uploaded: <span>${state.files.length}</span></div>` + state.files.map((f,i) => {
-      const brandTag = f.brands && f.brands.length ? ` <span style="color:var(--text-light);">(${f.brands.join(', ')})</span>` : '';
+      let brandTag = '';
+      if(f.brands && f.brands.length) {
+        const parts = f.brands.map(b => {
+          const isNewFromRC = type === 'customer' && !customerBrands.has(b);
+          const isNewFromFin = type === 'financial' && !customerBrands.has(b) && !rcDetected.has(b);
+          if(isNewFromRC || isNewFromFin) {
+            return `<span style="color:var(--green);font-weight:600;">${b} <span class="brand-tick-new-badge" style="font-size:8px;">NEW</span></span>`;
+          }
+          return b;
+        });
+        brandTag = ` <span style="color:var(--text-light);">(${parts.join(', ')})</span>`;
+      }
       return `<div class="file-item"><span class="file-name">${f.name}${brandTag}</span><span style="display:flex;align-items:center;gap:6px;">${f.done?'<span class="file-ok">✓</span>':'<span class="modal-spinner"></span>'}<span class="file-remove" onclick="removeSecondaryFile('${type}',${i})" title="Remove">✕</span></span></div>`;
     }).join('');
   }
@@ -1980,6 +2312,18 @@
     const cfg = brandModalConfig[type];
     document.getElementById(cfg.statusId).innerHTML = '<span class="status-check">✓</span>';
     document.getElementById(cfg.rowId).classList.add('complete');
+    // When RC upload is complete, enable Financial & Mapping
+    if(type === 'customer') {
+      document.getElementById('row_financial_master').classList.remove('disabled');
+      uploadState.financial.masterEnabled = true;
+      document.getElementById('row_mapping_master').classList.remove('disabled');
+      uploadState.mapping.masterEnabled = true;
+      updateFinBrandPills();
+    }
+    if(type === 'financial') {
+      updateFinBrandPills();
+    }
+    updateUploadKpis();
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -1989,7 +2333,10 @@
 
   /* ═══════════ DATA CONFIGURATION (Brands + multi-file union columns + QC) ═══════════ */
   const CONFIG_TYPES = ['customer','financial','mapping','response'];
-  const COLUMN_TYPES = ['ID','Date Range','Select type','Sales','Activity']; // per spec — column type dropdown restricted to these
+  const COLUMN_TYPES = ['ID','Date Range','Customer Type','Sales','Activity','Segment']; // Customer/Segment level types
+  const SEGMENT_COLUMN_TYPES = ['Customer Count','Date Range','Customer Type','Sales','Activity','Segment'];
+  const FINANCIAL_COLUMN_TYPES = ['Brand','Customer Type','Instance','Total Forecast','COGS','Gross To Net','Non SF Impact','Carryover Rate','Carryover Amount'];
+  const MAPPING_COLUMN_TYPES = ['Level From','Level To','Value From','Value To','Weight','Mapping Category'];
   const TAB_ORDER = ['brands','customer','financial','mapping','response'];
   let configBuilt = false;
   let brandsConfirmed = false;
@@ -2017,25 +2364,56 @@
     const pane = document.getElementById('cfgPane_brands');
     if(!pane) return;
     const allActive = configBrands.every(b => b.active);
-    const rows = configBrands.map((b,i) => `
+    const rows = configBrands.map((b,i) => {
+      const isFinNew = b.newFromFinancial === true;
+      const newTag = isFinNew ? '<span class="brand-new-tag-green">New</span>' : '';
+      const isNewManual = b.isNew && !isFinNew;
+      const manualTag = isNewManual ? '<span class="req-tag" style="color:var(--teal-dark);">New</span>' : '';
+
+      // Description cell — always includes description input
+      let descCell = '';
+
+      const isNewBrand = isFinNew || b.newFromRC;
+      let srcBtnsCell = '';
+      if(isNewBrand) {
+        const custSrcLabel = b.custSource
+          ? `<span class="src-icon">✓</span> <span class="src-brand-name">${b.custSource}</span>`
+          : '<span class="src-icon">👥</span> Cust/Segment source';
+        const custSrcClass = b.custSource ? ' selected' : '';
+        const respSrcLabel = b.responseSource
+          ? `<span class="src-icon">✓</span> <span class="src-brand-name">${b.responseSource}</span>`
+          : '<span class="src-icon">📈</span> RC source';
+        const respSrcClass = b.responseSource ? ' selected' : '';
+        srcBtnsCell = `<div class="brand-src-actions">
+          <button class="btn-select-source${custSrcClass}" onclick="openSrcSelectionModal(${i}, 'customer')">${custSrcLabel}</button>
+          <button class="btn-select-source${respSrcClass}" onclick="openSrcSelectionModal(${i}, 'response')">${respSrcLabel}</button>
+        </div>`;
+      } else {
+        srcBtnsCell = '<span style="color:var(--text-light);font-size:11px;">Auto-detected</span>';
+      }
+      descCell = `<input class="cfg-desc-input" value="${b.desc}" oninput="configBrands[${i}].desc=this.value" placeholder="Enter description">`;
+
+      return `
       <tr class="${b.active?'':'brand-inactive'}">
         <td style="text-align:center;">
           <input type="checkbox" class="cfg-checkbox" ${b.active?'checked':''} onchange="toggleConfigBrandActive(${i}, this.checked)">
         </td>
-        <td style="font-weight:600;">${b.name}${b.isNew?' <span class="req-tag" style="color:var(--teal-dark);">New</span>':''}</td>
-        <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${b.desc}" oninput="configBrands[${i}].desc=this.value">${b.aiGenerated?'<span class="ai-badge" title="AI generated">✨</span>':''}</span></td>
-      </tr>`).join('');
+        <td style="font-weight:600;">${b.name}${manualTag}${newTag}</td>
+        <td>${descCell}</td>
+        <td>${srcBtnsCell}</td>
+      </tr>`;
+    }).join('');
 
     pane.innerHTML = `
       <div class="brandcfg-toolbar">
         <span style="font-size:12px;color:var(--text-mid);">Review the brands detected from your uploaded data. Uncheck any brand you don't want to include in this project.</span>
-        <button class="btn-add-brand-cfg" onclick="openAddBrandCfgModal()">+ Add Brand</button>
+        <button class="btn-add-brand-cfg" disabled style="opacity:0.35;cursor:not-allowed;pointer-events:none;" title="New brands are auto-detected from financial data uploads">+ Add Brand</button>
       </div>
       <div style="overflow-x:auto;">
         <table class="brandcfg-table">
           <thead><tr>
             <th style="width:34px;"><input type="checkbox" class="cfg-checkbox" ${allActive?'checked':''} onchange="toggleAllBrands(this.checked)" title="Select/deselect all brands"></th>
-            <th>Brand Name</th><th>Description</th>
+            <th>Brand Name</th><th style="width:220px;">Description</th><th>Data Sources</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
@@ -2181,6 +2559,98 @@
   function closeAddBrandCfgModal() {
     document.getElementById('addBrandCfgModalOverlay').classList.remove('open');
   }
+
+  /* ─ Source Selection Modal for new financial brands ─ */
+  let srcSelectionBrandIdx = null;
+  let srcSelectionType = null; // 'customer' or 'response'
+  let srcSelectionChosen = null;
+
+  function openSrcSelectionModal(brandIdx, type) {
+    srcSelectionBrandIdx = brandIdx;
+    srcSelectionType = type;
+    srcSelectionChosen = null;
+
+    const isCustomer = type === 'customer';
+    const title = isCustomer
+      ? 'Select Customer & Segment Data Source'
+      : 'Select Response Curve Data Source';
+    const desc = isCustomer
+      ? 'Choose an existing brand whose customer & segment data structure you\'d like to copy for this new brand:'
+      : 'Choose an existing brand whose response curve data you\'d like to copy for this new brand:';
+    const icon = isCustomer ? '👥' : '📈';
+
+    document.getElementById('srcSelectionModalTitle').textContent = title;
+    document.getElementById('srcSelectionDesc').textContent = desc;
+
+    // Available brands = all active non-newFromFinancial brands
+    const availBrands = configBrands.filter(b => b.active && !b.newFromFinancial);
+    const currentSelection = isCustomer
+      ? configBrands[brandIdx].custSource
+      : configBrands[brandIdx].responseSource;
+
+    const listEl = document.getElementById('srcBrandList');
+    listEl.innerHTML = availBrands.map(b => {
+      const chosen = b.name === currentSelection ? ' chosen' : '';
+      return `<div class="src-brand-option${chosen}" onclick="chooseSrcBrand(this, '${b.name}')">
+        <div class="src-brand-radio">${chosen ? '✓' : ''}</div>
+        <div>
+          <div class="src-brand-label">${icon} ${b.name}</div>
+          <div class="src-brand-desc">${b.desc || 'Brand data available'}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    if(!availBrands.length) {
+      listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-light);font-size:12px;">No existing brands available. Please ensure at least one brand is active.</div>';
+    }
+
+    srcSelectionChosen = currentSelection || null;
+    setSrcOkEnabled(!!srcSelectionChosen);
+    document.getElementById('srcSelectionModalOverlay').classList.add('open');
+  }
+
+  function chooseSrcBrand(el, brandName) {
+    srcSelectionChosen = brandName;
+    document.querySelectorAll('#srcBrandList .src-brand-option').forEach(opt => {
+      opt.classList.remove('chosen');
+      opt.querySelector('.src-brand-radio').textContent = '';
+    });
+    el.classList.add('chosen');
+    el.querySelector('.src-brand-radio').textContent = '✓';
+    setSrcOkEnabled(true);
+  }
+
+  function setSrcOkEnabled(enabled) {
+    const btn = document.getElementById('srcSelectionOkBtn');
+    btn.disabled = !enabled;
+    btn.style.opacity = enabled ? '1' : '0.4';
+    btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+  }
+
+  function confirmSrcSelection() {
+    if(srcSelectionBrandIdx === null || !srcSelectionChosen) return;
+    const brand = configBrands[srcSelectionBrandIdx];
+    if(srcSelectionType === 'customer') {
+      brand.custSource = srcSelectionChosen;
+    } else {
+      brand.responseSource = srcSelectionChosen;
+    }
+    // Auto-check the brand as soon as either source is selected
+    if(brand.custSource || brand.responseSource) {
+      brand.active = true;
+    }
+    closeSrcSelectionModal();
+    renderBrandsTab();
+    const srcLabel = srcSelectionType === 'customer' ? 'Customer & segment' : 'Response curve';
+    showToast(`${srcLabel} data source set to "${srcSelectionChosen}" for ${brand.name}`, 'success');
+  }
+
+  function closeSrcSelectionModal() {
+    document.getElementById('srcSelectionModalOverlay').classList.remove('open');
+    srcSelectionBrandIdx = null;
+    srcSelectionType = null;
+    srcSelectionChosen = null;
+  }
   function submitAddBrandCfg() {
     const name = document.getElementById('abm_name').value.trim();
     if(!name) { showToast('Brand name is required', 'error'); return; }
@@ -2287,18 +2757,72 @@
     return String(s).replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  // Column type restricted to: ID, Date Range, Select type, Activity (per screenshot reference)
-  function inferColumnType(name, rows, colIdx) {
-    const n = name.toLowerCase();
+  function inferColumnType(name, rows, colIdx, group) {
+    const n = name.toLowerCase().replace(/[\s_]/g,'');
+    // Customer Level types
+    if(group === 'customerLevel') {
+      if(/^id$/.test(n)) return 'ID';
+      if(/date|month|week|period|time|year/.test(n)) return 'Date Range';
+      if(/customertype|custtype|cust_type/.test(n)) return 'Customer Type';
+      if(/segment|tier|quintile|abc|decile/.test(n)) return 'Segment';
+      if(/brand/.test(n)) return 'ID';
+      const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
+      const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
+      if(vals.length && numericCount / vals.length > 0.7) {
+        if(/sales|revenue|nrx|trx|share|market/i.test(n)) return 'Sales';
+        return 'Activity';
+      }
+      return 'ID';
+    }
+    // Segment Level types
+    if(group === 'segmentLevel') {
+      if(/customercount|custcount|cust_count/.test(n)) return 'Customer Count';
+      if(/date|month|week|period|time|year/.test(n)) return 'Date Range';
+      if(/customertype|custtype|cust_type/.test(n)) return 'Customer Type';
+      if(/segment|tier|quintile|abc|decile/.test(n)) return 'Segment';
+      if(/brand/.test(n)) return 'Segment';
+      const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
+      const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
+      if(vals.length && numericCount / vals.length > 0.7) {
+        if(/sales|revenue|nrx|trx|share|market/i.test(n)) return 'Sales';
+        return 'Activity';
+      }
+      return 'Segment';
+    }
+    // Mapping types
+    if(group === 'mapping') {
+      if(/fromtype|from_type/.test(n)) return 'Level From';
+      if(/totype|to_type/.test(n)) return 'Level To';
+      if(/valuefrom|value_from/.test(n)) return 'Value From';
+      if(/valueto|value_to/.test(n)) return 'Value To';
+      if(/weight/.test(n)) return 'Weight';
+      if(/category|mapping/.test(n)) return 'Mapping Category';
+      return 'Value From';
+    }
+    // Financial fallback
     if(/date|month|week|period|time|year/.test(n)) return 'Date Range';
-    if(/\bid\b|\bhcp\b|\baccount\b|\bcustomer\b|\bchannel\b|\bbrand\b|\bfromtype\b|\btotype\b|from_type|to_type|segment|tier|quintile|abc|cust_type|customer_type/.test(n)) return 'Select type';
+    if(/customertype|custtype/.test(n)) return 'Customer Type';
     const vals = rows.map(r => r[colIdx]).filter(v => v !== undefined && v !== '');
     const numericCount = vals.filter(v => v !== '' && !isNaN(parseFloat(String(v).replace(/[,$]/g,'')))).length;
     if(vals.length && numericCount / vals.length > 0.7) {
-      if(/sales|revenue|nrx|trx|share|market_share|forecast/i.test(n)) return 'Sales';
+      if(/sales|revenue|nrx|trx|share|market|forecast/i.test(n)) return 'Sales';
       return 'Activity';
     }
-    return 'Select type';
+    return 'ID';
+  }
+  // Format numbers: 420000 -> 420k, 4100000 -> 4.1M, percentages round to 1 decimal
+  function formatScientific(val) {
+    const num = parseFloat(String(val).replace(/[,$\s]/g,''));
+    if(isNaN(num)) return val;
+    const abs = Math.abs(num);
+    if(abs >= 1e6) return (num/1e6).toFixed(abs >= 1e7 ? 1 : 2).replace(/\.?0+$/,'') + 'M';
+    if(abs >= 1e3) return (num/1e3).toFixed(abs >= 1e4 ? 1 : 2).replace(/\.?0+$/,'') + 'k';
+    return String(num);
+  }
+  function formatPct(val) {
+    const num = parseFloat(String(val).replace(/[%\s]/g,''));
+    if(isNaN(num)) return val;
+    return num.toFixed(1) + '%';
   }
 
   // Which column names are structurally required ("R") per file type — locked, cannot be edited or deselected
@@ -2308,6 +2832,59 @@
     financial: ['brand','customer type','customer_type','year','total forecast ($)','total_forecast'],
     mapping: ['from_type','to_type','value_from','value_to']
   };
+  // Display-friendly required column names per tab (for pills)
+  const REQUIRED_PILLS = {
+    customerLevel: [
+      { label:'ID', types:['ID'] },
+      { label:'Date Range', types:['Date Range'] },
+      { label:'Customer Type', types:['Customer Type'] },
+      { label:'Sales or Activity', types:['Sales','Activity'] }
+    ],
+    segmentLevel: [
+      { label:'Customer Count', types:['Customer Count'] },
+      { label:'Date Range', types:['Date Range'] },
+      { label:'Customer Type', types:['Customer Type'] },
+      { label:'Sales or Activity', types:['Sales','Activity'] }
+    ],
+    financial: [
+      { label:'Instance', check:'column', col:'instance' },
+      { label:'Total Forecast', check:'column', col:'total_forecast' },
+      { label:'COGS', check:'column', col:'cogs' },
+      { label:'Gross To Net', check:'column', col:'gross_to_net' }
+    ],
+    mapping: [
+      { label:'Level From', types:['Level From'] },
+      { label:'Level To', types:['Level To'] },
+      { label:'Value From', types:['Value From'] },
+      { label:'Value To', types:['Value To'] }
+    ]
+  };
+  function buildReqPillsBar(path) {
+    const pills = REQUIRED_PILLS[path];
+    if(!pills) return '';
+    const cols = getColumnsFor(path);
+    const selectedTypes = cols.filter(c => c.selected).map(c => c.type);
+    const html = pills.map(p => {
+      let ok = false;
+      if(p.types) {
+        ok = p.types.some(t => selectedTypes.includes(t));
+      } else {
+        ok = true; // financial columns are always present in mock
+      }
+      return `<span class="req-pill ${ok ? 'satisfied' : 'missing'}">${ok ? '✓' : '!'} ${p.label}</span>`;
+    }).join('');
+    return `<div class="req-pills-bar"><span class="req-pills-label">Required:</span>${html}</div>`;
+  }
+  function buildMappingReqPills() {
+    const pills = REQUIRED_PILLS.mapping;
+    if(!pills || !configData.mapping.templateCols) return '';
+    const selectedTypes = configData.mapping.templateCols.filter(c => c.selected).map(c => c.colType);
+    const html = pills.map(p => {
+      const ok = p.types.some(t => selectedTypes.includes(t));
+      return `<span class="req-pill ${ok ? 'satisfied' : 'missing'}">${ok ? '✓' : '!'} ${p.label}</span>`;
+    }).join('');
+    return `<div class="req-pills-bar"><span class="req-pills-label">Required:</span>${html}</div>`;
+  }
   function isRequiredColumn(group, name) {
     const n = String(name).toLowerCase().trim();
     return (REQUIRED_COLUMNS[group] || []).some(req => n === req || n.replace(/[\s_]/g,'') === req.replace(/[\s_]/g,''));
@@ -2388,9 +2965,8 @@
       file.headers.forEach((h, ci) => {
         const key = h.toLowerCase().trim();
         if(!map.has(key)) {
-          const type = inferColumnType(h, file.rows, ci);
-          const required = isRequiredColumn(group, h);
-          map.set(key, { name:h, alias:titleCase(h), type, desc:'', selected:true, locked:required, brandMapping:'' });
+          const type = inferColumnType(h, file.rows, ci, group);
+          map.set(key, { name:h, alias:titleCase(h), type, desc:'', selected:true, locked:false, brandMapping:'' });
         }
       });
     });
@@ -2479,23 +3055,31 @@
     buildResponseByBrand();
   }
 
-  // Response Curve data — grouped by brand, HCP/HCO level files (per spec: show the exact files uploaded, not a metadata table)
-  // Response curve files have wide schemas: Centile, Customer_Type, Customers, activity_0, response_0, activity_1, response_1, ... activity_24, response_24
-  const RC_PAIRS = 25; // 25 pairs → 50 activity/response columns + 3 meta = 53 total
+  // Response Curve data — grouped by brand
+  // Headers: Brand | Time Period | Segment_Tier | Segment_Decile | ID | Cust_count | Customer type | Channel | Activity_0..100 | Revenue_0..100
+  const RC_PAIRS = 9; // show 0-8 for demo (representing 0..100 range)
   function rcHeaders() {
-    const h = ['Centile','Customer_Type','Customers'];
-    for(let i = 0; i < RC_PAIRS; i++) { h.push(`activity_${i}`, `response_${i}`); }
+    const h = ['Brand','Time Period','Segment_Tier','Segment_Decile','ID','Cust_count','Customer type','Channel'];
+    for(let i = 0; i <= RC_PAIRS; i++) { h.push(`Activity_${i*11}`); }
+    for(let i = 0; i <= RC_PAIRS; i++) { h.push(`Revenue_${i*11}`); }
     return h;
   }
   function rcColumns() {
     const cols = [
-      { name:'Centile', alias:'Centile', type:'Select type', selected:true, locked:true },
-      { name:'Customer_Type', alias:'Customer Type', type:'Select type', selected:true, locked:true },
-      { name:'Customers', alias:'Customers', type:'Activity', selected:true, locked:true },
+      { name:'Brand', alias:'Brand', type:'Select type', selected:true, locked:true },
+      { name:'Time Period', alias:'Time Period', type:'Date Range', selected:true, locked:true },
+      { name:'Segment_Tier', alias:'Segment Tier', type:'Select type', selected:true, locked:true },
+      { name:'Segment_Decile', alias:'Segment Decile', type:'Select type', selected:true, locked:true },
+      { name:'ID', alias:'ID', type:'ID', selected:true, locked:true },
+      { name:'Cust_count', alias:'Customer Count', type:'Activity', selected:true, locked:true },
+      { name:'Customer type', alias:'Customer Type', type:'Select type', selected:true, locked:true },
+      { name:'Channel', alias:'Channel', type:'Select type', selected:true, locked:true },
     ];
-    for(let i = 0; i < RC_PAIRS; i++) {
-      cols.push({ name:`activity_${i}`, alias:`Activity ${i}`, type:'Activity', selected:true, locked:false });
-      cols.push({ name:`response_${i}`, alias:`Response ${i}`, type:'Activity', selected:true, locked:false });
+    for(let i = 0; i <= RC_PAIRS; i++) {
+      cols.push({ name:`Activity_${i*11}`, alias:`Activity ${i*11}`, type:'Activity', selected:true, locked:false });
+    }
+    for(let i = 0; i <= RC_PAIRS; i++) {
+      cols.push({ name:`Revenue_${i*11}`, alias:`Revenue ${i*11}`, type:'Activity', selected:true, locked:false });
     }
     return cols;
   }
@@ -2503,7 +3087,7 @@
   function buildResponseByBrand() {
     configBrands.forEach(b => {
       if(configData.response.byBrand[b.name] !== undefined) return;
-      if(b.isNew) { configData.response.byBrand[b.name] = []; return; }
+      if(b.isNew || b.newFromFinancial) { configData.response.byBrand[b.name] = []; return; }
       configData.response.byBrand[b.name] = [
         { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCP', b.name==='Brand_1'||b.name==='Brand_2') },
         { name:`${b.name}_HCO_Response_Curve.csv`, level:'HCO', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCO', false) },
@@ -2512,22 +3096,38 @@
   }
   function mockResponseRows(brand, level, injectError) {
     const segments = level === 'HCP'
-      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18']
-      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5'];
+      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92']
+      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3'];
+    const tiers = ['High','Medium','Low','High','Medium'];
+    const deciles = ['D1','D3','D5','D2','D4'];
+    const channels = ['F2F Detail','Remote','Speaker','F2F Detail','Remote'];
     const custType = level === 'HCP' ? 'HCP' : 'Account';
     return segments.map((seg, si) => {
-      const row = [`OCS_${brand}_${seg}`, custType, si === 0 ? 1 : Math.floor(2 + si * 1.3)];
-      for(let i = 0; i < RC_PAIRS; i++) {
-        const act = (i * 2).toFixed(2);
+      const row = [
+        brand,                                          // Brand
+        '2027',                                         // Time Period
+        tiers[si % tiers.length],                       // Segment_Tier
+        deciles[si % deciles.length],                   // Segment_Decile
+        level === 'HCP' ? `OCS_${brand}_${seg}` : 'All', // ID ("All" if segment level)
+        Math.floor(2 + si * 1.3),                       // Cust_count
+        custType,                                       // Customer type
+        channels[si % channels.length],                 // Channel
+      ];
+      // Activity_0..Activity_99 (sampled at intervals of 11)
+      for(let i = 0; i <= RC_PAIRS; i++) {
+        const act = (i * 11 * 0.5).toFixed(2);
+        if(injectError && si === 0 && i === 5) {
+          row.push('$24.00');
+        } else {
+          row.push(act);
+        }
+      }
+      // Revenue_0..Revenue_99 (sampled at intervals of 11)
+      for(let i = 0; i <= RC_PAIRS; i++) {
         const k = 0.04 + si * 0.006;
         const sat = 5000 + si * 3000;
-        const resp = (sat * (1 - Math.exp(-k * i * 2))).toFixed(2);
-        // Inject one error: first HCP file, first segment, activity_12
-        if(injectError && si === 0 && i === 12) {
-          row.push('$24.00', resp);
-        } else {
-          row.push(act, resp);
-        }
+        const resp = (sat * (1 - Math.exp(-k * i * 11 * 0.5))).toFixed(2);
+        row.push(resp);
       }
       return row;
     });
@@ -2535,12 +3135,11 @@
 
   function toggleColumnSelected(path, ci, checked) {
     const col = getColumnsFor(path)[ci];
-    if(col.locked) return; // required column — cannot be unchecked
     col.selected = checked;
     renderConfigTabForPath(path);
   }
   function toggleAllColumns(path, checked) {
-    getColumnsFor(path).forEach(c => { if(!c.locked) c.selected = checked; });
+    getColumnsFor(path).forEach(c => { c.selected = checked; });
     renderConfigTabForPath(path);
   }
   function getColumnsFor(path) {
@@ -2559,10 +3158,18 @@
     renderConfigTab('customer');
   }
 
+  function getTypeListForPath(path) {
+    if(path === 'customerLevel') return COLUMN_TYPES;
+    if(path === 'segmentLevel') return SEGMENT_COLUMN_TYPES;
+    if(path === 'mapping') return MAPPING_COLUMN_TYPES;
+    return COLUMN_TYPES;
+  }
+
   function columnRowsHtml(path) {
     const cols = getColumnsFor(path);
     const isCustomerTab = (path === 'customerLevel' || path === 'segmentLevel');
     const activeBrands = configBrands.filter(b => b.active).map(b => b.name);
+    const typeList = getTypeListForPath(path);
     return cols.map((c,ci) => {
       // Hide "Brand" column row from customer data config tables
       if(isCustomerTab && /^brand$/i.test(c.name.trim())) return '';
@@ -2571,9 +3178,6 @@
       if(isCustomerTab) {
         const showMapping = needsBrandMapping(path, c);
         if(showMapping) {
-          // Both levels: multi-select dropdown
-          // Customer Level: all brands auto-detected (pre-selected)
-          // Segment Level: defaults to none selected ("Select Brand")
           if(!c.brandMappingMulti) c.brandMappingMulti = (path === 'customerLevel') ? [...activeBrands] : [];
           const selectedLabel = c.brandMappingMulti.length ? c.brandMappingMulti.join(', ') : 'Select Brand';
           const truncLabel = selectedLabel.length > 28 ? selectedLabel.slice(0,26) + '…' : selectedLabel;
@@ -2595,17 +3199,16 @@
       return `
       <tr class="${c.selected ? '' : 'col-deselected'}">
         <td>
-          <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} ${c.locked?'disabled title="Required column — always included"':''} onchange="toggleColumnSelected('${path}',${ci},this.checked)">
+          <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} onchange="toggleColumnSelected('${path}',${ci},this.checked)">
         </td>
-        <td>${c.name}${c.locked?'<span class="req-tag">Required</span>':''}</td>
-        <td><input class="cfg-alias-input ${c.locked?'locked-input':''}" value="${c.alias}" ${c.locked?'disabled':''} oninput="getColumnsFor('${path}')[${ci}].alias=this.value"></td>
+        <td>${c.name}</td>
+        <td><input class="cfg-alias-input" value="${c.alias}" oninput="getColumnsFor('${path}')[${ci}].alias=this.value"></td>
         <td>
-          <select class="cfg-alias-input ${c.locked?'locked-input':''}" ${c.locked?'disabled':''} onchange="getColumnsFor('${path}')[${ci}].type=this.value">
-            ${COLUMN_TYPES.map(t=>`<option value="${t}" ${c.type===t?'selected':''}>${t}</option>`).join('')}
+          <select class="cfg-alias-input" onchange="getColumnsFor('${path}')[${ci}].type=this.value">
+            ${typeList.map(t=>`<option value="${t}" ${c.type===t?'selected':''}>${t}</option>`).join('')}
           </select>
         </td>
         ${brandMappingCell}
-        <td><input class="cfg-desc-input" value="${c.desc}" placeholder="Add description" oninput="getColumnsFor('${path}')[${ci}].desc=this.value"></td>
       </tr>`;
     }).join('');
   }
@@ -2657,22 +3260,48 @@
     }
   }
 
+  function getQCWarnings(path) {
+    const cols = getColumnsFor(path).filter(c => c.selected);
+    const types = cols.map(c => c.type);
+    const warnings = [];
+    if(path === 'customerLevel') {
+      if(!types.includes('ID')) warnings.push('At least 1 column must be assigned type <strong>ID</strong>');
+      if(!types.includes('Customer Type')) warnings.push('At least 1 column must be assigned type <strong>Customer Type</strong>');
+      if(!types.includes('Date Range')) warnings.push('At least 1 column must be assigned type <strong>Date Range</strong> (Time Period)');
+    }
+    if(path === 'segmentLevel') {
+      if(!types.includes('Customer Count')) warnings.push('At least 1 column must be assigned type <strong>Customer Count</strong>');
+      if(!types.includes('Customer Type')) warnings.push('At least 1 column must be assigned type <strong>Customer Type</strong>');
+      if(!types.includes('Date Range')) warnings.push('At least 1 column must be assigned type <strong>Date Range</strong> (Time Period)');
+    }
+    return warnings;
+  }
   function columnTableHtml(path) {
     const cols = getColumnsFor(path);
     const isCustomerTab = (path === 'customerLevel' || path === 'segmentLevel');
-    // Exclude hidden Brand row from counts for customer tabs
+    const isSegment = (path === 'segmentLevel');
     const visibleCols = isCustomerTab ? cols.filter(c => !/^brand$/i.test(c.name.trim())) : cols;
     const selectedCount = visibleCols.filter(c => c.selected).length;
     const allSelected = selectedCount === visibleCols.length;
     const fileCount = getFilesFor(path).length;
     const brandMappingHeader = isCustomerTab ? '<th>Brand Mapping</th>' : '';
+    const aliasHeader = isSegment
+      ? 'Alias <span class="alias-info-wrap"><span class="alias-info-icon">i</span><span class="alias-tooltip">Keep field name consistent with response curve column name</span></span>'
+      : 'Alias';
+    // FE QC checks
+    const qcWarnings = isCustomerTab ? getQCWarnings(path) : [];
+    const qcBar = qcWarnings.length
+      ? `<div class="cfg-status-banner fail" style="margin:8px 0;">${qcWarnings.map(w => '<div style="font-size:11px;">⚠ ' + w + '</div>').join('')}</div>`
+      : (isCustomerTab ? '<div class="cfg-status-banner pass" style="margin:8px 0;">✓ All required column types assigned</div>' : '');
     return `
+      ${buildReqPillsBar(path)}
       <div class="config-toolbar">
         <span class="col-select-summary"><strong>${selectedCount}</strong> of ${visibleCols.length} columns selected${fileCount>1?` (combined across ${fileCount} files)`:''}</span>
       </div>
+      ${qcBar}
       <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
         <table class="config-table">
-          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${path}',this.checked)" title="Select/deselect all optional columns"></th><th>Name</th><th>Alias</th><th>Column Type</th>${brandMappingHeader}<th>Description</th></tr></thead>
+          <thead><tr><th style="width:34px"><input type="checkbox" class="cfg-checkbox" ${allSelected?'checked':''} onchange="toggleAllColumns('${path}',this.checked)" title="Select/deselect all columns"></th><th>Name</th><th>${aliasHeader}</th><th>Column Type</th>${brandMappingHeader}</tr></thead>
           <tbody>${columnRowsHtml(path)}</tbody>
         </table>
       </div>`;
@@ -2696,37 +3325,46 @@
     }
 
     if(type === 'mapping') {
-      // Mapping template columns styled like Brands tab
       if(!configData.mapping.templateCols) {
         configData.mapping.templateCols = [
-          { name:'From_type', alias:'From Type', desc:'Source entity type (e.g. HCP, ZIP)' },
-          { name:'To_type', alias:'To Type', desc:'Target entity type (e.g. Account, Terr)' },
-          { name:'Value_from', alias:'Value From', desc:'Source entity identifier' },
-          { name:'Value_to', alias:'Value To', desc:'Target entity identifier' },
-          { name:'Weight', alias:'Weight', desc:'Mapping weight (default 1)' },
-          { name:'Mapping_Category', alias:'Mapping Category', desc:'Type of mapping relationship (Affiliation, Alignment)' }
+          { name:'From_type', colType:'Level From', selected:true },
+          { name:'To_type', colType:'Level To', selected:true },
+          { name:'Value_from', colType:'Value From', selected:true },
+          { name:'Value_to', colType:'Value To', selected:true },
+          { name:'Weight', colType:'Weight', selected:true },
+          { name:'Mapping_Category', colType:'Mapping Category', selected:true }
         ];
       }
       const cols = configData.mapping.templateCols;
-      const rows = cols.map((c, i) => `
-        <tr>
+      const selCount = cols.filter(c => c.selected).length;
+      const allSel = selCount === cols.length;
+      const rows = cols.map((c, i) => {
+        const typeOpts = MAPPING_COLUMN_TYPES.map(t => `<option value="${t}" ${c.colType===t?'selected':''}>${t}</option>`).join('');
+        return `
+        <tr class="${c.selected?'':'col-deselected'}">
           <td>
-            <input type="checkbox" class="cfg-checkbox" checked disabled title="Required column — always included">
+            <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} onchange="configData.mapping.templateCols[${i}].selected=this.checked;renderConfigTab('mapping')">
           </td>
-          <td style="font-weight:600;">${c.name}<span class="req-tag">Required</span></td>
-          <td><span class="cfg-inline-flex"><input class="cfg-alias-input" style="width:160px;" value="${c.alias}" oninput="configData.mapping.templateCols[${i}].alias=this.value"></span></td>
-          <td><span class="cfg-inline-flex"><input class="cfg-desc-input" value="${c.desc}" oninput="configData.mapping.templateCols[${i}].desc=this.value"></span></td>
-        </tr>`).join('');
+          <td style="font-weight:600;">${c.name}</td>
+          <td>
+            <select class="cfg-alias-input" onchange="configData.mapping.templateCols[${i}].colType=this.value">${typeOpts}</select>
+          </td>
+        </tr>`;
+      }).join('');
       const fileNames = configData.mapping.files.map(f => f.name).join(', ') || 'No files uploaded';
       pane.innerHTML = `
         <div class="brandcfg-toolbar">
-          <span style="font-size:12px;color:var(--text-mid);">Mapping file template columns. Edit aliases and descriptions as needed.</span>
+          <span style="font-size:12px;color:var(--text-mid);">Mapping file columns. Assign column types and select/deselect as needed.</span>
           <span style="font-size:11px;color:var(--text-light);">📄 ${fileNames}</span>
+        </div>
+        ${buildMappingReqPills()}
+        <div class="config-toolbar">
+          <span class="col-select-summary"><strong>${selCount}</strong> of ${cols.length} columns selected</span>
         </div>
         <div style="overflow-x:auto;">
           <table class="brandcfg-table">
             <thead><tr>
-              <th style="width:36px;"></th><th>Name</th><th>Alias</th><th>Description</th>
+              <th style="width:36px;"><input type="checkbox" class="cfg-checkbox" ${allSel?'checked':''} onchange="configData.mapping.templateCols.forEach(c=>c.selected=this.checked);renderConfigTab('mapping')"></th><th>Name</th><th>Column Type</th>
             </tr></thead>
             <tbody>${rows}</tbody>
           </table>
@@ -2740,79 +3378,52 @@
     if(type === 'financial') {
       const brands = configBrands.filter(b => b.active && !b.isNew);
       if(!configData.financial._activeTab) configData.financial._activeTab = 0;
-      if(!configData.financial._timePeriod) configData.financial._timePeriod = '2026';
-      if(!configData.financial._custType) configData.financial._custType = {};
-      // Per-brand file tabs
       const finFiles = brands.map(b => ({ name: b.name + '_Financial_Assumptions.csv', brand: b.name }));
       if(!finFiles.length) { pane.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);">No active brands.</div>'; return; }
       const activeIdx = Math.min(configData.financial._activeTab, finFiles.length - 1);
       const activeFile = finFiles[activeIdx];
       const activeBrand = activeFile.brand;
-      const custType = configData.financial._custType[activeBrand] || 'HCP';
-      // File tabs
       const fileTabs = finFiles.map((f, i) =>
         `<button class="rc-file-tab ${i===activeIdx?'active':''}" onclick="configData.financial._activeTab=${i};renderConfigTab('financial')"><span class="rc-file-icon">📄</span>${f.name}</button>`
       ).join('');
-      // Time period dropdown
-      const periodOpts = ['2025','2026','2027','2028','2029','2030'].map(y =>
-        `<option value="${y}" ${configData.financial._timePeriod===y?'selected':''}>${y}</option>`
-      ).join('');
-      // HCP / HCO / Account pills
-      const levelPills = `<div class="rc-level-pills">
-        <button class="rc-level-pill ${custType==='HCP'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCP';renderConfigTab('financial')">HCP</button>
-        <button class="rc-level-pill ${custType==='HCO'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='HCO';renderConfigTab('financial')">HCO</button>
-        <button class="rc-level-pill ${custType==='Account'?'active':''}" onclick="configData.financial._custType['${activeBrand}']='Account';renderConfigTab('financial')">Account</button>
-      </div>`;
-      // Mock data per level
-      const mockByType = {
-        HCP: [
-          { forecast:'42.5', cogs:'10', gtn:'88' },
-          { forecast:'31.2', cogs:'12', gtn:'85' },
-          { forecast:'18.8', cogs:'9', gtn:'90' },
-          { forecast:'7.5', cogs:'14', gtn:'82' }
-        ],
-        HCO: [
-          { forecast:'38.0', cogs:'9', gtn:'90' },
-          { forecast:'27.5', cogs:'11', gtn:'86' },
-          { forecast:'22.0', cogs:'10', gtn:'88' }
-        ],
-        Account: [
-          { forecast:'55.0', cogs:'8', gtn:'91' },
-          { forecast:'30.0', cogs:'11', gtn:'87' },
-          { forecast:'15.0', cogs:'13', gtn:'84' }
-        ]
-      };
-      const dataRows = mockByType[custType] || mockByType.HCP;
-      let tableRows = dataRows.map((r, ri) => `<tr>
-        <td style="text-align:left;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.forecast}</td>
-        <td style="text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.cogs}</td>
-        <td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${r.gtn}</td>
+      // Full data rows with Instance column (replacing Time Period dropdown)
+      const finMockData = [
+        { instance:'2026', forecast:420000, cogs:10, gtn:88.0 },
+        { instance:'2026', forecast:380000, cogs:9, gtn:90.0 },
+        { instance:'2026', forecast:550000, cogs:8, gtn:91.0 },
+        { instance:'2027', forecast:430130, cogs:12, gtn:85.2 },
+        { instance:'2027', forecast:275000, cogs:11, gtn:86.0 },
+        { instance:'2027', forecast:4100000, cogs:11, gtn:87.3 },
+        { instance:'2028', forecast:188000, cogs:9, gtn:90.0 },
+        { instance:'2028', forecast:150000, cogs:13, gtn:84.0 }
+      ];
+      let tableRows = finMockData.map((r, ri) => `<tr>
+        <td style="font-weight:600;font-size:12px;">${r.instance}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;">${formatScientific(r.forecast)}</td>
+        <td style="text-align:center;font-variant-numeric:tabular-nums;font-size:13px;">${formatPct(r.cogs)}</td>
+        <td style="text-align:center;font-variant-numeric:tabular-nums;font-size:13px;">${formatPct(r.gtn)}</td>
       </tr>`).join('');
       pane.innerHTML = `
+        <div class="req-pills-bar"><span class="req-pills-label">Required:</span><span class="req-pill satisfied">✓ Instance</span><span class="req-pill satisfied">✓ Total Forecast</span><span class="req-pill satisfied">✓ COGS</span><span class="req-pill satisfied">✓ Gross To Net</span></div>
         <div style="padding:14px 20px 0;">
           <div class="rc-file-tabs">${fileTabs}</div>
           <div class="respcurve-brand-card" style="margin-bottom:12px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div class="respcurve-brand-title" style="margin-bottom:0;">${activeBrand}</div>
-                ${levelPills}
-              </div>
-              <div class="rc-controls-row" style="margin-bottom:0;">
-                <div class="rc-control"><label>Time Period:</label><select onchange="configData.financial._timePeriod=this.value;renderConfigTab('financial')">${periodOpts}</select></div>
-              </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div class="respcurve-brand-title" style="margin-bottom:0;">${activeBrand}</div>
             </div>
             <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFile.name}</strong></div>
             <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
-              <table class="config-table" style="font-size:12px;table-layout:fixed;width:100%;">
+              <table class="config-table" style="font-size:12px;width:100%;">
                 <thead><tr>
-                  <th style="text-align:left;width:33.33%;">Total Forecast ($)</th>
-                  <th style="text-align:center;width:33.33%;">COGS (%)</th>
-                  <th style="text-align:right;width:33.33%;">Gross To Net (%)</th>
+                  <th style="text-align:left;width:22%;">Instance</th>
+                  <th style="text-align:right;width:26%;">Total Forecast ($)</th>
+                  <th style="text-align:center;width:26%;">COGS (%)</th>
+                  <th style="text-align:center;width:26%;">Gross To Net (%)</th>
                 </tr></thead>
                 <tbody>${tableRows}</tbody>
               </table>
             </div>
-            <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${dataRows.length} rows · ${custType} · ${activeBrand} · Period ${configData.financial._timePeriod}</div>
+            <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${finMockData.length} rows · ${activeBrand}</div>
           </div>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
@@ -2849,44 +3460,59 @@
 
   /* ─ Build brand-grouped RC file list ─ */
   function getRcBrandFiles() {
-    return configBrands.filter(b => b.active && !b.isNew).map(b => ({
+    return configBrands.filter(b => b.active && !b.isNew && !b.newFromFinancial).map(b => ({
       brand: b.name,
       hcpFile: `${b.name}_HCP_Response_Curve.csv`,
       hcoFile: `${b.name}_HCO_Response_Curve.csv`
     }));
   }
 
-  /* ─ Extract unique segment types from segments like OCS_Brand_1_PCP_55 → [PCP, ENDO] ─ */
+  /* ─ Extract unique segment tier types from data ─ */
   function getSegmentTypes(data, brandName) {
     const types = new Set();
-    const pfx = 'OCS_' + brandName + '_';
     data.forEach(row => {
-      const rest = row.centile.startsWith(pfx) ? row.centile.slice(pfx.length) : row.centile;
-      // Strip trailing _digits or trailing digits to get the type root
-      const segType = rest.replace(/_?\d+$/, '');
-      types.add(segType);
+      if(row.segTier) types.add(row.segTier);
     });
     return Array.from(types);
   }
 
   function generateResponseTableData(brand, level) {
+    const tiers = ['High','Medium','Low','High','Medium'];
+    const deciles = ['D1','D3','D5','D2','D4'];
+    const channels = ['F2F Detail','Remote','Speaker','F2F Detail','Remote'];
     if(level === 'hcp') {
-      const segments = ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18'];
-      return segments.map(seg => ({
-        centile: `OCS_${brand}_${seg}`,
+      const segments = ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92'];
+      return segments.map((seg, si) => ({
+        brand: brand,
+        timePeriod: '2027',
+        segTier: tiers[si % tiers.length],
+        segDecile: deciles[si % deciles.length],
+        id: `OCS_${brand}_${seg}`,
+        custCount: Math.floor(2 + si * 1.3),
         custType: 'HCP',
-        activity: 'F2F CALLS',
-        customers: 1,
-        values: [0.00, 2.00, 4.00, 6.00, 8.00, 10.00, 12.00, 14.00, 16.00]
+        channel: channels[si % channels.length],
+        activities: Array.from({length:10}, (_,i) => (i*11*0.5)),
+        revenues: Array.from({length:10}, (_,i) => {
+          const k = 0.04 + si*0.006; const sat = 5000 + si*3000;
+          return parseFloat((sat*(1-Math.exp(-k*i*11*0.5))).toFixed(2));
+        })
       }));
     } else {
       const segments = ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4'];
-      return segments.map(seg => ({
-        centile: `OCS_${brand}_${seg}`,
+      return segments.map((seg, si) => ({
+        brand: brand,
+        timePeriod: '2027',
+        segTier: tiers[si % tiers.length],
+        segDecile: deciles[si % deciles.length],
+        id: 'All',
+        custCount: Math.floor(3 + (seg.charCodeAt(seg.length-1) % 12)),
         custType: 'Account',
-        activity: 'F2F CALLS',
-        customers: Math.floor(3 + (seg.charCodeAt(seg.length-1) % 12)),
-        values: [0.00, 3.00, 7.00, 12.00, 18.00, 24.00, 30.00, 36.00, 42.00]
+        channel: channels[si % channels.length],
+        activities: Array.from({length:10}, (_,i) => (i*11*0.5)),
+        revenues: Array.from({length:10}, (_,i) => {
+          const k = 0.04 + si*0.006; const sat = 5000 + si*3000;
+          return parseFloat((sat*(1-Math.exp(-k*i*11*0.5))).toFixed(2));
+        })
       }));
     }
   }
@@ -2910,18 +3536,10 @@
     // Generate table data
     const data = generateResponseTableData(active.brand, isHcp ? 'hcp' : 'account');
     const segmentTypes = getSegmentTypes(data, active.brand);
-    const isMultiSegment = segmentTypes.length > 1;
 
-    // Filter data by selected segment type
-    let filteredData = data;
-    if (rcSelectedSegment !== rcSegmentTypeOptions[0]) {
-      // When segment type changes, map affects display but we use all data for demo
-      // In production this would filter by actual segment type classification
-    }
-
-    // Segment control: dropdown (always, with Centile/Decile/Tier/Quintile), or static string if only one type
+    // Segment control
     let segmentControl;
-    if (isMultiSegment) {
+    if (segmentTypes.length > 1) {
       const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
       segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
     } else {
@@ -2937,14 +3555,22 @@
       <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
     </div>`;
 
-    const activityHeaders = Array.from({length:9}, (_,i) => `activity_${i*2}`);
-    const tableRows = filteredData.map(row => `
+    // Activity and Revenue column headers (sampled)
+    const actHeaders = Array.from({length:5}, (_,i) => `Activity_${i*22}`);
+    const revHeaders = Array.from({length:5}, (_,i) => `Revenue_${i*22}`);
+
+    const tableRows = data.map(row => `
       <tr>
-        <td style="font-weight:500;white-space:nowrap;">${row.centile}</td>
+        <td style="font-weight:500;white-space:nowrap;">${row.brand}</td>
+        <td>${row.timePeriod}</td>
+        <td>${row.segTier}</td>
+        <td>${row.segDecile}</td>
+        <td style="white-space:nowrap;font-weight:500;">${row.id}</td>
+        <td style="text-align:center;">${row.custCount}</td>
         <td>${row.custType}</td>
-        <td>${row.activity}</td>
-        <td style="text-align:center;">${row.customers}</td>
-        ${row.values.map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
+        <td>${row.channel}</td>
+        ${row.activities.slice(0,5).map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
+        ${row.revenues.slice(0,5).map(v => `<td style="text-align:right;background:#f0fdf4;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
       </tr>`).join('');
 
     return `<div style="padding:14px 20px 0;">
@@ -2958,20 +3584,23 @@
           <div class="rc-controls-row" style="margin-bottom:0;">
             <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
             <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
-            <div class="rc-control"><label>Forecast:</label><span class="rc-segment-static">Base</span></div>
           </div>
         </div>
         <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
         <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
           <table class="config-table" style="font-size:11.5px;">
             <thead><tr>
-              <th>Centile</th><th>Customer Type</th><th>Activity</th><th style="text-align:center;">Customers</th>
-              ${activityHeaders.map(h => `<th style="text-align:right;">${h}</th>`).join('')}
+              <th>Brand</th><th>Time Period</th><th>Segment_Tier</th><th>Segment_Decile</th>
+              <th>ID</th><th style="text-align:center;">Cust_count</th><th>Customer type</th><th>Channel</th>
+              ${actHeaders.map(h => `<th style="text-align:right;background:#fffde8;">${h}</th>`).join('')}
+              <th style="text-align:center;color:var(--text-light);font-size:9px;">…</th>
+              ${revHeaders.map(h => `<th style="text-align:right;background:#ecfdf5;">${h}</th>`).join('')}
+              <th style="text-align:center;color:var(--text-light);font-size:9px;">…</th>
             </tr></thead>
             <tbody>${tableRows}</tbody>
           </table>
         </div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${filteredData.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${data.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod} · ID shows "All" when data is at segment level</div>
       </div>
     </div>`;
   }
@@ -3181,22 +3810,52 @@
     const warned = qcRunResults.filter(r=>r.status==='warning');
     const failed = qcRunResults.filter(r=>r.status==='fail');
 
-    const catHtml = (list, kind, icon, title) => `
-      <div class="qcsum-cat ${kind}">
+    // Passed: show per-file checks
+    const passedHtml = `
+      <div class="qcsum-cat pass">
         <div class="qcsum-cat-left">
-          <span class="qcsum-cat-icon">${icon}</span>
+          <span class="qcsum-cat-icon">✓</span>
           <div>
-            <div class="qcsum-cat-title">${title}</div>
-            <div class="qcsum-cat-sub">${list.length} file(s)${list.length?': '+list.map(r=>`${r.file.name} (${groupLabel(r.group)})`).join(', '):''}</div>
+            <div class="qcsum-cat-title">Passed — ${passed.length} file(s)</div>
           </div>
         </div>
-        <div class="qcsum-cat-count">${list.length}</div>
-      </div>`;
+        <div class="qcsum-cat-count">${passed.length}</div>
+      </div>
+      ${passed.length ? `<div style="padding:4px 0 8px 28px;font-size:11.5px;color:var(--text-mid);">${passed.map(r =>
+        `<div style="padding:3px 0;">✓ <strong>${r.file.name}</strong> <span style="color:var(--text-light);">(${groupLabel(r.group)})</span> — ${r.checks.filter(c=>c.status==='pass').map(c=>c.label).join(', ')}</div>`
+      ).join('')}</div>` : ''}`;
 
-    document.getElementById('qcSummaryCats').innerHTML =
-      catHtml(passed,'pass','✓','Passed') +
-      catHtml(warned,'warning','⚠','Warning') +
-      catHtml(failed,'fail','✕','Failed');
+    // Warnings: expandable accordion per file
+    const warnHtml = warned.length ? `
+      <div class="dd-acc ${warned.length?'open':''}" id="qcWarnAcc">
+        <div class="dd-acc-header" onclick="document.getElementById('qcWarnAcc').classList.toggle('open')">
+          <div class="dd-acc-title" style="color:#92400e;"><span class="dd-acc-icon">⚠</span> Warnings — ${warned.length} file(s)</div>
+          <span class="dd-acc-chevron">▼</span>
+        </div>
+        <div class="dd-acc-body"><div class="dd-acc-body-inner">
+          ${warned.map(r => `<div style="margin-bottom:10px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;">
+            <div style="font-size:12px;font-weight:600;color:#92400e;margin-bottom:4px;">📄 ${r.file.name} <span style="font-weight:400;color:var(--text-light);">(${groupLabel(r.group)})</span></div>
+            ${r.checks.filter(c=>c.status==='warning').map(c => `<div style="font-size:11px;color:var(--text-mid);padding:2px 0;">⚠ ${c.label} — ${c.detail}</div>`).join('')}
+          </div>`).join('')}
+        </div></div>
+      </div>` : '';
+
+    // Errors: expandable accordion per file
+    const failHtml = failed.length ? `
+      <div class="dd-acc open" id="qcFailAcc">
+        <div class="dd-acc-header" onclick="document.getElementById('qcFailAcc').classList.toggle('open')">
+          <div class="dd-acc-title" style="color:var(--red);"><span class="dd-acc-icon">✕</span> Errors — ${failed.length} file(s)</div>
+          <span class="dd-acc-chevron">▼</span>
+        </div>
+        <div class="dd-acc-body"><div class="dd-acc-body-inner">
+          ${failed.map(r => `<div style="margin-bottom:10px;padding:8px 12px;background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;">
+            <div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:4px;">📄 ${r.file.name} <span style="font-weight:400;color:var(--text-light);">(${groupLabel(r.group)})</span></div>
+            ${r.checks.filter(c=>c.status==='fail').map(c => `<div style="font-size:11px;color:var(--text-mid);padding:2px 0;">✕ ${c.label} — ${c.detail}</div>`).join('')}
+          </div>`).join('')}
+        </div></div>
+      </div>` : '';
+
+    document.getElementById('qcSummaryCats').innerHTML = passedHtml + warnHtml + failHtml;
 
     const needsFix = failed.length > 0;
     document.getElementById('qcSummaryNote').textContent = needsFix

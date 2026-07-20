@@ -447,9 +447,9 @@
   const brandColors = { Brand_1:'#3b82f6', Brand_2:'#10b981', Brand_3:'#f59e0b' };
 
   const brandPortfolio = {
-    Brand_1: { ta:'Oncology', compType:'Branded', years:3, reach:8960, currentSales:'$1,500', marketShare:'24.3%', tierMix:{h:34,m:41,l:25} },
-    Brand_2: { ta:'Cardiology', compType:'Generic', years:5, reach:9856, currentSales:'$1,050', marketShare:'18.7%', tierMix:{h:22,m:46,l:32} },
-    Brand_3: { ta:'Neurology', compType:'Branded', years:2, reach:5248, currentSales:'$670', marketShare:'11.2%', tierMix:{h:29,m:38,l:33} },
+    Brand_1: { ta:'Oncology', compType:'Branded', years:3, reach:8960, netForecast:'$178M', marketShare:'24.3%', lifecycle:'Mature', tierMix:{h:34,m:41,l:25} },
+    Brand_2: { ta:'Cardiology', compType:'Generic', years:5, reach:9856, netForecast:'$142M', marketShare:'18.7%', lifecycle:'Mature', tierMix:{h:22,m:46,l:32} },
+    Brand_3: { ta:'Neurology', compType:'Branded', years:2, reach:5248, netForecast:'$95M', marketShare:'11.2%', lifecycle:'Launch', tierMix:{h:29,m:38,l:33} },
   };
 
   const brandDeepDive = {
@@ -486,6 +486,38 @@
       curveAI: 'At 48% saturation (pre-inflection), Brand_3 is projected to be roughly 2.3× more efficient than Brand_1 per dollar spent. The data strongly supports scaling investment now before the curve approaches diminishing returns.'
     }
   };
+
+  /* ═══ DUAL AXIS CHART (Sales blue + Activity yellow) ═══ */
+  function buildDualAxisChart(salesVals, actVals, months, color, w, h) {
+    const pad = 38, padR = 42, padBot = 34;
+    const sMin = Math.min(...salesVals), sMax = Math.max(...salesVals), sRange = (sMax-sMin)||1;
+    const aMin = Math.min(...actVals), aMax = Math.max(...actVals), aRange = (aMax-aMin)||1;
+    const stepX = (w - pad - padR) / (salesVals.length - 1);
+    const sPts = salesVals.map((v,i) => [pad + i*stepX, (h-padBot) - ((v-sMin)/sRange)*(h-pad-padBot)]);
+    const aPts = actVals.map((v,i) => [pad + i*stepX, (h-padBot) - ((v-aMin)/aRange)*(h-pad-padBot)]);
+    const sLine = sPts.map((p,i) => (i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+    const aLine = aPts.map((p,i) => (i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+    const labels = months.map((m,i) => (i%2===0||months.length<=7) ? `<text x="${sPts[i][0].toFixed(1)}" y="${h-8}" font-size="9" fill="var(--text-light)" text-anchor="middle">${m}</text>` : '').join('');
+    let grid = '';
+    for(let g=0;g<=4;g++) {
+      const gy = (h-padBot) - (g/4)*(h-pad-padBot);
+      const sv = Math.round(sMin + (g/4)*sRange);
+      const av = Math.round(aMin + (g/4)*aRange);
+      grid += `<line x1="${pad}" y1="${gy.toFixed(1)}" x2="${w-padR}" y2="${gy.toFixed(1)}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>`;
+      grid += `<text x="${pad-4}" y="${(gy+3).toFixed(1)}" font-size="8" fill="${color}" text-anchor="end">${sv.toLocaleString()}</text>`;
+      grid += `<text x="${(w-padR+4)}" y="${(gy+3).toFixed(1)}" font-size="8" fill="#f59e0b" text-anchor="start">${av.toLocaleString()}</text>`;
+    }
+    const sHover = sPts.map((p,i) => `<g class="chart-hover-group" style="cursor:pointer;"><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="12" fill="transparent"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="white" stroke="${color}" stroke-width="2" class="chart-dot" opacity="0"/><g class="chart-tooltip" opacity="0" pointer-events="none"><rect x="${(p[0]-45).toFixed(1)}" y="${(p[1]-36).toFixed(1)}" width="90" height="24" rx="6" fill="#1e293b" opacity="0.92"/><text x="${p[0].toFixed(1)}" y="${(p[1]-20).toFixed(1)}" font-size="10" font-weight="600" fill="white" text-anchor="middle">${months[i]}: ${salesVals[i].toLocaleString()} units</text></g></g>`).join('');
+    return `<div class="chart-container"><svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      ${grid}
+      <text x="10" y="${(h-padBot)/2}" font-size="9" fill="${color}" text-anchor="middle" transform="rotate(-90,10,${(h-padBot)/2})">Sales (units)</text>
+      <text x="${w-6}" y="${(h-padBot)/2}" font-size="9" fill="#f59e0b" text-anchor="middle" transform="rotate(90,${w-6},${(h-padBot)/2})">Activity</text>
+      <path d="${sLine}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="${aLine}" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" stroke-linejoin="round" opacity="0.85"/>
+      ${labels}
+      ${sHover}
+    </svg></div>`;
+  }
 
   /* ═══ INTERACTIVE CHART HELPERS ═══ */
   let _chartId = 0;
@@ -633,7 +665,6 @@
           <div class="pf-header-row"><h3>Brand Portfolio Overview</h3></div>
           <div class="pf-stats-row">
             <div class="pf-stat"><label>Unique HCPs</label><span>12,480</span></div>
-            <div class="pf-stat"><label>Total Spend</label><span>$100M</span></div>
             <div class="pf-stat"><label>Brands</label><span>${brands.length}</span></div>
             <div class="pf-stat"><label>HCP Overlap Across All Brands</label><span>4,243</span></div>
           </div>
@@ -645,10 +676,29 @@
                   <div class="pf-brand-check" onclick="event.stopPropagation(); selectBrand(${i})">✓</div>
                 </div>
                 <div class="pf-brand-card-name"><span class="pf-dot" style="background:${brandColors[name]}"></span>${name}</div>
-                <div class="pf-brand-card-sub">${b.ta} · ${b.compType} · ${b.years} yrs</div>
+                <div class="pf-brand-card-sub" style="position:relative;cursor:default;" onmouseenter="this.querySelector('.nfl-tooltip').style.opacity='1';this.querySelector('.nfl-tooltip').style.visibility='visible';" onmouseleave="this.querySelector('.nfl-tooltip').style.opacity='0';this.querySelector('.nfl-tooltip').style.visibility='hidden';">
+                  <div class="nfl-tooltip" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;background:#1e293b;color:white;padding:8px 12px;border-radius:8px;font-size:10.5px;line-height:1.6;white-space:nowrap;z-index:10;opacity:0;visibility:hidden;transition:opacity 0.15s;pointer-events:none;box-shadow:var(--shadow-md);">
+                    <div><strong>Therapeutic Area:</strong> ${b.ta}</div>
+                    <div><strong>Competition Type:</strong> ${b.compType}</div>
+                    <div><strong>Years In Market:</strong> ${b.years}</div>
+                    <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #1e293b;"></div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0;">
+                  <div style="background:var(--bg);border-radius:6px;padding:6px 8px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:8px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.3px;">Market Share</div>
+                    <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-top:2px;">${b.marketShare}</div>
+                  </div>
+                  <div style="background:var(--bg);border-radius:6px;padding:6px 8px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:8px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.3px;">Net Forecast</div>
+                    <div style="font-size:14px;font-weight:700;color:var(--teal-dark);margin-top:2px;">${b.netForecast}</div>
+                  </div>
+                  <div style="background:var(--bg);border-radius:6px;padding:6px 8px;text-align:center;border:1px solid var(--border);">
+                    <div style="font-size:8px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.3px;">Lifecycle</div>
+                    <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-top:2px;">${b.lifecycle}</div>
+                  </div>
+                </div>
                 <div class="pf-brand-metric-row"><span>Reach</span><span>${b.reach.toLocaleString()}</span></div>
-                <div class="pf-brand-metric-row"><span>Current Sales</span><span>${b.currentSales}</span></div>
-                <div class="pf-brand-metric-row"><span>Market Share</span><span>${b.marketShare}</span></div>
                 ${b.finAccepted ? '<div class="pf-brand-metric-row" style="background:var(--teal-light);border-radius:4px;padding:2px 6px;"><span style="display:flex;align-items:center;gap:3px;">Carryover <span style="font-size:10px;color:var(--teal);" title="AI Recommended">🤖</span></span><span>8.2%</span></div>' : ''}
                 <div class="pf-brand-objective">
                   <label>Brand Objective</label>
@@ -707,7 +757,7 @@
         ${summaryHTML}
         <div class="acc-tabs" id="overlapTabs">
           <button class="acc-tab active" onclick="switchOverlapTab(0, event)">HCP Overlap</button>
-          <button class="acc-tab" onclick="switchOverlapTab(1, event)">Activity Overlap</button>
+          <button class="acc-tab" onclick="switchOverlapTab(1, event)">Team Overlap</button>
         </div>
         <div class="acc-body" style="padding-top:14px;">
 
@@ -718,6 +768,18 @@
               <button class="rc-level-pill" id="hcpSubSeg" onclick="switchHCPSubTab('segment')" style="border-left:1.5px solid var(--border);">Segment</button>
             </div>
             <div id="hcpSubNational">
+              <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+                <label style="font-size:11px;font-weight:600;color:var(--text-mid);">Select brands:</label>
+                <div style="position:relative;display:inline-block;" id="vennBrandWrap">
+                  <div onclick="document.getElementById('vennBrandDD').style.display=document.getElementById('vennBrandDD').style.display==='none'?'block':'none'" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:11px;background:var(--white);min-width:180px;">
+                    <span id="vennBrandLabel" style="color:var(--text-mid);font-weight:500;">All brands selected</span><span style="color:var(--text-light);font-size:9px;margin-left:auto;">▾</span>
+                  </div>
+                  <div id="vennBrandDD" style="display:none;position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);z-index:20;min-width:180px;padding:6px 0;margin-top:2px;">
+                    ${brands.map(b => `<label style="display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11.5px;cursor:pointer;color:var(--text-dark);transition:background 0.1s;" onmouseenter="this.style.background='var(--bg)'" onmouseleave="this.style.background=''" onclick="event.stopPropagation()"><input type="checkbox" checked onchange="updateVennDiagram()" class="venn-brand-cb" value="${b}" style="accent-color:var(--teal);"> <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:${brandColors[b]};display:inline-block;"></span>${b}</span></label>`).join('')}
+                  </div>
+                </div>
+              </div>
+              <div id="vennContent">
               <div class="acc-split">
                 <div class="acc-split-left">
                   <div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div>
@@ -738,40 +800,80 @@
                   </div>
                 </div>
               </div>
+              </div><!-- /vennContent -->
             </div>
             <div id="hcpSubSegment" style="display:none;">
+              <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+                <label style="font-size:11px;font-weight:600;color:var(--text-mid);">Compare segments (max 2):</label>
+                <div style="position:relative;display:inline-block;">
+                  <div onclick="document.getElementById('segSelectDD').style.display=document.getElementById('segSelectDD').style.display==='none'?'block':'none'" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:11px;background:var(--white);min-width:200px;">
+                    <span id="segSelectLabel" style="color:var(--text-mid);font-weight:500;">High, Medium</span><span style="color:var(--text-light);font-size:9px;margin-left:auto;">▾</span>
+                  </div>
+                  <div id="segSelectDD" style="display:none;position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);z-index:20;min-width:200px;padding:6px 0;margin-top:2px;">
+                    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11.5px;cursor:pointer;" onclick="event.stopPropagation()"><input type="checkbox" checked class="seg-cb" value="High" onchange="limitSegSelection(this)" style="accent-color:var(--teal);"> High Tier</label>
+                    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11.5px;cursor:pointer;" onclick="event.stopPropagation()"><input type="checkbox" checked class="seg-cb" value="Medium" onchange="limitSegSelection(this)" style="accent-color:var(--teal);"> Medium Tier</label>
+                    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11.5px;cursor:pointer;" onclick="event.stopPropagation()"><input type="checkbox" class="seg-cb" value="Low" onchange="limitSegSelection(this)" style="accent-color:var(--teal);"> Low Tier</label>
+                    <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11.5px;cursor:pointer;" onclick="event.stopPropagation()"><input type="checkbox" class="seg-cb" value="Decile" onchange="limitSegSelection(this)" style="accent-color:var(--teal);"> Decile</label>
+                  </div>
+                </div>
+              </div>
               <div class="acc-split">
                 <div class="acc-split-left">
                   <div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div>
-                  <div class="ai-bullet"><strong>Team Correlation:</strong> Team Delta promotes all 3 brands — they're the primary cross-portfolio team. Team Alpha handles Brand_1 + Brand_2 (high-overlap pair), while Team Beta and Gamma each cover 2 brands with complementary reach.</div>
-                  <div class="ai-bullet"><strong>Recommendation:</strong> Consider leveraging Team Delta's cross-brand expertise for coordinated HCP targeting across the portfolio.</div>
+                  <div class="ai-bullet"><strong>High vs Medium Overlap:</strong> 41% of High-tier HCPs also appear in Medium-tier for at least one brand — indicating segment boundary ambiguity that could be refined.</div>
+                  <div class="ai-bullet"><strong>Recommendation:</strong> Consider consolidating High + Medium tiers for Brand_2 where 68% of HCPs overlap between segments, reducing targeting redundancy.</div>
                 </div>
                 <div class="acc-split-right">
                   <div class="cbo-card">
-                    <div class="cbo-card-title">Team × Brand Correlation <span class="cbo-title-sub">Historical analysis</span></div>
-                    ${teamBrandTable}
-                    <div style="font-size:10px;color:var(--text-light);margin-top:6px;font-style:italic;">● = Team actively promotes brand · Based on historical promotion data</div>
+                    <div class="cbo-card-title">Segment Overlap Grid <span class="cbo-title-sub">High vs Medium</span></div>
+                    <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:11px;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+                      <thead><tr>
+                        <th style="background:var(--bg);padding:8px 10px;text-align:left;font-weight:600;color:var(--text-mid);border-bottom:1px solid var(--border);"></th>
+                        <th style="background:var(--bg);padding:8px 10px;text-align:center;font-weight:600;color:var(--text-mid);border-bottom:1px solid var(--border);">Brand_1</th>
+                        <th style="background:var(--bg);padding:8px 10px;text-align:center;font-weight:600;color:var(--text-mid);border-bottom:1px solid var(--border);">Brand_2</th>
+                        <th style="background:var(--bg);padding:8px 10px;text-align:center;font-weight:600;color:var(--text-mid);border-bottom:1px solid var(--border);">Brand_3</th>
+                      </tr></thead>
+                      <tbody>
+                        <tr><td style="padding:8px 10px;font-weight:600;background:var(--bg);border-bottom:1px solid var(--border);">High→Med</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);font-weight:600;color:var(--teal-dark);">A1</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);font-weight:600;color:var(--orange);">B2</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);color:var(--text-light);">C1</td>
+                        </tr>
+                        <tr><td style="padding:8px 10px;font-weight:600;background:var(--bg);border-bottom:1px solid var(--border);">Med→High</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);font-weight:600;color:var(--orange);">A2</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);font-weight:600;color:var(--teal-dark);">B1</td>
+                          <td style="text-align:center;padding:8px;border-bottom:1px solid var(--border);font-weight:600;color:var(--orange);">C2</td>
+                        </tr>
+                        <tr><td style="padding:8px 10px;font-weight:600;background:var(--bg);">Overlap %</td>
+                          <td style="text-align:center;padding:8px;font-weight:700;color:var(--teal-dark);">41%</td>
+                          <td style="text-align:center;padding:8px;font-weight:700;color:var(--orange);">68%</td>
+                          <td style="text-align:center;padding:8px;font-weight:700;color:var(--text-mid);">22%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div style="font-size:10px;color:var(--text-light);margin-top:6px;font-style:italic;">Alphanumeric codes represent segment transition patterns · Color = intensity</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Tab 2: Activity Overlap (renamed from Segment Mix) -->
+          <!-- Tab 2: Team Overlap -->
           <div class="acc-tab-panel" id="ot_1">
             <div class="acc-split">
               <div class="acc-split-left">
                 <div class="ai-label"><span class="ai-icon">✨</span> AI Insight</div>
-                <div class="ai-bullet"><strong>Tier Alignment:</strong> Brand_1 has the highest High-tier HCP concentration (34%), while Brand_2 leans Medium-tier (46%) — differentiated value positioning across the portfolio.</div>
-                <div class="ai-bullet"><strong>Emerging Audience:</strong> Brand_3 has a balanced tier distribution (29/38/33) with moderate overlap (58% with Brand_2), indicating a distinct audience segment.</div>
-                <div class="ai-bullet" style="margin-top:8px;padding:8px 10px;background:var(--teal-light);border-radius:6px;border:1px solid var(--teal-mid);"><strong>Segment Overlap Summary:</strong> High-tier HCPs show 41% overlap between Brand_1 and Brand_2, but only 12% with Brand_3. Medium-tier overlap is more evenly distributed at 28–35% across all pairs. Low-tier shows minimal cross-brand activity (&lt;8%).</div>
+                <div class="ai-bullet"><strong>Team Mapping:</strong> Team Delta promotes all 3 brands — the primary cross-portfolio team. Team Alpha handles Brand_1 + Brand_2 (high-overlap pair).</div>
+                <div class="ai-bullet"><strong>Recommendation:</strong> Consider leveraging Team Delta's cross-brand expertise for coordinated HCP targeting across the portfolio.</div>
               </div>
               <div class="acc-split-right">
                 <div class="cbo-card">
-                  <div class="cbo-card-title">Segment tier mix <span class="cbo-title-sub">H / M / L across brands</span></div>
-                  ${tierRows}
-                  <div class="tier-legend"><span><span class="sw" style="background:#1e40af;"></span>High</span><span><span class="sw" style="background:#3b82f6;"></span>Med</span><span><span class="sw" style="background:#bfdbfe;"></span>Low</span></div>
+                  <div class="cbo-card-title">Team × Brand Mapping <span class="cbo-title-sub">Historical analysis</span></div>
+                  ${teamBrandTable}
+                  <div style="font-size:10px;color:var(--text-light);margin-top:6px;font-style:italic;">● = Team actively promotes brand · Based on historical promotion data</div>
                 </div>
+              </div>
+            </div>
               </div>
             </div>
           </div>
@@ -818,6 +920,92 @@
     document.getElementById('hcpSubNat').classList.toggle('active', view === 'national');
     document.getElementById('hcpSubSeg').classList.toggle('active', view === 'segment');
   }
+
+  /* Venn brand multi-select — fully interactive */
+  const vennOverlaps = {
+    'Brand_1|Brand_2': { pct:72, hcps:6451 },
+    'Brand_1|Brand_3': { pct:45, hcps:4032 },
+    'Brand_2|Brand_3': { pct:58, hcps:3044 },
+    'Brand_1|Brand_2|Brand_3': { pct:34, hcps:4243 }
+  };
+  function updateVennDiagram() {
+    const cbs = document.querySelectorAll('.venn-brand-cb');
+    const selected = [];
+    cbs.forEach(cb => { if(cb.checked) selected.push(cb.value); });
+    const label = document.getElementById('vennBrandLabel');
+    if(label) label.textContent = selected.length ? selected.join(', ') : 'None selected';
+    const container = document.getElementById('vennContent');
+    if(!container) return;
+    if(selected.length === 0) {
+      container.querySelector('.cbo-card').innerHTML = '<div style="padding:30px;text-align:center;color:var(--text-light);font-size:12px;">Select at least one brand</div>';
+      return;
+    }
+    // Build SVG dynamically
+    let svg = '';
+    const bc = { Brand_1:'#3b82f6', Brand_2:'#10b981', Brand_3:'#f59e0b' };
+    if(selected.length === 1) {
+      const b = selected[0];
+      svg = `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <circle cx="140" cy="100" r="72" fill="${bc[b]}33" stroke="${bc[b]}" stroke-width="2"/>
+        <text x="140" y="95" font-size="12" font-weight="700" fill="var(--text-dark)" text-anchor="middle">${b}</text>
+        <text x="140" y="115" font-size="10" fill="var(--text-light)" text-anchor="middle">100%</text>
+      </svg>`;
+    } else if(selected.length === 2) {
+      const [a,b] = selected;
+      const key = [a,b].sort().join('|');
+      const ov = vennOverlaps[key] || {pct:0, hcps:0};
+      svg = `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <circle cx="110" cy="100" r="65" fill="${bc[a]}33" stroke="${bc[a]}" stroke-width="1.5"/>
+        <circle cx="170" cy="100" r="65" fill="${bc[b]}33" stroke="${bc[b]}" stroke-width="1.5"/>
+        <text x="80" y="75" font-size="11" font-weight="600" fill="var(--text-dark)">${a}</text>
+        <text x="185" y="75" font-size="11" font-weight="600" fill="var(--text-dark)">${b}</text>
+        <text x="140" y="98" font-size="14" font-weight="700" fill="var(--teal-dark)" text-anchor="middle">${ov.pct}%</text>
+        <text x="140" y="114" font-size="9" fill="var(--text-light)" text-anchor="middle">${ov.hcps.toLocaleString()} HCPs</text>
+      </svg>`;
+    } else {
+      const tri = vennOverlaps['Brand_1|Brand_2|Brand_3'] || {pct:34,hcps:4243};
+      const o12 = vennOverlaps['Brand_1|Brand_2'] || {pct:72};
+      const o13 = vennOverlaps['Brand_1|Brand_3'] || {pct:45};
+      const o23 = vennOverlaps['Brand_2|Brand_3'] || {pct:58};
+      svg = `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <circle cx="105" cy="80" r="62" fill="${bc.Brand_1}33" stroke="${bc.Brand_1}" stroke-width="1.5"/>
+        <circle cx="175" cy="80" r="62" fill="${bc.Brand_2}33" stroke="${bc.Brand_2}" stroke-width="1.5"/>
+        <circle cx="140" cy="135" r="62" fill="${bc.Brand_3}33" stroke="${bc.Brand_3}" stroke-width="1.5"/>
+        <text x="75" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_1</text>
+        <text x="185" y="55" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_2</text>
+        <text x="120" y="188" font-size="11" font-weight="600" fill="var(--text-dark)">Brand_3</text>
+        <text x="128" y="78" font-size="13" font-weight="700" fill="var(--teal-dark)">${o12.pct}%</text>
+        <text x="140" y="118" font-size="11" font-weight="700" fill="var(--text-dark)">${tri.pct}%</text>
+        <text x="155" y="100" font-size="12" font-weight="700" fill="var(--text-dark)">${o23.pct}%</text>
+      </svg>`;
+    }
+    const card = container.querySelector('.cbo-card');
+    if(card) {
+      const titleEl = card.querySelector('.cbo-card-title');
+      const sharedCount = selected.length >= 2 ? (vennOverlaps[selected.sort().join('|')]||{hcps:4243}).hcps : 0;
+      card.innerHTML = `<div class="cbo-card-title">HCP overlap <span class="cbo-title-sub">${selected.length >= 2 ? sharedCount.toLocaleString()+' shared' : '—'}</span></div>${svg}`;
+    }
+  }
+
+  /* Segment dropdown — max 2 selections */
+  function limitSegSelection(el) {
+    const cbs = document.querySelectorAll('.seg-cb');
+    const checked = [...cbs].filter(c => c.checked);
+    if(checked.length > 2) { el.checked = false; return; }
+    const label = document.getElementById('segSelectLabel');
+    if(label) label.textContent = checked.length ? checked.map(c => c.value).join(', ') : 'Select segments';
+  }
+
+  /* Close dropdowns on outside click */
+  document.addEventListener('click', function(e) {
+    ['vennBrandDD','segSelectDD','ms_dd_sale','ms_dd_act'].forEach(function(id) {
+      var dd = document.getElementById(id);
+      if(dd && dd.style.display !== 'none') {
+        var wrap = dd.parentElement;
+        if(wrap && !wrap.contains(e.target)) dd.style.display = 'none';
+      }
+    });
+  });
 
   /* Tab switching for overlap accordion */
   function switchOverlapTab(idx, event) {
@@ -879,64 +1067,167 @@
 
     document.getElementById('ddModalTitle').innerHTML = `<span class="pf-dot" style="background:${color};width:10px;height:10px;"></span> ${name} — Deep Dive`;
 
-    const hasMultiSales = dd.salesNRx && dd.salesTRx;
-    const salesTabsHTML = hasMultiSales ? `
-      <div style="display:flex;gap:0;border:1.5px solid var(--border);border-radius:7px;overflow:hidden;margin-bottom:10px;">
-        <button class="rc-level-pill active" id="ddSalesTab_sales" onclick="switchDDSales('${name}','sales')">Total Sales</button>
-        <button class="rc-level-pill" id="ddSalesTab_salesNRx" onclick="switchDDSales('${name}','salesNRx')" style="border-left:1.5px solid var(--border);">NRx</button>
-        <button class="rc-level-pill" id="ddSalesTab_salesTRx" onclick="switchDDSales('${name}','salesTRx')" style="border-left:1.5px solid var(--border);">TRx</button>
-      </div>` : '';
-    const timeFilterHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-        <span style="font-size:11px;font-weight:600;color:var(--text-mid);">Period:</span>
-        <select id="ddTimeFilter" onchange="switchDDTime('${name}',this.value)" style="font-size:11px;padding:3px 20px 3px 8px;border:1px solid var(--border);border-radius:6px;background:var(--white);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234b5768'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 6px center;">
-          <option value="6m">Past 6 Months</option>
-          <option value="12m" selected>Past 12 Months</option>
-          <option value="all">All Data</option>
-        </select>
+    // KPI cards: Peak Sales, Avg Growth Rate (LLM driven)
+    const growthPct = ((dd.sales[dd.sales.length-1] - dd.sales[0]) / dd.sales[0] * 100).toFixed(1);
+    const avgGrowth = (growthPct / (dd.sales.length - 1)).toFixed(1);
+
+    // Interactive multi-select with chip display
+    const salesOptions = ['Total Sales','NRx','TRx','Market Share'];
+    const activityOptions = ['F2F Calls'];
+
+    const makeMultiSelect = (id, opts, label, defaultChecked) => {
+      const chipId = 'chips_'+id;
+      const ddId = 'ms_dd_'+id;
+      return `
+      <div style="display:inline-flex;flex-direction:column;gap:4px;">
+        <div style="position:relative;display:inline-block;">
+          <div onclick="var dd=document.getElementById('${ddId}');dd.style.display=dd.style.display==='none'?'block':'none';" style="display:flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;background:var(--white);min-width:140px;">
+            <span style="font-weight:600;color:var(--text-mid);">${label}</span><span style="color:var(--text-light);font-size:9px;margin-left:auto;">▾</span>
+          </div>
+          <div id="${ddId}" style="display:none;position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md);z-index:20;min-width:180px;padding:6px 0;margin-top:2px;">
+            ${opts.map((o,i) => `<label style="display:flex;align-items:center;gap:6px;padding:5px 12px;font-size:11px;cursor:pointer;color:var(--text-dark);transition:background 0.1s;" onmouseenter="this.style.background='var(--bg)'" onmouseleave="this.style.background=''" onclick="event.stopPropagation()"><input type="checkbox" ${defaultChecked.includes(i)?'checked':''} onchange="updateMSChips('${id}')" class="ms_cb_${id}" value="${o}" style="accent-color:var(--teal);"> ${o}</label>`).join('')}
+          </div>
+        </div>
+        <div id="${chipId}" style="display:flex;flex-wrap:wrap;gap:4px;min-height:20px;"></div>
+      </div>`;
+    };
+
+    // Init chip display after render
+    const currentBrandName = name;
+    const currentColor = color;
+
+    const periodSelect = `<select style="font-size:11px;padding:5px 20px 5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--white);cursor:pointer;" onchange="switchDDTime('${name}',this.value)">
+      <option value="6m">Past 6 Months</option>
+      <option value="12m" selected>Past 12 Months</option>
+      <option value="all">All Data</option>
+    </select>`;
+
+    // Dual Y-axis chart (sales blue line + activity yellow line)
+    const salesData = filterByTime(dd.sales, ddTimeFilter);
+    const months = filterByTime(dd.months, ddTimeFilter);
+    const activityData = salesData.map((s, i) => Math.round(s * 0.35 + Math.sin(i*0.8) * 50 + 200));
+    const dualChart = buildDualAxisChart(salesData, activityData, months, color, 740, 220);
+
+    // Financial forecasting table from screenshot
+    const finData = [
+      { year:'2026', total:80e6, cogs:12, g2n:92, nsf:30 },
+      { year:'2027', total:75e6, cogs:12, g2n:92, nsf:32 },
+      { year:'2028', total:65e6, cogs:12, g2n:92, nsf:34 }
+    ];
+    const finTotal = finData.reduce((s,r) => s+r.total, 0);
+    const finRows = finData.map(r => {
+      const netFcst = r.total * (r.g2n/100) * (1 - r.cogs/100);
+      const impactable = netFcst * (1 - r.nsf/100);
+      return { ...r, netFcst, impactable };
+    });
+    const scopeNet = finRows.reduce((s,r) => s+r.netFcst, 0);
+    const scopeImp = finRows.reduce((s,r) => s+r.impactable, 0);
+    const fmtM = v => '$' + (v/1e6).toFixed(1) + 'M';
+
+    // Waterfall bars
+    const gtnRev = finTotal * 0.92;
+    const netFcst = gtnRev * 0.88;
+    const impRev = netFcst * 0.68;
+    const barMax = finTotal;
+    const barPct = v => Math.round(v/barMax*100);
+
+    const waterfallHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div style="background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);text-align:center;">
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Total Forecast</div>
+          <div style="font-size:22px;font-weight:700;color:var(--text-dark);margin-top:4px;">${fmtM(finTotal)}</div>
+          <div style="font-size:10px;color:var(--text-light);">3-year scope</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);text-align:center;">
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Net Forecast</div>
+          <div style="font-size:22px;font-weight:700;color:var(--text-dark);margin-top:4px;">${fmtM(scopeNet)}</div>
+          <div style="font-size:10px;color:var(--text-light);">after G2N & COGS</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:14px;border:1px solid var(--border);text-align:center;">
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Impactable Revenue</div>
+          <div style="font-size:22px;font-weight:700;color:var(--teal-dark);margin-top:4px;">${fmtM(scopeImp)}</div>
+          <div style="font-size:10px;color:var(--text-light);">${Math.round(scopeImp/finTotal*100)}% of total</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:12px;">
+        <div><strong>Total Forecast</strong><div style="height:14px;background:#60a5fa;border-radius:4px;width:${barPct(finTotal)}%;margin-top:3px;"></div><span style="font-size:11px;color:var(--text-light);margin-top:2px;display:block;">↓ × G2N (<span style="color:var(--orange);">user input, 92%</span>)</span></div>
+        <div><strong>Gross-to-Net revenue</strong><div style="height:14px;background:#93c5fd;border-radius:4px;width:${barPct(gtnRev)}%;margin-top:3px;"></div><span style="font-size:11px;color:var(--text-light);margin-top:2px;display:block;">↓ × (1 − COGS) (<span style="color:var(--orange);">user input, 12%</span>)</span></div>
+        <div><strong>Net Forecast</strong><div style="height:14px;background:#3b82f6;border-radius:4px;width:${barPct(netFcst)}%;margin-top:3px;"></div><span style="font-size:11px;color:var(--text-light);margin-top:2px;display:block;">↓ × (1 − Non-SF Impact) (<span style="color:var(--orange);">benchmark, 32%</span>)</span></div>
+        <div><strong>Impactable Revenue</strong><div style="height:14px;background:var(--green);border-radius:4px;width:${barPct(impRev)}%;margin-top:3px;"></div></div>
+      </div>
+      <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:14px;">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead><tr style="background:var(--bg);border-bottom:2px solid var(--border);">
+            <th style="text-align:left;padding:10px 12px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">Year</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">Total Fcst</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">COGS %</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">G2N %</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--orange);">Non-SF %</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">Net Fcst</th>
+            <th style="text-align:center;padding:10px 8px;font-weight:700;font-size:10px;text-transform:uppercase;color:var(--text-light);">Impactable</th>
+          </tr></thead>
+          <tbody>
+            ${finRows.map(r => `<tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 12px;font-weight:600;">${r.year}</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(r.total)}</td>
+              <td style="text-align:center;padding:10px 8px;">${r.cogs}%</td>
+              <td style="text-align:center;padding:10px 8px;">${r.g2n}%</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--orange);font-weight:600;">${r.nsf}%</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(r.netFcst)}</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(r.impactable)}</td>
+            </tr>`).join('')}
+            <tr style="background:var(--bg);font-weight:700;">
+              <td style="padding:10px 12px;">Scope total</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(finTotal)}</td>
+              <td style="text-align:center;padding:10px 8px;">—</td>
+              <td style="text-align:center;padding:10px 8px;">—</td>
+              <td style="text-align:center;padding:10px 8px;">—</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(scopeNet)}</td>
+              <td style="text-align:center;padding:10px 8px;">${fmtM(scopeImp)}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>`;
 
-    const finFields = { nsfImpact:'12.4', carryoverRate:'8.2', priorCarryover:'$2.1M' };
-    const isAccepted = ddFinAccepted[name];
-    const finBodyHTML = `
+    // KPI tiles for financial
+    const finKPIs = `
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
         <div style="background:var(--bg);border-radius:8px;padding:12px;border:1px solid var(--border);">
-          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Non SF Impact (%)</div>
-          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">${finFields.nsfImpact}%</div>
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;">Non SF Impact (%)</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">30–40%</div>
           <div style="font-size:9.5px;color:var(--text-light);margin-top:2px;">via Benchmark Library</div>
         </div>
         <div style="background:var(--bg);border-radius:8px;padding:12px;border:1px solid var(--border);">
-          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Carryover Rate (%)</div>
-          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">${finFields.carryoverRate}%</div>
-          <div style="font-size:9.5px;color:var(--text-light);margin-top:2px;">via WebLLM Search</div>
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;">Carryover Rate (%)</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">65–75%</div>
+          <div style="font-size:9.5px;color:var(--text-light);margin-top:2px;">via Benchmark Library</div>
         </div>
         <div style="background:var(--bg);border-radius:8px;padding:12px;border:1px solid var(--border);">
-          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Prior Period Carryover ($)</div>
-          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">${finFields.priorCarryover}</div>
-          <div style="font-size:9.5px;color:var(--text-light);margin-top:2px;">Derived</div>
+          <div style="font-size:10px;color:var(--text-light);font-weight:600;text-transform:uppercase;">Prior Period Carryover ($)</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text-dark);margin-top:4px;">$10M–$20M</div>
+          <div style="font-size:9.5px;color:var(--text-light);margin-top:2px;">via Benchmark Library</div>
         </div>
-      </div>
-      <div class="dd-inline-ai" style="margin-bottom:12px;">
+      </div>`;
+
+    // Carryover effect recommendation
+    const carryoverRec = `
+      <div class="dd-inline-ai" style="margin-bottom:0;">
         <span class="ai-icon">✨</span>
-        <div><strong>Recommendation:</strong> Based on benchmark data and web search, the recommended Non SF Impact is ${finFields.nsfImpact}% and Carryover Rate is ${finFields.carryoverRate}%. Prior Period Carryover is derived at ${finFields.priorCarryover}. These values are within expected ranges for ${b.ta} brands at ${dd.lifecycle} lifecycle stage.</div>
-      </div>
-      ${isAccepted ? `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--green-light);border:1px solid var(--green);border-radius:8px;font-size:12px;color:#065f46;font-weight:600;">✓ Recommendation accepted — values added to brand metrics</div>` : `
-      <div style="display:flex;gap:8px;">
-        <button onclick="acceptFinRec('${name}')" style="padding:6px 16px;font-size:12px;font-weight:600;border:none;border-radius:6px;background:var(--teal);color:white;cursor:pointer;">Accept Recommendation</button>
-        <button onclick="declineFinRec('${name}')" style="padding:6px 16px;font-size:12px;font-weight:600;border:1.5px solid var(--border);border-radius:6px;background:var(--white);color:var(--text-mid);cursor:pointer;">Enter Manually</button>
-      </div>`}`;
+        <div><strong>Carryover Effect (2-Year Projection):</strong> Based on benchmark library data for ${b.ta} brands at ${dd.lifecycle} stage, the carryover rate of 65–75% implies that Year 1 marketing investment carries forward ~70% of its effect into Year 2, decaying to ~49% by Year 3. This means <strong>$1M invested in 2026 still generates ~$490K in residual revenue by 2028</strong>. Recommend front-loading investment in the first planning year to maximize cumulative carryover impact.</div>
+      </div>`;
 
     document.getElementById('ddModalBody').innerHTML = `
-      <!-- KPIs -->
+      <!-- KPI Cards -->
       <div class="dd-kpi-row" style="margin-bottom:16px;">
-        <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">$${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+        <div class="dd-kpi"><label>Peak Sales</label><div class="dd-kpi-val">${dd.peakSales.toLocaleString()}</div><div class="dd-kpi-sub pos">${dd.peakMonth}</div></div>
+        <div class="dd-kpi"><label>Avg Growth Rate</label><div class="dd-kpi-val">${avgGrowth}%<span style="font-size:11px;color:var(--text-light);"> /mo</span></div><div class="dd-kpi-sub ${parseFloat(avgGrowth)>=0?'pos':'neg'}">${growthPct}% total</div></div>
         <div class="dd-kpi"><label>Lifecycle</label><div class="dd-kpi-val">${dd.lifecycle}</div><div class="dd-kpi-sub">${b.years} yrs in market</div></div>
       </div>
 
-      <!-- Accordion 1: Sales Trend -->
+      <!-- Accordion 1: Sales Activity Trend -->
       <div class="dd-acc open" id="ddAcc0">
         <div class="dd-acc-header" onclick="toggleDDAcc('ddAcc0')">
-          <div class="dd-acc-title"><span class="dd-acc-icon">📈</span> Sales Trend</div>
+          <div class="dd-acc-title"><span class="dd-acc-icon">📈</span> Sales Activity Trend</div>
           <span class="dd-acc-chevron">▼</span>
         </div>
         <div class="dd-acc-body">
@@ -945,11 +1236,16 @@
               <span class="ai-icon">✨</span>
               <div><strong>AI Insight:</strong> ${dd.salesAI}</div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              ${salesTabsHTML}
-              ${timeFilterHTML}
+            <div style="display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px;">
+              ${makeMultiSelect('sale', salesOptions, 'Select Sales', [0,1])}
+              ${makeMultiSelect('act', activityOptions, 'Select Activity', [0])}
+              ${periodSelect}
             </div>
-            <div id="ddSalesChart">${areaChartSVG(filterByTime(dd.sales, ddTimeFilter), filterByTime(dd.months, ddTimeFilter), color, 740, 200)}</div>
+            <div style="display:flex;gap:14px;margin-bottom:6px;font-size:10px;">
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:${color};border-radius:2px;display:inline-block;"></span> Sales (units, left axis)</span>
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:#f59e0b;border-radius:2px;display:inline-block;"></span> Activity (right axis)</span>
+            </div>
+            <div id="ddSalesChart">${dualChart}</div>
           </div>
         </div>
       </div>
@@ -961,7 +1257,11 @@
           <span class="dd-acc-chevron">▼</span>
         </div>
         <div class="dd-acc-body">
-          <div class="dd-acc-body-inner">${finBodyHTML}</div>
+          <div class="dd-acc-body-inner">
+            ${finKPIs}
+            ${waterfallHTML}
+            ${carryoverRec}
+          </div>
         </div>
       </div>
 
@@ -984,6 +1284,58 @@
     `;
 
     document.getElementById('deepDiveModal').classList.add('open');
+    // Store brand context for chart rebuilds
+    window._ddBrandName = name;
+    window._ddColor = color;
+    // Init chip displays + wire up chart reactivity
+    setTimeout(function(){
+      window.updateMSChips = function(id) {
+        var cbs = document.querySelectorAll('.ms_cb_'+id);
+        var chips = document.getElementById('chips_'+id);
+        if(!chips) return;
+        var html = '';
+        cbs.forEach(function(cb) {
+          if(cb.checked) html += '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:4px;font-size:10px;font-weight:600;color:var(--teal-dark);">'+cb.value+'</span>';
+        });
+        chips.innerHTML = html || '<span style="font-size:10px;color:var(--text-light);">None selected</span>';
+        // Re-render chart
+        rebuildDDChart();
+      };
+      updateMSChips('sale'); updateMSChips('act');
+    }, 80);
+  }
+
+  /* Rebuild the dual-axis chart based on current dropdown selections */
+  function rebuildDDChart() {
+    var name = window._ddBrandName;
+    var color = window._ddColor;
+    if(!name || !brandDeepDive[name]) return;
+    var dd = brandDeepDive[name];
+    var salesArr = filterByTime(dd.sales, ddTimeFilter);
+    var months = filterByTime(dd.months, ddTimeFilter);
+    // Activity line: only show if F2F Calls is checked
+    var actCbs = document.querySelectorAll('.ms_cb_act');
+    var anyActChecked = actCbs ? [...actCbs].some(function(c){return c.checked;}) : false;
+    var activityData = salesArr.map(function(s, i) {
+      return anyActChecked ? Math.round(s * 0.35 + Math.sin(i*0.8) * 50 + 200) : 0;
+    });
+    // Sales line: adjust based on selected metrics
+    var saleCbs = document.querySelectorAll('.ms_cb_sale');
+    var saleSelected = saleCbs ? [...saleCbs].filter(function(c){return c.checked;}).map(function(c){return c.value;}) : [];
+    var scaledSales = salesArr.map(function(s) {
+      if(saleSelected.length === 0) return 0;
+      if(saleSelected.includes('NRx') && !saleSelected.includes('Total Sales')) return Math.round(s * 0.56);
+      if(saleSelected.includes('TRx') && !saleSelected.includes('Total Sales')) return Math.round(s * 1.1);
+      return s;
+    });
+    var chart = document.getElementById('ddSalesChart');
+    if(chart) {
+      if(saleSelected.length === 0 && !anyActChecked) {
+        chart.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-light);font-size:12px;">Select at least one Sales or Activity metric</div>';
+      } else {
+        chart.innerHTML = buildDualAxisChart(scaledSales.some(function(v){return v>0;}) ? scaledSales : salesArr, activityData, months, color, 740, 220);
+      }
+    }
   }
 
   function switchDDSales(name, type) {
@@ -1001,30 +1353,13 @@
 
   function switchDDTime(name, filter) {
     ddTimeFilter = filter;
-    switchDDSales(name, ddSalesType);
+    window._ddBrandName = name;
+    window._ddColor = brandColors[name];
+    rebuildDDChart();
   }
 
-  function acceptFinRec(name) {
-    ddFinAccepted[name] = true;
-    openDeepDive(name);
-    // Update brand tile with recommended metric
-    const bp = brandPortfolio[name];
-    bp.finAccepted = true;
-    renderAll();
-    showToast('Financial recommendation accepted for ' + name, 'success');
-  }
-
-  function declineFinRec(name) {
-    // Show popup that user needs to enter values manually
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:2000;';
-    modal.innerHTML = `<div style="background:white;border-radius:12px;padding:24px;max-width:380px;width:90%;box-shadow:var(--shadow-lg);">
-      <div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">⚠️ Manual Entry Required</div>
-      <div style="font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:16px;">You've declined the AI recommendation. Please enter Non SF Impact (%), Carryover Rate (%), and Prior Period Carryover ($) manually in the financial forecasting section.</div>
-      <button onclick="this.closest('div[style]').remove()" style="padding:8px 20px;font-size:12px;font-weight:600;border:none;border-radius:6px;background:var(--teal);color:white;cursor:pointer;width:100%;">Got it</button>
-    </div>`;
-    document.body.appendChild(modal);
-  }
+  function acceptFinRec(name) { /* removed */ }
+  function declineFinRec(name) { /* removed */ }
 
   function toggleDDAcc(id) {
     document.getElementById(id).classList.toggle('open');

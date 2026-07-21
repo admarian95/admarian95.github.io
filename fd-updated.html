@@ -605,6 +605,15 @@
   .req-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--teal-mid); background: var(--teal-light); color: var(--teal-dark); }
   .req-pill.satisfied { border-color: #6ee7b7; background: var(--green-light); color: var(--green); }
   .req-pill.missing { border-color: #fca5a5; background: #fee2e2; color: var(--red); }
+  .req-pill-inline { display: inline-flex; align-items: center; font-size: 8.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #fca5a5; background: #fee2e2; color: var(--red); margin-left: 6px; text-transform: uppercase; letter-spacing: 0.3px; vertical-align: middle; }
+  .req-pill-inline.ok { border-color: #6ee7b7; background: var(--green-light); color: var(--green); }
+
+  /* ═══ RC BRAND ACCORDIONS ═══ */
+  .rc-brand-acc { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+  .rc-brand-acc-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg); cursor: pointer; user-select: none; transition: background 0.12s; }
+  .rc-brand-acc-header:hover { background: #f0fdf4; }
+  .rc-brand-acc-chevron { font-size: 10px; color: var(--text-light); width: 14px; }
+  .rc-brand-acc-body { padding: 12px 14px; border-top: 1px solid var(--border); background: var(--white); }
 
   /* ═══ CUSTOMER DATA SUBTABS ═══ */
   .subtab-row { display: flex; gap: 6px; padding: 12px 20px 0; }
@@ -2251,6 +2260,11 @@
       updateSecondaryDoneBtn(type);
       const brandPool = type === 'customer' ? rcDetectableBrands : dataTypeConfig[type].brands;
       if(state.detected.size >= brandPool.length) markBrandModalComplete(type);
+      // Also mark complete if ANY files were uploaded (even if not all brands detected)
+      if(state.files.length > 0 && !document.getElementById(brandModalConfig[type].rowId).classList.contains('complete')) {
+        document.getElementById(brandModalConfig[type].statusId).innerHTML = '<span class="status-check">✓</span>';
+        document.getElementById(brandModalConfig[type].rowId).classList.add('complete');
+      }
       // Build brand-name toast
       const allDetectedArr = [...state.detected];
       const newDetectedThisRound = filesArr.reduce((arr, f) => {
@@ -2859,22 +2873,29 @@
       { label:'Value To', types:['Value To'] }
     ]
   };
-  function buildReqPillsBar(path) {
+  // Build inline required pill for a column name
+  function inlineReqPill(path, col) {
     const pills = REQUIRED_PILLS[path];
     if(!pills) return '';
+    const match = pills.find(p => p.types && p.types.includes(col.type));
+    if(!match) return '';
+    return `<span class="req-pill-inline ok">Required</span>`;
+  }
+  // Check which required types are still missing for a path
+  function getMissingReqTypes(path) {
+    const pills = REQUIRED_PILLS[path];
+    if(!pills) return [];
     const cols = getColumnsFor(path);
     const selectedTypes = cols.filter(c => c.selected).map(c => c.type);
-    const html = pills.map(p => {
-      let ok = false;
-      if(p.types) {
-        ok = p.types.some(t => selectedTypes.includes(t));
-      } else {
-        ok = true; // financial columns are always present in mock
-      }
-      return `<span class="req-pill ${ok ? 'satisfied' : 'missing'}">${ok ? '✓' : '!'} ${p.label}</span>`;
-    }).join('');
-    return `<div class="req-pills-bar"><span class="req-pills-label">Required:</span>${html}</div>`;
+    return pills.filter(p => p.types && !p.types.some(t => selectedTypes.includes(t)));
   }
+  function buildMappingMissingReqs() {
+    const pills = REQUIRED_PILLS.mapping;
+    if(!pills || !configData.mapping.templateCols) return [];
+    const selectedTypes = configData.mapping.templateCols.filter(c => c.selected).map(c => c.colType);
+    return pills.filter(p => p.types && !p.types.some(t => selectedTypes.includes(t)));
+  }
+  function buildReqPillsBar(path) { return ''; /* removed — pills are now inline */ }
   function buildMappingReqPills() {
     const pills = REQUIRED_PILLS.mapping;
     if(!pills || !configData.mapping.templateCols) return '';
@@ -2894,11 +2915,11 @@
     if(key === 'customerLevel') return {
       headers: ['ID','Customer_type','Time_Period','Brand','Segment_Tier','Sales_NRx','Activity_F2F','Sales_Market_share','Activity_Calls'],
       rows: [
-        ['HCP_01','HCP','2025','Lexorin','H','1000','10','0','0'],
-        ['HCP_02','HCP','2025','Lexorin','M','$1,200','10','0','0'],
-        ['HCP_03','HCP','2025','Lexorin','L','1000','10','0','0'],
-        ['HCO_01','Account','2025','Lexorin','H','1000','10','0','0'],
-        ['HCO_04','Account','2025','Demodryl','H','0','0','1000','10']
+        ['HCP_01','HCP','2025','Lexorin','H','1000','10','0.24','15'],
+        ['HCP_02','HCP','2025','Lexorin','M','$1,200','$24.00','0.18','12'],
+        ['HCP_03','HCP','2025','Lexorin','L','1000','10','0.11',''],
+        ['','Account','2025','Lexorin','H','1000','10','','8'],
+        ['HCO_04','Account','2025','Demodryl','H','','','1000','10']
       ]
     };
     if(key === 'segmentLevel') return {
@@ -3055,81 +3076,81 @@
     buildResponseByBrand();
   }
 
-  // Response Curve data — grouped by brand
-  // Headers: Brand | Time Period | Segment_Tier | Segment_Decile | ID | Cust_count | Customer type | Channel | Activity_0..100 | Revenue_0..100
-  const RC_PAIRS = 9; // show 0-8 for demo (representing 0..100 range)
+  // Response Curve data — based on uploaded CSV template
+  // Headers: Brand | Response Curve Time Period | Segment_Tier | Segment_Decile | ID | Cust_count | Customer type | Channel | Activity_0 | ... | Activity_100 | Revenue_0 | ... | Revenue_100
   function rcHeaders() {
-    const h = ['Brand','Time Period','Segment_Tier','Segment_Decile','ID','Cust_count','Customer type','Channel'];
-    for(let i = 0; i <= RC_PAIRS; i++) { h.push(`Activity_${i*11}`); }
-    for(let i = 0; i <= RC_PAIRS; i++) { h.push(`Revenue_${i*11}`); }
-    return h;
+    return ['Brand','Response Curve Time Period','Segment_Tier','Segment_Decile','ID','Cust_count','Customer type','Channel','Activity_0','Activity_100','Revenue_0','Revenue_100'];
   }
   function rcColumns() {
-    const cols = [
-      { name:'Brand', alias:'Brand', type:'Select type', selected:true, locked:true },
-      { name:'Time Period', alias:'Time Period', type:'Date Range', selected:true, locked:true },
-      { name:'Segment_Tier', alias:'Segment Tier', type:'Select type', selected:true, locked:true },
-      { name:'Segment_Decile', alias:'Segment Decile', type:'Select type', selected:true, locked:true },
-      { name:'ID', alias:'ID', type:'ID', selected:true, locked:true },
-      { name:'Cust_count', alias:'Customer Count', type:'Activity', selected:true, locked:true },
-      { name:'Customer type', alias:'Customer Type', type:'Select type', selected:true, locked:true },
-      { name:'Channel', alias:'Channel', type:'Select type', selected:true, locked:true },
+    return [
+      { name:'Brand', alias:'Brand', type:'ID', selected:true, locked:false },
+      { name:'Response Curve Time Period', alias:'Time Period', type:'Date Range', selected:true, locked:false },
+      { name:'Segment_Tier', alias:'Segment Tier', type:'Segment', selected:true, locked:false },
+      { name:'Segment_Decile', alias:'Segment Decile', type:'Segment', selected:true, locked:false },
+      { name:'ID', alias:'ID', type:'ID', selected:true, locked:false },
+      { name:'Cust_count', alias:'Customer Count', type:'Activity', selected:true, locked:false },
+      { name:'Customer type', alias:'Customer Type', type:'Customer Type', selected:true, locked:false },
+      { name:'Channel', alias:'Channel', type:'ID', selected:true, locked:false },
+      { name:'Activity_0', alias:'Activity 0', type:'Activity', selected:true, locked:false },
+      { name:'Activity_100', alias:'Activity 100', type:'Activity', selected:true, locked:false },
+      { name:'Revenue_0', alias:'Revenue 0', type:'Sales', selected:true, locked:false },
+      { name:'Revenue_100', alias:'Revenue 100', type:'Sales', selected:true, locked:false },
     ];
-    for(let i = 0; i <= RC_PAIRS; i++) {
-      cols.push({ name:`Activity_${i*11}`, alias:`Activity ${i*11}`, type:'Activity', selected:true, locked:false });
-    }
-    for(let i = 0; i <= RC_PAIRS; i++) {
-      cols.push({ name:`Revenue_${i*11}`, alias:`Revenue ${i*11}`, type:'Activity', selected:true, locked:false });
-    }
-    return cols;
   }
 
+  // Real data from CSV template
+  const RC_CSV_DATA = [
+    {brand:'Lexorin',period:'2026',tier:'H',decile:'-',id:'All',count:1000,custType:'HCP',channel:'F2F',act0:2,act100:55,rev0:281,rev100:2790},
+    {brand:'Lexorin',period:'2026',tier:'H',decile:'-',id:'All',count:2344,custType:'HCP',channel:'F2F',act0:3,act100:51,rev0:284,rev100:2473},
+    {brand:'Lexorin',period:'2026',tier:'H',decile:'-',id:'All',count:2113,custType:'HCP',channel:'F2F',act0:4,act100:50,rev0:282,rev100:2595},
+    {brand:'Lexorin',period:'2026',tier:'M',decile:'-',id:'All',count:1416,custType:'HCP',channel:'F2F',act0:2,act100:62,rev0:285,rev100:3254},
+    {brand:'Lexorin',period:'2026',tier:'M',decile:'-',id:'All',count:1798,custType:'HCP',channel:'F2F',act0:4,act100:49,rev0:268,rev100:2718},
+    {brand:'Lexorin',period:'2026',tier:'M',decile:'-',id:'HCP_06',count:1,custType:'HCP',channel:'F2F',act0:4,act100:61,rev0:248,rev100:2243},
+    {brand:'Lexorin',period:'2026',tier:'L',decile:'-',id:'HCP_07',count:1,custType:'HCP',channel:'F2F',act0:4,act100:44,rev0:218,rev100:2553},
+    {brand:'Lexorin',period:'2026',tier:'L',decile:'-',id:'HCP_08',count:1,custType:'HCP',channel:'F2F',act0:2,act100:63,rev0:292,rev100:3969},
+    {brand:'Lexorin',period:'2026',tier:'L',decile:'-',id:'HCP_09',count:1,custType:'HCP',channel:'F2F',act0:2,act100:60,rev0:230,rev100:3023},
+    {brand:'Lexorin',period:'2026',tier:'L',decile:'-',id:'HCP_10',count:1,custType:'HCP',channel:'F2F',act0:2,act100:55,rev0:275,rev100:2560},
+    {brand:'Polair',period:'2026',tier:'H',decile:'A',id:'HCP_01',count:1,custType:'HCP',channel:'F2F',act0:2,act100:55,rev0:281,rev100:2790},
+    {brand:'Polair',period:'2026',tier:'H',decile:'B',id:'HCP_02',count:1,custType:'HCP',channel:'F2F',act0:3,act100:51,rev0:284,rev100:2473},
+    {brand:'Polair',period:'2026',tier:'H',decile:'A',id:'HCP_03',count:1,custType:'HCP',channel:'F2F',act0:4,act100:50,rev0:282,rev100:2595},
+    {brand:'Polair',period:'2026',tier:'M',decile:'B',id:'HCP_04',count:1,custType:'HCP',channel:'F2F',act0:2,act100:62,rev0:285,rev100:3254},
+    {brand:'Polair',period:'2026',tier:'M',decile:'-',id:'HCP_05',count:1,custType:'HCP',channel:'F2F',act0:4,act100:49,rev0:268,rev100:2718},
+    {brand:'Polair',period:'2026',tier:'M',decile:'-',id:'HCP_06',count:1,custType:'HCP',channel:'F2F',act0:4,act100:61,rev0:248,rev100:2243},
+    {brand:'Polair',period:'2026',tier:'L',decile:'-',id:'HCP_07',count:1,custType:'HCP',channel:'F2F',act0:4,act100:44,rev0:218,rev100:2553},
+    {brand:'Polair',period:'2026',tier:'L',decile:'-',id:'HCP_08',count:1,custType:'HCP',channel:'F2F',act0:2,act100:63,rev0:292,rev100:3969},
+    {brand:'Polair',period:'2026',tier:'L',decile:'-',id:'HCP_09',count:1,custType:'HCP',channel:'F2F',act0:2,act100:60,rev0:230,rev100:3023},
+    {brand:'Polair',period:'2026',tier:'L',decile:'-',id:'HCP_10',count:1,custType:'HCP',channel:'F2F',act0:2,act100:55,rev0:275,rev100:2560},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'10',id:'All',count:1000,custType:'HCO',channel:'F2F',act0:8,act100:84,rev0:2473,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'9',id:'All',count:2344,custType:'HCO',channel:'F2F',act0:6,act100:86,rev0:2595,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'8',id:'All',count:2113,custType:'HCO',channel:'F2F',act0:8,act100:89,rev0:3254,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'7',id:'All',count:1416,custType:'HCO',channel:'F2F',act0:6,act100:86,rev0:2718,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'6',id:'All',count:1798,custType:'HCO',channel:'F2F',act0:8,act100:88,rev0:2243,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'5',id:'All',count:1268,custType:'HCO',channel:'F2F',act0:6,act100:89,rev0:2553,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'4',id:'All',count:2362,custType:'HCO',channel:'F2F',act0:8,act100:86,rev0:3969,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'3',id:'All',count:1225,custType:'HCO',channel:'F2F',act0:7,act100:87,rev0:3023,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'2',id:'All',count:2410,custType:'HCO',channel:'F2F',act0:6,act100:82,rev0:2560,rev100:123456},
+    {brand:'Demodryl',period:'2026',tier:'-',decile:'1',id:'All',count:1368,custType:'HCO',channel:'F2F',act0:6,act100:84,rev0:3456,rev100:123456},
+  ];
+
   function buildResponseByBrand() {
+    // Group CSV data by brand
+    const brandMap = {};
+    RC_CSV_DATA.forEach(r => {
+      if(!brandMap[r.brand]) brandMap[r.brand] = [];
+      brandMap[r.brand].push(r);
+    });
+    // Build file entries per brand
     configBrands.forEach(b => {
       if(configData.response.byBrand[b.name] !== undefined) return;
       if(b.isNew || b.newFromFinancial) { configData.response.byBrand[b.name] = []; return; }
+      const rows = (brandMap[b.name] || []).map(r => [
+        r.brand, r.period, r.tier, r.decile,
+        r.id, r.id.toLowerCase()==='all' ? 1 : r.count,
+        r.custType, r.channel, r.act0, r.act100, r.rev0, r.rev100
+      ]);
       configData.response.byBrand[b.name] = [
-        { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCP', b.name==='Brand_1'||b.name==='Brand_2') },
-        { name:`${b.name}_HCO_Response_Curve.csv`, level:'HCO', headers: rcHeaders(), rows: mockResponseRows(b.name,'HCO', false) },
+        { name:`${b.name}_HCP_Response_Curve.csv`, level:'HCP', headers: rcHeaders(), rows: rows.length ? rows : [] },
       ];
-    });
-  }
-  function mockResponseRows(brand, level, injectError) {
-    const segments = level === 'HCP'
-      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92']
-      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3'];
-    const tiers = ['High','Medium','Low','High','Medium'];
-    const deciles = ['D1','D3','D5','D2','D4'];
-    const channels = ['F2F Detail','Remote','Speaker','F2F Detail','Remote'];
-    const custType = level === 'HCP' ? 'HCP' : 'Account';
-    return segments.map((seg, si) => {
-      const row = [
-        brand,                                          // Brand
-        '2027',                                         // Time Period
-        tiers[si % tiers.length],                       // Segment_Tier
-        deciles[si % deciles.length],                   // Segment_Decile
-        level === 'HCP' ? `OCS_${brand}_${seg}` : 'All', // ID ("All" if segment level)
-        Math.floor(2 + si * 1.3),                       // Cust_count
-        custType,                                       // Customer type
-        channels[si % channels.length],                 // Channel
-      ];
-      // Activity_0..Activity_99 (sampled at intervals of 11)
-      for(let i = 0; i <= RC_PAIRS; i++) {
-        const act = (i * 11 * 0.5).toFixed(2);
-        if(injectError && si === 0 && i === 5) {
-          row.push('$24.00');
-        } else {
-          row.push(act);
-        }
-      }
-      // Revenue_0..Revenue_99 (sampled at intervals of 11)
-      for(let i = 0; i <= RC_PAIRS; i++) {
-        const k = 0.04 + si * 0.006;
-        const sat = 5000 + si * 3000;
-        const resp = (sat * (1 - Math.exp(-k * i * 11 * 0.5))).toFixed(2);
-        row.push(resp);
-      }
-      return row;
     });
   }
 
@@ -3201,7 +3222,7 @@
         <td>
           <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} onchange="toggleColumnSelected('${path}',${ci},this.checked)">
         </td>
-        <td>${c.name}</td>
+        <td>${c.name}${inlineReqPill(path, c)}</td>
         <td><input class="cfg-alias-input" value="${c.alias}" oninput="getColumnsFor('${path}')[${ci}].alias=this.value"></td>
         <td>
           <select class="cfg-alias-input" onchange="getColumnsFor('${path}')[${ci}].type=this.value">
@@ -3312,6 +3333,8 @@
     if(!pane) return;
 
     if(type === 'customer') {
+      const custMissing = getQCWarnings(activeCustomerSubtab);
+      const custNextDisabled = custMissing.length > 0;
       pane.innerHTML = `
         <div class="subtab-row">
           <button class="subtab-btn ${activeCustomerSubtab==='customerLevel'?'active':''}" onclick="switchCustomerSubtab('customerLevel')">Customer Level Data</button>
@@ -3319,7 +3342,7 @@
         </div>
         <div>${columnTableHtml(activeCustomerSubtab)}</div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
-          <button class="btn-confirm-brands" onclick="tabUnlocked.financial=true;refreshTabLockUI();switchConfigTabProgrammatic('financial');">Financial Data →</button>
+          <button class="btn-confirm-brands" ${custNextDisabled?'disabled style="opacity:0.4;cursor:not-allowed;"':''} onclick="if(!this.disabled){tabUnlocked.financial=true;refreshTabLockUI();switchConfigTabProgrammatic('financial');}">Financial Data →</button>
         </div>`;
       return;
     }
@@ -3340,24 +3363,31 @@
       const allSel = selCount === cols.length;
       const rows = cols.map((c, i) => {
         const typeOpts = MAPPING_COLUMN_TYPES.map(t => `<option value="${t}" ${c.colType===t?'selected':''}>${t}</option>`).join('');
+        const isReq = ['Level From','Level To','Value From','Value To'].includes(c.colType);
+        const reqBadge = isReq ? '<span class="req-pill-inline ok">Required</span>' : '';
         return `
         <tr class="${c.selected?'':'col-deselected'}">
           <td>
             <input type="checkbox" class="cfg-checkbox" ${c.selected?'checked':''} onchange="configData.mapping.templateCols[${i}].selected=this.checked;renderConfigTab('mapping')">
           </td>
-          <td style="font-weight:600;">${c.name}</td>
+          <td style="font-weight:600;">${c.name}${reqBadge}</td>
           <td>
-            <select class="cfg-alias-input" onchange="configData.mapping.templateCols[${i}].colType=this.value">${typeOpts}</select>
+            <select class="cfg-alias-input" onchange="configData.mapping.templateCols[${i}].colType=this.value;renderConfigTab('mapping')">${typeOpts}</select>
           </td>
         </tr>`;
       }).join('');
+      const mapMissing = buildMappingMissingReqs();
+      const mapNextDisabled = mapMissing.length > 0;
+      const mapQcBar = mapMissing.length
+        ? `<div class="cfg-status-banner fail" style="margin:8px 20px;">${mapMissing.map(w => '<div style="font-size:11px;">⚠ Missing required column type: <strong>' + w.label + '</strong></div>').join('')}</div>`
+        : '';
       const fileNames = configData.mapping.files.map(f => f.name).join(', ') || 'No files uploaded';
       pane.innerHTML = `
         <div class="brandcfg-toolbar">
           <span style="font-size:12px;color:var(--text-mid);">Mapping file columns. Assign column types and select/deselect as needed.</span>
           <span style="font-size:11px;color:var(--text-light);">📄 ${fileNames}</span>
         </div>
-        ${buildMappingReqPills()}
+        ${mapQcBar}
         <div class="config-toolbar">
           <span class="col-select-summary"><strong>${selCount}</strong> of ${cols.length} columns selected</span>
         </div>
@@ -3370,7 +3400,7 @@
           </table>
         </div>
         <div class="config-toolbar" style="justify-content:flex-end;border-top:1px solid var(--border);border-bottom:none;margin-top:8px;">
-          <button class="btn-confirm-brands" onclick="tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');">Response Curves →</button>
+          <button class="btn-confirm-brands" ${mapNextDisabled?'disabled style="opacity:0.4;cursor:not-allowed;"':''} onclick="if(!this.disabled){tabUnlocked.response=true;refreshTabLockUI();switchConfigTabProgrammatic('response');}">Response Curves →</button>
         </div>`;
       return;
     }
@@ -3404,7 +3434,6 @@
         <td style="text-align:center;font-variant-numeric:tabular-nums;font-size:13px;">${formatPct(r.gtn)}</td>
       </tr>`).join('');
       pane.innerHTML = `
-        <div class="req-pills-bar"><span class="req-pills-label">Required:</span><span class="req-pill satisfied">✓ Instance</span><span class="req-pill satisfied">✓ Total Forecast</span><span class="req-pill satisfied">✓ COGS</span><span class="req-pill satisfied">✓ Gross To Net</span></div>
         <div style="padding:14px 20px 0;">
           <div class="rc-file-tabs">${fileTabs}</div>
           <div class="respcurve-brand-card" style="margin-bottom:12px;">
@@ -3415,10 +3444,10 @@
             <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
               <table class="config-table" style="font-size:12px;width:100%;">
                 <thead><tr>
-                  <th style="text-align:left;width:22%;">Instance</th>
-                  <th style="text-align:right;width:26%;">Total Forecast ($)</th>
-                  <th style="text-align:center;width:26%;">COGS (%)</th>
-                  <th style="text-align:center;width:26%;">Gross To Net (%)</th>
+                  <th style="text-align:left;width:22%;">Instance <span class="req-pill-inline ok">Required</span></th>
+                  <th style="text-align:right;width:26%;">Total Forecast ($) <span class="req-pill-inline ok">Required</span></th>
+                  <th style="text-align:center;width:26%;">COGS (%) <span class="req-pill-inline ok">Required</span></th>
+                  <th style="text-align:center;width:26%;">Gross To Net (%) <span class="req-pill-inline ok">Required</span></th>
                 </tr></thead>
                 <tbody>${tableRows}</tbody>
               </table>
@@ -3517,91 +3546,82 @@
     }
   }
 
+  // Track which RC brand accordion is open (only one at a time)
+  let rcOpenBrand = null;
+  function toggleRcBrandAcc(brand) {
+    rcOpenBrand = (rcOpenBrand === brand) ? null : brand;
+    renderConfigTab('response');
+  }
+
   function renderResponseCurveFiles() {
+    // Group CSV data by brand in the file
+    const allBrands = [...new Set(RC_CSV_DATA.map(r => r.brand))];
+    if(!allBrands.length) return '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
+    if(rcOpenBrand === null) rcOpenBrand = allBrands[0];
+
+    // File tabs (one per brand file, may contain multiple brands)
     const brandFiles = getRcBrandFiles();
-    if (!brandFiles.length) return '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
-    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
-    const active = brandFiles[rcActiveBrandIdx];
-    const level = getRcBrandLevel(active.brand);
-    const isHcp = level === 'HCP';
-    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
+    const fileTabs = brandFiles.map((bf, i) =>
+      `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${bf.hcpFile}</button>`
+    ).join('');
 
-    // File name tabs (one per brand, shows active file name)
-    const fileTabs = brandFiles.map((bf, i) => {
-      const lvl = getRcBrandLevel(bf.brand);
-      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
-      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
+    // Build brand accordions
+    const accordions = allBrands.map(brand => {
+      const rows = RC_CSV_DATA.filter(r => r.brand === brand);
+      const isOpen = rcOpenBrand === brand;
+      const isSegment = rows.some(r => r.id.toLowerCase() === 'all');
+      const custTypes = [...new Set(rows.map(r => r.custType))].join(', ');
+      const dataNote = isSegment ? 'Segment-level data (ID=All → Cust_count=1)' : 'Customer-level data';
+
+      const tableRows = rows.map(r => {
+        const cc = r.id.toLowerCase() === 'all' ? 1 : r.count;
+        return `<tr>
+          <td style="font-weight:500;">${r.brand}</td>
+          <td>${r.period}</td>
+          <td>${r.tier}</td>
+          <td>${r.decile}</td>
+          <td style="font-weight:500;">${r.id}</td>
+          <td style="text-align:center;">${cc}</td>
+          <td>${r.custType}</td>
+          <td>${r.channel}</td>
+          <td style="text-align:right;background:#fffbeb;">${r.act0}</td>
+          <td style="text-align:right;background:#fffbeb;">${r.act100}</td>
+          <td style="text-align:right;background:#f0fdf4;">${formatScientific(r.rev0)}</td>
+          <td style="text-align:right;background:#f0fdf4;">${formatScientific(r.rev100)}</td>
+        </tr>`;
+      }).join('');
+
+      return `<div class="rc-brand-acc ${isOpen?'open':''}">
+        <div class="rc-brand-acc-header" onclick="toggleRcBrandAcc('${brand}')">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="rc-brand-acc-chevron">${isOpen?'▼':'▶'}</span>
+            <strong>${brand}</strong>
+            <span style="font-size:10px;color:var(--text-light);">${rows.length} rows · ${custTypes} · ${dataNote}</span>
+          </div>
+          <span style="font-size:10px;color:var(--text-light);">${isOpen?'collapse':'expand'}</span>
+        </div>
+        ${isOpen ? `<div class="rc-brand-acc-body">
+          <div style="overflow-x:auto;overflow-y:auto;max-height:260px;border:1px solid var(--border);border-radius:8px;">
+            <table class="config-table" style="font-size:11.5px;">
+              <thead style="position:sticky;top:0;z-index:1;"><tr>
+                <th>Brand</th><th>Time Period</th><th>Segment_Tier</th><th>Segment_Decile</th>
+                <th>ID</th><th style="text-align:center;">Cust_count</th><th>Customer type</th><th>Channel</th>
+                <th style="text-align:right;background:#fffde8;">Activity_0</th>
+                <th style="text-align:right;background:#fffde8;">Activity_100</th>
+                <th style="text-align:right;background:#ecfdf5;">Revenue_0</th>
+                <th style="text-align:right;background:#ecfdf5;">Revenue_100</th>
+              </tr></thead>
+              <tbody>${tableRows}</tbody>
+            </table>
+          </div>
+          <div style="font-size:10px;color:var(--text-light);margin-top:4px;font-style:italic;">ID "All" → Cust_count forced to 1 (segment-level data from Customer upload)</div>
+        </div>` : ''}
+      </div>`;
     }).join('');
-
-    // Generate table data
-    const data = generateResponseTableData(active.brand, isHcp ? 'hcp' : 'account');
-    const segmentTypes = getSegmentTypes(data, active.brand);
-
-    // Segment control
-    let segmentControl;
-    if (segmentTypes.length > 1) {
-      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
-      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
-    } else {
-      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
-    }
-
-    // Period dropdown
-    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
-
-    // HCP / Account pills
-    const levelPills = `<div class="rc-level-pills">
-      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
-      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
-    </div>`;
-
-    // Activity and Revenue column headers (sampled)
-    const actHeaders = Array.from({length:5}, (_,i) => `Activity_${i*22}`);
-    const revHeaders = Array.from({length:5}, (_,i) => `Revenue_${i*22}`);
-
-    const tableRows = data.map(row => `
-      <tr>
-        <td style="font-weight:500;white-space:nowrap;">${row.brand}</td>
-        <td>${row.timePeriod}</td>
-        <td>${row.segTier}</td>
-        <td>${row.segDecile}</td>
-        <td style="white-space:nowrap;font-weight:500;">${row.id}</td>
-        <td style="text-align:center;">${row.custCount}</td>
-        <td>${row.custType}</td>
-        <td>${row.channel}</td>
-        ${row.activities.slice(0,5).map(v => `<td style="text-align:right;background:#fffbeb;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
-        ${row.revenues.slice(0,5).map(v => `<td style="text-align:right;background:#f0fdf4;font-variant-numeric:tabular-nums;">${v.toFixed(2)}</td>`).join('')}
-      </tr>`).join('');
 
     return `<div style="padding:14px 20px 0;">
       <div class="rc-file-tabs">${fileTabs}</div>
-      <div class="respcurve-brand-card" style="margin-bottom:12px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand}</div>
-            ${levelPills}
-          </div>
-          <div class="rc-controls-row" style="margin-bottom:0;">
-            <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
-            <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
-          </div>
-        </div>
-        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
-        <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px;">
-          <table class="config-table" style="font-size:11.5px;">
-            <thead><tr>
-              <th>Brand</th><th>Time Period</th><th>Segment_Tier</th><th>Segment_Decile</th>
-              <th>ID</th><th style="text-align:center;">Cust_count</th><th>Customer type</th><th>Channel</th>
-              ${actHeaders.map(h => `<th style="text-align:right;background:#fffde8;">${h}</th>`).join('')}
-              <th style="text-align:center;color:var(--text-light);font-size:9px;">…</th>
-              ${revHeaders.map(h => `<th style="text-align:right;background:#ecfdf5;">${h}</th>`).join('')}
-              <th style="text-align:center;color:var(--text-light);font-size:9px;">…</th>
-            </tr></thead>
-            <tbody>${tableRows}</tbody>
-          </table>
-        </div>
-        <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${data.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod} · ID shows "All" when data is at segment level</div>
-      </div>
+      ${accordions}
     </div>`;
   }
 
@@ -3762,13 +3782,14 @@
   }
 
   function runChecksFor(ref) {
-    const { file, columns } = ref;
+    const { file, columns, group } = ref;
     const checks = [];
     const rows = file.rows;
     const selectedCols = columns.filter(c => c.selected);
     selectedCols.forEach(col => {
       const ci = file.headers.findIndex(h => h.toLowerCase().trim() === col.name.toLowerCase().trim());
       if(ci === -1) return; // this file doesn't contain that unioned column
+      // Check for missing values
       const missing = [];
       rows.forEach((r,ri) => { if(r[ci] === undefined || String(r[ci]).trim() === '') missing.push(ri); });
       if(missing.length) {
@@ -3777,12 +3798,22 @@
           status: pct >= 0.3 ? 'fail' : 'warning',
           detail:`${missing.length} of ${rows.length} row(s) with empty values`, cells: missing.map(ri => ({r:ri, c:ci})) });
       }
-      if(col.type === 'Activity') {
+      // Check for non-numeric characters in Activity AND Sales columns
+      if(col.type === 'Activity' || col.type === 'Sales') {
         const bad = [];
-        rows.forEach((r,ri) => { const v = r[ci]; if(v && /[,$]/.test(v)) bad.push(ri); });
+        rows.forEach((r,ri) => { const v = r[ci]; if(v && /[,$]/.test(String(v))) bad.push(ri); });
         if(bad.length) {
           checks.push({ id:`numfmt_${ci}`, label:`Non-numeric characters in "${col.alias}"`, status:'fail',
-            detail:`${bad.length} row(s) contain commas or currency symbols`, cells: bad.map(ri => ({r:ri, c:ci})) });
+            detail:`${bad.length} row(s) contain commas or currency symbols — expected clean numeric values`, cells: bad.map(ri => ({r:ri, c:ci})) });
+        }
+      }
+      // Check for empty ID columns (critical for join integrity)
+      if(col.type === 'ID') {
+        const emptyIds = [];
+        rows.forEach((r,ri) => { if(r[ci] === undefined || String(r[ci]).trim() === '') emptyIds.push(ri); });
+        if(emptyIds.length) {
+          checks.push({ id:`emptyid_${ci}`, label:`Empty ID values in "${col.alias}"`, status:'fail',
+            detail:`${emptyIds.length} row(s) have blank identifier — this breaks join integrity`, cells: emptyIds.map(ri => ({r:ri, c:ci})) });
         }
       }
     });
@@ -3810,20 +3841,45 @@
     const warned = qcRunResults.filter(r=>r.status==='warning');
     const failed = qcRunResults.filter(r=>r.status==='fail');
 
-    // Passed: show per-file checks
+    // Inject 2 synthetic warnings if none exist (for demo)
+    if(!warned.length && qcRunResults.length) {
+      const syntheticWarnings = [
+        { group:'customerLevel', file:{ name:'Customer_Level_Data_1.csv' }, checks:[
+          {id:'warn_sparse',label:'Sparse data in "Sales_NRx"',status:'warning',detail:'15 of 50 rows (30%) have zero values — may affect model accuracy',cells:[]},
+        ], status:'warning' },
+        { group:'segmentLevel', file:{ name:'Segment_Level_Data_1.csv' }, checks:[
+          {id:'warn_dup',label:'Potential duplicate segments in "Segment_Tier"',status:'warning',detail:'3 rows have identical Tier+Brand combinations — consider deduplication',cells:[]},
+        ], status:'warning' },
+      ];
+      warned.push(...syntheticWarnings);
+    }
+    // Inject synthetic errors if none exist from actual checks (for demo visibility)
+    if(!failed.length && qcRunResults.length) {
+      const syntheticErrors = [
+        { group:'customerLevel', file:{ name:'Customer_Level_Data_1.csv' }, checks:[
+          {id:'err_format',label:'Non-numeric characters in "Sales_NRx"',status:'fail',detail:'2 row(s) contain commas or currency symbols ($1,200) — expected clean numeric values',cells:[{r:1,c:5}]},
+          {id:'err_emptyid',label:'Empty ID values in "ID"',status:'fail',detail:'1 row(s) have blank identifier — this breaks join integrity',cells:[{r:3,c:0}]},
+        ], status:'fail' },
+        { group:'financial', file:{ name:'Financial_Data_1.csv' }, checks:[
+          {id:'err_currency',label:'Non-numeric characters in "Total_Forecast_$"',status:'fail',detail:'1 row(s) contain currency symbols ($100) — remove $ prefix for clean numeric input',cells:[{r:0,c:3}]},
+        ], status:'fail' },
+      ];
+      failed.push(...syntheticErrors);
+    }
+
+    // Passed: collapsible accordion
     const passedHtml = `
-      <div class="qcsum-cat pass">
-        <div class="qcsum-cat-left">
-          <span class="qcsum-cat-icon">✓</span>
-          <div>
-            <div class="qcsum-cat-title">Passed — ${passed.length} file(s)</div>
-          </div>
+      <div class="dd-acc" id="qcPassAcc">
+        <div class="dd-acc-header" onclick="document.getElementById('qcPassAcc').classList.toggle('open')">
+          <div class="dd-acc-title" style="color:var(--green);"><span class="dd-acc-icon">✓</span> Passed — ${passed.length} file(s)</div>
+          <span class="dd-acc-chevron">▼</span>
         </div>
-        <div class="qcsum-cat-count">${passed.length}</div>
-      </div>
-      ${passed.length ? `<div style="padding:4px 0 8px 28px;font-size:11.5px;color:var(--text-mid);">${passed.map(r =>
-        `<div style="padding:3px 0;">✓ <strong>${r.file.name}</strong> <span style="color:var(--text-light);">(${groupLabel(r.group)})</span> — ${r.checks.filter(c=>c.status==='pass').map(c=>c.label).join(', ')}</div>`
-      ).join('')}</div>` : ''}`;
+        <div class="dd-acc-body"><div class="dd-acc-body-inner">
+          ${passed.length ? passed.map(r =>
+            `<div style="padding:3px 0;font-size:11.5px;color:var(--text-mid);">✓ <strong>${r.file.name}</strong> <span style="color:var(--text-light);">(${groupLabel(r.group)})</span> — ${r.checks.filter(c=>c.status==='pass').map(c=>c.label).join(', ')}</div>`
+          ).join('') : '<div style="font-size:11px;color:var(--text-light);">No files passed all checks.</div>'}
+        </div></div>
+      </div>`;
 
     // Warnings: expandable accordion per file
     const warnHtml = warned.length ? `
@@ -3904,6 +3960,12 @@
   function getChartLevel(brandName) { return rcChartLevelTab[brandName] || 'hcp'; }
   function setChartLevel(brandName, level) { rcChartLevelTab[brandName] = level; renderConfigTab('response'); }
 
+  let rcChartOpenBrand = null;
+  function toggleRcChartAcc(brand) {
+    rcChartOpenBrand = (rcChartOpenBrand === brand) ? null : brand;
+    renderConfigTab('response');
+  }
+
   function renderResponseCurveCharts() {
     const successBanner = `
       <div style="background:linear-gradient(135deg,#d1fae5,#ecfdf5);border:1px solid #6ee7b7;border-radius:10px;padding:20px 24px;margin:14px 20px 18px;display:flex;align-items:center;gap:14px;">
@@ -3916,101 +3978,116 @@
 
     const brandFiles = getRcBrandFiles();
     if (!brandFiles.length) return successBanner + '<div style="padding:20px;text-align:center;color:var(--text-light);">No response curve files available.</div>';
-    if (rcActiveBrandIdx >= brandFiles.length) rcActiveBrandIdx = 0;
-    const active = brandFiles[rcActiveBrandIdx];
-    const level = getRcBrandLevel(active.brand);
-    const isHcp = level === 'HCP';
-    const activeFileName = isHcp ? active.hcpFile : active.hcoFile;
+    if(rcChartOpenBrand === null) rcChartOpenBrand = brandFiles[0].brand;
 
-    // File name tabs (one per brand)
-    const fileTabs = brandFiles.map((bf, i) => {
-      const lvl = getRcBrandLevel(bf.brand);
-      const fname = lvl === 'HCP' ? bf.hcpFile : bf.hcoFile;
-      return `<button class="rc-file-tab ${i===rcActiveBrandIdx?'active':''}" onclick="setRcBrandTab(${i})"><span class="rc-file-icon">📄</span>${fname}</button>`;
+    const accordions = brandFiles.map(bf => {
+      const brand = bf.brand;
+      const isOpen = rcChartOpenBrand === brand;
+      const level = getRcBrandLevel(brand);
+      const isHcp = level === 'HCP';
+      const fileName = isHcp ? bf.hcpFile : bf.hcoFile;
+
+      const segments = isHcp
+        ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
+        : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
+
+      if(!isOpen) {
+        return `<div class="rc-brand-acc" style="margin:0 20px 8px;">
+          <div class="rc-brand-acc-header" onclick="toggleRcChartAcc('${brand}')">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="rc-brand-acc-chevron">▶</span>
+              <strong>${brand}</strong>
+              <span style="font-size:10px;color:var(--text-light);">${segments.length} segments · ${level} · 📄 ${fileName}</span>
+            </div>
+            <span style="font-size:10px;color:var(--text-light);">expand</span>
+          </div>
+        </div>`;
+      }
+
+      // Build chart for open brand
+      const levelPills = `<div class="rc-level-pills" style="display:inline-flex;">
+        <button class="rc-level-pill ${isHcp?'active':''}" onclick="event.stopPropagation();setRcBrandLevel('${brand}','HCP')">HCP</button>
+        <button class="rc-level-pill ${!isHcp?'active':''}" onclick="event.stopPropagation();setRcBrandLevel('${brand}','Account')">Account</button>
+      </div>`;
+
+      const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
+
+      const segTypeSet = new Set();
+      segments.forEach(seg => { segTypeSet.add(seg.replace(/_?\d+$/, '')); });
+      const isMultiSegment = segTypeSet.size > 1;
+      let segmentControl;
+      if (isMultiSegment) {
+        const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
+        segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
+      } else {
+        segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
+      }
+
+      const w = 620, h = 240, pad = 50;
+      const maxX = 50, maxY = isHcp ? 152000 : 80000;
+
+      let paths = '';
+      let legendHtml = '';
+      segments.forEach((seg, si) => {
+        const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
+        const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
+        const color = rcSegmentColors[si % rcSegmentColors.length];
+        let d = '';
+        for(let x = 0; x <= maxX; x++) {
+          const y = sat * (1 - Math.exp(-k * x));
+          const px = pad + (x/maxX)*(w-2*pad);
+          const py = (h-pad) - (y/maxY)*(h-2*pad);
+          d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
+        }
+        paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
+        legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>${seg}</span>`;
+      });
+
+      let gridLines = '';
+      for(let i=0;i<=5;i++) {
+        const y = (h-pad)-(i/5)*(h-2*pad);
+        gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
+        gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/5*i/1000)}k</text>`;
+      }
+      for(let i=0;i<=10;i++) {
+        const x = pad+(i/10)*(w-2*pad);
+        gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
+      }
+
+      return `<div class="rc-brand-acc" style="margin:0 20px 8px;">
+        <div class="rc-brand-acc-header" onclick="toggleRcChartAcc('${brand}')">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="rc-brand-acc-chevron">▼</span>
+            <strong>${brand}</strong>
+            <span style="font-size:10px;color:var(--text-light);">${segments.length} segments · ${level} · 📄 ${fileName}</span>
+          </div>
+          <span style="font-size:10px;color:var(--text-light);">collapse</span>
+        </div>
+        <div class="rc-brand-acc-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${levelPills}
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:11px;">
+              <label style="display:flex;align-items:center;gap:4px;font-weight:600;color:var(--text-mid);">Period: <select onchange="setRcPeriod(this.value)" style="font-size:11px;padding:3px 16px 3px 6px;border:1px solid var(--border);border-radius:5px;">${periodOpts}</select></label>
+              <label style="display:flex;align-items:center;gap:4px;font-weight:600;color:var(--text-mid);">Segments: ${segmentControl}</label>
+            </div>
+          </div>
+          <div style="overflow-x:auto;overflow-y:auto;max-height:300px;">
+            <svg viewBox="0 0 ${w} ${h}" style="width:100%;min-width:500px;height:${h}px;display:block;">
+              ${gridLines}
+              <text x="14" y="${(h-2*pad)/2+pad}" font-size="10" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
+              <text x="${w/2}" y="${h-6}" font-size="10" fill="var(--teal)" text-anchor="middle">Activity</text>
+              ${paths}
+            </svg>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:8px;">${legendHtml}</div>
+          <div style="font-size:10px;color:var(--text-light);margin-top:4px;font-style:italic;">Showing ${segments.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
+        </div>
+      </div>`;
     }).join('');
 
-    const segments = isHcp
-      ? ['PCP_55','ENDO_30','ENDO_54','PCP_28','ENDO_92','PCP_42','ENDO_61','ENDO_2','PCP_75','ENDO_18','PCP_10','ENDO_45','PCP_88','ENDO_72','PCP_33']
-      : ['ACC_TIER1','ACC_TIER2','ACC_TIER3','ACC_TIER4','ACC_TIER5','ACC_TIER6'];
-
-    // Extract unique segment prefixes
-    const segTypeSet = new Set();
-    segments.forEach(seg => { segTypeSet.add(seg.replace(/_?\d+$/, '')); });
-    const segTypes = Array.from(segTypeSet);
-    const isMultiSegment = segTypes.length > 1;
-
-    // Segment control: dropdown with Centile/Decile/Tier/Quintile (no "All"), or static string if single type
-    let segmentControl;
-    if (isMultiSegment) {
-      const opts = rcSegmentTypeOptions.map(t => `<option value="${t}"${rcSelectedSegment===t?' selected':''}>${t}</option>`).join('');
-      segmentControl = `<select onchange="setRcSegment(this.value)">${opts}</select>`;
-    } else {
-      segmentControl = `<span class="rc-segment-static">${rcSelectedSegment}</span>`;
-    }
-
-    // Period dropdown
-    const periodOpts = rcPeriodOptions.map(y => `<option value="${y}"${rcSelectedPeriod===y?' selected':''}>${y}</option>`).join('');
-
-    // HCP / Account pills
-    const levelPills = `<div class="rc-level-pills">
-      <button class="rc-level-pill ${isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','HCP')">HCP</button>
-      <button class="rc-level-pill ${!isHcp?'active':''}" onclick="setRcBrandLevel('${active.brand}','Account')">Account</button>
-    </div>`;
-
-    const w = 660, h = 260, pad = 50;
-    const maxX = 50, maxY = isHcp ? 152000 : 80000;
-
-    let paths = '';
-    let legendHtml = '';
-    segments.forEach((seg, si) => {
-      const k = isHcp ? (0.03 + si*0.005 + Math.sin(si*1.7)*0.01) : (0.04 + si*0.015);
-      const sat = isHcp ? (20000 + si*9000) : (10000 + si*12000);
-      const color = rcSegmentColors[si % rcSegmentColors.length];
-      let d = '';
-      for(let x = 0; x <= maxX; x++) {
-        const y = sat * (1 - Math.exp(-k * x));
-        const px = pad + (x/maxX)*(w-2*pad);
-        const py = (h-pad) - (y/maxY)*(h-2*pad);
-        d += (x===0?'M':'L') + px.toFixed(1) + ',' + py.toFixed(1) + ' ';
-      }
-      paths += `<path d="${d.trim()}" fill="none" stroke="${color}" stroke-width="1.8"/>`;
-      legendHtml += `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text-mid);margin-right:10px;"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block;"></span>OCS_${active.brand}_${seg}</span>`;
-    });
-
-    let gridLines = '';
-    for(let i=0;i<=6;i++) {
-      const y = (h-pad)-(i/6)*(h-2*pad);
-      gridLines += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="#e5e7eb" stroke-width="0.5"/>`;
-      gridLines += `<text x="${pad-6}" y="${y+3.5}" font-size="9" fill="#9ca3af" text-anchor="end">${Math.round(maxY/6*i/1000)}k</text>`;
-    }
-    for(let i=0;i<=10;i++) {
-      const x = pad+(i/10)*(w-2*pad);
-      gridLines += `<text x="${x}" y="${h-pad+14}" font-size="9" fill="#9ca3af" text-anchor="middle">${i*5}</text>`;
-    }
-
-    const chartCard = `<div class="respcurve-brand-card" style="margin:0 20px 14px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="respcurve-brand-title" style="margin-bottom:0;">${active.brand} — Response Curve</div>
-          ${levelPills}
-        </div>
-        <div class="rc-controls-row" style="margin-bottom:0;">
-          <div class="rc-control"><label>Period:</label><select onchange="setRcPeriod(this.value)">${periodOpts}</select></div>
-          <div class="rc-control"><label>Segments:</label>${segmentControl}</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">📄 <strong style="color:var(--text-dark);">${activeFileName}</strong></div>
-      <svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;display:block;">
-        ${gridLines}
-        <text x="${14}" y="${(h-2*pad)/2+pad}" font-size="11" fill="#ef4444" transform="rotate(-90,14,${(h-2*pad)/2+pad})" text-anchor="middle">Revenue ($)</text>
-        <text x="${w/2}" y="${h-6}" font-size="11" fill="var(--teal)" text-anchor="middle">Activity</text>
-        ${paths}
-      </svg>
-      <div style="display:flex;flex-wrap:wrap;gap:4px 0;margin-top:6px;">${legendHtml}</div>
-      <div style="font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic;">Showing ${segments.length} segments · ${level} level · ${rcSelectedSegment} · Period ${rcSelectedPeriod}</div>
-    </div>`;
-
-    return successBanner + `<div style="margin:0 20px;"><div class="rc-file-tabs">${fileTabs}</div></div>` + chartCard;
+    return successBanner + accordions;
   }
 
 
